@@ -1,0 +1,3 @@
+-std=c++11
+-I/Users/maralla/Workspace/src/dji-sdk/Onboard-SDK/lib/inc
+-I/Users/maralla/Workspace/src/dji-sdk/Onboard-SDK/sample/Linux/inc

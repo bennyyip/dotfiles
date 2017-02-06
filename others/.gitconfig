@@ -1,0 +1,44 @@
+[filter "lfs"]
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
+[user]
+  name = BennyYip
+  email = yebenmy@gmail.com
+[push]
+  default = matching
+[core]
+  autocrlf = false
+  trustctime = false
+  editor = vim
+  filemode = false
+  eol = lf 
+  safecrlf = true
+[color]
+  ui = true
+[merge]
+  tool = vimdiff
+[mergetool]
+  keeptemporaries = false
+  keepbackups = false
+  prompt = false
+  trustexitcode = false
+[alias]
+  amm = commit -a --amend --no-edit
+  clone-fast = clone --depth=1
+  last = log -1 --stat
+  cp = cherry-pick
+  co = checkout
+  cl = clone
+  ci = commit
+  st = status -sb
+  br = branch
+  unstage = reset HEAD --
+  dc = diff --cached
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+[pull]
+  rebase = true
+[http]
+  proxy = socks5://127.0.0.1:1080
+[https]
+  proxy = socks5://127.0.0.1:1080
