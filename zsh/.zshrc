@@ -1,6 +1,3 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 ZSH=/usr/share/oh-my-zsh/
 
@@ -17,7 +14,7 @@ ZSH_THEME="half-life"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+#DISABLE_AUTO_UPDATE=true
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -53,6 +50,9 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git autojump archlinux zsh-autosuggestions zsh-syntax-highlighting)
 
+alias -g colorcopy="| sed 's/'\$(echo -e \"\\033\")'/'\$(echo -e \"\\033\\033\")'/g' | tee /dev/tty | xsel -bi"
+
+DISABLE_AUTO_UPDATE=true
 
 # User configuration
 
@@ -74,21 +74,14 @@ plugins=(git autojump archlinux zsh-autosuggestions zsh-syntax-highlighting)
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
 
 source $ZSH/oh-my-zsh.sh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # key bindings fixes for urxvt
 bindkey "^[[7~" beginning-of-line
@@ -124,8 +117,8 @@ setopt HIST_IGNORE_ALL_DUPS       #Delete old recorded entry if new entry is a d
 setopt HIST_IGNORE_DUPS           #Don't record an entry that was just recorded again.
 setopt HIST_REDUCE_BLANKS         #Remove superfluous blanks before recording entry.
 setopt HIST_SAVE_NO_DUPS          #Don't write duplicate entries in the history file.
-setopt HIST_VERIFY                # Don't execute immediately upon history expansion.
-setopt SHARE_HISTORY              # Share history between all sessions.
+setopt HIST_VERIFY                #Don't execute immediately upon history expansion.
+setopt SHARE_HISTORY              #Share history between all sessions.
 
 alias -s gz='tar -xzvf'
 alias -s tgz='tar -xzvf'

@@ -2,38 +2,75 @@
 # ~/.bashrc
 #
 
+export GOPATH=/home/ben/go
+
 [[ $- != *i* ]] && return
 
-colors() {
-	local fgc bgc vals seq0
 
-	printf "Color escapes are %s\n" '\e[${value};...;${value}m'
-	printf "Values 30..37 are \e[33mforeground colors\e[m\n"
-	printf "Values 40..47 are \e[43mbackground colors\e[m\n"
-	printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+alias ls='ls --color=auto'
 
-	# foreground colors
-	for fgc in {30..37}; do
-		# background colors
-		for bgc in {40..47}; do
-			fgc=${fgc#37} # white
-			bgc=${bgc#40} # black
+alias ll='ls -l'
+alias la='ls -la'
+alias lh='ls -lh'
+alias grep='grep --color'
 
-			vals="${fgc:+$fgc;}${bgc}"
-			vals=${vals%%;}
+alias start="sudo systemctl start"
+alias stop="sudo systemctl stop"
+alias restart="sudo systemctl restart"
+alias .="source"
+alias cp="cp -i --reflink=auto"
+alias ssh="TERM=xterm-256color ssh"
+alias bc="bc -l"
 
-			seq0="${vals:+\e[${vals}m}"
-			printf "  %-9s" "${seq0:-(default)}"
-			printf " ${seq0}TEXT\e[m"
-			printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
-		done
-		echo; echo
-	done
+alias gtar="tar -Ipigz czfv"
+alias btar="tar -Ilbzip3 cjfv"
+alias 7tar="7z a -mmt" 
+alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
+alias tmux="tmux -2"
+
+# pacman aliases and functions
+function Syu(){
+    sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
+    pacman -Qtdq | ifne sudo pacaur -Rcs -
 }
 
-[[ -f ~/.extend.bashrc ]] && . ~/.extend.bashrc
+alias ya=yaourt
+alias Rcs="sudo pacman -Rcs"
+alias Ss="yaourt -Ss"
+alias Si="pacman -Si"
+alias Qs="pacman -Qs"
+alias Qi="pacman -Qi"
+alias Qo="pacman -Qo"
+alias Ql="pacman -Ql"
+alias Fo="pacman -Fo"
+alias Fy="sudo pacman -Fy" 
+alias Ssa="pacaur -Ssa"
 
-[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
+
+alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+
+dsf(){
+    # depends on diff-so-fancy
+    git diff --color=always $@ | diff-so-fancy | less
+}
+
+man() {
+	env \
+		LESS_TERMCAP_mb=$(printf "\e[1;37m") \
+		LESS_TERMCAP_md=$(printf "\e[1;37m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;47;30m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[0;36m") \
+			man "$@"
+}
 
 alias vi=vim
 export VISUAL=vim
+export EDITOR=vim
+
+alias clip=xsel --clipboard
+
+[[ -f ~/.extend.bashrc ]] && . ~/.extend.bashrc
