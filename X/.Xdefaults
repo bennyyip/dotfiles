@@ -2,7 +2,7 @@
 ! Xft settings
 !-------------------------------------------------------------------------------
 
-Xft.dpi:                    200
+Xft.dpi:                    180
 Xft.antialias:              true
 Xft.rgba:                   rgb
 Xft.hinting:                true
@@ -29,8 +29,8 @@ URxvt.lineSpace:            0
 URxvt.allow_bold:           true
 /* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
 
-URxvt*font: xft:Inziu Iosevka SC:size=24
-URxvt*boldFont: xft:Inziu Iosevka SC:size=24
+URxvt*font: xft:Inziu Iosevka SC:size=10
+URxvt*boldFont: xft:Inziu Iosevka SC:size=10
 !URxvt*font: xft:Iosevka:pixelsize=40
 !URxvt*boldFont: xft:Iosevka:pixelsize=40
 
@@ -53,6 +53,14 @@ URxvt.cursorUnderline:      false
 
 ! Pointer
 URxvt.pointerBlank:         true
+
+! -----------------------------------------------------------------------------
+! File: gruvbox-dark.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalized
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
 
 ! hard contrast: *background: #1d2021
 *background: #282828
@@ -80,5 +88,5 @@ URxvt.pointerBlank:         true
 *color6:  #689d6a
 *color14: #8ec07c
 ! LightGrey + White
-*color7:  #a89984
+*color7: #a89984
 *color15: #ebdbb2
