@@ -80,6 +80,7 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
+source ~/.half-life-2.zsh-theme
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
