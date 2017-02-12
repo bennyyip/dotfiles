@@ -30,14 +30,12 @@ alias tmux="tmux -2"
 
 # pacman aliases and functions
 function Syu(){
-    #sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@ 
-    #pacman -Qtdq | ifne sudo pacaur -Rcs -
-    sudo yaourt -Syu
+    sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@ 
+    pacman -Qtdq | ifne sudo pacaur -Rcs -
 }
 
-alias ya=yaourt
 alias Rcs="sudo pacman -Rcs"
-alias Ss="yaourt -Ss"
+alias Ss="pacman -Ss"
 alias Si="pacman -Si"
 alias Qs="pacman -Qs"
 alias Qi="pacman -Qi"
@@ -72,6 +70,8 @@ alias vi=vim
 export VISUAL=vim
 export EDITOR=vim
 
-alias clip=xsel --clipboard
+alias clip="xsel --clipboard"
+alias py=python
+alias ipy=ipython
 
 [[ -f ~/.extend.bashrc ]] && . ~/.extend.bashrc
