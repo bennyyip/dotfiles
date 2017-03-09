@@ -21,7 +21,7 @@ bindsym $mod+n border normal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.3
-font xft:Noto Sans 10
+font xft:Noto Sans 6
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
@@ -274,7 +274,7 @@ bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-#exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id clipit
@@ -283,7 +283,7 @@ exec --no-startup-id clipit
 # exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
 exec --no-startup-id ~/.conky/start-conky.sh
-exec --no-startup-id xautolock -time 10 -locker blurlock
+exec --no-startup-id xautolock -time 100 -locker blurlock
 exec_always --no-startup-id fix_xcursor
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
@@ -297,7 +297,7 @@ bar {
 
 	bindsym button4 nop
 	bindsym button5 nop
-	font xft:Noto Sans 8
+	font xft:Noto Sans 6
 	strip_workspace_numbers yes
 
 	colors {
@@ -387,3 +387,5 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
+

@@ -32,6 +32,7 @@ alias tmux="tmux -2"
 function Syu(){
     sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@ 
     pacman -Qtdq | ifne sudo pacaur -Rcs -
+    vim +PlugUpgrade +PlugUpdate 
 }
 
 alias Rcs="sudo pacman -Rcs"
@@ -66,6 +67,7 @@ man() {
 			man "$@"
 }
 
+alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 alias vi=vim
 export VISUAL=vim
 export EDITOR=vim
