@@ -28,8 +28,8 @@ URxvt.lineSpace:            0
 ! Fonts
 URxvt.allow_bold:           true
 
-URxvt*font: xft:Inziu Iosevka CL:size=10
-URxvt*boldFont: xft:Inziu Iosevka CL:weight=bold:size=10
+URxvt*font: xft:Inziu Iosevka CL:size=8
+URxvt*boldFont: xft:Inziu Iosevka CL:weight=bold:size=8
 
 ! Fix font space
 URxvt*letterSpace: -1

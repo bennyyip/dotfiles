@@ -7,7 +7,7 @@
 ! config can be added there or also here below.
 ! For comments use "!"
 
-Xft.dpi: 96
+Xft.dpi: 260
 Xft.antialias: true
 Xft.hinting: true
 Xft.rgba: rgb
@@ -15,8 +15,8 @@ Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
-XTerm*background: #2b2b2b
-XTerm*foreground: #e7e7e7
-XTerm*pointerColor: #16A085
-XTerm*faceName: Fixed
-XTerm*faceSize: 11
+!XTerm*background: #2b2b2b
+!XTerm*foreground: #e7e7e7
+!XTerm*pointerColor: #16A085
+!XTerm*faceName: Fixed
+!XTerm*faceSize: 11
