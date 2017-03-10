@@ -50,6 +50,12 @@ alias Ssa="pacaur -Ssa"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
+alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
+imgvim(){
+    curl -F "name=@$1" https://img.vim-cn.com/
+}
+
+
 dsf(){
     # depends on diff-so-fancy
     git diff --color=always $@ | diff-so-fancy | less
