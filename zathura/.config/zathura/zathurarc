@@ -1,0 +1,6 @@
+set smooth-scroll true
+map <Space> scroll half-down
+map u scroll half-up
+
+map = zoom in
+map + zoom default

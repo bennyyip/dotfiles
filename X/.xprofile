@@ -1,0 +1,11 @@
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS='@im=fcitx'
+  
+xcape -e 'Control_L=Escape' 
+feh --bg-scale ~/pictures/spike.jpg
+
+urxvtd &
+fcitx &
+
+[[ -f ~/.extend.xprofile ]] && source ~/.extend.xprofile

@@ -32,8 +32,9 @@ alias tmux="tmux -2"
 function Syu(){
     sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@ 
     pacman -Qtdq | ifne sudo pacaur -Rcs -
-    vim +PlugUpgrade +PlugUpdate 
 }
+
+alias upvim="vim +PlugUpgrade +PlugUpdate"
 
 alias Rcs="sudo pacman -Rcs"
 alias Ss="pacman -Ss"
