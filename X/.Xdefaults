@@ -2,7 +2,7 @@
 ! Xft settings
 !-------------------------------------------------------------------------------
 
-Xft.dpi:                    144
+Xft.dpi:                    123
 Xft.antialias:              true
 Xft.rgba:                   rgb
 Xft.hinting:                true
@@ -28,8 +28,8 @@ URxvt.lineSpace:            0
 ! Fonts
 URxvt.allow_bold:           true
 
-URxvt*font: xft:Inziu Iosevka CL:size=14
-URxvt*boldFont: xft:Inziu Iosevka CL:weight=bold:size=14
+URxvt*font: xft:Inziu Iosevka CL:size=16
+URxvt*boldFont: xft:Inziu Iosevka CL:weight=bold:size=16
 
 ! Fix font space
 URxvt*letterSpace: -1

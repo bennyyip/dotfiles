@@ -1,6 +1,8 @@
 set smooth-scroll true
+set font "noto sans cjk normal 20"
 map <Space> scroll half-down
 map u scroll half-up
 
 map = zoom in
 map + zoom default
+

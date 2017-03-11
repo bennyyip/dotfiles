@@ -79,7 +79,6 @@ alias vi=vim
 export VISUAL=vim
 export EDITOR=vim
 
-alias clip="xsel --clipboard"
 alias py=python
 alias ipy=ipython
 

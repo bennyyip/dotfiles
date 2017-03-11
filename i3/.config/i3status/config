@@ -27,7 +27,7 @@ ethernet _first_ {
 }
 
 tztime local {
-    format = "%B %e %A %H:%M:%S"
+    format = "%B%e日 %A %H:%M:%S"
 }
 
 cpu_usage {
