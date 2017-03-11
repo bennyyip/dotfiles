@@ -107,6 +107,6 @@ function steeef_precmd {
 }
 add-zsh-hook precmd steeef_precmd
 
- 
-PROMPT='%F{magenta}%n %F{white}ω %F{green}%~$(ruby_prompt_info " with%F{red} " v g )$vcs_info_msg_0_%F{yellow} λ '
-RPROMPT='%F{cyan}[%*]'
+PROMPT='%F{cyan}%* %F{magenta}%n %F{white}ω %F{green}%~$(ruby_prompt_info " with%F{red} " v g )$vcs_info_msg_0_%F{yellow}
+λ '
+#RPROMPT='%F{cyan}[%*]'
