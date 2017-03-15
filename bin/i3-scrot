@@ -20,14 +20,14 @@ case "$1" in
 	--desk|-d|$NULL)
 		cd $scrot_dir
     echo -n $scrot_dir/ &&
-    scrot -e 'echo $f' &&
+    scrot -z -e 'echo $f' &&
 		sleep 1 &&
 		notify-send "screenshot has been saved in $scrot_dir"
 		;;
 	--window|-w)
 		cd $scrot_dir
     echo -n $scrot_dir/ &&
-		scrot -u  -e 'echo $f' &&
+		scrot -z -u  -e 'echo $f' &&
 		sleep 1 &&
 		notify-send "screenshot has been saved in $scrot_dir"
 		;;
@@ -35,7 +35,7 @@ case "$1" in
 		cd $scrot_dir
 		notify-send 'select an area for the screenshot' & 
     echo -n $scrot_dir/ &&
-		scrot -s -e 'echo $f' &&
+		scrot -z -s -e 'echo $f' &&
 		sleep 1 && notify-send "screenshot has been saved in $scrot_dir"
 		;;
 	--help|-h)

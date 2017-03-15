@@ -120,6 +120,7 @@ setopt HIST_REDUCE_BLANKS         #Remove superfluous blanks before recording en
 setopt HIST_SAVE_NO_DUPS          #Don't write duplicate entries in the history file.
 setopt HIST_VERIFY                #Don't execute immediately upon history expansion.
 setopt SHARE_HISTORY              #Share history between all sessions.
+setopt No_Beep
 
 # archive
 alias -s gz='tar -xzvf'

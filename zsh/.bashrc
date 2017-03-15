@@ -59,7 +59,7 @@ imgvim(){
 
 dsf(){
     # depends on diff-so-fancy
-    git diff --color=always $@ | diff-so-fancy | less
+    git diff --color=always $@ | diff-so-fancy | $PAGER
 }
 
 man() {
@@ -78,6 +78,7 @@ alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read
 alias vi=vim
 export VISUAL=vim
 export EDITOR=vim
+export PAGER=less
 
 alias py=python
 alias ipy=ipython
