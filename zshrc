@@ -1,9 +1,8 @@
 # zplug {{{1
 source ~/.zplug/init.zsh
-zplug "zsh-users/zsh-syntax-highlighting"
-# FIXME zsh-autosuggestions cause crash when source .zshrc twice
+# FIXME zsh-users/zsh-syntax-highlighting cause crash when source .zshrc twice
+#zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
-zplug "plugins/archlinux",   from:oh-my-zsh
 zplug "plugins/git",   from:oh-my-zsh
 
 # 基本设置 {{{1
@@ -382,7 +381,15 @@ fi
 vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xsel -i) }
+sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+breakln () { #断掉软链接 {{{2
+  for f in $*; do
+    tgt=$(readlink "$f")
+    unlink "$f"
+    cp -rL "$tgt" "$f"
+  done
+}
+
 try_until_succeed () { #反复重试，直到成功 {{{2
   while ! $*; do :; done
 }
@@ -404,6 +411,20 @@ if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
   g++ () { # {{{3
     errfile=$VIMTMP/.error
     command g++ -g -Wall "$@" >$errfile 2>&1
+    ret=$?
+    cat $errfile
+    return $ret
+  }
+  clang () { # {{{3
+    errfile=$VIMTMP/.error
+    command clang -g -Wall "$@" >$errfile 2>&1
+    ret=$?
+    cat $errfile
+    return $ret
+  }
+  clang++ () { # {{{3
+    errfile=$VIMTMP/.error
+    command clang++ -g -Wall "$@" >$errfile 2>&1
     ret=$?
     cat $errfile
     return $ret
@@ -552,6 +573,7 @@ alias lh='ls -lh'
 alias grep='grep --color'
 
 alias start="sudo systemctl start"
+alias status="sudo systemctl status"
 alias stop="sudo systemctl stop"
 alias restart="sudo systemctl restart"
 alias .="source"
@@ -566,6 +588,10 @@ alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
 alias tmux="tmux -2"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+
+# 後綴別名 {{{2
+alias -s pdf=zathura
+alias -s {jpg,png,gif}=feh
 
 alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
 imgvim(){
@@ -585,22 +611,31 @@ alias vi=vim
 alias py=python
 alias ipy=ipython
 
-# pacman aliases and functions {{{2
+# pacaur aliases and functions {{{2
 function Syu(){
     sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
-    pacman -Qtdq | ifne sudo pacaur -Rcs -
+    pacaur -Qtdq | ifne sudo pacman -Rcs -
 }
 
 alias Rcs="sudo pacman -Rcs"
 alias Ss="pacman -Ss"
-alias Si="pacman -Si"
-alias Qs="pacman -Qs"
-alias Qi="pacman -Qi"
-alias Qo="pacman -Qo"
-alias Ql="pacman -Ql"
-alias Fo="pacman -Fo"
-alias Fy="sudo pacman -Fy"
+alias Si="pacaur -Si"
+alias Qs="pacaur -Qs"
+alias Qi="pacaur -Qi"
+alias Qo="pacaur -Qo"
+alias Ql="pacaur -Ql"
+alias Fo="pacaur -Fo"
+alias Fy="sudo pacaur -Fy"
 alias Ssa="pacaur -Ssa"
+alias pain='pacaur -S --needed'
+alias painn='pacaur -S'
+alias pasu='pacaur -Syua'
+
+paclist() {
+  # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
+  LC_ALL=C pacman -Qei $(pacman -Qu | cut -d " " -f 1) | \
+    awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
+}
 
 alias upvim="vim +PlugUpgrade +PlugUpdate"
 
@@ -610,7 +645,7 @@ alias upvim="vim +PlugUpgrade +PlugUpdate"
 alias -g NN="*(oc[1])"
 alias -g NNF="*(oc[1].)"
 alias -g NUL="/dev/null"
-alias -g XS='"$(xsel)"'
+alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
 
 # 軟件設置 {{{1
@@ -708,8 +743,6 @@ fi
 setopt PROMPT_SUBST
 
 E=$'\x1b'
-#PS1="%h $ZSH_PS_HOST%(?..%? )%~\$_current_branch
-#%(!.##.>>>) "
 
 function exitstatus()
 {
@@ -721,7 +754,7 @@ function exitstatus()
 }
 
 PS1='%F{cyan}%* %F{magenta}%n %F{white}ω %F{green}%~ %F{red}$_current_branch
-$(exitstatus) %F{white}'
+$(exitstatus) '
 # 次提示符：使用暗色
 PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
@@ -874,5 +907,6 @@ zplug load
 #  source $_zdir/.zplug/repos/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 #  loaded=1
 #fi
+
 
 # vim:fdm=marker
