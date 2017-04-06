@@ -382,6 +382,23 @@ vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+
+function Ga() { # 獲取PKGBUILD {{{2
+    [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
+    git clone aur@aur.archlinux.org:"$1".git
+    rm -rf "$1"/.git
+}
+
+function G() {
+    [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
+    git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
+    mv "$3"/trunk/* "$3"
+    rm -rf "$3"/{repos,trunk,.git}
+}
+
+alias Ge="G packages core/extra"
+alias Gc="G community community"
+
 breakln () { #断掉软链接 {{{2
   for f in $*; do
     tgt=$(readlink "$f")
@@ -610,6 +627,7 @@ alias vi=vim
 
 alias py=python
 alias ipy=ipython
+alias bpy=bpython
 
 # pacaur aliases and functions {{{2
 function Syu(){
@@ -744,17 +762,17 @@ setopt PROMPT_SUBST
 
 E=$'\x1b'
 
-function exitstatus()
+function lambda()
 {
   if [[ $? == 0  ]]; then
-    echo '%F{yellow}λ'
+    echo '\n%F{yellow}λ'
   else
-    echo '%F{red}λ'
+    echo '(%?)\n%F{red}λ'
   fi
 }
 
-PS1='%F{cyan}%* %F{magenta}%n %F{white}ω %F{green}%~ %F{red}$_current_branch
-$(exitstatus) '
+
+PS1='%F{cyan}%* %F{magenta}%n %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
 # 次提示符：使用暗色
 PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
