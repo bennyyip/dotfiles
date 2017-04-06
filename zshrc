@@ -3,7 +3,7 @@ source ~/.zplug/init.zsh
 # FIXME zsh-users/zsh-syntax-highlighting cause crash when source .zshrc twice
 #zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
-zplug "plugins/git",   from:oh-my-zsh
+#zplug "plugins/git",   from:oh-my-zsh {use my fork}
 
 # 基本设置 {{{1
 # 确定环境 {{{1
@@ -918,6 +918,8 @@ if ! zplug check --verbose; then
     echo; zplug install
   fi
 fi
+
+source ~/.zsh/git.zsh
 zplug load
 #if [ -v $loaded ]; then
 #  echo damn
