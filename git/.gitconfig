@@ -4,7 +4,7 @@
   required = true
 [user]
   name = BennyYip
-  email = yebenmy@gmail.com
+  email = yebenmy@protonmail.com
 [push]
   default = matching
 [core]
@@ -12,7 +12,7 @@
   trustctime = false
   editor = vim
   filemode = false
-  eol = lf 
+  eol = lf
   safecrlf = true
 [color]
   ui = true
