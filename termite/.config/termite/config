@@ -39,5 +39,5 @@ color7 = #a89984
 color15 = #ebdbb2
 
 [options]
-font = Monospace 20
+font = Monospace 18
 # vim: ft=dosini cms=#%s
