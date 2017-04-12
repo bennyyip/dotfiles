@@ -81,6 +81,8 @@ bindsym $mod+Shift+Right move right
 workspace_auto_back_and_forth yes
 bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+bindsym $mod+o exec --no-startup-id python ~/to_avaliable_workspace.py
+
 
 # split orientation
 bindsym $mod+h split h;exec notify-send 'tile horizontally'
@@ -158,6 +160,7 @@ bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym Shift+l exec --no-startup-id i3lock -i $HOME/pictures/2k_linus.png, mode "default"
     bindsym s exec --no-startup-id i3exit suspend, mode "default"
     bindsym u exec --no-startup-id i3exit switch_user, mode "default"
     bindsym e exec --no-startup-id i3exit logout, mode "default"
@@ -182,7 +185,7 @@ mode "resize" {
         bindsym k resize grow height 5 px or 5 ppt
         bindsym l resize shrink height 5 px or 5 ppt
         bindsym semicolon resize grow width 5 px or 5 ppt
-        
+
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -206,15 +209,15 @@ bindsym $mod+9 exec --no-startup-id blurlock
 # exec --no-startup-id blueman
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-exec --no-startup-id ~/.config/conky/start-conky.sh
+exec --no-startup-id $HOME/.config/conky/start-conky.sh
 exec --no-startup-id xautolock -time 100 -locker blurlock
-exec --no-startup-id volumeicon
-exec_always --no-startup-id fix_xcursor
+#exec --no-startup-id volumeicon
+#exec_always --no-startup-id fix_xcursor
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
 	status_command i3status
-	position bottom
+	position top
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
 #	tray_output primary
