@@ -40,10 +40,10 @@ bindsym $mod+d exec --no-startup-id dmenu_recency
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+T exec --no-startup-id compton -b
 
-bindsym $mod+i exec --no-startup-id xclip -selection clipboard -t image/png `i3-scrot -d -t`
-bindsym $mod+Ctrl+i exec --no-startup-id xclip -selection clipboard -t image/png `i3-scrot -w -t`
-bindsym $mod+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `i3-scrot -d`
-bindsym $mod+Ctrl+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `i3-scrot -w`
+bindsym $mod+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d -t`
+bindsym $mod+Ctrl+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w -t`
+bindsym $mod+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d`
+bindsym $mod+Ctrl+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w`
 
 # focus_follows_mouse no
 
@@ -81,7 +81,7 @@ bindsym $mod+Shift+Right move right
 workspace_auto_back_and_forth yes
 bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
-bindsym $mod+o exec --no-startup-id python ~/to_avaliable_workspace.py
+bindsym $mod+o exec --no-startup-id python ~/.config/i3/scripts/to_avaliable_workspace.py
 
 
 # split orientation
@@ -199,7 +199,7 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
+bindsym $mod+9 exec --no-startup-id ~/.config/i3/scripts/blurlock
 
 # Autostart applications
 #exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -210,7 +210,7 @@ bindsym $mod+9 exec --no-startup-id blurlock
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id $HOME/.config/conky/start-conky.sh
-exec --no-startup-id xautolock -time 100 -locker blurlock
+exec --no-startup-id xautolock -time 100 -locker ~/.config/i3/scripts/blurlock
 #exec --no-startup-id volumeicon
 #exec_always --no-startup-id fix_xcursor
 
