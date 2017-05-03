@@ -3,8 +3,8 @@ source ~/.zplug/init.zsh
 # FIXME zsh-users/zsh-syntax-highlighting cause crash when source .zshrc twice
 #zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
+zplug "plugins/autoenv",   from:oh-my-zsh
 #zplug "plugins/git",   from:oh-my-zsh {use my fork}
-
 # 基本设置 {{{1
 # 确定环境 {{{1
 OS=${$(uname)%_*}
@@ -28,6 +28,7 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 zstyle :compinstall filename "$_zdir/.zshrc"
+#fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
 fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
 autoload -Uz compinit
 compinit
@@ -208,7 +209,6 @@ zstyle ':completion:*:*:feh:*' file-patterns '*.{png,gif,jpg,svg}:images:images 
 zstyle ':completion:*:*:sxiv:*' file-patterns '*.{png,gif,jpg}:images:images *(-/):directories:directories'
 zstyle ':completion:*:*:timidity:*' file-patterns '*.mid'
 
-
 # 命令行编辑{{{1
 bindkey -e
 
@@ -359,10 +359,10 @@ _insert_all_matches () {
 zle -C insert-all-matches complete-word _insert_all_matches
 bindkey '^Xi' insert-all-matches
 # key bindings fixes for urxvt
-bindkey "^[[7~" beginning-of-line
-bindkey "^[[8~" end-of-line
-bindkey "^[[5~" beginning-of-history
-bindkey "^[[6~" end-of-history
+#bindkey "^[[7~" beginning-of-line
+#bindkey "^[[8~" end-of-line
+#bindkey "^[[5~" beginning-of-history
+#bindkey "^[[6~" end-of-history
 bindkey "^[[3~" delete-char
 bindkey "^[[2~" quoted-insert
 
@@ -581,7 +581,8 @@ elif [[ $TERM == tmux* ]]; then
 fi
 # 別名 {{{1
 alias vi=vim
-alias l='ls -lah'
+alias l='exa -al'
+alias e='exa'
 alias ls='ls --color=auto'
 
 alias ll='ls -l'
@@ -597,6 +598,9 @@ alias .="source"
 alias cp="cp -i --reflink=auto"
 alias ssh="TERM=xterm-256color ssh"
 alias bc="bc -l"
+alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
+alias ydcvd="ydcv -x -n -t 2 >/dev/null &"
+alias clip="xsel -i -b"
 
 alias gtar="tar -Ipigz czfv"
 alias btar="tar -Ilbzip3 cjfv"
@@ -606,10 +610,6 @@ alias tmux="tmux -2"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
-# 後綴別名 {{{2
-alias -s pdf=zathura
-alias -s {jpg,png,gif}=feh
-
 alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
 imgvim(){
     curl -F "name=@$1" https://img.vim-cn.com/
@@ -618,7 +618,7 @@ imgvim(){
 
 dsf(){
     # depends on diff-so-fancy
-    git diff --color=always $@ | diff-so-fancy | most
+    git diff --color=always $@ | diff-so-fancy | less --tab=4 -RFX
 }
 
 alias md=mkdir
@@ -628,6 +628,15 @@ alias vi=vim
 alias py=python
 alias ipy=ipython
 alias bpy=bpython
+
+# 後綴別名 {{{2
+alias -s pdf=zathura
+alias -s {jpg,png,gif}=feh
+alias -s tar="tar -xvf"
+alias -s {tgz,gz}="tar -xvzf"
+alias -s bz2="tar -xvjf"
+alias -s zip=unzip
+
 
 # pacaur aliases and functions {{{2
 function Syu(){
@@ -645,6 +654,7 @@ alias Ql="pacaur -Ql"
 alias Fo="pacaur -Fo"
 alias Fy="sudo pacaur -Fy"
 alias Ssa="pacaur -Ssa"
+alias pmin='sudo pacman -S --needed'
 alias pain='pacaur -S --needed'
 alias painn='pacaur -S'
 alias pasu='pacaur -Syua'
@@ -801,7 +811,7 @@ function ranger-cd {
     rm -f -- "$tempfile"
   }
 
-  # fasd
+  # fasd {{{2
   if [ $commands[fasd] ]; then # check if fasd is installed
     fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
     if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
@@ -904,7 +914,7 @@ if [ $commands[fasd] ] ; then # check if fasd is installed
   unset fasd_cache
 
   alias v="f -e $EDITOR"
-  alias o='a -e xdg-open'
+  alias o='a -e xdg-open '
 fi
 
 unset OS
@@ -928,5 +938,8 @@ zplug load
 #  loaded=1
 #fi
 
+# Tmux {{2
+export DISABLE_AUTO_TITLE=true
 
 # vim:fdm=marker
+
