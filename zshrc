@@ -782,7 +782,7 @@ function lambda()
 }
 
 
-PS1='%F{cyan}%* %F{magenta}%n %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
+PS1='%F{blue}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
 # 次提示符：使用暗色
 PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
