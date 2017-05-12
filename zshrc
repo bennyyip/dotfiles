@@ -611,6 +611,7 @@ alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys
 alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
 alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
+alias pfc="curl -F c=@- http://fars.ee/"
 imgvim(){
     curl -F "name=@$1" https://img.vim-cn.com/
 }
