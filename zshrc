@@ -581,6 +581,7 @@ elif [[ $TERM == tmux* ]]; then
 fi
 # 別名 {{{1
 alias vi=vim
+alias nv=nvim
 alias l='exa -al'
 alias e='exa'
 alias ls='ls --color=auto'
@@ -589,6 +590,7 @@ alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
 alias grep='grep --color'
+alias ccat='pygmentize'
 
 alias start="sudo systemctl start"
 alias status="sudo systemctl status"
