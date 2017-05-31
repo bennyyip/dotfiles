@@ -74,18 +74,18 @@ if [[ $OS = Linux ]]; then
   # can't see parent on some restricted systems
   if [[ $_has_re -eq 1 &&
     $(</proc/$PPID/cmdline) =~ '(^|/)fbterm' ]] 2>/dev/null; then
-    export TERM=fbterm
+  export TERM=fbterm
   echo hh
-    export LANG=zh_CN.UTF-8
-    # This term is quirk. ls doesn't like it.
-    # _256colors=1
-  fi
-  if [[ $_256colors -eq 1 ]]; then
-    export LS_COLORS='rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.JPG=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.webm=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.m4a=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.opus=38;5;45:*.3gp=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:*~=38;5;244:'
-  else
-    (( $+commands[dircolors] )) && eval "$(dircolors -b)"
-  fi
-  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+  export LANG=zh_CN.UTF-8
+  # This term is quirk. ls doesn't like it.
+  # _256colors=1
+fi
+if [[ $_256colors -eq 1 ]]; then
+  export LS_COLORS='rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.JPG=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.webm=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.m4a=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.opus=38;5;45:*.3gp=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:*~=38;5;244:'
+else
+  (( $+commands[dircolors] )) && eval "$(dircolors -b)"
+fi
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 unset _256colors
 unset _has_re
@@ -130,7 +130,7 @@ setopt hist_ignore_space
 setopt hist_fcntl_lock 2>/dev/null
 if [[ $_has_re -eq 1 &&
   ! ( $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-4]' ) ]]; then
-  setopt hist_reduce_blanks
+setopt hist_reduce_blanks
 else
   # This may cause the command messed up due to a memcpy bug
 fi
@@ -227,11 +227,11 @@ zle -N bracketed-paste bracketed-paste-url-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 toggle-uqm () {
-  if zle -l self-insert; then
-    zle -A .self-insert self-insert && zle -M "switched to self-insert"
-  else
-    zle -N self-insert url-quote-magic && zle -M "switched to url-quote-magic"
-  fi
+if zle -l self-insert; then
+  zle -A .self-insert self-insert && zle -M "switched to self-insert"
+else
+  zle -N self-insert url-quote-magic && zle -M "switched to url-quote-magic"
+fi
 }
 zle -N toggle-uqm
 bindkey '^X$' toggle-uqm
@@ -240,7 +240,7 @@ bindkey '^X$' toggle-uqm
 bindkey "^[^_" copy-prev-shell-word
 
 insert-last-word-r () {
-  zle insert-last-word -- 1
+zle insert-last-word -- 1
 }
 zle -N insert-last-word-r
 bindkey "\e_" insert-last-word-r
@@ -288,35 +288,35 @@ bindkey "^J" jump-target
 # unsupported with 4.3.17
 if zle -la split-undo; then
   zle-line-init () {
-    if [[ -n $ZLE_LINE_ABORTED ]]; then
-      _last_aborted_line=$ZLE_LINE_ABORTED
-    fi
-    if [[ -n $_last_aborted_line ]]; then
-      local savebuf="$BUFFER" savecur="$CURSOR"
-      BUFFER="$_last_aborted_line"
-      CURSOR="$#BUFFER"
-      zle split-undo
-      BUFFER="$savebuf" CURSOR="$savecur"
-    fi
-  }
-  zle -N zle-line-init
-  zle-line-finish() {
-    unset _last_aborted_line
+  if [[ -n $ZLE_LINE_ABORTED ]]; then
+    _last_aborted_line=$ZLE_LINE_ABORTED
+  fi
+  if [[ -n $_last_aborted_line ]]; then
+    local savebuf="$BUFFER" savecur="$CURSOR"
+    BUFFER="$_last_aborted_line"
+    CURSOR="$#BUFFER"
+    zle split-undo
+    BUFFER="$savebuf" CURSOR="$savecur"
+  fi
+}
+zle -N zle-line-init
+zle-line-finish() {
+unset _last_aborted_line
   }
   zle -N zle-line-finish
 fi
 # move by shell word {{{2
 autoload -U select-word-style
 select-word-style bash
-zsh-word-movement () {
+  zsh-word-movement () {
   # see select-word-style for more
   local -a word_functions
   local f
 
   word_functions=(backward-kill-word backward-word
-    capitalize-word down-case-word
-    forward-word kill-word
-    transpose-words up-case-word)
+  capitalize-word down-case-word
+  forward-word kill-word
+  transpose-words up-case-word)
 
   if ! zle -l $word_functions[1]; then
     for f in $word_functions; do
@@ -334,98 +334,98 @@ bindkey "\eF" zsh-forward-word
 bindkey "\eW" zsh-backward-kill-word
 # Esc-Esc 在当前/上一条命令前插入 sudo {{{2
 sudo-command-line() {
-    [[ -z $BUFFER ]] && zle up-history
-    [[ $BUFFER != sudo\ * ]] && {
-      typeset -a bufs
-      bufs=(${(z)BUFFER})
-      if (( $+aliases[$bufs[1]] )); then
-        bufs[1]=$aliases[$bufs[1]]
-      fi
-      bufs=(sudo $bufs)
-      BUFFER=$bufs
+[[ -z $BUFFER ]] && zle up-history
+[[ $BUFFER != sudo\ * ]] && {
+typeset -a bufs
+bufs=(${(z)BUFFER})
+if (( $+aliases[$bufs[1]] )); then
+  bufs[1]=$aliases[$bufs[1]]
+fi
+bufs=(sudo $bufs)
+BUFFER=$bufs
     }
     zle end-of-line
-}
-zle -N sudo-command-line
-bindkey "\e\e" sudo-command-line
-# 插入当前的所有补全 http://www.zsh.org/mla/users/2000/msg00601.html {{{2
-_insert_all_matches () {
+  }
+  zle -N sudo-command-line
+  bindkey "\e\e" sudo-command-line
+  # 插入当前的所有补全 http://www.zsh.org/mla/users/2000/msg00601.html {{{2
+  _insert_all_matches () {
     setopt localoptions nullglob rcexpandparam extendedglob noshglob
     unsetopt markdirs globsubst shwordsplit nounset ksharrays
     compstate[insert]=all
     compstate[old_list]=keep
     _complete
-}
-zle -C insert-all-matches complete-word _insert_all_matches
-bindkey '^Xi' insert-all-matches
-# key bindings fixes for urxvt
-#bindkey "^[[7~" beginning-of-line
-#bindkey "^[[8~" end-of-line
-#bindkey "^[[5~" beginning-of-history
-#bindkey "^[[6~" end-of-history
-bindkey "^[[3~" delete-char
-bindkey "^[[2~" quoted-insert
+  }
+  zle -C insert-all-matches complete-word _insert_all_matches
+  bindkey '^Xi' insert-all-matches
+  # key bindings fixes for urxvt
+  #bindkey "^[[7~" beginning-of-line
+  #bindkey "^[[8~" end-of-line
+  #bindkey "^[[5~" beginning-of-history
+  #bindkey "^[[6~" end-of-history
+  bindkey "^[[3~" delete-char
+  bindkey "^[[2~" quoted-insert
 
-# 函數 {{{1
-autoload zargs
-autoload zmv
-TRAPTERM () { exit }
-update () { . $_zdir/.zshrc }
-if (( $+commands[vimtrace] )); then
-  (( $+commands[strace] )) && alias strace='vimtrace strace'
-  (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
-else
-  (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-  (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-fi
-vman () { vim +"set ft=man" +"Man $*" }
-mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
-nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+  # 函數 {{{1
+  autoload zargs
+  autoload zmv
+  TRAPTERM () { exit }
+  update () { . $_zdir/.zshrc }
+  if (( $+commands[vimtrace] )); then
+    (( $+commands[strace] )) && alias strace='vimtrace strace'
+    (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
+  else
+    (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+    (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+  fi
+  vman () { vim +"set ft=man" +"Man $*" }
+  mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
+  nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
+  sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
 
-function Ga() { # 獲取PKGBUILD {{{2
+  function Ga() { # 獲取PKGBUILD {{{2
     [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
     git clone aur@aur.archlinux.org:"$1".git
     rm -rf "$1"/.git
-}
+  }
 
-function G() {
+  function G() {
     [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
     git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
     mv "$3"/trunk/* "$3"
     rm -rf "$3"/{repos,trunk,.git}
-}
-
-alias Ge="G packages core/extra"
-alias Gc="G community community"
-
-breakln () { #断掉软链接 {{{2
-  for f in $*; do
-    tgt=$(readlink "$f")
-    unlink "$f"
-    cp -rL "$tgt" "$f"
-  done
-}
-
-try_until_succeed () { #反复重试，直到成功 {{{2
-  while ! $*; do :; done
-}
-rmempty () { #删除空文件 {{{2
-  for i; do
-    [[ -f $i && ! -s $i ]] && rm $i
-  done
-  return 0
-}
-
-if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
-  gcc () { # {{{3
-    errfile=$VIMTMP/.error
-    command gcc -g -Wall "$@" >$errfile 2>&1
-    ret=$?
-    cat $errfile
-    return $ret
   }
-  g++ () { # {{{3
+
+  alias Ge="G packages core/extra"
+  alias Gc="G community community"
+
+  breakln () { #断掉软链接 {{{2
+    for f in $*; do
+      tgt=$(readlink "$f")
+      unlink "$f"
+      cp -rL "$tgt" "$f"
+    done
+  }
+
+  try_until_succeed () { #反复重试，直到成功 {{{2
+    while ! $*; do :; done
+  }
+  rmempty () { #删除空文件 {{{2
+    for i; do
+      [[ -f $i && ! -s $i ]] && rm $i
+    done
+    return 0
+  }
+
+  if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
+    gcc () { # {{{3
+      errfile=$VIMTMP/.error
+      command gcc -g -Wall "$@" >$errfile 2>&1
+      ret=$?
+      cat $errfile
+      return $ret
+    }
+    g++ () { # {{{3
     errfile=$VIMTMP/.error
     command g++ -g -Wall "$@" >$errfile 2>&1
     ret=$?
@@ -440,12 +440,12 @@ if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
     return $ret
   }
   clang++ () { # {{{3
-    errfile=$VIMTMP/.error
-    command clang++ -g -Wall "$@" >$errfile 2>&1
-    ret=$?
-    cat $errfile
-    return $ret
-  }
+  errfile=$VIMTMP/.error
+  command clang++ -g -Wall "$@" >$errfile 2>&1
+  ret=$?
+  cat $errfile
+  return $ret
+}
 fi
 duppkg4repo () { #软件仓库中重复的软件包 {{{2
   local repo=$1
@@ -454,7 +454,7 @@ duppkg4repo () { #软件仓库中重复的软件包 {{{2
   pkgs=$(comm -12 \
     <(pacman -Sl $repo|awk '{print $2}'|sort) \
     <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
-  )
+    )
   [[ -z $pkgs ]] && return 0
   LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
 }
@@ -565,159 +565,160 @@ screen2clipboard () { # 截图到剪贴板 {{{2
 2mp3 () { # 转换成 mp3 格式 {{{2
   [[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
   mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
-  lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
-  {echo Failed. && return 2}
-}
-if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
-  cursorcolor () { echo -ne "\e]12;$*\007" }
-elif [[ $TERM == screen* ]]; then
-  if (( $+TMUX )); then
+    lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
+    {echo Failed. && return 2}
+  }
+  if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
+    cursorcolor () { echo -ne "\e]12;$*\007" }
+  elif [[ $TERM == screen* ]]; then
+    if (( $+TMUX )); then
+      cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+    else
+      cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
+    fi
+  elif [[ $TERM == tmux* ]]; then
     cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-  else
-    cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
   fi
-elif [[ $TERM == tmux* ]]; then
-  cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-fi
-# 別名 {{{1
-alias vi=vim
-alias nv=nvim
-alias l='exa -al'
-alias e='exa'
-alias ls='ls --color=auto'
+  # 別名 {{{1
+  alias vi=vim
+  alias nv=nvim
+  alias vr='vim --remote-silent --servername=VIM'
+  alias l='exa -al'
+  alias e='exa'
+  alias ls='ls --color=auto'
 
-alias ll='ls -l'
-alias la='ls -la'
-alias lh='ls -lh'
-alias grep='grep --color'
-alias ccat='pygmentize'
+  alias ll='ls -l'
+  alias la='ls -la'
+  alias lh='ls -lh'
+  alias grep='grep --color'
+  alias ccat='pygmentize'
 
-alias start="sudo systemctl start"
-alias status="sudo systemctl status"
-alias stop="sudo systemctl stop"
-alias restart="sudo systemctl restart"
-alias .="source"
-alias cp="cp -i --reflink=auto"
-alias ssh="TERM=xterm-256color ssh"
-alias bc="bc -l"
-alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
-alias ydcvd="ydcv -x -n -t 2 >/dev/null &"
-alias clip="xsel -i -b"
+  alias start="sudo systemctl start"
+  alias status="sudo systemctl status"
+  alias stop="sudo systemctl stop"
+  alias restart="sudo systemctl restart"
+  alias .="source"
+  alias cp="cp -i --reflink=auto"
+  alias ssh="TERM=xterm-256color ssh"
+  alias bc="bc -l"
+  alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
+  alias ydcvd="ydcv -x -n -t 2 >/dev/null &"
+  alias clip="xsel -i -b"
 
-alias gtar="tar -Ipigz czfv"
-alias btar="tar -Ilbzip3 cjfv"
-alias 7tar="7z a -mmt"
-alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
-alias tmux="tmux -2"
-alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+  alias gtar="tar -Ipigz czfv"
+  alias btar="tar -Ilbzip3 cjfv"
+  alias 7tar="7z a -mmt"
+  alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
+  alias tmux="tmux -2"
+  alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+  alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
-alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
-alias pfc="curl -F c=@- http://fars.ee/"
-imgvim(){
+  alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
+  alias pfc="curl -F c=@- http://fars.ee/"
+  imgvim(){
     curl -F "name=@$1" https://img.vim-cn.com/
-}
+  }
 
 
-dsf(){
+  dsf(){
     # depends on diff-so-fancy
     git diff --color=always $@ | diff-so-fancy | less --tab=4 -RFX
-}
+  }
 
-alias md=mkdir
-alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
-alias vi=vim
+  alias md=mkdir
+  alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+  alias vi=vim
 
-alias py=python
-alias ipy=ipython
-alias bpy=bpython
+  alias py=python
+  alias ipy=ipython
+  alias bpy=bpython
 
-# 後綴別名 {{{2
-alias -s pdf=zathura
-alias -s {jpg,png,gif}=feh
-alias -s tar="tar -xvf"
-alias -s {tgz,gz}="tar -xvzf"
-alias -s bz2="tar -xvjf"
-alias -s zip=unzip
+  # 後綴別名 {{{2
+  alias -s pdf=zathura
+  alias -s {jpg,png,gif}=feh
+  alias -s tar="tar -xvf"
+  alias -s {tgz,gz}="tar -xvzf"
+  alias -s bz2="tar -xvjf"
+  alias -s zip=unzip
 
 
-# pacaur aliases and functions {{{2
-function Syu(){
+  # pacaur aliases and functions {{{2
+  function Syu(){
     sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
     pacaur -Qtdq | ifne sudo pacman -Rcs -
-}
+  }
 
-alias Rcs="sudo pacman -Rcs"
-alias Ss="pacman -Ss"
-alias Si="pacaur -Si"
-alias Qs="pacaur -Qs"
-alias Qi="pacaur -Qi"
-alias Qo="pacaur -Qo"
-alias Ql="pacaur -Ql"
-alias Fo="pacaur -Fo"
-alias Fy="sudo pacaur -Fy"
-alias Ssa="pacaur -Ssa"
-alias pmin='sudo pacman -S --needed'
-alias pain='pacaur -S --needed'
-alias painn='pacaur -S'
-alias pasu='pacaur -Syua'
+  alias Rcs="sudo pacman -Rcs"
+  alias Ss="pacman -Ss"
+  alias Si="pacaur -Si"
+  alias Qs="pacaur -Qs"
+  alias Qi="pacaur -Qi"
+  alias Qo="pacaur -Qo"
+  alias Ql="pacaur -Ql"
+  alias Fo="pacaur -Fo"
+  alias Fy="sudo pacaur -Fy"
+  alias Ssa="pacaur -Ssa"
+  alias pmin='sudo pacman -S --needed'
+  alias pain='pacaur -S --needed'
+  alias painn='pacaur -S'
+  alias pasu='pacaur -Syua'
 
-paclist() {
-  # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
-  LC_ALL=C pacman -Qei $(pacman -Qu | cut -d " " -f 1) | \
-    awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
-}
+  paclist() {
+    # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
+    LC_ALL=C pacman -Qei $(pacman -Qu | cut -d " " -f 1) | \
+      awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
+  }
 
-alias upvim="vim +PlugUpgrade +PlugUpdate"
+  alias upvim="vim +PlugUpgrade +PlugUpdate"
 
-# 全局别名 {{{2
-# 当前目录下最后修改的文件
-# 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
-alias -g NN="*(oc[1])"
-alias -g NNF="*(oc[1].)"
-alias -g NUL="/dev/null"
-alias -g XS='"$(xclip)"'
-alias -g ANYF='**/*[^~](.)'
+  # 全局别名 {{{2
+  # 当前目录下最后修改的文件
+  # 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
+  alias -g NN="*(oc[1])"
+  alias -g NNF="*(oc[1].)"
+  alias -g NUL="/dev/null"
+  alias -g XS='"$(xclip)"'
+  alias -g ANYF='**/*[^~](.)'
 
-# 軟件設置 {{{1
-# zsh {{{2
-# 提示符
-# %n --- 用户名
-# %~ --- 当前目录
-# %h --- 历史记录号
-# git 分支显示 {{{3
+  # 軟件設置 {{{1
+  # zsh {{{2
+  # 提示符
+  # %n --- 用户名
+  # %~ --- 当前目录
+  # %h --- 历史记录号
+  # git 分支显示 {{{3
 
-if (( $+commands[git] )); then
-  _nogit_dir=()
-  for p in $nogit_dir; do
-    [[ -d $p ]] && _nogit_dir+=$(realpath $p)
-  done
-  unset p
+  if (( $+commands[git] )); then
+    _nogit_dir=()
+    for p in $nogit_dir; do
+      [[ -d $p ]] && _nogit_dir+=$(realpath $p)
+    done
+    unset p
 
-  _setup_current_branch_async () { # {{{4
-    typeset -g _current_branch= vcs_info_fd=
-    zmodload zsh/zselect 2>/dev/null
+    _setup_current_branch_async () { # {{{4
+      typeset -g _current_branch= vcs_info_fd=
+      zmodload zsh/zselect 2>/dev/null
 
-    _vcs_update_info () {
-      eval $(read -rE -u$1)
-      zle -F $1 && vcs_info_fd=
-      exec {1}>&-
-      # update prompt only when necessary to avoid double first line
-      [[ -n $_current_branch ]] && zle reset-prompt
-    }
+      _vcs_update_info () {
+        eval $(read -rE -u$1)
+        zle -F $1 && vcs_info_fd=
+        exec {1}>&-
+        # update prompt only when necessary to avoid double first line
+        [[ -n $_current_branch ]] && zle reset-prompt
+      }
 
-    _set_current_branch () {
-      _current_branch=
-      [[ -n $vcs_info_fd ]] && zle -F $vcs_info_fd
-      cwd=$(pwd -P)
-      for p in $_nogit_dir; do
-        if [[ $cwd == $p* ]]; then
-          return
-        fi
-      done
+      _set_current_branch () {
+        _current_branch=
+        [[ -n $vcs_info_fd ]] && zle -F $vcs_info_fd
+        cwd=$(pwd -P)
+        for p in $_nogit_dir; do
+          if [[ $cwd == $p* ]]; then
+            return
+          fi
+        done
 
-      setopt localoptions no_monitor
-      coproc {
+        setopt localoptions no_monitor
+        coproc {
         _br=$(git branch --no-color 2>/dev/null)
         if [[ $? -eq 0 ]]; then
           _current_branch=$(echo $_br|awk '$1 == "*" {print "("substr($0, 3)")"}')
@@ -760,13 +761,13 @@ if (( $+commands[git] )); then
 
   if [[ $_has_re -ne 1 ||
     $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-5]' ]]; then
-    # zsh 5.0.5 has a CPU 100% bug with zle -F
-    _setup_current_branch_sync
-  else
-    _setup_current_branch_async
-  fi
-  typeset -gaU precmd_functions
-  precmd_functions+=_set_current_branch
+  # zsh 5.0.5 has a CPU 100% bug with zle -F
+  _setup_current_branch_sync
+else
+  _setup_current_branch_async
+fi
+typeset -gaU precmd_functions
+precmd_functions+=_set_current_branch
 fi
 # }}}3
 
@@ -919,6 +920,16 @@ if [ $commands[fasd] ] ; then # check if fasd is installed
   alias v="f -e $EDITOR"
   alias o='a -e xdg-open '
 fi
+
+# Codi
+# Usage: codi [filetype] [filename]
+codi() {
+  local syntax="${1:-python}"
+  shift
+  nvim -c \
+    "let g:startify_disable_at_vimenter = 1 |\
+    Codi $syntax" "$@"
+}
 
 unset OS
 setopt nomatch
