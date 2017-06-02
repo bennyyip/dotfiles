@@ -34,7 +34,7 @@ bindsym $mod+Return exec terminal
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id dmenu_recency
+bindsym $mod+d exec --no-startup-id ~/.config/i3/scripts/dmenu_recency
 
 # Start Applications
 bindsym $mod+t exec --no-startup-id pkill compton
@@ -161,14 +161,14 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym l exec --no-startup-id ~/.config/i3/config/scripts/i3exit lock, mode "default"
     bindsym Shift+l exec --no-startup-id i3lock -i $HOME/pictures/lock.png, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/config/scripts/i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id ~/.config/i3/config/scripts/i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id ~/.config/i3/config/scripts/i3exit logout, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/config/scripts/i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/config/scripts/i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/.config/i3/config/scripts/i3exit shutdown, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"

@@ -10,7 +10,7 @@
 [core]
   autocrlf = false
   trustctime = false
-  editor = vim
+  editor = vim --noplugin
   filemode = false
   eol = lf
   safecrlf = true
