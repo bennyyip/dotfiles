@@ -1,10 +1,3 @@
-# zplug {{{1
-source ~/.zplug/init.zsh
-# FIXME zsh-users/zsh-syntax-highlighting cause crash when source .zshrc twice
-#zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "plugins/autoenv",   from:oh-my-zsh
-#zplug "plugins/git",   from:oh-my-zsh {use my fork}
 # 基本设置 {{{1
 # 确定环境 {{{1
 OS=${$(uname)%_*}
@@ -33,8 +26,9 @@ fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
 autoload -Uz compinit
 compinit
 
-#變量設置 {{{1
+# 變量設置 {{{1
 [[ -z $EDITOR ]] && (( $+commands[vim] )) && export EDITOR=vim
+export RUST_SRC_PATH=~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/
 
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
@@ -366,385 +360,349 @@ BUFFER=$bufs
   bindkey "^[[3~" delete-char
   bindkey "^[[2~" quoted-insert
 
-  # 函數 {{{1
-  autoload zargs
-  autoload zmv
-  TRAPTERM () { exit }
-  update () { . $_zdir/.zshrc }
-  if (( $+commands[vimtrace] )); then
-    (( $+commands[strace] )) && alias strace='vimtrace strace'
-    (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
-  else
-    (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-    (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-  fi
-  vman () { vim +"set ft=man" +"Man $*" }
-  mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
-  nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-  sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+# 函數 {{{1
+autoload zargs
+autoload zmv
+TRAPTERM () { exit }
+update () { . $_zdir/.zshrc }
+if (( $+commands[vimtrace] )); then
+  (( $+commands[strace] )) && alias strace='vimtrace strace'
+  (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
+else
+  (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+  (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+fi
+vman () { vim +"set ft=man" +"Man $*" }
+mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
+nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
+sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
 
-  function Ga() { # 獲取PKGBUILD {{{2
-    [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
-    git clone aur@aur.archlinux.org:"$1".git
-    rm -rf "$1"/.git
-  }
+function Ga() { # 獲取PKGBUILD {{{2
+  [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
+  git clone aur@aur.archlinux.org:"$1".git
+  rm -rf "$1"/.git
+}
 
-  function G() {
-    [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
-    git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
-    mv "$3"/trunk/* "$3"
-    rm -rf "$3"/{repos,trunk,.git}
-  }
+function G() {
+  [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
+  git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
+  mv "$3"/trunk/* "$3"
+  rm -rf "$3"/{repos,trunk,.git}
+}
 
-  alias Ge="G packages core/extra"
-  alias Gc="G community community"
+alias Ge="G packages core/extra"
+alias Gc="G community community"
 
-  breakln () { #断掉软链接 {{{2
-    for f in $*; do
-      tgt=$(readlink "$f")
-      unlink "$f"
-      cp -rL "$tgt" "$f"
-    done
-  }
+breakln () { #断掉软链接 {{{2
+  for f in $*; do
+    tgt=$(readlink "$f")
+    unlink "$f"
+    cp -rL "$tgt" "$f"
+  done
+}
 
-  try_until_succeed () { #反复重试，直到成功 {{{2
-    while ! $*; do :; done
-  }
-  rmempty () { #删除空文件 {{{2
-    for i; do
-      [[ -f $i && ! -s $i ]] && rm $i
-    done
-    return 0
-  }
+try_until_succeed () { #反复重试，直到成功 {{{2
+  while ! $*; do :; done
+}
+rmempty () { #删除空文件 {{{2
+  for i; do
+    [[ -f $i && ! -s $i ]] && rm $i
+  done
+  return 0
+}
 
-  if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
-    gcc () { # {{{3
-      errfile=$VIMTMP/.error
-      command gcc -g -Wall "$@" >$errfile 2>&1
-      ret=$?
-      cat $errfile
-      return $ret
-    }
-    g++ () { # {{{3
+if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
+  gcc () { # {{{3
     errfile=$VIMTMP/.error
-    command g++ -g -Wall "$@" >$errfile 2>&1
+    command gcc -g -Wall "$@" >$errfile 2>&1
     ret=$?
     cat $errfile
     return $ret
   }
-  clang () { # {{{3
-    errfile=$VIMTMP/.error
-    command clang -g -Wall "$@" >$errfile 2>&1
-    ret=$?
-    cat $errfile
-    return $ret
-  }
-  clang++ () { # {{{3
+  g++ () { # {{{3
   errfile=$VIMTMP/.error
-  command clang++ -g -Wall "$@" >$errfile 2>&1
+  command g++ -g -Wall "$@" >$errfile 2>&1
   ret=$?
   cat $errfile
   return $ret
 }
+clang () { # {{{3
+  errfile=$VIMTMP/.error
+  command clang -g -Wall "$@" >$errfile 2>&1
+  ret=$?
+  cat $errfile
+  return $ret
+}
+clang++ () { # {{{3
+errfile=$VIMTMP/.error
+command clang++ -g -Wall "$@" >$errfile 2>&1
+ret=$?
+cat $errfile
+return $ret
+}
 fi
 duppkg4repo () { #软件仓库中重复的软件包 {{{2
-  local repo=$1
-  [[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
-  local pkgs
-  pkgs=$(comm -12 \
-    <(pacman -Sl $repo|awk '{print $2}'|sort) \
-    <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
-    )
-  [[ -z $pkgs ]] && return 0
-  LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
+local repo=$1
+[[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
+local pkgs
+pkgs=$(comm -12 \
+  <(pacman -Sl $repo|awk '{print $2}'|sort) \
+  <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
+  )
+[[ -z $pkgs ]] && return 0
+LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
 }
 iip () { #{{{2
-  qip=${1:-cip}
+qip=${1:-cip}
+echo -n "ip> "
+read ip
+while [[ $ip != 'q' ]]; do
+  $qip $ip
   echo -n "ip> "
   read ip
-  while [[ $ip != 'q' ]]; do
-    $qip $ip
-    echo -n "ip> "
-    read ip
-  done
-  unset ip
+done
+unset ip
 }
 pid () { #{{{2
-  s=0
-  for i in $*; do
-    echo -n "$i: "
-    r=$(cat /proc/$i/cmdline|tr '\0' ' ' 2>/dev/null)
-    if [[ $? -ne 0 ]]; then
-      echo not found
-      s=1
-    else
-      echo $r
-    fi
-  done
-  return $s
+s=0
+for i in $*; do
+  echo -n "$i: "
+  r=$(cat /proc/$i/cmdline|tr '\0' ' ' 2>/dev/null)
+  if [[ $? -ne 0 ]]; then
+    echo not found
+    s=1
+  else
+    echo $r
+  fi
+done
+return $s
 }
 s () { # 快速查找当前目录下的文件 {{{2
-  name=$1
-  shift
-  find . -name "*$name*" "$@"
+name=$1
+shift
+find . -name "*$name*" "$@"
 }
 en () { # 使用 DNS TXT 记录的词典 {{{2
-  # https://github.com/chuangbo/jianbing-dictionary-dns
-  dig "$*.jianbing.org" +short txt | perl -pe's/\\(\d{1,3})/chr $1/eg; s/(^"|"$)//g'
+# https://github.com/chuangbo/jianbing-dictionary-dns
+dig "$*.jianbing.org" +short txt | perl -pe's/\\(\d{1,3})/chr $1/eg; s/(^"|"$)//g'
 }
 shutdown () { #{{{2
-  echo -n 你确定要关机吗？
-  read i
-  if [[ $i == [Yy] ]]; then
-    systemctl poweroff
-    # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
-  fi
+echo -n 你确定要关机吗？
+read i
+if [[ $i == [Yy] ]]; then
+  systemctl poweroff
+  # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
+fi
 }
 killssh () { #{{{2 kill ssh that using default master socket
-  local keys
-  if [[ $# -le 1 ]]; then
-    keys=('')
-  else
-    keys=$@
-  fi
+local keys
+if [[ $# -le 1 ]]; then
+  keys=('')
+else
+  keys=$@
+fi
 
-  for key in "${keys[@]}"; do
-    local pids="$(netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) -v key=$key \
-      '{if(index($NF, dir"/master-"key) == 1){print $9}}' | grep -o '^[[:digit:]]\+')"
-    [[ -n $pids ]] && kill ${=pids}
-  done
+for key in "${keys[@]}"; do
+  local pids="$(netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) -v key=$key \
+    '{if(index($NF, dir"/master-"key) == 1){print $9}}' | grep -o '^[[:digit:]]\+')"
+  [[ -n $pids ]] && kill ${=pids}
+done
 }
 
 _killssh_dir () {
-  local dir
-  if [[ -n $XDG_RUNTIME_DIR && -d $XDG_RUNTIME_DIR/ssh ]]; then
-    dir=$XDG_RUNTIME_DIR/ssh
-  else
-    dir=$HOME/.ssh
-  fi
-  print $dir
+local dir
+if [[ -n $XDG_RUNTIME_DIR && -d $XDG_RUNTIME_DIR/ssh ]]; then
+  dir=$XDG_RUNTIME_DIR/ssh
+else
+  dir=$HOME/.ssh
+fi
+print $dir
 }
 
 _killssh_items () {
-  netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) \
-    'BEGIN{P=dir"/master-";L=length(P);}{if(index($NF, P) == 1){a=substr($NF,L+1);sub(/\.[[:alnum:]]+$/,"",a);print a}}'
+netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) \
+  'BEGIN{P=dir"/master-";L=length(P);}{if(index($NF, P) == 1){a=substr($NF,L+1);sub(/\.[[:alnum:]]+$/,"",a);print a}}'
 }
 
 _killssh () {
-  _arguments \
-    ':what:($(_killssh_items))'
-  return 0
+_arguments \
+  ':what:($(_killssh_items))'
+return 0
 }
 compdef _killssh killssh
 mvgb () { # 文件名从 GB 转码，带确认{{{2
-  for i in $*; do
-    new="`echo $i|iconv -f utf8 -t latin1|iconv -f gbk`"
-    echo $new
-    echo -n 'Sure? '
-    read -q ans && mv -i $i $new
-    echo
-  done
+for i in $*; do
+  new="`echo $i|iconv -f utf8 -t latin1|iconv -f gbk`"
+  echo $new
+  echo -n 'Sure? '
+  read -q ans && mv -i $i $new
+  echo
+done
 }
 ptyrun () { # 使用伪终端代替管道，对 ls 这种“顽固分子”有效 {{{2
-  local ptyname=pty-$$
-  zmodload zsh/zpty
-  zpty $ptyname "${(q)@}"
-  if [[ ! -t 1 ]]; then
-    setopt local_traps
-    trap '' INT
-  fi
-  zpty -r $ptyname
-  zpty -d $ptyname
+local ptyname=pty-$$
+zmodload zsh/zpty
+zpty $ptyname "${(q)@}"
+if [[ ! -t 1 ]]; then
+  setopt local_traps
+  trap '' INT
+fi
+zpty -r $ptyname
+zpty -d $ptyname
 }
 ptyless () {
-  ptyrun "$@" | tr -d $'\x0f' | less
+ptyrun "$@" | tr -d $'\x0f' | less
 }
 screen2clipboard () { # 截图到剪贴板 {{{2
-  import png:- | xclip -i -selection clipboard -t image/png
+import png:- | xclip -i -selection clipboard -t image/png
 }
 2mp3 () { # 转换成 mp3 格式 {{{2
-  [[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
-  mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
-    lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
-    {echo Failed. && return 2}
-  }
-  if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
-    cursorcolor () { echo -ne "\e]12;$*\007" }
-  elif [[ $TERM == screen* ]]; then
-    if (( $+TMUX )); then
-      cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-    else
-      cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
-    fi
-  elif [[ $TERM == tmux* ]]; then
+[[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
+mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
+  lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
+  {echo Failed. && return 2}
+}
+if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
+  cursorcolor () { echo -ne "\e]12;$*\007" }
+elif [[ $TERM == screen* ]]; then
+  if (( $+TMUX )); then
     cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+  else
+    cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
   fi
-  # 別名 {{{1
-  alias vi=vim
-  alias nv=nvim
-  alias vr='vim --remote-silent --servername=VIM'
-  alias l='exa -al'
-  alias e='exa'
-  alias ls='ls --color=auto'
+elif [[ $TERM == tmux* ]]; then
+  cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+fi
+# 別名 {{{1
+alias vi=vim
+alias nv=nvim
+alias vr='gvim --remote-tab-silent'
+alias l='exa -al'
+alias e='exa'
+alias ls='ls --color=auto'
 
-  alias ll='ls -l'
-  alias la='ls -la'
-  alias lh='ls -lh'
-  alias grep='grep --color'
-  alias ccat='pygmentize'
+alias ll='ls -l'
+alias la='ls -la'
+alias lh='ls -lh'
+alias grep='grep --color'
+alias ccat='pygmentize'
 
-  alias start="sudo systemctl start"
-  alias status="sudo systemctl status"
-  alias stop="sudo systemctl stop"
-  alias restart="sudo systemctl restart"
-  alias .="source"
-  alias cp="cp -i --reflink=auto"
-  alias ssh="TERM=xterm-256color ssh"
-  alias bc="bc -l"
-  alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
-  alias ydcvd="ydcv -x -n -t 2 >/dev/null &"
-  alias clip="xsel -i -b"
+alias start="sudo systemctl start"
+alias status="sudo systemctl status"
+alias stop="sudo systemctl stop"
+alias restart="sudo systemctl restart"
+alias .="source"
+alias cp="cp -i --reflink=auto"
+alias ssh="TERM=xterm-256color ssh"
+alias bc="bc -l"
+alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
+alias ydcvd="ydcv -x -n -t 2 >/dev/null"
+alias clip="xsel -i -b"
 
-  alias gtar="tar -Ipigz czfv"
-  alias btar="tar -Ilbzip3 cjfv"
-  alias 7tar="7z a -mmt"
-  alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
-  alias tmux="tmux -2"
-  alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-  alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+alias gtar="tar -Ipigz czfv"
+alias btar="tar -Ilbzip3 cjfv"
+alias 7tar="7z a -mmt"
+alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
+alias tmux="tmux -2"
+alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
-  alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
-  alias pfc="curl -F c=@- http://fars.ee/"
-  imgvim(){
-    curl -F "name=@$1" https://img.vim-cn.com/
-  }
-
-
-  dsf(){
-    # depends on diff-so-fancy
-    git diff --color=always $@ | diff-so-fancy | less --tab=4 -RFX
-  }
-
-  alias md=mkdir
-  alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
-  alias vi=vim
-
-  alias py=python
-  alias ipy=ipython
-  alias bpy=bpython
-
-  # 後綴別名 {{{2
-  alias -s pdf=zathura
-  alias -s {jpg,png,gif}=feh
-  alias -s tar="tar -xvf"
-  alias -s {tgz,gz}="tar -xvzf"
-  alias -s bz2="tar -xvjf"
-  alias -s zip=unzip
+alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
+alias pfc="curl -F c=@- http://fars.ee/"
+imgvim(){
+  curl -F "name=@$1" https://img.vim-cn.com/
+}
 
 
-  # pacaur aliases and functions {{{2
-  function Syu(){
-    sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
-    pacaur -Qtdq | ifne sudo pacman -Rcs -
-  }
+dsf(){
+  # depends on diff-so-fancy
+  git diff --color=always $@ | diff-so-fancy | less --tab=4 -RFX
+}
 
-  alias Rcs="sudo pacman -Rcs"
-  alias Ss="pacman -Ss"
-  alias Si="pacaur -Si"
-  alias Qs="pacaur -Qs"
-  alias Qi="pacaur -Qi"
-  alias Qo="pacaur -Qo"
-  alias Ql="pacaur -Ql"
-  alias Fo="pacaur -Fo"
-  alias Fy="sudo pacaur -Fy"
-  alias Ssa="pacaur -Ssa"
-  alias pmin='sudo pacman -S --needed'
-  alias pain='pacaur -S --needed'
-  alias painn='pacaur -S'
-  alias pasu='pacaur -Syua'
+alias md=mkdir
+alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+alias vi=vim
 
-  paclist() {
-    # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
-    LC_ALL=C pacman -Qei $(pacman -Qu | cut -d " " -f 1) | \
-      awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
-  }
+alias py=python
+alias ipy=ipython
+alias bpy=bpython
 
-  alias upvim="vim +PlugUpgrade +PlugUpdate"
+# 後綴別名 {{{2
+alias -s pdf=zathura
+alias -s {jpg,png,gif}=feh
+alias -s tar="tar -xvf"
+alias -s {tgz,gz}="tar -xvzf"
+alias -s bz2="tar -xvjf"
+alias -s zip=unzip
 
-  # 全局别名 {{{2
-  # 当前目录下最后修改的文件
-  # 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
-  alias -g NN="*(oc[1])"
-  alias -g NNF="*(oc[1].)"
-  alias -g NUL="/dev/null"
-  alias -g XS='"$(xclip)"'
-  alias -g ANYF='**/*[^~](.)'
 
-  # 軟件設置 {{{1
-  # zsh {{{2
-  # 提示符
-  # %n --- 用户名
-  # %~ --- 当前目录
-  # %h --- 历史记录号
-  # git 分支显示 {{{3
+# pacaur aliases and functions {{{2
+function Syu(){
+  sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
+  pacaur -Qtdq | ifne sudo pacman -Rcs -
+}
 
-  if (( $+commands[git] )); then
-    _nogit_dir=()
-    for p in $nogit_dir; do
-      [[ -d $p ]] && _nogit_dir+=$(realpath $p)
-    done
-    unset p
+alias Rcs="sudo pacman -Rcs"
+alias Ss="pacman -Ss"
+alias Si="pacaur -Si"
+alias Qs="pacaur -Qs"
+alias Qi="pacaur -Qi"
+alias Qo="pacaur -Qo"
+alias Ql="pacaur -Ql"
+alias Fo="pacaur -Fo"
+alias Fy="sudo pacaur -Fy"
+alias Ssa="pacaur -Ssa"
+alias pmin='sudo pacman -S --needed'
+alias pain='pacaur -S --needed'
+alias painn='pacaur -S'
+alias pasu='pacaur -Syua'
 
-    _setup_current_branch_async () { # {{{4
-      typeset -g _current_branch= vcs_info_fd=
-      zmodload zsh/zselect 2>/dev/null
+paclist() {
+  # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
+  LC_ALL=C pacman -Qei $(pacman -Qu | cut -d " " -f 1) | \
+    awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
+}
 
-      _vcs_update_info () {
-        eval $(read -rE -u$1)
-        zle -F $1 && vcs_info_fd=
-        exec {1}>&-
-        # update prompt only when necessary to avoid double first line
-        [[ -n $_current_branch ]] && zle reset-prompt
-      }
+alias upvim="vim +PlugUpgrade +PlugUpdate"
 
-      _set_current_branch () {
-        _current_branch=
-        [[ -n $vcs_info_fd ]] && zle -F $vcs_info_fd
-        cwd=$(pwd -P)
-        for p in $_nogit_dir; do
-          if [[ $cwd == $p* ]]; then
-            return
-          fi
-        done
+# 全局别名 {{{2
+# 当前目录下最后修改的文件
+# 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
+alias -g NN="*(oc[1])"
+alias -g NNF="*(oc[1].)"
+alias -g NUL="/dev/null"
+alias -g XS='"$(xclip)"'
+alias -g ANYF='**/*[^~](.)'
 
-        setopt localoptions no_monitor
-        coproc {
-        _br=$(git branch --no-color 2>/dev/null)
-        if [[ $? -eq 0 ]]; then
-          _current_branch=$(echo $_br|awk '$1 == "*" {print "("substr($0, 3)")"}')
-        fi
-        # always gives something for reading, or _vcs_update_info won't be
-        # called, fd not closed
-        #
-        # "typeset -p" won't add "-g", so reprinting prompt (e.g. after status
-        # of a bg job is printed) would miss it
-        #
-        # need to substitute single ' with double ''
-        print "typeset -g _current_branch='${_current_branch//''''/''}'"
-      }
-      disown %{\ _br
-      exec {vcs_info_fd}<&p
-      # wait 0.1 seconds before showing up to avoid unnecessary double update
-      # precmd functions are called *after* prompt is expanded, and we can't call
-      # zle reset-prompt outside zle, so turn to zselect
-      zselect -r -t 10 $vcs_info_fd 2>/dev/null
-      zle -F $vcs_info_fd _vcs_update_info
+# 軟件設置 {{{1
+# zsh {{{2
+# 提示符
+# %n --- 用户名
+# %~ --- 当前目录
+# %h --- 历史记录号
+# git 分支显示 {{{3
+if (( $+commands[git] )); then
+  _nogit_dir=()
+  for p in $nogit_dir; do
+    [[ -d $p ]] && _nogit_dir+=$(realpath $p)
+  done
+  unset p
+
+  _setup_current_branch_async () { # {{{4
+    typeset -g _current_branch= vcs_info_fd=
+    zmodload zsh/zselect 2>/dev/null
+
+    _vcs_update_info () {
+      eval $(read -rE -u$1)
+      zle -F $1 && vcs_info_fd=
+      exec {1}>&-
+      # update prompt only when necessary to avoid double first line
+      [[ -n $_current_branch ]] && zle reset-prompt
     }
-  }
 
-  _setup_current_branch_sync () { # {{{4
     _set_current_branch () {
       _current_branch=
+      [[ -n $vcs_info_fd ]] && zle -F $vcs_info_fd
       cwd=$(pwd -P)
       for p in $_nogit_dir; do
         if [[ $cwd == $p* ]]; then
@@ -752,25 +710,59 @@ screen2clipboard () { # 截图到剪贴板 {{{2
         fi
       done
 
+      setopt localoptions no_monitor
+      coproc {
       _br=$(git branch --no-color 2>/dev/null)
       if [[ $? -eq 0 ]]; then
-        _current_branch=$(echo $_br|awk '{if($1 == "*"){print "(" substr($0, 3) ")"}}')
+        _current_branch=$(echo $_br|awk '$1 == "*" {print "("substr($0, 3)")"}')
       fi
+      # always gives something for reading, or _vcs_update_info won't be
+      # called, fd not closed
+      #
+      # "typeset -p" won't add "-g", so reprinting prompt (e.g. after status
+      # of a bg job is printed) would miss it
+      #
+      # need to substitute single ' with double ''
+      print "typeset -g _current_branch='${_current_branch//''''/''}'"
     }
-  } # }}}
+    disown %{\ _br
+    exec {vcs_info_fd}<&p
+    # wait 0.1 seconds before showing up to avoid unnecessary double update
+    # precmd functions are called *after* prompt is expanded, and we can't call
+    # zle reset-prompt outside zle, so turn to zselect
+    zselect -r -t 10 $vcs_info_fd 2>/dev/null
+    zle -F $vcs_info_fd _vcs_update_info
+  }
+}
 
-  if [[ $_has_re -ne 1 ||
-    $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-5]' ]]; then
-  # zsh 5.0.5 has a CPU 100% bug with zle -F
-  _setup_current_branch_sync
+_setup_current_branch_sync () { # {{{4
+  _set_current_branch () {
+    _current_branch=
+    cwd=$(pwd -P)
+    for p in $_nogit_dir; do
+      if [[ $cwd == $p* ]]; then
+        return
+      fi
+    done
+
+    _br=$(git branch --no-color 2>/dev/null)
+    if [[ $? -eq 0 ]]; then
+      _current_branch=$(echo $_br|awk '{if($1 == "*"){print "(" substr($0, 3) ")"}}')
+    fi
+  }
+} # }}}
+
+if [[ $_has_re -ne 1 ||
+  $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-5]' ]]; then
+# zsh 5.0.5 has a CPU 100% bug with zle -F
+_setup_current_branch_sync
 else
-  _setup_current_branch_async
+_setup_current_branch_async
 fi
 typeset -gaU precmd_functions
 precmd_functions+=_set_current_branch
 fi
 # }}}3
-
 # prompt {{{3
 setopt PROMPT_SUBST
 
@@ -778,11 +770,11 @@ E=$'\x1b'
 
 function lambda()
 {
-  if [[ $? == 0  ]]; then
-    echo '\n%F{yellow}λ'
-  else
-    echo '(%?)\n%F{red}λ'
-  fi
+if [[ $? == 0  ]]; then
+  echo '\n%F{yellow}λ'
+else
+  echo '(%?)\n%F{red}λ'
+fi
 }
 
 
@@ -806,62 +798,62 @@ REPORTTIME=5
 # original directory.
 
 function ranger-cd {
-  tempfile="$(mktemp)"
-  /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
-  test -f "$tempfile" &&
-    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
-      cd -- "$(cat "$tempfile")"
-    fi
-    rm -f -- "$tempfile"
-  }
-
-  # fasd {{{2
-  if [ $commands[fasd] ]; then # check if fasd is installed
-    fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-    if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-      fasd --init auto >| "$fasd_cache"
-    fi
-    source "$fasd_cache"
-    #unset fasd_cache
-
-    alias v="f -e $EDITOR"
-    alias o='a -e xdg-open'
+tempfile="$(mktemp)"
+/usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
+test -f "$tempfile" &&
+  if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+    cd -- "$(cat "$tempfile")"
   fi
+  rm -f -- "$tempfile"
+}
 
-  # fzf {{{2
-  # ------------
-  if [[ $- == *i* ]]; then
+# fasd {{{2
+if [ $commands[fasd] ]; then # check if fasd is installed
+  fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
+  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    fasd --init auto >| "$fasd_cache"
+  fi
+  source "$fasd_cache"
+  #unset fasd_cache
 
-    # CTRL-T - Paste the selected file path(s) into the command line
-    __fsel() {
-      local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-        -o -type f -print \
-        -o -type d -print \
-        -o -type l -print 2> /dev/null | cut -b3-"}"
-      setopt localoptions pipefail 2> /dev/null
-      eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
-      echo -n "${(q)item} "
-    done
-    local ret=$?
-    echo
-    return $ret
-  }
+  alias v="f -e $EDITOR"
+  alias o='a -e xdg-open'
+fi
 
-  __fzf_use_tmux__() {
-    [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
-  }
+# fzf {{{2
+# ------------
+if [[ $- == *i* ]]; then
 
-  __fzfcmd() {
-    __fzf_use_tmux__ &&
-      echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-  }
+# CTRL-T - Paste the selected file path(s) into the command line
+__fsel() {
+  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+    -o -type f -print \
+    -o -type d -print \
+    -o -type l -print 2> /dev/null | cut -b3-"}"
+  setopt localoptions pipefail 2> /dev/null
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+  echo -n "${(q)item} "
+done
+local ret=$?
+echo
+return $ret
+}
 
-  fzf-file-widget() {
-  LBUFFER="${LBUFFER}$(__fsel)"
-  local ret=$?
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  return $ret
+__fzf_use_tmux__() {
+[ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
+}
+
+__fzfcmd() {
+__fzf_use_tmux__ &&
+  echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
+}
+
+fzf-file-widget() {
+LBUFFER="${LBUFFER}$(__fsel)"
+local ret=$?
+zle redisplay
+typeset -f zle-line-init >/dev/null && zle zle-line-init
+return $ret
 }
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
@@ -869,12 +861,12 @@ bindkey '^T' fzf-file-widget
 # ALT-C - cd into the selected directory
 fzf-cd-widget() {
 local cmd="${FZF_ALT_C_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-  -o -type d -print 2> /dev/null | sed 1d | cut -b3-"}"
+-o -type d -print 2> /dev/null | sed 1d | cut -b3-"}"
 setopt localoptions pipefail 2> /dev/null
 local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
 if [[ -z "$dir" ]]; then
-  zle redisplay
-  return 0
+zle redisplay
+return 0
 fi
 cd "$dir"
 local ret=$?
@@ -893,10 +885,10 @@ selected=( $(fc -l 1 |
 FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS +s --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(q)LBUFFER} +m" $(__fzfcmd)) )
 local ret=$?
 if [ -n "$selected" ]; then
-  num=$selected[1]
-  if [ -n "$num" ]; then
-    zle vi-fetch-history -n $num
-  fi
+num=$selected[1]
+if [ -n "$num" ]; then
+zle vi-fetch-history -n $num
+fi
 fi
 zle redisplay
 typeset -f zle-line-init >/dev/null && zle zle-line-init
@@ -910,50 +902,35 @@ fi
 # fasd {{{2
 
 if [ $commands[fasd] ] ; then # check if fasd is installed
-  fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    fasd --init auto >| "$fasd_cache"
-  fi
-  source "$fasd_cache"
-  unset fasd_cache
+fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init auto >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
 
-  alias v="f -e $EDITOR"
-  alias o='a -e xdg-open '
+alias v="f -e $EDITOR"
+alias o='a -e xdg-open '
 fi
 
 # Codi
 # Usage: codi [filetype] [filename]
 codi() {
-  local syntax="${1:-python}"
-  shift
-  nvim -c \
-    "let g:startify_disable_at_vimenter = 1 |\
-    Codi $syntax" "$@"
+local syntax="${1:-python}"
+shift
+nvim -c \
+  "let g:startify_disable_at_vimenter = 1 |\
+  Codi $syntax" "$@"
 }
 
 unset OS
 setopt nomatch
 [ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-  printf "Install? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  fi
-fi
-
-source ~/.zsh/git.zsh
-zplug load
-#if [ -v $loaded ]; then
-#  echo damn
-#  sleep 1
-#  source $_zdir/.zplug/repos/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
-#  loaded=1
-#fi
-
-# Tmux {{2
+# Tmux {{{2
 export DISABLE_AUTO_TITLE=true
-
+# Plugin {{{1
+source ~/.zsh/plugin/zsh-autosuggestions.zsh
+source ~/.zsh/plugin/git.zsh
+# Modeline {{{1
 # vim:fdm=marker
 
