@@ -1,5 +1,5 @@
 set smooth-scroll true
-set font "noto sans cjk normal 20"
+set font "noto sans cjk normal 14"
 map <Space> scroll half-down
 map u scroll half-up
 map <C-d> scroll full-down
