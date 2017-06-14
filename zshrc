@@ -636,7 +636,7 @@ alias -s bz2="tar -xvjf"
 alias -s zip=unzip
 
 
-# pacaur aliases and functions {{{2
+# pacman aliases and functions {{{2
 function Syu(){
   sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
   pacaur -Qtdq | ifne sudo pacman -Rcs -
@@ -644,18 +644,17 @@ function Syu(){
 
 alias Rcs="sudo pacman -Rcs"
 alias Ss="pacman -Ss"
-alias Si="pacaur -Si"
-alias Qs="pacaur -Qs"
-alias Qi="pacaur -Qi"
-alias Qo="pacaur -Qo"
-alias Ql="pacaur -Ql"
-alias Fo="pacaur -Fo"
-alias Fy="sudo pacaur -Fy"
+alias Si="pacman -Si"
+alias Qs="pacman -Qs"
+alias Qi="pacman -Qi"
+alias Qo="pacman -Qo"
+alias Ql="pacman -Ql"
+alias Fo="pacman -Fo"
+alias Fy="sudo pacman -Fy"
 alias Ssa="pacaur -Ssa"
 alias pmin='sudo pacman -S --needed'
-alias pain='pacaur -S --needed'
-alias painn='pacaur -S'
-alias pasu='pacaur -Syua'
+alias pain='pacman -S --needed'
+alias painn='pacman -S'
 
 paclist() {
   # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
