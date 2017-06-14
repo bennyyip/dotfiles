@@ -376,7 +376,6 @@ vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
-
 function Ga() { # 獲取PKGBUILD {{{2
   [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
   git clone aur@aur.archlinux.org:"$1".git
@@ -795,7 +794,6 @@ REPORTTIME=5
 # the last visited one after ranger quits.
 # To undo the effect of this function, you can type "cd -" to return to the
 # original directory.
-
 function ranger-cd {
 tempfile="$(mktemp)"
 /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
@@ -821,7 +819,7 @@ fi
 
 # fzf {{{2
 # ------------
-if [[ $- == *i* ]]; then
+if [ $commands[fzf] ] &&  [[ $- == *i* ]]; then
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
@@ -897,9 +895,7 @@ zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
 fi
-
 # fasd {{{2
-
 if [ $commands[fasd] ] ; then # check if fasd is installed
 fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
