@@ -651,9 +651,8 @@ alias Ql="pacman -Ql"
 alias Fo="pacman -Fo"
 alias Fy="sudo pacman -Fy"
 alias Ssa="pacaur -Ssa"
-alias pmin='sudo pacman -S --needed'
-alias pain='pacman -S --needed'
-alias painn='pacman -S'
+alias pain='sudo pacman -S --needed'
+alias painn='sudo pacmban -S'
 
 paclist() {
   # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
