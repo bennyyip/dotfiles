@@ -114,9 +114,9 @@ bindsym $mod+a focus parent
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
 #                 set $ws2 2:
-set $ws1 1TMUX
-set $ws2 2GVIM
-set $ws3 3PDF
+set $ws1 1:TMUX
+set $ws2 2:GVIM
+set $ws3 3:PDF
 set $ws4 4
 set $ws5 5
 set $ws6 6
