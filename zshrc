@@ -29,6 +29,7 @@ compinit
 # 變量設置 {{{1
 [[ -z $EDITOR ]] && (( $+commands[vim] )) && export EDITOR=vim
 export RUST_SRC_PATH=~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/
+export PATH=$PATH:~/.cargo/bin/
 
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
@@ -376,17 +377,6 @@ vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
-# 快速查找当前目录下的文件 {{{2
-# rg is 3x faster than ag, and find 2x
-if (( $+commands[rg] )) then
-  rs () {
-    rg --files -g "*$1*"
-  }
-else
-  rs () {
-    find . -name "*$1*"
-  }
-fi
 function Ga() { # 獲取PKGBUILD {{{2
   [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
   git clone aur@aur.archlinux.org:"$1".git
@@ -815,36 +805,57 @@ test -f "$tempfile" &&
   rm -f -- "$tempfile"
 }
 
-fasd {{{2
-if [ $commands[fasd] ]; then # check if fasd is installed
-  fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    fasd --init auto >| "$fasd_cache"
-  fi
-  source "$fasd_cache"
-  #unset fasd_cache
-  alias vf="f -e $EDITOR"
-  alias o='a -e xdg-open'
-fi
-
 # fzf {{{2
-# ------------
+# https://github.com/junegunn/fzf/wiki/examples
 if [ $commands[fzf] ] &&  [[ $- == *i* ]]; then
 
-v () {
-  vi $(fzf)
+# fzf use ripgrep
+[ $commands[fzf] ] &&
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
+
+vh () {
+  if [ "$#" -ne 0 ]; then
+    ${EDITOR}  $@
+  else
+    ${EDITOR} $(fzf)
+  fi
 }
 
-# use ripgrep
-[ $commands[fzf] ] &&
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
+# fasd {{{3
+if [ $commands[fasd] ]; then # check if fasd is installed
+  # skip `posix-alias`
+  eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+      zsh-wcomp zsh-wcomp-install)"
 
-# CTRL-T - Paste the selected file path(s) into the command line
+  fasd_cd () {
+        if [ $# -le 1 ]
+        then
+                fasd "$@"
+        else
+                local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+                [ -z "$_fasd_ret" ] && return
+                [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+        fi
+  }
+
+  # fasd & fzf change directory - jump using fasd if given argument, filter output of fasd using fzf else
+  z() {
+      [ $# -gt 0 ] && fasd_cd -d "$*" && return
+      local dir
+      dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+  }
+
+  # fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
+  v() {
+      if [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
+      local file
+      file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
+  }
+fi
+
+# CTRL-T - Paste the selected file path(s) into the command line {{{3
 __fsel() {
-  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null | cut -b3-"}"
+  local cmd="${FZF_CTRL_T_COMMAND:-"command rg --files --hidden --follow -g '!{.git,node_modules,target}/*' 2> /dev/null"}"
   setopt localoptions pipefail 2> /dev/null
   eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
   echo -n "${(q)item} "
@@ -873,7 +884,7 @@ return $ret
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
-# ALT-C - cd into the selected directory
+# ALT-C - cd into the selected directory {{{3
 fzf-cd-widget() {
 local cmd="${FZF_ALT_C_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
 -o -type d -print 2> /dev/null | sed 1d | cut -b3-"}"
@@ -892,7 +903,7 @@ return $ret
 zle     -N    fzf-cd-widget
 bindkey '\ec' fzf-cd-widget
 
-# CTRL-R - Paste the selected command from history into the command line
+# CTRL-R - Paste the selected command from history into the command line {{{3
 fzf-history-widget() {
 local selected num
 setopt localoptions noglobsubst pipefail 2> /dev/null
@@ -912,7 +923,18 @@ return $ret
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
-# To use custom commands instead of find, override _fzf_compgen_{path,dir}
+# ALT-I - Paste the selected entry from locate output into the command line {{{3
+fzf-locate-widget() {
+  local selected
+  if selected=$(locate / | fzf -q "$LBUFFER"); then
+    LBUFFER=$selected
+  fi
+  zle redisplay
+}
+zle     -N    fzf-locate-widget
+bindkey '\ei' fzf-locate-widget
+
+# To use custom commands instead of find, override _fzf_compgen_{path,dir} {{{3
 if ! declare -f _fzf_compgen_path > /dev/null; then
   _fzf_compgen_path() {
     echo "$1"
@@ -929,8 +951,52 @@ if ! declare -f _fzf_compgen_dir > /dev/null; then
       -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
   }
 fi
+# tmux {{{3
+# tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+# `tm` will allow you to select your tmux session via fzf.
+# `tm irc` will attach to the irc session (if it exists), else it will create it.
 
-###########################################################
+tm() {
+  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $1 ]; then
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  fi
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+}
+# fs [FUZZY PATTERN] - Select selected tmux session
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fs() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | \
+    fzf --query="$1" --select-1 --exit-0) &&
+  tmux switch-client -t "$session"
+}
+
+# ftpane - switch pane (@george-b)
+ftpane() {
+  local panes current_window current_pane target target_window target_pane
+  panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+  current_pane=$(tmux display-message -p '#I:#P')
+  current_window=$(tmux display-message -p '#I')
+
+  target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
+
+  target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+  target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+  if [[ $current_window -eq $target_window ]]; then
+    tmux select-pane -t ${target_window}.${target_pane}
+  else
+    tmux select-pane -t ${target_window}.${target_pane} &&
+    tmux select-window -t $target_window
+  fi
+}
+
+# In tmux.conf
+# bind-key 0 run "tmux split-window -l 12 'bash -ci ftpane'"
+
+# fzf complete ** {{{3
 
 __fzfcmd_complete() {
   [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ] &&
@@ -1101,7 +1167,7 @@ zle     -N   fzf-completion
 bindkey '^I' fzf-completion
 fi
 
-# Codi
+# Codi {{{2
 # Usage: codi [filetype] [filename]
 codi() {
 local syntax="${1:-python}"
@@ -1119,6 +1185,7 @@ export DISABLE_AUTO_TITLE=true
 # Plugin {{{1
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/git.zsh
+[ $commands[fzf] ] && source ~/.zsh/plugin/zsh-interactive-cd.zsh
 # Modeline {{{1
 # vim:fdm=marker
 
