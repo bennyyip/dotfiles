@@ -277,8 +277,7 @@ bindkey '^[n' down-line-or-search
 # https://github.com/scfrazer/zsh-jump-target
 autoload -Uz jump-target
 zle -N jump-target
-bindkey "^K" jump-target
-
+bindkey '^ ' jump-target
 # restoring an aborted command-line {{{2
 # unsupported with 4.3.17
 if zle -la split-undo; then
@@ -573,8 +572,8 @@ alias vi=vim
 alias nv=nvim
 alias vr='gvim --remote-tab-silent'
 
+(($+commands[exa])) && {
 alias e='exa'
-(( $+commands[exa] )) && {
   xtree () {
     exa -Tl "$@"
   }
@@ -628,6 +627,10 @@ alias py=python
 alias ipy=ipython
 alias bpy=bpython
 
+[ $commands[ghq] ]  && {
+  alias glook='ghq look'
+  alias gget='ghq get'
+}
 # 後綴別名 {{{2
 alias -s pdf=zathura
 alias -s {jpg,png,gif}=feh
@@ -884,25 +887,6 @@ return $ret
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
-# ALT-C - cd into the selected directory {{{3
-fzf-cd-widget() {
-local cmd="${FZF_ALT_C_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
--o -type d -print 2> /dev/null | sed 1d | cut -b3-"}"
-setopt localoptions pipefail 2> /dev/null
-local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
-if [[ -z "$dir" ]]; then
-zle redisplay
-return 0
-fi
-cd "$dir"
-local ret=$?
-zle reset-prompt
-typeset -f zle-line-init >/dev/null && zle zle-line-init
-return $ret
-}
-zle     -N    fzf-cd-widget
-bindkey '\ec' fzf-cd-widget
-
 # CTRL-R - Paste the selected command from history into the command line {{{3
 fzf-history-widget() {
 local selected num
@@ -938,17 +922,25 @@ bindkey '\ei' fzf-locate-widget
 if ! declare -f _fzf_compgen_path > /dev/null; then
   _fzf_compgen_path() {
     echo "$1"
-    command find -L "$1" \
-      -name .git -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
-      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+    if [ $commands[fd] ]; then
+      command fd "$1"
+    else
+      command find -L "$1" \
+        -name .git -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
+        -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+    fi
   }
 fi
 
 if ! declare -f _fzf_compgen_dir > /dev/null; then
   _fzf_compgen_dir() {
-    command find -L "$1" \
-      -name .git -prune -o -name .svn -prune -o -type d \
-      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+    if [ $commands[fd] ]; then
+      command fd -type d "$1"
+    else
+      command find -L "$1" \
+        -name .git -prune -o -name .svn -prune -o -type d \
+        -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+    fi
   }
 fi
 # tmux {{{3
@@ -970,7 +962,7 @@ fs() {
   local session
   session=$(tmux list-sessions -F "#{session_name}" | \
     fzf --query="$1" --select-1 --exit-0) &&
-  tmux switch-client -t "$session"
+    tmux switch-client -t "$session"
 }
 
 # ftpane - switch pane (@george-b)
@@ -989,7 +981,7 @@ ftpane() {
     tmux select-pane -t ${target_window}.${target_pane}
   else
     tmux select-pane -t ${target_window}.${target_pane} &&
-    tmux select-window -t $target_window
+      tmux select-window -t $target_window
   fi
 }
 
@@ -1186,6 +1178,9 @@ export DISABLE_AUTO_TITLE=true
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/git.zsh
 [ $commands[fzf] ] && source ~/.zsh/plugin/zsh-interactive-cd.zsh
+
+# <C-Enter>
+bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
 # Modeline {{{1
 # vim:fdm=marker
 
