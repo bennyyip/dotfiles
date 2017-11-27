@@ -1,0 +1,13 @@
+[global]
+  font = Sans 20
+  geometry = "0x5+0-0"
+  follow = mouse
+  markup = full
+
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+
+# vim: ft=cfg
