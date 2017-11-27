@@ -1,6 +1,4 @@
-# i3 config file (v4)
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
+# Basic setting [[[1
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 
@@ -14,6 +12,8 @@ new_float normal
 # Hide borders
 hide_edge_borders none
 
+# focus_follows_mouse no
+# Bindings [[[1
 # change borders
 bindsym $mod+u border none
 bindsym $mod+y border pixel 1
@@ -21,7 +21,7 @@ bindsym $mod+n border normal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.3
-font xft:Noto Sans 10
+font xft:Sans 10
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
@@ -32,19 +32,17 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start program launcher
-bindsym $mod+d exec --no-startup-id ~/.config/i3/scripts/dmenu_recency
+# rofi
+bindsym $mod+d exec --no-startup-id rofi -show run
 
 # Start Applications
 bindsym $mod+t exec --no-startup-id pkill compton
-bindsym $mod+Ctrl+T exec --no-startup-id compton -b
+bindsym $mod+Shift+T exec --no-startup-id compton -b
 
 bindsym $mod+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d -t`
 bindsym $mod+Ctrl+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w -t`
 bindsym $mod+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d`
 bindsym $mod+Ctrl+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w`
-
-# focus_follows_mouse no
 
 # change focus
 bindsym $mod+j focus left
@@ -106,73 +104,14 @@ bindsym $mod+shift+space focus mode_toggle
 # toggle sticky
 bindsym $mod+Shift+s sticky toggle
 
-
 # focus the parent container
 bindsym $mod+a focus parent
 
-# Workspace names
-# to display names or symbols instead of plain workspace numbers you can use
-# something like: set $ws1 1:mail
-#                 set $ws2 2:
-set $ws1 1:TMUX
-set $ws2 2:GVIM
-set $ws3 3:PDF
-set $ws4 4
-set $ws5 5
-set $ws6 6
-set $ws7 7
-set $ws8 8
+# reload the configuration file
+bindsym $mod+Shift+c reload
 
-# switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-
-# Move focused container to workspace
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
-bindsym $mod+Ctrl+5 move container to workspace $ws5
-bindsym $mod+Ctrl+6 move container to workspace $ws6
-bindsym $mod+Ctrl+7 move container to workspace $ws7
-bindsym $mod+Ctrl+8 move container to workspace $ws8
-
-# Move to workspace with focused container
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
-
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
-# Set shut down, restart and locking features
-bindsym $mod+0 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id ~/.config/i3/scripts/blurlock, mode "default"
-    bindsym Shift+l exec --no-startup-id i3lock -i $HOME/pictures/lock.png, mode "default"
-    bindsym s exec --no-startup-id ~/.config/i3/scripts/i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id ~/.config/i3/scripts/i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id ~/.config/i3/scripts/i3exit logout, mode "default"
-    bindsym h exec --no-startup-id ~/.config/i3/scripts/i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id ~/.config/i3/scripts/i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id ~/.config/i3/scripts/i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -199,21 +138,76 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-# Lock screen
-bindsym $mod+9 exec --no-startup-id ~/.config/i3/scripts/blurlock
+# Workspace [[[1
+# Workspace names
+# to display names or symbols instead of plain workspace numbers you can use
+# something like: set $ws1 1:mail
+#                 set $ws2 2:
+# workspace names / font-awesome
+set $ws1 1:TMUX
+set $ws2 2:GVIM
+set $ws3 3:PDF
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
 
-# Autostart applications
-#exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-#exec --no-startup-id nm-applet
-#exec --no-startup-id xfce4-power-manager
-#exec --no-startup-id clipit
-# exec --no-startup-id blueman
-# exec_always --no-startup-id sbxkb
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+# Move focused container to workspace
+bindsym $mod+Ctrl+1 move container to workspace $ws1
+bindsym $mod+Ctrl+2 move container to workspace $ws2
+bindsym $mod+Ctrl+3 move container to workspace $ws3
+bindsym $mod+Ctrl+4 move container to workspace $ws4
+bindsym $mod+Ctrl+5 move container to workspace $ws5
+bindsym $mod+Ctrl+6 move container to workspace $ws6
+bindsym $mod+Ctrl+7 move container to workspace $ws7
+bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9
+
+# Move to workspace with focused container
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
+
+# Lock screen
+bindsym $mod+0 exec --no-startup-id ~/.config/i3/scripts/blurlock, mode "default"
+
+
+# Autostart applications [[[1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-# exec --no-startup-id $HOME/.config/conky/start-conky.sh
 exec --no-startup-id xautolock -time 100 -locker ~/.config/i3/scripts/blurlock
-#exec --no-startup-id volumeicon
-#exec_always --no-startup-id fix_xcursor
+
+# Theme [[[1
+
+# set primary gruvbox colorscheme colors
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+set $white  #FBF1C7
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
@@ -224,44 +218,33 @@ bar {
 #	tray_output primary
 #	tray_output eDP1
 
-	bindsym button4 nop
-	bindsym button5 nop
-	font xft:Noto Sans 14
+	font xft:Sans 14
 	strip_workspace_numbers yes
 
-	colors {
-#	background $transparent
-		background #272E48
-                statusline #F9FAF9
-		separator  #454947
-
-#                      border  backgr. text
-		focused_workspace  #F9FAF9 #E0E4E5 #272E48
-		active_workspace   #595B5B #272E48 #E0E4E5
-		inactive_workspace #595B5B #272E48 #E0E4E5
-		urgent_workspace   #16A085 #FDF6E3 #E5201D
-		#focused_workspace  #F9FAF9 #16A085 #2B2C2B
-		#active_workspace   #595B5B #353836 #FDF6E3
-		#inactive_workspace #595B5B #353836 #EEE8D5
-		#urgent_workspace   #16A085 #FDF6E3 #E5201D
-	}
+    colors {
+        # bar background color
+        background $bg
+        # text color used for blocks that do not have a color specified.
+        statusline $white
+        # workspaces section
+        #                    border  backgr. text
+        focused_workspace    $aqua $white $darkgray
+        inactive_workspace   $darkgray $darkgray $white
+        active_workspace     $darkgray $darkgray $white
+        urgent_workspace     $red $red $bg
+    }
 }
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
 
-# Theme colors
-# class                 border  backgr. text    indic.  child_border
-client.focused          #808280 #808280 #80FFF9 #FDF6E3
-client.focused_inactive #434745 #434745 #16A085 #454948
-client.unfocused        #434745 #434745 #16A085 #454948
-client.urgent           #CB4B16 #FDF6E3 #16A085 #268BD2
+# green gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $green $green $darkgray $green $green
+client.focused_inactive $darkgray $darkgray $yellow $green $darkgray
+client.unfocused        $darkgray $darkgray $yellow $green $darkgray
+client.urgent           $red $red $white $red $red
 client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
-client.background       #2B2C2B
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+# modeline
+# vim:fdm=marker:fmr=[[[,]]]
