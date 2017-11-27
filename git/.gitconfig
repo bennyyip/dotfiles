@@ -39,9 +39,9 @@
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
 [pull]
   rebase = true
-[http]
-  proxy = socks5://127.0.0.1:1080
-[https]
-  proxy = socks5://127.0.0.1:1080
+; [http]
+;   proxy = socks5://192.168.197.1:1080
+; [https]
+;   proxy = socks5://192.168.197.1:1080
 [help]
 	autocorrect = 1
