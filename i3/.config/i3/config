@@ -211,14 +211,14 @@ set $white  #FBF1C7
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	status_command i3status
+	font pango: Sans, FontAwesome 14
+	status_command i3status-rs ~/.config/i3/config.toml
 	position top
 
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+# please set your primary output first. Example: 'xrandr --output eDP1 --primary'
 #	tray_output primary
 #	tray_output eDP1
 
-	font xft:Sans 14
 	strip_workspace_numbers yes
 
     colors {
@@ -227,12 +227,13 @@ bar {
         # text color used for blocks that do not have a color specified.
         statusline $white
         # workspaces section
-        #                    border  backgr. text
-        focused_workspace    $aqua $white $darkgray
-        inactive_workspace   $darkgray $darkgray $white
-        active_workspace     $darkgray $darkgray $white
-        urgent_workspace     $red $red $bg
+        #                  border    backgr. text
+        focused_workspace  $white    $white  $bg
+        inactive_workspace $darkgray $bg     $white
+        active_workspace   $darkgray $bg     $white
+        urgent_workspace   $red      $red    $bg
     }
+
 }
 
 # hide/unhide i3status bar
