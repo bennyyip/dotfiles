@@ -330,7 +330,7 @@ bindkey "\eW" zsh-backward-kill-word
 sudo-command-line() {
 [[ -z $BUFFER ]] && zle up-history
 [[ $BUFFER != sudo\ * ]] && {
-typeset -a bufs
+  typeset -a bufs
 bufs=(${(z)BUFFER})
 if (( $+aliases[$bufs[1]] )); then
   bufs[1]=$aliases[$bufs[1]]
@@ -360,220 +360,220 @@ BUFFER=$bufs
   bindkey "^[[3~" delete-char
   bindkey "^[[2~" quoted-insert
 
-# 函數 {{{1
-autoload zargs
-autoload zmv
-TRAPTERM () { exit }
-update () { . $_zdir/.zshrc }
-if (( $+commands[vimtrace] )); then
-  (( $+commands[strace] )) && alias strace='vimtrace strace'
-  (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
-else
-  (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-  (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-fi
-vman () { vim +"set ft=man" +"Man $*" }
-mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
-nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
-function Ga() { # 獲取PKGBUILD {{{2
-  [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
-  git clone aur@aur.archlinux.org:"$1".git
-  rm -rf "$1"/.git
-}
+  # 函數 {{{1
+  autoload zargs
+  autoload zmv
+  TRAPTERM () { exit }
+  update () { . $_zdir/.zshrc }
+  if (( $+commands[vimtrace] )); then
+    (( $+commands[strace] )) && alias strace='vimtrace strace'
+    (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
+  else
+    (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+    (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+  fi
+  vman () { vim +"set ft=man" +"Man $*" }
+  mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
+  nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
+  sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+  function Ga() { # 獲取PKGBUILD {{{2
+    [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
+    git clone aur@aur.archlinux.org:"$1".git
+    rm -rf "$1"/.git
+  }
 
-function G() {
-  [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
-  git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
-  mv "$3"/trunk/* "$3"
-  rm -rf "$3"/{repos,trunk,.git}
-}
+  function G() {
+    [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
+    git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
+    mv "$3"/trunk/* "$3"
+    rm -rf "$3"/{repos,trunk,.git}
+  }
 
-alias Ge="G packages core/extra"
-alias Gc="G community community"
+  alias Ge="G packages core/extra"
+  alias Gc="G community community"
 
-breakln () { #断掉软链接 {{{2
-  for f in $*; do
-    tgt=$(readlink "$f")
-    unlink "$f"
-    cp -rL "$tgt" "$f"
-  done
-}
+  breakln () { #断掉软链接 {{{2
+    for f in $*; do
+      tgt=$(readlink "$f")
+      unlink "$f"
+      cp -rL "$tgt" "$f"
+    done
+  }
 
-try_until_succeed () { #反复重试，直到成功 {{{2
-  while ! $*; do :; done
-}
-rmempty () { #删除空文件 {{{2
-  for i; do
-    [[ -f $i && ! -s $i ]] && rm $i
-  done
-  return 0
-}
+  try_until_succeed () { #反复重试，直到成功 {{{2
+    while ! $*; do :; done
+  }
+  rmempty () { #删除空文件 {{{2
+    for i; do
+      [[ -f $i && ! -s $i ]] && rm $i
+    done
+    return 0
+  }
 
-if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
-  gcc () { # {{{3
+  if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
+    gcc () { # {{{3
+      errfile=$VIMTMP/.error
+      command gcc -g -Wall "$@" >$errfile 2>&1
+      ret=$?
+      cat $errfile
+      return $ret
+    }
+    g++ () { # {{{3
     errfile=$VIMTMP/.error
-    command gcc -g -Wall "$@" >$errfile 2>&1
+    command g++ -g -Wall "$@" >$errfile 2>&1
     ret=$?
     cat $errfile
     return $ret
   }
-  g++ () { # {{{3
+  clang () { # {{{3
+    errfile=$VIMTMP/.error
+    command clang -g -Wall "$@" >$errfile 2>&1
+    ret=$?
+    cat $errfile
+    return $ret
+  }
+  clang++ () { # {{{3
   errfile=$VIMTMP/.error
-  command g++ -g -Wall "$@" >$errfile 2>&1
+  command clang++ -g -Wall "$@" >$errfile 2>&1
   ret=$?
   cat $errfile
   return $ret
-}
-clang () { # {{{3
-  errfile=$VIMTMP/.error
-  command clang -g -Wall "$@" >$errfile 2>&1
-  ret=$?
-  cat $errfile
-  return $ret
-}
-clang++ () { # {{{3
-errfile=$VIMTMP/.error
-command clang++ -g -Wall "$@" >$errfile 2>&1
-ret=$?
-cat $errfile
-return $ret
 }
 fi
 duppkg4repo () { #软件仓库中重复的软件包 {{{2
-local repo=$1
-[[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
-local pkgs
-pkgs=$(comm -12 \
-  <(pacman -Sl $repo|awk '{print $2}'|sort) \
-  <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
-  )
-[[ -z $pkgs ]] && return 0
-LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
+  local repo=$1
+  [[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
+  local pkgs
+  pkgs=$(comm -12 \
+    <(pacman -Sl $repo|awk '{print $2}'|sort) \
+    <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
+    )
+  [[ -z $pkgs ]] && return 0
+  LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
 }
 iip () { #{{{2
-qip=${1:-cip}
-echo -n "ip> "
-read ip
-while [[ $ip != 'q' ]]; do
-  $qip $ip
+  qip=${1:-cip}
   echo -n "ip> "
   read ip
-done
-unset ip
+  while [[ $ip != 'q' ]]; do
+    $qip $ip
+    echo -n "ip> "
+    read ip
+  done
+  unset ip
 }
 pid () { #{{{2
-s=0
-for i in $*; do
-  echo -n "$i: "
-  r=$(cat /proc/$i/cmdline|tr '\0' ' ' 2>/dev/null)
-  if [[ $? -ne 0 ]]; then
-    echo not found
-    s=1
-  else
-    echo $r
-  fi
-done
-return $s
+  s=0
+  for i in $*; do
+    echo -n "$i: "
+    r=$(cat /proc/$i/cmdline|tr '\0' ' ' 2>/dev/null)
+    if [[ $? -ne 0 ]]; then
+      echo not found
+      s=1
+    else
+      echo $r
+    fi
+  done
+  return $s
 }
 en () { # 使用 DNS TXT 记录的词典 {{{2
-# https://github.com/chuangbo/jianbing-dictionary-dns
-dig "$*.jianbing.org" +short txt | perl -pe's/\\(\d{1,3})/chr $1/eg; s/(^"|"$)//g'
+  # https://github.com/chuangbo/jianbing-dictionary-dns
+  dig "$*.jianbing.org" +short txt | perl -pe's/\\(\d{1,3})/chr $1/eg; s/(^"|"$)//g'
 }
 shutdown () { #{{{2
-echo -n 你确定要关机吗？
-read i
-if [[ $i == [Yy] ]]; then
-  systemctl poweroff
-  # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
-fi
+  echo -n 你确定要关机吗？
+  read i
+  if [[ $i == [Yy] ]]; then
+    systemctl poweroff
+    # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
+  fi
 }
 killssh () { #{{{2 kill ssh that using default master socket
-local keys
-if [[ $# -le 1 ]]; then
-  keys=('')
-else
-  keys=$@
-fi
+  local keys
+  if [[ $# -le 1 ]]; then
+    keys=('')
+  else
+    keys=$@
+  fi
 
-for key in "${keys[@]}"; do
-  local pids="$(netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) -v key=$key \
-    '{if(index($NF, dir"/master-"key) == 1){print $9}}' | grep -o '^[[:digit:]]\+')"
-  [[ -n $pids ]] && kill ${=pids}
-done
+  for key in "${keys[@]}"; do
+    local pids="$(netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) -v key=$key \
+      '{if(index($NF, dir"/master-"key) == 1){print $9}}' | grep -o '^[[:digit:]]\+')"
+    [[ -n $pids ]] && kill ${=pids}
+  done
 }
 
 _killssh_dir () {
-local dir
-if [[ -n $XDG_RUNTIME_DIR && -d $XDG_RUNTIME_DIR/ssh ]]; then
-  dir=$XDG_RUNTIME_DIR/ssh
-else
-  dir=$HOME/.ssh
-fi
-print $dir
+  local dir
+  if [[ -n $XDG_RUNTIME_DIR && -d $XDG_RUNTIME_DIR/ssh ]]; then
+    dir=$XDG_RUNTIME_DIR/ssh
+  else
+    dir=$HOME/.ssh
+  fi
+  print $dir
 }
 
 _killssh_items () {
-netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) \
-  'BEGIN{P=dir"/master-";L=length(P);}{if(index($NF, P) == 1){a=substr($NF,L+1);sub(/\.[[:alnum:]]+$/,"",a);print a}}'
+  netstat -nxlp 2>/dev/null | awk -v dir=$(_killssh_dir) \
+    'BEGIN{P=dir"/master-";L=length(P);}{if(index($NF, P) == 1){a=substr($NF,L+1);sub(/\.[[:alnum:]]+$/,"",a);print a}}'
 }
 
 _killssh () {
-_arguments \
-  ':what:($(_killssh_items))'
-return 0
+  _arguments \
+    ':what:($(_killssh_items))'
+  return 0
 }
 compdef _killssh killssh
 mvgb () { # 文件名从 GB 转码，带确认{{{2
-for i in $*; do
-  new="`echo $i|iconv -f utf8 -t latin1|iconv -f gbk`"
-  echo $new
-  echo -n 'Sure? '
-  read -q ans && mv -i $i $new
-  echo
-done
+  for i in $*; do
+    new="`echo $i|iconv -f utf8 -t latin1|iconv -f gbk`"
+    echo $new
+    echo -n 'Sure? '
+    read -q ans && mv -i $i $new
+    echo
+  done
 }
 ptyrun () { # 使用伪终端代替管道，对 ls 这种“顽固分子”有效 {{{2
-local ptyname=pty-$$
-zmodload zsh/zpty
-zpty $ptyname "${(q)@}"
-if [[ ! -t 1 ]]; then
-  setopt local_traps
-  trap '' INT
-fi
-zpty -r $ptyname
-zpty -d $ptyname
+  local ptyname=pty-$$
+  zmodload zsh/zpty
+  zpty $ptyname "${(q)@}"
+  if [[ ! -t 1 ]]; then
+    setopt local_traps
+    trap '' INT
+  fi
+  zpty -r $ptyname
+  zpty -d $ptyname
 }
 ptyless () {
-ptyrun "$@" | tr -d $'\x0f' | less
+  ptyrun "$@" | tr -d $'\x0f' | less
 }
 screen2clipboard () { # 截图到剪贴板 {{{2
-import png:- | xclip -i -selection clipboard -t image/png
+  import png:- | xclip -i -selection clipboard -t image/png
 }
 2mp3 () { # 转换成 mp3 格式 {{{2
-[[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
-mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
-  lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
-  {echo Failed. && return 2}
-}
-if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
-  cursorcolor () { echo -ne "\e]12;$*\007" }
-elif [[ $TERM == screen* ]]; then
-  if (( $+TMUX )); then
+  [[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
+  mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
+    lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
+    {echo Failed. && return 2}
+  }
+  if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
+    cursorcolor () { echo -ne "\e]12;$*\007" }
+  elif [[ $TERM == screen* ]]; then
+    if (( $+TMUX )); then
+      cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+    else
+      cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
+    fi
+  elif [[ $TERM == tmux* ]]; then
     cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-  else
-    cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
   fi
-elif [[ $TERM == tmux* ]]; then
-  cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-fi
-# 別名 {{{1
-alias vi=vim
-alias nv=nvim
-alias vr='gvim --remote-tab-silent'
+  # 別名 {{{1
+  alias vi=vim
+  alias nv=nvim
+  alias vr='gvim --remote-tab-silent'
 
-(($+commands[exa])) && {
-alias e='exa'
+  (($+commands[exa])) && {
+    alias e='exa'
   xtree () {
     exa -Tl "$@"
   }
@@ -629,7 +629,7 @@ alias bpy=bpython
 
 [ $commands[ghq] ]  && {
   alias glook='ghq look'
-  alias gget='ghq get'
+alias gget='ghq get'
 }
 # 後綴別名 {{{2
 alias -s pdf=zathura
@@ -759,7 +759,7 @@ if [[ $_has_re -ne 1 ||
 # zsh 5.0.5 has a CPU 100% bug with zle -F
 _setup_current_branch_sync
 else
-_setup_current_branch_async
+  _setup_current_branch_async
 fi
 typeset -gaU precmd_functions
 precmd_functions+=_set_current_branch
@@ -772,15 +772,21 @@ E=$'\x1b'
 
 function lambda()
 {
-if [[ $? == 0  ]]; then
-  echo '\n%F{yellow}λ'
-else
-  echo '(%?)\n%F{red}λ'
-fi
+  if [[ $? == 0  ]]; then
+    echo '\n%F{yellow}λ'
+  else
+    echo '(%?)\n%F{red}λ'
+  fi
 }
 
 
-PS1='%F{blue}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
+if [[ -n $DISPLAY || -n $SSH_CONNECTION ]]; then
+  PS1='%F{blue}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
+else
+  # do not use unicode in tty
+  PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
+>>>%f '
+fi
 # 次提示符：使用暗色
 PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
@@ -799,121 +805,121 @@ REPORTTIME=5
 # To undo the effect of this function, you can type "cd -" to return to the
 # original directory.
 function ranger-cd {
-tempfile="$(mktemp)"
-/usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
-test -f "$tempfile" &&
-  if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
-    cd -- "$(cat "$tempfile")"
-  fi
-  rm -f -- "$tempfile"
-}
+  tempfile="$(mktemp)"
+  /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
+  test -f "$tempfile" &&
+    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+      cd -- "$(cat "$tempfile")"
+    fi
+    rm -f -- "$tempfile"
+  }
 
-# fzf {{{2
-# https://github.com/junegunn/fzf/wiki/examples
-if [ $commands[fzf] ] &&  [[ $- == *i* ]]; then
+  # fzf {{{2
+  # https://github.com/junegunn/fzf/wiki/examples
+  if [ $commands[fzf] ] &&  [[ $- == *i* ]]; then
 
-# fzf use ripgrep
-[ $commands[fzf] ] &&
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
+    # fzf use ripgrep
+    [ $commands[fzf] ] &&
+      export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
 
-vh () {
-  if [ "$#" -ne 0 ]; then
-    ${EDITOR}  $@
-  else
-    ${EDITOR} $(fzf)
-  fi
-}
+    vh () {
+      if [ "$#" -ne 0 ]; then
+        ${EDITOR}  $@
+      else
+        ${EDITOR} $(fzf)
+      fi
+    }
 
-# fasd {{{3
-if [ $commands[fasd] ]; then # check if fasd is installed
-  # skip `posix-alias`
-  eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
-      zsh-wcomp zsh-wcomp-install)"
+    # fasd {{{3
+    if [ $commands[fasd] ]; then # check if fasd is installed
+      # skip `posix-alias`
+      eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+        zsh-wcomp zsh-wcomp-install)"
 
-  fasd_cd () {
+      fasd_cd () {
         if [ $# -le 1 ]
         then
-                fasd "$@"
+          fasd "$@"
         else
-                local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-                [ -z "$_fasd_ret" ] && return
-                [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+          local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+          [ -z "$_fasd_ret" ] && return
+          [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
         fi
+      }
+
+      # fasd & fzf change directory - jump using fasd if given argument, filter output of fasd using fzf else
+      z() {
+        [ $# -gt 0 ] && fasd_cd -d "$*" && return
+        local dir
+        dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+      }
+
+      # fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
+      v() {
+        if [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
+          local file
+          file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
+        }
+      fi
+
+      # CTRL-T - Paste the selected file path(s) into the command line {{{3
+      __fsel() {
+        local cmd="${FZF_CTRL_T_COMMAND:-"command rg --files --hidden --follow -g '!{.git,node_modules,target}/*' 2> /dev/null"}"
+        setopt localoptions pipefail 2> /dev/null
+        eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+        echo -n "${(q)item} "
+      done
+      local ret=$?
+      echo
+      return $ret
+    }
+
+    __fzf_use_tmux__() {
+      [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
+    }
+
+    __fzfcmd() {
+      __fzf_use_tmux__ &&
+        echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
+    }
+
+    fzf-file-widget() {
+    LBUFFER="${LBUFFER}$(__fsel)"
+    local ret=$?
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
   }
+  zle     -N   fzf-file-widget
+  bindkey '^T' fzf-file-widget
 
-  # fasd & fzf change directory - jump using fasd if given argument, filter output of fasd using fzf else
-  z() {
-      [ $# -gt 0 ] && fasd_cd -d "$*" && return
-      local dir
-      dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-  }
-
-  # fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
-  v() {
-      if [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
-      local file
-      file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
-  }
-fi
-
-# CTRL-T - Paste the selected file path(s) into the command line {{{3
-__fsel() {
-  local cmd="${FZF_CTRL_T_COMMAND:-"command rg --files --hidden --follow -g '!{.git,node_modules,target}/*' 2> /dev/null"}"
-  setopt localoptions pipefail 2> /dev/null
-  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
-  echo -n "${(q)item} "
-done
-local ret=$?
-echo
-return $ret
-}
-
-__fzf_use_tmux__() {
-[ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
-}
-
-__fzfcmd() {
-__fzf_use_tmux__ &&
-  echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
-fzf-file-widget() {
-LBUFFER="${LBUFFER}$(__fsel)"
-local ret=$?
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
-return $ret
-}
-zle     -N   fzf-file-widget
-bindkey '^T' fzf-file-widget
-
-# CTRL-R - Paste the selected command from history into the command line {{{3
-fzf-history-widget() {
-local selected num
-setopt localoptions noglobsubst pipefail 2> /dev/null
-selected=( $(fc -l 1 |
-FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS +s --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(q)LBUFFER} +m" $(__fzfcmd)) )
-local ret=$?
-if [ -n "$selected" ]; then
-num=$selected[1]
-if [ -n "$num" ]; then
-zle vi-fetch-history -n $num
-fi
-fi
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
-return $ret
+  # CTRL-R - Paste the selected command from history into the command line {{{3
+  fzf-history-widget() {
+  local selected num
+  setopt localoptions noglobsubst pipefail 2> /dev/null
+  selected=( $(fc -l 1 |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS +s --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(q)LBUFFER} +m" $(__fzfcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
 }
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
 # ALT-I - Paste the selected entry from locate output into the command line {{{3
 fzf-locate-widget() {
-  local selected
-  if selected=$(locate / | fzf -q "$LBUFFER"); then
-    LBUFFER=$selected
-  fi
-  zle redisplay
+local selected
+if selected=$(locate / | fzf -q "$LBUFFER"); then
+  LBUFFER=$selected
+fi
+zle redisplay
 }
 zle     -N    fzf-locate-widget
 bindkey '\ei' fzf-locate-widget
@@ -1016,19 +1022,19 @@ __fzf_generic_path_completion() {
       [ "$dir" != "/" ] && dir="${dir/%\//}"
       dir=${~dir}
       matches=$(eval "$compgen $(printf %q "$dir")" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS" ${=fzf} ${=fzf_opts} -q "$leftover" | while read item; do
-        echo -n "${(q)item}$suffix "
-      done)
-      matches=${matches% }
-      if [ -n "$matches" ]; then
-        LBUFFER="$lbuf$matches$tail"
-      fi
-      zle redisplay
-      typeset -f zle-line-init >/dev/null && zle zle-line-init
-      break
+      echo -n "${(q)item}$suffix "
+    done)
+    matches=${matches% }
+    if [ -n "$matches" ]; then
+      LBUFFER="$lbuf$matches$tail"
     fi
-    dir=$(dirname "$dir")
-    dir=${dir%/}/
-  done
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    break
+  fi
+  dir=$(dirname "$dir")
+  dir=${dir%/}/
+done
 }
 
 _fzf_path_completion() {
@@ -1042,9 +1048,9 @@ _fzf_dir_completion() {
 }
 
 _fzf_feed_fifo() (
-  command rm -f "$1"
-  mkfifo "$1"
-  cat <&0 > "$1" &
+command rm -f "$1"
+mkfifo "$1"
+cat <&0 > "$1" &
 )
 
 _fzf_complete() {
@@ -1069,90 +1075,90 @@ _fzf_complete() {
 
 _fzf_complete_telnet() {
   _fzf_complete '+m' "$@" < <(
-    command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0' |
-        awk '{if (length($2) > 0) {print $2}}' | sort -u
+  command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0' |
+    awk '{if (length($2) > 0) {print $2}}' | sort -u
   )
 }
 
 _fzf_complete_ssh() {
   _fzf_complete '+m' "$@" < <(
-    command cat <(cat ~/.ssh/config /etc/ssh/ssh_config 2> /dev/null | command grep -i '^host' | command grep -v '*') \
-        <(command grep -oE '^[a-z0-9.,:-]+' ~/.ssh/known_hosts | tr ',' '\n' | awk '{ print $1 " " $1 }') \
-        <(command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0') |
-        awk '{if (length($2) > 0) {print $2}}' | sort -u
+  command cat <(cat ~/.ssh/config /etc/ssh/ssh_config 2> /dev/null | command grep -i '^host' | command grep -v '*') \
+    <(command grep -oE '^[a-z0-9.,:-]+' ~/.ssh/known_hosts | tr ',' '\n' | awk '{ print $1 " " $1 }') \
+    <(command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0') |
+    awk '{if (length($2) > 0) {print $2}}' | sort -u
   )
 }
 
 _fzf_complete_export() {
   _fzf_complete '-m' "$@" < <(
-    declare -xp | sed 's/=.*//' | sed 's/.* //'
+  declare -xp | sed 's/=.*//' | sed 's/.* //'
   )
 }
 
 _fzf_complete_unset() {
   _fzf_complete '-m' "$@" < <(
-    declare -xp | sed 's/=.*//' | sed 's/.* //'
+  declare -xp | sed 's/=.*//' | sed 's/.* //'
   )
 }
 
 _fzf_complete_unalias() {
   _fzf_complete '+m' "$@" < <(
-    alias | sed 's/=.*//'
+  alias | sed 's/=.*//'
   )
 }
 
 fzf-completion() {
-  local tokens cmd prefix trigger tail fzf matches lbuf d_cmds
-  setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
+local tokens cmd prefix trigger tail fzf matches lbuf d_cmds
+setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
 
-  # http://zsh.sourceforge.net/FAQ/zshfaq03.html
-  # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
-  tokens=(${(z)LBUFFER})
-  if [ ${#tokens} -lt 1 ]; then
-    zle ${fzf_default_completion:-expand-or-complete}
-    return
+# http://zsh.sourceforge.net/FAQ/zshfaq03.html
+# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
+tokens=(${(z)LBUFFER})
+if [ ${#tokens} -lt 1 ]; then
+  zle ${fzf_default_completion:-expand-or-complete}
+  return
+fi
+
+cmd=${tokens[1]}
+
+# Explicitly allow for empty trigger.
+trigger=${FZF_COMPLETION_TRIGGER-'**'}
+[ -z "$trigger" -a ${LBUFFER[-1]} = ' ' ] && tokens+=("")
+
+tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
+# Kill completion (do not require trigger sequence)
+if [ $cmd = kill -a ${LBUFFER[-1]} = ' ' ]; then
+  fzf="$(__fzfcmd_complete)"
+  matches=$(ps -ef | sed 1d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-50%} --min-height 15 --reverse $FZF_DEFAULT_OPTS --preview 'echo {}' --preview-window down:3:wrap $FZF_COMPLETION_OPTS" ${=fzf} -m | awk '{print $2}' | tr '\n' ' ')
+  if [ -n "$matches" ]; then
+    LBUFFER="$LBUFFER$matches"
   fi
-
-  cmd=${tokens[1]}
-
-  # Explicitly allow for empty trigger.
-  trigger=${FZF_COMPLETION_TRIGGER-'**'}
-  [ -z "$trigger" -a ${LBUFFER[-1]} = ' ' ] && tokens+=("")
-
-  tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
-  # Kill completion (do not require trigger sequence)
-  if [ $cmd = kill -a ${LBUFFER[-1]} = ' ' ]; then
-    fzf="$(__fzfcmd_complete)"
-    matches=$(ps -ef | sed 1d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-50%} --min-height 15 --reverse $FZF_DEFAULT_OPTS --preview 'echo {}' --preview-window down:3:wrap $FZF_COMPLETION_OPTS" ${=fzf} -m | awk '{print $2}' | tr '\n' ' ')
-    if [ -n "$matches" ]; then
-      LBUFFER="$LBUFFER$matches"
-    fi
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
+  zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
   # Trigger sequence given
-  elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
-    d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
+elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
+  d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
 
-    [ -z "$trigger"      ] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
-    [ -z "${tokens[-1]}" ] && lbuf=$LBUFFER        || lbuf=${LBUFFER:0:-${#tokens[-1]}}
+  [ -z "$trigger"      ] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
+  [ -z "${tokens[-1]}" ] && lbuf=$LBUFFER        || lbuf=${LBUFFER:0:-${#tokens[-1]}}
 
-    if eval "type _fzf_complete_${cmd} > /dev/null"; then
-      eval "prefix=\"$prefix\" _fzf_complete_${cmd} \"$lbuf\""
-    elif [ ${d_cmds[(i)$cmd]} -le ${#d_cmds} ]; then
-      _fzf_dir_completion "$prefix" "$lbuf"
-    else
-      _fzf_path_completion "$prefix" "$lbuf"
-    fi
-  # Fall back to default completion
+  if eval "type _fzf_complete_${cmd} > /dev/null"; then
+    eval "prefix=\"$prefix\" _fzf_complete_${cmd} \"$lbuf\""
+  elif [ ${d_cmds[(i)$cmd]} -le ${#d_cmds} ]; then
+    _fzf_dir_completion "$prefix" "$lbuf"
   else
-    zle ${fzf_default_completion:-expand-or-complete}
+    _fzf_path_completion "$prefix" "$lbuf"
   fi
+  # Fall back to default completion
+else
+  zle ${fzf_default_completion:-expand-or-complete}
+fi
 }
 
 [ -z "$fzf_default_completion" ] && {
   binding=$(bindkey '^I')
-  [[ $binding =~ 'undefined-key' ]] || fzf_default_completion=$binding[(s: :w)2]
-  unset binding
+[[ $binding =~ 'undefined-key' ]] || fzf_default_completion=$binding[(s: :w)2]
+unset binding
 }
 
 zle     -N   fzf-completion
@@ -1162,11 +1168,11 @@ fi
 # Codi {{{2
 # Usage: codi [filetype] [filename]
 codi() {
-local syntax="${1:-python}"
-shift
-nvim -c \
-  "let g:startify_disable_at_vimenter = 1 |\
-  Codi $syntax" "$@"
+  local syntax="${1:-python}"
+  shift
+  nvim -c \
+    "let g:startify_disable_at_vimenter = 1 |\
+    Codi $syntax" "$@"
 }
 
 unset OS
