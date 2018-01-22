@@ -146,7 +146,7 @@ mode "resize" {
 # workspace names / font-awesome
 set $ws1 1:TMUX
 set $ws2 2:GVIM
-set $ws3 3:PDF
+set $ws3 3:FX
 set $ws4 4
 set $ws5 5
 set $ws6 6
