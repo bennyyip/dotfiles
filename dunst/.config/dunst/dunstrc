@@ -7,7 +7,7 @@
 [shortcuts]
     close = ctrl+space
     close_all = ctrl+shift+space
-    history = ctrl+grave
+    # history = ctrl+grave
     context = ctrl+shift+period
 
 # vim: ft=cfg

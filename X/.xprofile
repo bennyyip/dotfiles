@@ -5,6 +5,7 @@ export TERMINAL=alacritty
 
 xcape -e 'Control_L=Escape'
 
+#fcitx5 &
 fcitx &
 
 source /etc/locale.conf
