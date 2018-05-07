@@ -326,22 +326,6 @@ unfunction zsh-word-movement
 bindkey "\eB" zsh-backward-word
 bindkey "\eF" zsh-forward-word
 bindkey "\eW" zsh-backward-kill-word
-# Esc-Esc 在当前/上一条命令前插入 sudo {{{2
-sudo-command-line() {
-[[ -z $BUFFER ]] && zle up-history
-[[ $BUFFER != sudo\ * ]] && {
-  typeset -a bufs
-bufs=(${(z)BUFFER})
-if (( $+aliases[$bufs[1]] )); then
-  bufs[1]=$aliases[$bufs[1]]
-fi
-bufs=(sudo $bufs)
-BUFFER=$bufs
-    }
-    zle end-of-line
-  }
-  zle -N sudo-command-line
-  bindkey "\e\e" sudo-command-line
   # 插入当前的所有补全 http://www.zsh.org/mla/users/2000/msg00601.html {{{2
   _insert_all_matches () {
     setopt localoptions nullglob rcexpandparam extendedglob noshglob
@@ -555,29 +539,31 @@ screen2clipboard () { # 截图到剪贴板 {{{2
   mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
     lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
     {echo Failed. && return 2}
-  }
-  if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
-    cursorcolor () { echo -ne "\e]12;$*\007" }
-  elif [[ $TERM == screen* ]]; then
-    if (( $+TMUX )); then
-      cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-    else
-      cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
-    fi
-  elif [[ $TERM == tmux* ]]; then
+}
+if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
+  cursorcolor () { echo -ne "\e]12;$*\007" }
+elif [[ $TERM == screen* ]]; then
+  if (( $+TMUX )); then
     cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+  else
+    cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
   fi
-  # 別名 {{{1
-  alias vi=vim
-  alias nv=nvim
-  alias vr='gvim --remote-tab-silent'
+elif [[ $TERM == tmux* ]]; then
+  cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+fi
+# 別名 {{{1
+alias vi=vim
+alias nv=nvim
+alias vr='gvim --remote-tab-silent'
 
-  (($+commands[exa])) && {
-    alias e='exa'
+(($+commands[exa])) && {
+  alias e='exa'
   xtree () {
     exa -Tl "$@"
   }
   alias l='exa -al'
+} || {
+  alias l='ls -lah --color auto'
 }
 
 alias ls='ls --color=auto'
@@ -585,7 +571,22 @@ alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
 alias grep='grep --color'
-alias ccat='pygmentize'
+
+function ccat() {
+    local style="monokai"
+    if [ $# -eq 0 ]; then
+        pygmentize -P style=$style -P tabsize=4 -f terminal256 -g
+    else
+        for NAME in $@; do
+            pygmentize -P style=$style -P tabsize=4 -f terminal256 -g "$NAME"
+        done
+    fi
+}
+
+function scrotclip() {
+  scrot -s -e 'xclip -selection clipboard -t "image/png" < $f'
+}
+
 
 alias start="sudo systemctl start"
 alias status="sudo systemctl status"
@@ -637,13 +638,12 @@ alias -s {jpg,png,gif}=feh
 alias -s tar="tar -xvf"
 alias -s {tgz,gz}="tar -xvzf"
 alias -s bz2="tar -xvjf"
-alias -s zip=unzip
-
+alias -s zip=unzip 
 
 # pacman aliases and functions {{{2
 function Syu(){
   sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
-  pacaur -Qtdq | ifne sudo pacman -Rcs -
+  pacman -Qtdq | ifne sudo pacman -Rcs -
 }
 
 alias Rcs="sudo pacman -Rcs"
@@ -658,6 +658,7 @@ alias Fy="sudo pacman -Fy"
 alias Ssa="pacaur -Ssa"
 alias pain='sudo pacman -S --needed'
 alias painn='sudo pacmban -S'
+alias cower='cower --domain aur.tuna.tsinghua.edu.cn'
 
 paclist() {
   # Source: https://bbs.archlinux.org/viewtopic.php?id=93683
@@ -775,13 +776,13 @@ function lambda()
   if [[ $? == 0  ]]; then
     echo '\n%F{yellow}λ'
   else
-    echo '(%?)\n%F{red}λ'
+    echo '%F{red}(%?)\nλ'
   fi
 }
 
 
 if [[ -n $DISPLAY || -n $SSH_CONNECTION ]]; then
-  PS1='%F{blue}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}ω %F{green}%~ %F{red}$_current_branch $(lambda)%f '
+  PS1='%F{74}%* %F{114}%n%F{white} @ %F{174}%M %F{white}ω %F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
 else
   # do not use unicode in tty
   PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
