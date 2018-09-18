@@ -38,7 +38,7 @@ sk-search-history () {
   local cmd
   # TODO: preview at the right, multi-line, syntax-highlighted
   cmd=$(history -n 1 | \
-    sk --height $(__calc_height) --reverse -p 'cmd> ')
+    sk --height $(__calc_height) --no-sort -p 'cmd> ')
   if [[ -n $cmd ]]; then
     BUFFER=$cmd
     (( CURSOR = $#BUFFER ))
@@ -50,7 +50,7 @@ if (( $+commands[sk] )); then
   zle -N sk-search-history
   bindkey "\esr" sk-search-history
 
-  vim-mru () { sk-vim-mru }
+  v () { sk-vim-mru }
   if (( $+commands[vv] )); then
     vv-mru () { sk-vim-mru vv }
   fi
@@ -80,13 +80,6 @@ if (( $+commands[sk] )); then
       [ $# -gt 0 ] && fasd_cd -d "$*" && return
       local dir
       dir="$(fasd -Rdl "$1" | sk --height $(__calc_height) --no-sort -p 'cd> ' )" && cd "${dir}" || return 1
-    }
-
-    # fasd & skim change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `skim` else
-    v() {
-      [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
-      local file
-      file="$(fasd -Rfl "$1" | sk --height $(__calc_height) --no-sort -p 'vim> ')" && vi "${file}" || return 1
     }
 
     o() {
