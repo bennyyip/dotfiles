@@ -554,7 +554,6 @@ fi
 # 別名 {{{1
 alias vi=vim
 alias nv=nvim
-alias vr='gvim --remote-tab-silent'
 
 (($+commands[exa])) && {
   alias e='exa'
