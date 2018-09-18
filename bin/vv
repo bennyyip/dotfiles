@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+
+import re
+import os
+from subprocess import check_call, check_output
+
+filelines = (
+  re.compile(
+    r'''([File\s]*['"])?
+    (?P<file>[^'"]+)
+    ['"],\sline\s
+    (?P<line>\d+)''', re.VERBOSE), # Python Traceback, e.g. File "/path/to/file.py", line 23
+  re.compile(
+    r'''(?P<file>.*?)
+    (?:
+      :(?P<line>\d+)
+      (?:
+        :(?P<col>\d+)
+      )?
+    )?:?$''', re.VERBOSE), # filename:line:col
+)
+
+TIMEOUT = 1
+
+def parse_lineno(f):
+  for r in filelines:
+    m = r.match(f)
+    if m:
+      d = m.groupdict()
+      if '://' not in d['file']:
+        file = os.path.abspath(d['file'])
+      line = d.get('line', None)
+      col = d.get('col', None)
+      break
+    file = f
+  else:
+    line = col = None
+
+  if col is not None:
+    cmd = '+call setpos(".", [0, %s, %s, 0])' % (line, col)
+  elif line is not None:
+    cmd = '+%s' % line
+  else:
+    return (file,)
+
+  return cmd, file
+
+def main(files, wait_for_vim, vim_name):
+  if len(files) == 1:
+    try:
+      files = parse_lineno(files[0])
+    except ValueError:
+      pass
+
+  vims = [x.lower() for x in
+            check_output(['vim', '--serverlist']).decode().splitlines()
+          if x]
+  vim_name = vim_name.lower()
+
+  if len(vims) > 1:
+    if vim_name in vims:
+      vim = vim_name
+    else:
+      vim = vims[0]
+
+  elif len(vims) == 1 and vims[0]:
+    vim = vims[0]
+
+  else:
+    # fallback to gvim
+    cmd = ['gvim']
+    if wait_for_vim:
+      cmd.append('-f')
+    cmd.extend(files)
+    check_call(cmd)
+    return
+
+  cmd = ['vim', '--servername', vim]
+  if wait_for_vim:
+    cmd.append('--remote-tab-wait-silent')
+  else:
+    cmd.append('--remote-tab-silent')
+  cmd.extend(files)
+  if wait_for_vim:
+    check_call(cmd)
+  else:
+    check_call(cmd, timeout=TIMEOUT)
+
+if __name__ == '__main__':
+  import argparse
+  parser = argparse.ArgumentParser(description='open with existing Vim')
+  parser.add_argument('files', metavar='FILE', nargs='*',
+                     help='files to open')
+  parser.add_argument('--wait', action='store_true', default=False,
+                     help='wait for Vim to finish editing the file')
+  parser.add_argument('--vim', type=str, default='GVIM',
+                     help='which Vim server to use')
+  args = parser.parse_args()
+
+  main(args.files, args.wait, args.vim)
