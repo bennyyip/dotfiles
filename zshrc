@@ -29,7 +29,7 @@ compinit
 # 變量設置 {{{1
 [[ -z $EDITOR ]] && (( $+commands[vim] )) && export EDITOR=vim
 export RUST_SRC_PATH=~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/
-export PATH=$PATH:~/.cargo/bin/
+export PATH=$PATH:~/.cargo/bin/:~/.local/bin
 
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
@@ -344,84 +344,84 @@ bindkey "\eW" zsh-backward-kill-word
   bindkey "^[[3~" delete-char
   bindkey "^[[2~" quoted-insert
 
-  # 函數 {{{1
-  autoload zargs
-  autoload zmv
-  TRAPTERM () { exit }
-  update () { . $_zdir/.zshrc }
-  if (( $+commands[vimtrace] )); then
-    (( $+commands[strace] )) && alias strace='vimtrace strace'
-    (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
-  else
-    (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-    (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-  fi
-  vman () { vim +"set ft=man" +"Man $*" }
-  mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
-  nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-  sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
-  function Ga() { # 獲取PKGBUILD {{{2
-    [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
-    git clone aur@aur.archlinux.org:"$1".git
-    rm -rf "$1"/.git
-  }
+# 函數 {{{1
+autoload zargs
+autoload zmv
+TRAPTERM () { exit }
+update () { . $_zdir/.zshrc }
+if (( $+commands[vimtrace] )); then
+  (( $+commands[strace] )) && alias strace='vimtrace strace'
+  (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
+else
+  (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+  (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
+fi
+vman () { vim +"set ft=man" +"Man $*" }
+mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
+nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
+sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+function Ga() { # 獲取PKGBUILD {{{2
+  [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
+  git clone aur@aur.archlinux.org:"$1".git
+  rm -rf "$1"/.git
+}
 
-  function G() {
-    [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
-    git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
-    mv "$3"/trunk/* "$3"
-    rm -rf "$3"/{repos,trunk,.git}
-  }
+function G() {
+  [ -z "$3" ] && echo "usage: $0 <$2 package name>: get $2 package PKGBUILD" && return 1
+  git clone https://git.archlinux.org/svntogit/$1.git/ -b packages/$3 --single-branch $3
+  mv "$3"/trunk/* "$3"
+  rm -rf "$3"/{repos,trunk,.git}
+}
 
-  alias Ge="G packages core/extra"
-  alias Gc="G community community"
+alias Ge="G packages core/extra"
+alias Gc="G community community"
 
-  breakln () { #断掉软链接 {{{2
-    for f in $*; do
-      tgt=$(readlink "$f")
-      unlink "$f"
-      cp -rL "$tgt" "$f"
-    done
-  }
+breakln () { #断掉软链接 {{{2
+  for f in $*; do
+    tgt=$(readlink "$f")
+    unlink "$f"
+    cp -rL "$tgt" "$f"
+  done
+}
 
-  try_until_succeed () { #反复重试，直到成功 {{{2
-    while ! $*; do :; done
-  }
-  rmempty () { #删除空文件 {{{2
-    for i; do
-      [[ -f $i && ! -s $i ]] && rm $i
-    done
-    return 0
-  }
+try_until_succeed () { #反复重试，直到成功 {{{2
+  while ! $*; do :; done
+}
+rmempty () { #删除空文件 {{{2
+  for i; do
+    [[ -f $i && ! -s $i ]] && rm $i
+  done
+  return 0
+}
 
-  if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
-    gcc () { # {{{3
-      errfile=$VIMTMP/.error
-      command gcc -g -Wall "$@" >$errfile 2>&1
-      ret=$?
-      cat $errfile
-      return $ret
-    }
-    g++ () { # {{{3
+if [[ -d ${VIMTMP:=/tmp} ]]; then # {{{2 gcc & g++
+  gcc () { # {{{3
     errfile=$VIMTMP/.error
-    command g++ -g -Wall "$@" >$errfile 2>&1
+    command gcc -g -Wall "$@" >$errfile 2>&1
     ret=$?
     cat $errfile
     return $ret
   }
-  clang () { # {{{3
-    errfile=$VIMTMP/.error
-    command clang -g -Wall "$@" >$errfile 2>&1
-    ret=$?
-    cat $errfile
-    return $ret
-  }
-  clang++ () { # {{{3
+  g++ () { # {{{3
   errfile=$VIMTMP/.error
-  command clang++ -g -Wall "$@" >$errfile 2>&1
+  command g++ -g -Wall "$@" >$errfile 2>&1
   ret=$?
   cat $errfile
   return $ret
+}
+clang () { # {{{3
+  errfile=$VIMTMP/.error
+  command clang -g -Wall "$@" >$errfile 2>&1
+  ret=$?
+  cat $errfile
+  return $ret
+}
+clang++ () { # {{{3
+errfile=$VIMTMP/.error
+command clang++ -g -Wall "$@" >$errfile 2>&1
+ret=$?
+cat $errfile
+return $ret
 }
 fi
 duppkg4repo () { #软件仓库中重复的软件包 {{{2
@@ -563,7 +563,7 @@ alias vr='gvim --remote-tab-silent'
   }
   alias l='exa -al'
 } || {
-  alias l='ls -lah --color auto'
+  alias l='ls -lah --color=auto'
 }
 
 alias ls='ls --color=auto'
@@ -571,17 +571,6 @@ alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
 alias grep='grep --color'
-
-function ccat() {
-    local style="monokai"
-    if [ $# -eq 0 ]; then
-        pygmentize -P style=$style -P tabsize=4 -f terminal256 -g
-    else
-        for NAME in $@; do
-            pygmentize -P style=$style -P tabsize=4 -f terminal256 -g "$NAME"
-        done
-    fi
-}
 
 function scrotclip() {
   scrot -s -e 'xclip -selection clipboard -t "image/png" < $f'
@@ -630,7 +619,7 @@ alias bpy=bpython
 
 [ $commands[ghq] ]  && {
   alias glook='ghq look'
-alias gget='ghq get'
+  alias gget='ghq get'
 }
 # 後綴別名 {{{2
 alias -s pdf=zathura
@@ -638,11 +627,12 @@ alias -s {jpg,png,gif}=feh
 alias -s tar="tar -xvf"
 alias -s {tgz,gz}="tar -xvzf"
 alias -s bz2="tar -xvjf"
-alias -s zip=unzip 
+alias -s zip=unzip
+alias -s epub="emacsclient -n"
 
 # pacman aliases and functions {{{2
 function Syu(){
-  sudo pacman -Sy && sudo powerpill -Suw $@ && sudo pacman -Su $@
+  sudo pacman -Syu
   pacman -Qtdq | ifne sudo pacman -Rcs -
 }
 
@@ -814,377 +804,14 @@ function ranger-cd {
     fi
     rm -f -- "$tempfile"
   }
-
-  # fzf {{{2
-  # https://github.com/junegunn/fzf/wiki/examples
-  if [ $commands[fzf] ] &&  [[ $- == *i* ]]; then
-
-    # fzf use ripgrep
-    [ $commands[fzf] ] &&
-      export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
-
-    vh () {
-      if [ "$#" -ne 0 ]; then
-        ${EDITOR}  $@
-      else
-        ${EDITOR} $(fzf)
-      fi
-    }
-
-    # fasd {{{3
-    if [ $commands[fasd] ]; then # check if fasd is installed
-      # skip `posix-alias`
-      eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
-        zsh-wcomp zsh-wcomp-install)"
-
-      fasd_cd () {
-        if [ $# -le 1 ]
-        then
-          fasd "$@"
-        else
-          local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-          [ -z "$_fasd_ret" ] && return
-          [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
-        fi
-      }
-
-      # fasd & fzf change directory - jump using fasd if given argument, filter output of fasd using fzf else
-      z() {
-        [ $# -gt 0 ] && fasd_cd -d "$*" && return
-        local dir
-        dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-      }
-
-      # fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
-      v() {
-        if [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
-          local file
-          file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
-        }
-      fi
-
-      # CTRL-T - Paste the selected file path(s) into the command line {{{3
-      __fsel() {
-        local cmd="${FZF_CTRL_T_COMMAND:-"command rg --files --hidden --follow -g '!{.git,node_modules,target}/*' 2> /dev/null"}"
-        setopt localoptions pipefail 2> /dev/null
-        eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
-        echo -n "${(q)item} "
-      done
-      local ret=$?
-      echo
-      return $ret
-    }
-
-    __fzf_use_tmux__() {
-      [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
-    }
-
-    __fzfcmd() {
-      __fzf_use_tmux__ &&
-        echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-    }
-
-    fzf-file-widget() {
-    LBUFFER="${LBUFFER}$(__fsel)"
-    local ret=$?
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
-    return $ret
-  }
-  zle     -N   fzf-file-widget
-  bindkey '^T' fzf-file-widget
-
-  # CTRL-R - Paste the selected command from history into the command line {{{3
-  fzf-history-widget() {
-  local selected num
-  setopt localoptions noglobsubst pipefail 2> /dev/null
-  selected=( $(fc -l 1 |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS +s --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(q)LBUFFER} +m" $(__fzfcmd)) )
-  local ret=$?
-  if [ -n "$selected" ]; then
-    num=$selected[1]
-    if [ -n "$num" ]; then
-      zle vi-fetch-history -n $num
-    fi
-  fi
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  return $ret
-}
-zle     -N   fzf-history-widget
-bindkey '^R' fzf-history-widget
-
-# ALT-I - Paste the selected entry from locate output into the command line {{{3
-fzf-locate-widget() {
-local selected
-if selected=$(locate / | fzf -q "$LBUFFER"); then
-  LBUFFER=$selected
-fi
-zle redisplay
-}
-zle     -N    fzf-locate-widget
-bindkey '\ei' fzf-locate-widget
-
-# To use custom commands instead of find, override _fzf_compgen_{path,dir} {{{3
-if ! declare -f _fzf_compgen_path > /dev/null; then
-  _fzf_compgen_path() {
-    echo "$1"
-    if [ $commands[fd] ]; then
-      command fd "$1"
-    else
-      command find -L "$1" \
-        -name .git -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
-        -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
-    fi
-  }
-fi
-
-if ! declare -f _fzf_compgen_dir > /dev/null; then
-  _fzf_compgen_dir() {
-    if [ $commands[fd] ]; then
-      command fd -type d "$1"
-    else
-      command find -L "$1" \
-        -name .git -prune -o -name .svn -prune -o -type d \
-        -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
-    fi
-  }
-fi
-# tmux {{{3
-# tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
-# `tm` will allow you to select your tmux session via fzf.
-# `tm irc` will attach to the irc session (if it exists), else it will create it.
-
-tm() {
-  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-  if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
-  fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
-}
-# fs [FUZZY PATTERN] - Select selected tmux session
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-fs() {
-  local session
-  session=$(tmux list-sessions -F "#{session_name}" | \
-    fzf --query="$1" --select-1 --exit-0) &&
-    tmux switch-client -t "$session"
-}
-
-# ftpane - switch pane (@george-b)
-ftpane() {
-  local panes current_window current_pane target target_window target_pane
-  panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
-  current_pane=$(tmux display-message -p '#I:#P')
-  current_window=$(tmux display-message -p '#I')
-
-  target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
-
-  target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
-  target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
-
-  if [[ $current_window -eq $target_window ]]; then
-    tmux select-pane -t ${target_window}.${target_pane}
-  else
-    tmux select-pane -t ${target_window}.${target_pane} &&
-      tmux select-window -t $target_window
-  fi
-}
-
-# In tmux.conf
-# bind-key 0 run "tmux split-window -l 12 'bash -ci ftpane'"
-
-# fzf complete ** {{{3
-
-__fzfcmd_complete() {
-  [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ] &&
-    echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
-__fzf_generic_path_completion() {
-  local base lbuf compgen fzf_opts suffix tail fzf dir leftover matches
-  # (Q) flag removes a quoting level: "foo\ bar" => "foo bar"
-  base=${(Q)1}
-  lbuf=$2
-  compgen=$3
-  fzf_opts=$4
-  suffix=$5
-  tail=$6
-  fzf="$(__fzfcmd_complete)"
-
-  setopt localoptions nonomatch
-  dir="$base"
-  while [ 1 ]; do
-    if [[ -z "$dir" || -d ${~dir} ]]; then
-      leftover=${base/#"$dir"}
-      leftover=${leftover/#\/}
-      [ -z "$dir" ] && dir='.'
-      [ "$dir" != "/" ] && dir="${dir/%\//}"
-      dir=${~dir}
-      matches=$(eval "$compgen $(printf %q "$dir")" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS" ${=fzf} ${=fzf_opts} -q "$leftover" | while read item; do
-      echo -n "${(q)item}$suffix "
-    done)
-    matches=${matches% }
-    if [ -n "$matches" ]; then
-      LBUFFER="$lbuf$matches$tail"
-    fi
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
-    break
-  fi
-  dir=$(dirname "$dir")
-  dir=${dir%/}/
-done
-}
-
-_fzf_path_completion() {
-  __fzf_generic_path_completion "$1" "$2" _fzf_compgen_path \
-    "-m" "" " "
-}
-
-_fzf_dir_completion() {
-  __fzf_generic_path_completion "$1" "$2" _fzf_compgen_dir \
-    "" "/" ""
-}
-
-_fzf_feed_fifo() (
-command rm -f "$1"
-mkfifo "$1"
-cat <&0 > "$1" &
-)
-
-_fzf_complete() {
-  local fifo fzf_opts lbuf fzf matches post
-  fifo="${TMPDIR:-/tmp}/fzf-complete-fifo-$$"
-  fzf_opts=$1
-  lbuf=$2
-  post="${funcstack[2]}_post"
-  type $post > /dev/null 2>&1 || post=cat
-
-  fzf="$(__fzfcmd_complete)"
-
-  _fzf_feed_fifo "$fifo"
-  matches=$(cat "$fifo" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS" ${=fzf} ${=fzf_opts} -q "${(Q)prefix}" | $post | tr '\n' ' ')
-  if [ -n "$matches" ]; then
-    LBUFFER="$lbuf$matches"
-  fi
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  command rm -f "$fifo"
-}
-
-_fzf_complete_telnet() {
-  _fzf_complete '+m' "$@" < <(
-  command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0' |
-    awk '{if (length($2) > 0) {print $2}}' | sort -u
-  )
-}
-
-_fzf_complete_ssh() {
-  _fzf_complete '+m' "$@" < <(
-  command cat <(cat ~/.ssh/config /etc/ssh/ssh_config 2> /dev/null | command grep -i '^host' | command grep -v '*') \
-    <(command grep -oE '^[a-z0-9.,:-]+' ~/.ssh/known_hosts | tr ',' '\n' | awk '{ print $1 " " $1 }') \
-    <(command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0') |
-    awk '{if (length($2) > 0) {print $2}}' | sort -u
-  )
-}
-
-_fzf_complete_export() {
-  _fzf_complete '-m' "$@" < <(
-  declare -xp | sed 's/=.*//' | sed 's/.* //'
-  )
-}
-
-_fzf_complete_unset() {
-  _fzf_complete '-m' "$@" < <(
-  declare -xp | sed 's/=.*//' | sed 's/.* //'
-  )
-}
-
-_fzf_complete_unalias() {
-  _fzf_complete '+m' "$@" < <(
-  alias | sed 's/=.*//'
-  )
-}
-
-fzf-completion() {
-local tokens cmd prefix trigger tail fzf matches lbuf d_cmds
-setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
-
-# http://zsh.sourceforge.net/FAQ/zshfaq03.html
-# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
-tokens=(${(z)LBUFFER})
-if [ ${#tokens} -lt 1 ]; then
-  zle ${fzf_default_completion:-expand-or-complete}
-  return
-fi
-
-cmd=${tokens[1]}
-
-# Explicitly allow for empty trigger.
-trigger=${FZF_COMPLETION_TRIGGER-'**'}
-[ -z "$trigger" -a ${LBUFFER[-1]} = ' ' ] && tokens+=("")
-
-tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
-# Kill completion (do not require trigger sequence)
-if [ $cmd = kill -a ${LBUFFER[-1]} = ' ' ]; then
-  fzf="$(__fzfcmd_complete)"
-  matches=$(ps -ef | sed 1d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-50%} --min-height 15 --reverse $FZF_DEFAULT_OPTS --preview 'echo {}' --preview-window down:3:wrap $FZF_COMPLETION_OPTS" ${=fzf} -m | awk '{print $2}' | tr '\n' ' ')
-  if [ -n "$matches" ]; then
-    LBUFFER="$LBUFFER$matches"
-  fi
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  # Trigger sequence given
-elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
-  d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
-
-  [ -z "$trigger"      ] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
-  [ -z "${tokens[-1]}" ] && lbuf=$LBUFFER        || lbuf=${LBUFFER:0:-${#tokens[-1]}}
-
-  if eval "type _fzf_complete_${cmd} > /dev/null"; then
-    eval "prefix=\"$prefix\" _fzf_complete_${cmd} \"$lbuf\""
-  elif [ ${d_cmds[(i)$cmd]} -le ${#d_cmds} ]; then
-    _fzf_dir_completion "$prefix" "$lbuf"
-  else
-    _fzf_path_completion "$prefix" "$lbuf"
-  fi
-  # Fall back to default completion
-else
-  zle ${fzf_default_completion:-expand-or-complete}
-fi
-}
-
-[ -z "$fzf_default_completion" ] && {
-  binding=$(bindkey '^I')
-[[ $binding =~ 'undefined-key' ]] || fzf_default_completion=$binding[(s: :w)2]
-unset binding
-}
-
-zle     -N   fzf-completion
-bindkey '^I' fzf-completion
-fi
-
-# Codi {{{2
-# Usage: codi [filetype] [filename]
-codi() {
-  local syntax="${1:-python}"
-  shift
-  nvim -c \
-    "let g:startify_disable_at_vimenter = 1 |\
-    Codi $syntax" "$@"
-}
-
-unset OS
-setopt nomatch
-[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 # Tmux {{{2
 export DISABLE_AUTO_TITLE=true
+# Ripgrep {{{2
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # Plugin {{{1
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/git.zsh
-[ $commands[fzf] ] && source ~/.zsh/plugin/zsh-interactive-cd.zsh
+[ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
 
 # <C-Enter>
 bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
