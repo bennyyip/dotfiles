@@ -554,6 +554,7 @@ fi
 # 別名 {{{1
 alias vi=vim
 alias nv=nvim
+alias pxy=proxychains
 
 (($+commands[exa])) && {
   alias e='exa'
