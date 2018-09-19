@@ -29,7 +29,7 @@ compinit
 # 變量設置 {{{1
 [[ -z $EDITOR ]] && (( $+commands[vim] )) && export EDITOR=vim
 export RUST_SRC_PATH=~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/
-export PATH=$PATH:~/.cargo/bin/:~/.local/bin
+export PATH=~/.cargo/bin/:~/.local/bin:$PATH
 
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
@@ -769,9 +769,12 @@ function lambda()
   fi
 }
 
+ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
 
-if [[ -n $DISPLAY || -n $SSH_CONNECTION ]]; then
+if [[ -n $DISPLAY ]]; then
   PS1='%F{74}%* %F{114}%n%F{white} @ %F{174}%M %F{white}ω %F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
+elif [[ -n $SSH_CONNECTION ]]; then
+  PS1='%F{74}%* %F{114}%n%F{white}@%F{174}$ipL%F{white}:%F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
 else
   # do not use unicode in tty
   PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
