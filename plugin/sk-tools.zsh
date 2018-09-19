@@ -23,9 +23,16 @@ __calc_height () {
 }
 
 sk-vim-mru () {
-  local file cmd
+  local file cmd mru_file
   cmd=${1:-vim}
-  file=$(tail -n +2 ~/.LfCache/python3/mru/mruCache | \
+
+  if [ -f ~/.LfCache/python3/mru/mruCache ]; then
+    mru_file=~/.LfCache/python3/mru/mruCache
+  else
+    mru_file=~/.LfCache/python2/mru/mruCache
+  fi
+
+  file=$(cat ${mru_file} |  \
     sk --height $(__calc_height) --reverse -p "$cmd> ")
   if [[ -n $file ]]; then
     ${=cmd} $file
@@ -88,6 +95,33 @@ if (( $+commands[sk] )); then
       file="$(fasd -Rfl | sk --height $(__calc_height) --no-sort -p 'open> '  )" && ${cmd} "${file}" || return 1
     }
   fi
+
+  tm() {
+    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    if [ $1 ]; then
+      tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+    fi
+    session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sk --height $(__calc_height) --no-sort -p 'tmux session> ' --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+  }
+
+  ftpane() {
+    local panes current_window current_pane target target_window target_pane
+    panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+    current_pane=$(tmux display-message -p '#I:#P')
+    current_window=$(tmux display-message -p '#I')
+
+    target=$(echo "$panes" | grep -v "$current_pane" | sk --height $(__calc_height) --no-sort -p 'tmux pane> ') || return
+
+    target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+    target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+    if [[ $current_window -eq $target_window ]]; then
+      tmux select-pane -t ${target_window}.${target_pane}
+    else
+      tmux select-pane -t ${target_window}.${target_pane} &&
+	tmux select-window -t $target_window
+    fi
+  }
 
 fi
 # vim: se ft=zsh:
