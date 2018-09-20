@@ -41,6 +41,19 @@ sk-vim-mru () {
   fi
 }
 
+sk-vim-files () {
+  local file cmd
+  cmd=${1:-vim}
+
+  file=$(fd |  \
+    sk --height $(__calc_height) --reverse -p "$cmd> ")
+  if [[ -n $file ]]; then
+    ${=cmd} $file
+  else
+    return 130
+  fi
+}
+
 sk-search-history () {
   local cmd
   # TODO: preview at the right, multi-line, syntax-highlighted
@@ -58,8 +71,10 @@ if (( $+commands[sk] )); then
   bindkey "\esr" sk-search-history
 
   v () { sk-vim-mru }
+  vff () { sk-vim-files }
   if (( $+commands[vv] )); then
-    vv-mru () { sk-vim-mru vv }
+    vvff () { sk-vim-files vv }
+    vvfr () { sk-vim-mru vv }
   fi
 
   if [[ -f /usr/share/skim/completion.zsh ]]; then
@@ -96,6 +111,7 @@ if (( $+commands[sk] )); then
     }
   fi
 
+  # tmux
   tm() {
     [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
     if [ $1 ]; then
