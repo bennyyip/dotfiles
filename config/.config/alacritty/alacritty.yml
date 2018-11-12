@@ -103,7 +103,7 @@ font:
     #style: Italic
 
   # Point size
-  size: 16.0
+  size: 15.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -118,12 +118,6 @@ font:
     x: 0
     y: 0
 
-  # Scale the font size based on the monitor's DPI. This will lead to bigger text on HiDPI
-  # screens and make reading text a little easier.
-  # On X11 it is possible to change the DPI for each instance of alacritty by using
-  # `WINIT_HIDPI_FACTOR=1.0 alacritty` to scale the font.
-  scale_with_dpi: true
-
 # Display the time it takes to redraw each frame.
 render_timer: false
 
@@ -136,7 +130,7 @@ colors:
   # Default colors
   primary:
     # hard contrast: background = '0x1d2021'
-    background: '0x262626'
+    background: '0x282828'
     # soft contrast: background = '0x32302f'
     foreground: '0xebdbb2'
 

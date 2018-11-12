@@ -1,5 +1,5 @@
 * {
-    font:			 "Sans 20";
+    font:			 "Sans 16";
     selected-normal-foreground:  rgba ( 251, 241, 199, 100 % );
     foreground:                  rgba ( 235, 219, 178, 100 % );
     normal-foreground:           @foreground;
