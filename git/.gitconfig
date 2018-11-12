@@ -3,7 +3,7 @@
   smudge = git-lfs smudge %f
   required = true
 [user]
-  name = BennyYip
+  name = bennyyip
   email = yebenmy@protonmail.com
 [push]
   default = matching
@@ -36,8 +36,8 @@
   br = branch
   unstage = reset HEAD --
   dc = diff --cached
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
 [pull]
   rebase = true
 [help]
-	autocorrect = 1
+  autocorrect = 1

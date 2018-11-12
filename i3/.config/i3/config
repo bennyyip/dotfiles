@@ -29,17 +29,22 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec alacritty
 
+# bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# rofi
+bindsym $mod+d exec --no-startup-id rofi -show run -display-run ""
+bindsym Mod1+space exec --no-startup-id rofi-pass
 
 # Start Applications
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Shift+T exec --no-startup-id compton -b
 
-# bindsym $mod+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d -t`
-# bindsym $mod+Ctrl+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w -t`
-# bindsym $mod+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d`
-# bindsym $mod+Ctrl+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w`
+bindsym $mod+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d -t`
+bindsym $mod+Ctrl+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w -t`
+bindsym $mod+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -d`
+bindsym $mod+Ctrl+Shift+i exec --no-startup-id xclip -selection clipboard -t image/png `~/.config/i3/scripts/i3-scrot -w`
 
 # change focus
 bindsym $mod+j focus left
@@ -136,7 +141,7 @@ mode "resize" {
 }
 
 # Workspace [[[1
-# workspace names
+# Workspace names
 set $ws1 1:TMUX
 set $ws2 2:GVIM
 set $ws3 3:FX
@@ -180,11 +185,12 @@ bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 
-# Autostart applications [[[1
-# Theme [[[1
+# Lock screen
+bindsym $mod+0 exec --no-startup-id ~/.config/i3/scripts/blurlock, mode "default"
 
-# Set Wallpaper
-exec --no-startup-id feh --bg-scale 2k_linus.png
+
+
+# Theme [[[1
 
 # set primary gruvbox colorscheme colors
 set $bg #282828
@@ -198,34 +204,38 @@ set $gray #a89984
 set $darkgray #1d2021
 set $white  #FBF1C7
 
-
-
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-#bar {
-#	font pango: Sans, Font Awesome 12
-#	status_command i3status-rs ~/.config/i3/config.toml
-#	position top
+bar {
+	status_command i3status
+	font xft:Sans 8
+	# font pango: Sans, FontAwesome 14
+	# status_command i3status-rs ~/.config/i3/config.toml
+	position top
 
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-##	tray_output primary
-##	tray_output eDP1
+# please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+#	tray_output primary
+#	tray_output eDP1
 
-#	strip_workspace_numbers yes
+	strip_workspace_numbers yes
 
-#    colors {
-#        # bar background color
-#        background $bg
-#        # text color used for blocks that do not have a color specified.
-#        statusline $white
-#        # workspaces section
-#        #                  border    backgr. text
-#        focused_workspace  $white    $white  $bg
-#        inactive_workspace $darkgray $bg     $white
-#        active_workspace   $darkgray $bg     $white
-#        urgent_workspace   $red      $red    $bg
-#    }
+    colors {
+        # bar background color
+        background $bg
+        # text color used for blocks that do not have a color specified.
+        statusline $white
+        # workspaces section
+        #                    border    backgr. text
+        focused_workspace    $aqua $white $darkgray
+        inactive_workspace   $darkgray $darkgray $white
+        active_workspace     $darkgray $darkgray $white
+        urgent_workspace     $red $red $bg
+        # focused_workspace  $white    $white  $bg
+        # inactive_workspace $darkgray $bg     $white
+        # active_workspace   $darkgray $bg     $white
+        # urgent_workspace   $red      $red    $bg
+    }
 
-#}
+}
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -238,22 +248,5 @@ client.unfocused        $darkgray $darkgray $yellow $green $darkgray
 client.urgent           $red $red $white $red $red
 client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
-
-# Plasma Integration [[[1
-
-# Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
-exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop — Plasma"] kill; floating enable; border none
-
-## Avoid tiling popups, dropdown windows from plasma
-# for the first time, manually resize them, i3 will remember the setting for floating windows
-for_window [class="plasmashell"] floating enable;
-for_window [class="Plasma"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [title="win7"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Kmix"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
-# modeline [[[1
+# modeline
 # vim:fdm=marker:fmr=[[[,]]]

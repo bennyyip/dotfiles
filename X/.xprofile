@@ -5,11 +5,14 @@ export TERMINAL=alacritty
 
 xcape -e 'Control_L=Escape'
 
-#fcitx5 &
 fcitx &
 
 source /etc/locale.conf
 
 [[ -f ~/.extend.xprofile ]] && source ~/.extend.xprofile
 
-feh --bg-scale ~/pictures/wallpaper.jpg
+xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+xrandr --addmode Virtual-1 1920x1080_60.00
+xrandr -s 1920x1080
+
+feh --bg-scale ~/wallpaper.jpg
