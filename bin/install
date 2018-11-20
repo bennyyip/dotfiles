@@ -18,4 +18,5 @@ my-install agv
 my-install rgg
 my-install vv
 my-install fasd
+my-install diff-so-fancy
 my-install pacman
