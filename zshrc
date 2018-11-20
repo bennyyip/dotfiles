@@ -398,6 +398,10 @@ vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xsel -ib) }
+sshpath() {
+  ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
+  echo "root@${ipL}:$(realpath -e $1)"
+}
 function Ga() { # 獲取PKGBUILD {{{2
   [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
   git clone aur@aur.archlinux.org:"$1".git
