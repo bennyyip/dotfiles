@@ -323,7 +323,7 @@ bindkey "\eB" zsh-backward-word
 bindkey "\eF" zsh-forward-word
 bindkey "\eW" zsh-backward-kill-word
 
-# Esc-Esc 在当前/上一条命令前插入 proxychains -q {{{2
+# C-x p 在当前/上一条命令前插入 proxychains -q {{{2
 prefix-proxy() {
     [[ -z $BUFFER ]] && zle up-history
     [[ $BUFFER != proxychains\ * && $UID -ne 0 ]] && {
