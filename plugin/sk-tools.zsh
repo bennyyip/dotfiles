@@ -77,6 +77,11 @@ if (( $+commands[sk] )); then
     vvfr () { sk-vim-mru vv }
   fi
 
+  scd () {
+    local _path="$(fd -t d | sk --height $(__calc_height) --no-sort -p 'cd> ')"
+    [ "${_path}" == "" ] || cd $_path
+  }
+
   if [[ -f /usr/share/skim/completion.zsh ]]; then
     . /usr/share/skim/completion.zsh
   fi
