@@ -246,10 +246,6 @@ autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 bindkey '\e=' copy-earlier-word
 
-autoload -Uz prefix-proxy
-zle -N prefix-proxy
-bindkey "^Xp" prefix-proxy
-
 zmodload zsh/complist
 bindkey -M menuselect '^O' accept-and-infer-next-history
 
@@ -326,23 +322,65 @@ unfunction zsh-word-movement
 bindkey "\eB" zsh-backward-word
 bindkey "\eF" zsh-forward-word
 bindkey "\eW" zsh-backward-kill-word
-  # 插入当前的所有补全 http://www.zsh.org/mla/users/2000/msg00601.html {{{2
-  _insert_all_matches () {
-    setopt localoptions nullglob rcexpandparam extendedglob noshglob
-    unsetopt markdirs globsubst shwordsplit nounset ksharrays
-    compstate[insert]=all
-    compstate[old_list]=keep
-    _complete
-  }
-  zle -C insert-all-matches complete-word _insert_all_matches
-  bindkey '^Xi' insert-all-matches
-  # key bindings fixes for urxvt
-  #bindkey "^[[7~" beginning-of-line
-  #bindkey "^[[8~" end-of-line
-  #bindkey "^[[5~" beginning-of-history
-  #bindkey "^[[6~" end-of-history
-  bindkey "^[[3~" delete-char
-  bindkey "^[[2~" quoted-insert
+
+# Esc-Esc 在当前/上一条命令前插入 proxychains -q {{{2
+prefix-proxy() {
+    [[ -z $BUFFER ]] && zle up-history
+    [[ $BUFFER != proxychains\ * && $UID -ne 0 ]] && {
+      typeset -a bufs
+      bufs=(${(z)BUFFER})
+      while (( $+aliases[$bufs[1]] )); do
+        local expanded=(${(z)aliases[$bufs[1]]})
+        bufs[1,1]=($expanded)
+        if [[ $bufs[1] == $expanded[1] ]]; then
+          break
+        fi
+      done
+      bufs=(proxychains -q $bufs)
+      BUFFER=$bufs
+    }
+    zle end-of-line
+}
+zle -N prefix-proxy
+bindkey "^Xp" prefix-proxy
+
+# Esc-Esc 在当前/上一条命令前插入 sudo {{{2
+sudo-command-line() {
+    [[ -z $BUFFER ]] && zle up-history
+    [[ $BUFFER != sudo\ * && $UID -ne 0 ]] && {
+      typeset -a bufs
+      bufs=(${(z)BUFFER})
+      while (( $+aliases[$bufs[1]] )); do
+        local expanded=(${(z)aliases[$bufs[1]]})
+        bufs[1,1]=($expanded)
+        if [[ $bufs[1] == $expanded[1] ]]; then
+          break
+        fi
+      done
+      bufs=(sudo $bufs)
+      BUFFER=$bufs
+    }
+    zle end-of-line
+}
+zle -N sudo-command-line
+bindkey "\e\e" sudo-command-line
+# 插入当前的所有补全 http://www.zsh.org/mla/users/2000/msg00601.html {{{2
+_insert_all_matches () {
+  setopt localoptions nullglob rcexpandparam extendedglob noshglob
+  unsetopt markdirs globsubst shwordsplit nounset ksharrays
+  compstate[insert]=all
+  compstate[old_list]=keep
+  _complete
+}
+zle -C insert-all-matches complete-word _insert_all_matches
+bindkey '^Xi' insert-all-matches
+# key bindings fixes for urxvt
+#bindkey "^[[7~" beginning-of-line
+#bindkey "^[[8~" end-of-line
+#bindkey "^[[5~" beginning-of-history
+#bindkey "^[[6~" end-of-history
+bindkey "^[[3~" delete-char
+bindkey "^[[2~" quoted-insert
 
 # 函數 {{{1
 autoload zargs
@@ -359,7 +397,7 @@ fi
 vman () { vim +"set ft=man" +"Man $*" }
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
-sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xclip -i) }
+sshpubkey () { tee < ~/.ssh/id_*.pub(om[1]) >(xsel -ib) }
 function Ga() { # 獲取PKGBUILD {{{2
   [ -z "$1" ] && echo "usage: Ga <aur package name>: get AUR package PKGBUILD" && return 1
   git clone aur@aur.archlinux.org:"$1".git
@@ -534,12 +572,6 @@ ptyless () {
 screen2clipboard () { # 截图到剪贴板 {{{2
   import png:- | xclip -i -selection clipboard -t image/png
 }
-2mp3 () { # 转换成 mp3 格式 {{{2
-  [[ $# -ne 1 ]] && echo "Usage: $0 FILE" && return 1
-  mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$1" && \
-    lame -m s audiodump.wav -o "$1:r.mp3" && rm audiodump.wav || \
-    {echo Failed. && return 2}
-}
 if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
   cursorcolor () { echo -ne "\e]12;$*\007" }
 elif [[ $TERM == screen* ]]; then
@@ -554,7 +586,7 @@ fi
 # 別名 {{{1
 alias vi=vim
 alias nv=nvim
-alias pxy=proxychains
+alias pxy='proxychains -q'
 
 (($+commands[exa])) && {
   alias e='exa'
@@ -819,5 +851,6 @@ source ~/.zsh/plugin/git.zsh
 # <C-Enter>
 bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
 # Modeline {{{1
+source ~/.zshrc.local
 # vim:fdm=marker
 
