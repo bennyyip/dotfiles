@@ -184,6 +184,7 @@ compdef rlwrap=command
 compdef ptyless=command
 compdef grc=command
 compdef agg=ag 2>/dev/null
+compdef rgg=rg 2>/dev/null
 compdef downgrade=pactree 2>/dev/null
 # not only pdf files
 compdef -d zathura
