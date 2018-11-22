@@ -78,7 +78,7 @@ if (( $+commands[sk] )); then
   fi
 
   scd () {
-    local _path="$(fd -t d | sk --height $(__calc_height) --no-sort -p 'cd> ')"
+    local _path="$(fd -E .git -E __pycache__ -H -t d | sk --height $(__calc_height) --no-sort -p 'cd> ')"
     [ "${_path}" == "" ] || cd $_path
   }
 
@@ -86,35 +86,12 @@ if (( $+commands[sk] )); then
     . /usr/share/skim/completion.zsh
   fi
 
-  if [ $commands[fasd] ]; then # check if fasd is installed
-    # skip `posix-alias`
-    eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
-      zsh-wcomp zsh-wcomp-install)"
-
-    fasd_cd () {
-      if [ $# -le 1 ]
-      then
-	fasd "$@"
-      else
-	local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-	[ -z "$_fasd_ret" ] && return
-	[ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
-      fi
-    }
-
-    # fasd & skim change directory - jump using fasd if given argument, filter output of fasd using skim else
-    z() {
-      [ $# -gt 0 ] && fasd_cd -d "$*" && return
-      local dir
-      dir="$(fasd -Rdl "$1" | sk --height $(__calc_height) --no-sort -p 'cd> ' )" && cd "${dir}" || return 1
-    }
-
-    o() {
-      cmd=${1:-xdg-open}
-      local file
-      file="$(fasd -Rfl | sk --height $(__calc_height) --no-sort -p 'open> '  )" && ${cmd} "${file}" || return 1
-    }
-  fi
+  # Rupa/z
+  z() {
+    [ $# -gt 0 ] && z_ -d "$*"  && return
+    local dir
+    dir="$(z_ -l $1 | sort -h -r | awk '{print $2}' | sk --height $(__calc_height) --no-sort -p 'cd> ') " && cd ${dir} || return 1
+  }
 
   # tmux
   tm() {

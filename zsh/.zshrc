@@ -852,9 +852,9 @@ export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # Plugin {{{1
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/git.zsh
-[ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
-export _Z_CMD=fz
+export _Z_CMD=z_
 source ~/.zsh/plugin/z.sh
+[ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
 
 # <C-Enter>
 bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
