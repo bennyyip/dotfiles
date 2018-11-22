@@ -633,6 +633,7 @@ alias xcp="rsync -aviHAXKhP --delete --exclude='*~' --exclude=__pycache__"
 alias tmux="tmux -2"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python2 -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+alias with-github-name='GIT_COMMITTER_NAME=BennyYip GIT_COMMITTER_EMAIL=yebenmy@protonmail.com GIT_AUTHOR_NAME=BennyYip GIT_AUTHOR_EMAIL=yebenmy@protonmail.com'
 
 alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
 alias pfc="curl -F c=@- http://fars.ee/"
@@ -852,6 +853,8 @@ export RIPGREP_CONFIG_PATH=~/.ripgreprc
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/git.zsh
 [ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
+export _Z_CMD=fz
+source ~/.zsh/plugin/z.sh
 
 # <C-Enter>
 bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
