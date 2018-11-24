@@ -13,9 +13,12 @@ my-install() {
   echo "Installed $dst"
 }
 
-my-install agg
-my-install agv
-my-install rgg
-my-install vv
-my-install diff-so-fancy
-my-install pacman
+for file in "$(dirname "$0")"/*
+do
+  if [[ -x "$file" ]] && [[ $file != ./install ]]
+  then
+    src="$(basename "$file")"
+    my-install "$src"
+  fi
+done
+
