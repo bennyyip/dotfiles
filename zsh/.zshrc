@@ -297,6 +297,8 @@ unset _last_aborted_line
   zle -N zle-line-finish
 fi
 # move by shell word {{{2
+# stop at /
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 zsh-word-movement () {
   # see select-word-style for more
   local -a word_functions
