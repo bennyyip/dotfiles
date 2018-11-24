@@ -297,9 +297,7 @@ unset _last_aborted_line
   zle -N zle-line-finish
 fi
 # move by shell word {{{2
-autoload -U select-word-style
-select-word-style bash
-  zsh-word-movement () {
+zsh-word-movement () {
   # see select-word-style for more
   local -a word_functions
   local f
@@ -855,6 +853,8 @@ source ~/.zsh/plugin/git.zsh
 export _Z_CMD=z_
 source ~/.zsh/plugin/z.sh
 [ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
+source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+FAST_HIGHLIGHT[use_async]=1
 
 # <C-Enter>
 bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
