@@ -860,6 +860,6 @@ source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zs
 FAST_HIGHLIGHT[use_async]=1
 
 # Modeline {{{1
-source ~/.zshrc.local
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 # vim:fdm=marker
 
