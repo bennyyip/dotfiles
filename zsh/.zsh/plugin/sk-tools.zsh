@@ -121,11 +121,12 @@ if (( $+commands[sk] )); then
     fi
   }
 
-  flyrg() {
-    # https://github.com/junegunn/fzf.vim/blob/master/bin/preview.sh
+  frg() {
+    # ripgrep on the fly
     # interactive rg with preivew and return $file:$row:$col
-    # use case: vv `flyrg`
-    sk -i -c "rg $@ --vimgrep {}" --preview "preview.sh {}" | awk -F  ':' '{print $1":"$2":"$3}'
+    # use case: vv `frg`
+    # https://github.com/junegunn/fzf.vim/blob/master/bin/preview.sh
+    sk -i -c "rg {} --vimgrep $*" --preview "preview.sh {}" --cmd-prompt 'flyrg> ' | awk -F  ':' '{print $1":"$2":"$3}'
   }
 
 fi
