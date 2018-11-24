@@ -849,6 +849,7 @@ export DISABLE_AUTO_TITLE=true
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # Plugin {{{1
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 source ~/.zsh/plugin/git.zsh
 export _Z_CMD=z_
 source ~/.zsh/plugin/z.sh
@@ -856,8 +857,6 @@ source ~/.zsh/plugin/z.sh
 source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 FAST_HIGHLIGHT[use_async]=1
 
-# <C-Enter>
-bindkey -s "^[[28;5;9~' '^E\n" autosuggest-execute
 # Modeline {{{1
 source ~/.zshrc.local
 # vim:fdm=marker
