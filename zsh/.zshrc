@@ -85,6 +85,10 @@ fi
 unset _256colors
 unset _has_re
 
+export LESS="-FRXM"
+# default has -S
+export SYSTEMD_LESS="${LESS#-}K"
+
 # 选项设置{{{1
 unsetopt beep
 # 不需要打 cd，直接进入目录
@@ -592,6 +596,8 @@ fi
 alias vi=vim
 alias nv=nvim
 alias pxy='proxychains -q'
+alias :q="exit"
+alias 7z="7z '-xr!*~' '-xr!*.swp'"
 
 (($+commands[exa])) && {
   alias e='exa'
@@ -659,6 +665,7 @@ alias bpy=bpython
   alias glook='ghq look'
   alias gget='ghq get'
 }
+(( $+commands[diff-so-fancy] )) && alias diff-so-fancy='diff-so-fancy | less'
 # 後綴別名 {{{2
 alias -s pdf=zathura
 alias -s {jpg,png,gif}=feh
@@ -858,8 +865,8 @@ source ~/.zsh/plugin/z.sh
 [ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
 source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 FAST_HIGHLIGHT[use_async]=1
+source ~/.zsh/plugin/commacd.zsh
 
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 # vim:fdm=marker
-
