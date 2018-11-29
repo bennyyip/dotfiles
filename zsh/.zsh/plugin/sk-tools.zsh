@@ -90,7 +90,7 @@ if (( $+commands[sk] )); then
   z() {
     [ $# -gt 0 ] && z_ -d "$*"  && return
     local dir
-    dir="$(z_ -l $1 | sort -h -r | awk '{print $2}' | sk --height $(__calc_height) --no-sort -p 'cd> ') " && cd ${dir} || return 1
+    dir="$(z_ -l | sort -h -r | awk '{print $2}' | sk --height $(__calc_height) --no-sort -p 'cd> ')" && cd ${dir} || return 1
   }
 
   # tmux
@@ -121,12 +121,16 @@ if (( $+commands[sk] )); then
     fi
   }
 
+  # ripgrep on the fly
+  # interactive rg with preivew and return $file:$row:$col
+  # use case: vv `frg`
+  # https://github.com/junegunn/fzf.vim/blob/master/bin/preview.sh
   frg() {
-    # ripgrep on the fly
-    # interactive rg with preivew and return $file:$row:$col
-    # use case: vv `frg`
-    # https://github.com/junegunn/fzf.vim/blob/master/bin/preview.sh
-    sk -i -c "rg {} --vimgrep $*" --preview "preview.sh {}" --cmd-prompt 'flyrg> ' | awk -F  ':' '{print $1":"$2":"$3}'
+    sk -i -c "rg {} --hidden --vimgrep $*" --preview "preview.sh {}" --cmd-prompt 'flyrg> ' | awk -F  ':' '{print $1":"$2":"$3}'
+  }
+
+  frgg() {
+    rgg $(sk -i -c "rg {} --hidden --vimgrep $*" --preview "preview.sh {}" --cmd-prompt 'flyrgg> ' --print-cmd | head -n1 )
   }
 
 fi
