@@ -13,7 +13,7 @@
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (defun my-nov-setup ()
   (blink-cursor-mode 0)
-  (face-remap-add-relative 'variable-pitch :family "Noto Serif CJK KR"
+  (face-remap-add-relative 'variable-pitch :family "Source Han Serif K"
                                            :height 1.1))
 
 (setq nov-text-width 60)
