@@ -1,7 +1,11 @@
 ;;; init.el -*- lexical-binding: t; -*-
 ;; Copy me to ~/.doom.d/init.el or ~/.config/doom/init.el, then edit me!
 
-(setq doom-variable-pitch-font (font-spec :family "Noto Serif CJK KR"))
+(setq package-archives
+      '(("melpa-cn" . "https://mirrors.cloud.tencent.com/elpa/melpa/")
+        ("org-cn"   . "https://mirrors.cloud.tencent.com/elpa/org/")
+        ("gnu-cn"   . "https://mirrors.cloud.tencent.com/elpa/gnu/")))
+(setq doom-variable-pitch-font (font-spec :family "Source Han Serif K"))
 
 
 (doom! :feature
