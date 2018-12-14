@@ -209,6 +209,10 @@ alias grt='cd $(git rev-parse --show-toplevel || echo ".")'
 alias gru='git reset --'
 alias grup='git remote update'
 alias grv='git remote -v'
+gfk() {
+    local fork_url=$(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
+    git remote add fork $fork_url
+}
 
 alias gsb='git status -sb'
 alias gsd='git svn dcommit'
