@@ -133,5 +133,9 @@ if (( $+commands[sk] )); then
     rgg $(sk -i -c "rg {} --hidden --vimgrep $*" --preview "preview.sh {}" --cmd-prompt 'flyrgg> ' --print-cmd | head -n1 )
   }
 
+  frgv() {
+    vv `frg`
+  }
+
 fi
 # vim: se ft=zsh:

@@ -1,4 +1,3 @@
-# 基本设置 {{{1
 # 确定环境 {{{1
 OS=${$(uname)%_*}
 if [[ $OS == "CYGWIN" || $OS == "MSYS" ]]; then
@@ -868,5 +867,5 @@ FAST_HIGHLIGHT[use_async]=1
 source ~/.zsh/plugin/commacd.zsh
 
 # Modeline {{{1
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
 # vim:fdm=marker
