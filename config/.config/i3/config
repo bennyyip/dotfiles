@@ -186,7 +186,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 
 # Lock screen
-bindsym $mod+0 exec --no-startup-id ~/.config/i3/scripts/blurlock, mode "default"
+# bindsym $mod+0 exec --no-startup-id ~/.config/i3/scripts/blurlock, mode "default"
 
 
 
@@ -207,9 +207,7 @@ set $white  #FBF1C7
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
 	status_command i3status
-	font xft:Sans 8
-	# font pango: Sans, FontAwesome 14
-	# status_command i3status-rs ~/.config/i3/config.toml
+	font xft:Sans 10
 	position top
 
 # please set your primary output first. Example: 'xrandr --output eDP1 --primary'
@@ -225,9 +223,9 @@ bar {
         statusline $white
         # workspaces section
         #                    border    backgr. text
-        focused_workspace    $aqua $white $darkgray
-        inactive_workspace   $darkgray $darkgray $white
-        active_workspace     $darkgray $darkgray $white
+        focused_workspace    $white $white $bg
+        inactive_workspace   $bg $bg $white
+        active_workspace     $bg $bg $white
         urgent_workspace     $red $red $bg
         # focused_workspace  $white    $white  $bg
         # inactive_workspace $darkgray $bg     $white
