@@ -276,7 +276,7 @@ function gitFancyPrompt {
 
     pathPrompt $locationIconColor $exitStress
     rightPrompt
-    
+
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates $startposx, $startposy
     Write-Host $promptLeader -NoNewLine -ForegroundColor $exitStress
 

@@ -4,7 +4,7 @@ To use:
 
 - Install PSCore;
 - Install lua(http://luabinaries.sourceforge.net/)
-- Put the files in your profile directory;
+-  `ni ~\Documents\WindowsPowerShell\ -i SymbolicLink -ta ~\dotfiles\WindowsPowerShell`
 - Install / update modules:
   - `posh-git`
   - `PSReadline`
