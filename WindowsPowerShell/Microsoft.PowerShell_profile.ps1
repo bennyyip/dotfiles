@@ -55,6 +55,8 @@ Import-Module Get-ChildItemColor
 
 ###############################################################################
 # ALIASES
+remove-item Alias:wget -force -ErrorAction SilentlyContinue
+remove-item Alias:curl -force -ErrorAction SilentlyContinue
 
 Set-Alias l Get-ChildItemColor -option AllScope
 Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
