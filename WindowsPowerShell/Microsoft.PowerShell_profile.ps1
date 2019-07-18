@@ -1,7 +1,7 @@
 ﻿$scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 
 $env:_ZL_NO_PROMPT_COMMAND=1
-iex ($(lua53 $scriptDir\z.lua --init powershell) -join "`n")
+iex ($(lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n")
 
 ###############################################################################
 
