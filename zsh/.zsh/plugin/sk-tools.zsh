@@ -86,13 +86,6 @@ if (( $+commands[sk] )); then
     . /usr/share/skim/completion.zsh
   fi
 
-  # Rupa/z
-  z() {
-    [ $# -gt 0 ] && z_ -d "$*"  && return
-    local dir
-    dir="$(z_ -l | sort -h -r | awk '{print $2}' | sk --height $(__calc_height) --no-sort -p 'cd> ')" && cd ${dir} || return 1
-  }
-
   # tmux
   tm() {
     [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
