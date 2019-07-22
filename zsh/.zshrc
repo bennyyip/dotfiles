@@ -598,6 +598,9 @@ alias pxy='proxychains -q'
 alias :q="exit"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 
+alias d="sudo docker"
+alias k="kubectl"
+
 (($+commands[exa])) && {
   alias e='exa'
   xtree () {
@@ -649,7 +652,7 @@ imgvim(){
 
 dsf(){
   # depends on diff-so-fancy
-  git diff --color=always $@ | diff-so-fancy | less --tab=4 -RFX
+  git diff --histogram --color=always $@ | diff-so-fancy | less --tab=4 -RFX
 }
 
 alias md=mkdir
@@ -856,15 +859,20 @@ export DISABLE_AUTO_TITLE=true
 # Ripgrep {{{2
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # Plugin {{{1
-source ~/.zsh/plugin/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_USE_ASYNC=1
 source ~/.zsh/plugin/git.zsh
-export _Z_CMD=z_
-source ~/.zsh/plugin/z.sh
 [ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
-source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-FAST_HIGHLIGHT[use_async]=1
 source ~/.zsh/plugin/commacd.zsh
+
+source ~/.zsh/plugin/zsh-autosuggestions.zsh
+
+if [[ -n $DISPLAY ]]; then
+    ZSH_AUTOSUGGEST_USE_ASYNC=1
+    source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+    FAST_HIGHLIGHT[use_async]=1
+fi
+
+export _ZL_FZF=sk
+source ~/.zsh/plugin/z.lua.plugin.zsh
 
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
