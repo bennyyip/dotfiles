@@ -5,6 +5,11 @@ if [[ $OS == "CYGWIN" || $OS == "MSYS" ]]; then
 elif [[ $OS == "Darwin" ]]; then
   OS=FreeBSD
 fi
+if [ -f /etc/issue ] && grep -qis 'Arch Linux' /etc/issue; then
+  IS_ARCH=1
+else
+  IS_ARCH=0
+fi
 # check first, or the script will end wherever it fails
 zmodload zsh/regex 2>/dev/null && _has_re=1 || _has_re=0
 unsetopt nomatch
@@ -715,6 +720,14 @@ alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
 
 # 軟件設置 {{{1
+# git {{{2
+if [ $IS_ARCH == 0 ];
+then
+    export GIT_COMMITTER_NAME=bennyye
+    export GIT_COMMITTER_EMAIL=bennyye@tencent.com
+    export GIT_AUTHOR_NAME=$GIT_COMMITTER_NAME
+    export GIT_AUTHOR_EMAIL=$GIT_COMMITTER_EMAIL
+fi
 # zsh {{{2
 # 提示符
 # %n --- 用户名
