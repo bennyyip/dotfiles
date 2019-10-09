@@ -10,7 +10,7 @@
 [core]
   autocrlf = false
   trustctime = false
-  editor = vim --noplugin
+  editor = vim
   filemode = false
   eol = lf
   safecrlf = true
@@ -37,7 +37,10 @@
   unstage = reset HEAD --
   dc = diff --cached
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
+  supdate = submodule update --remote --recursive --rebase
 [pull]
   rebase = true
 [help]
   autocorrect = 1
+[url "git@git.code.oa.com:"]
+	insteadOf = https://git.code.oa.com/
