@@ -278,11 +278,6 @@ bindkey -s "^Xc" "tmux attach -d^M"
 bindkey '^[p' up-line-or-search
 bindkey '^[n' down-line-or-search
 
-# jump to a position in a command line {{{2
-# https://github.com/scfrazer/zsh-jump-target
-autoload -Uz jump-target
-zle -N jump-target
-bindkey '^ ' jump-target
 # restoring an aborted command-line {{{2
 # unsupported with 4.3.17
 if zle -la split-undo; then
