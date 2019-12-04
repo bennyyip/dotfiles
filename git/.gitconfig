@@ -38,6 +38,7 @@
   dc = diff --cached
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
   supdate = submodule update --remote --recursive --rebase
+  p1 = diff HEAD~1 --diff-algorithm=minimal --output=1.patch
 [pull]
   rebase = true
 [help]
