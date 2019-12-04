@@ -63,11 +63,21 @@ Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
 
 remove-item Alias:gci -force -ErrorAction SilentlyContinue
 remove-item Alias:gp -force -ErrorAction SilentlyContinue
+remove-item Alias:gcm -force -ErrorAction SilentlyContinue
 function gst { git status  $args }
 function glg { git lg $args }
 function gci { git commit $args }
+function gcm { git commit -m $args }
 function gcam { git commit -a -m $args }
 function gcan! { git commit -v -a --no-edit --amend $args }
 function gp { git push $args }
 function dsf { git diff $args }
 function grv { git remote -v $args }
+function pjson { python $HOME/bin/pjson.py $args }
+function rmrf { Remove-Item -Recurse -Force $args }
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
