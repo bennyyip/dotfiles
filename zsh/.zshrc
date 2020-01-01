@@ -116,6 +116,8 @@ setopt listpacked
 setopt magic_equal_subst
 # 为方便复制，右边的提示符只在最新的提示符上显示
 setopt transient_rprompt
+# setopt promptsubst
+setopt promptsubst
 # setopt 的输出显示选项的开关状态
 setopt ksh_option_print
 setopt no_bg_nice
@@ -596,6 +598,7 @@ alias vi=vim
 alias nv=nvim
 alias pxy='proxychains -q'
 alias :q="exit"
+alias :qa="tmux detach"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 
 alias d="sudo docker"
@@ -664,7 +667,7 @@ alias ipy=ipython
 alias bpy=bpython
 
 [ $commands[ghq] ]  && {
-  alias glook='ghq look'
+  alias glook='cd $(ghq list -p | sk)'
   alias gget='ghq get'
 }
 (( $+commands[diff-so-fancy] )) && alias diff-so-fancy='diff-so-fancy | less'
@@ -836,9 +839,13 @@ else
   PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
 >>>%f '
 fi
+
 # 次提示符：使用暗色
 PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
+
+# 分割线
+PS1=$'${(r:$COLUMNS::\u2500:)}'$PS1
 
 CORRECT_IGNORE='_*'
 READNULLCMD=less
