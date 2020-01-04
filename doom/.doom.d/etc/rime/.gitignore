@@ -1,0 +1,8 @@
+build/
+installation.yaml
+*.userdb*
+*user.yaml
+.DS_Store
+.idea
+*.log
+tmp/

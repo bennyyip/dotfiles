@@ -1,0 +1,8 @@
+patch:
+  schema_list:
+    - schema: double_pinyin_flypy
+    - schema: jyutping
+    - schema: luna_pinyin_simp
+  "menu/page_size": 100
+  "speller/auto_select": false
+  "speller/auto_select_unique_candidate": false

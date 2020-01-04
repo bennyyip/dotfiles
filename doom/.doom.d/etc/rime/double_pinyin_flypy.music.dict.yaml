@@ -1,0 +1,1235 @@
+---
+name: double_pinyin_flypy.music
+version: "2018.12.03"
+sort: by_weight
+use_preset_vocabulary: true
+...
+
+阿炳	a bing	1041
+阿拉伯風格曲	a la bo feng ge qu	1072
+阿勒曼舞曲	a le man wu qu	1093
+愛奧尼亞調式	ai ao ni ya diao shi	448
+哀悼的	ai dao de	511
+埃爾加	ai er jia	1155
+艾夫斯	ai fu si	1144
+艾涅斯庫	ai nie si ku	643
+奧爾夫	ao er fu	1159
+奧克岡	ao ke gang	1217
+奧涅格	ao nie ge	1164
+巴比特	ba bi te	1135
+八大錘	ba da chui	814
+拔根蘆柴花	ba gen lu chai hua	554
+巴拉吉列夫	ba la ji lie fu	1198
+巴拉基列夫	ba la ji lie fu	21
+八六拍	ba liu pai	108
+巴洛克時期	ba luo ke shi qi	66
+八三拍	ba san pai	109
+霸王別姬	ba wang bie ji	812
+白誠仁	bai cheng ren	1010
+白登雲	bai deng yun	901
+白毛女	bai mao nv	689
+百鳥引	bai niao yin	796
+板胡	ban hu	702
+半減七和絃半音階	ban jian qi he xian ban yin jie	399
+邦波蒂	bang bo di	1110
+梆子腔	bang zi qiang	848
+保持音	bao chi yin	398
+保持着的	bao chi zhe de	492
+鮑羅丁	bao luo ding	1196
+刨洋芋	bao yang yu	572
+鮑元愷	bao yuan kai	1040
+悲愴的	bei chuang de	496
+貝多芬	bei duo fen	1228
+貝爾格	bei er ge	1202
+倍減	bei jian	412
+倍減音程	bei jian yin cheng	389
+北京單絃	bei jing dan xian	809
+貝里奧	bei li ao	1146
+貝利尼	bei li ni	1175
+倍增	bei zeng	413
+倍增音程	bei zeng yin cheng	388
+倍重音	bei zhong yin	387
+變格終止	bian ge zhong zhi	392
+變宮	bian gong	397
+變化半音	bian hua ban yin	394
+變化拍子	bian hua pai zi	391
+變化全音	bian hua quan yin	395
+變化音	bian hua yin	630
+變化音程	bian hua yin cheng	393
+卞留念	bian liu nian	1050
+變速記號	bian su ji hao	528
+變音記號	bian yin ji hao	390
+變徵	bian zhi	396
+變奏曲	bian zou qu	1108
+卞祖善	bian zu shan	1045
+表情	biao qing	519
+表演	biao yan	839
+表演藝術	biao yan yi shu	874
+表演藝術家	biao yan yi shu jia	876
+標準音	biao zhun yin	113
+伯恩斯坦	bo en si tan	1137
+博凱里尼	bo kai li ni	41
+勃拉姆斯	bo la mu si	1227
+波音	bo yin	386
+佈雷瓦爾	bu lei wa er	30
+布里頓	bu li dun	1147
+佈列茲	bu lie zi	1161
+布魯克納	bu lu ke na	1169
+布魯斯音階	bu lu si yin jie	379
+不完滿終止	bu wan man zhong zhi	385
+不完全小節	bu wan quan xiao jie	384
+不完全協和音程	bu wan quan xie he yin cheng	383
+不穩定音程	bu wen ding yin cheng	381
+不穩定音級	bu wen ding yin ji	380
+不協和音程	bu xie he yin cheng	382
+擦琴布	ca qin bu	8
+蔡良玉	cai liang yu	1037
+猜調	cai tiao	564
+曹安和	cao an he	581
+曹火星	cao huo xing	1013
+草原巡邏兵	cao yuan xun luo bing	795
+茶花女	cha hua nv	546
+柴可夫斯基	chai ke fu si ji	1200
+柴一	chai yi	32
+顫音	chan yin	378
+長阪坡	chang ban po	831
+長笛	chang di	672
+長號	chang hao	664
+唱名	chang ming	374
+唱唸做打舞	chang nian zuo da wu	873
+唱腔	chang qiang	837
+長倚音	chang yi yin	377
+長音重音	chang yin zhong yin	376
+潮劇	chao ju	855
+陳澄雄	chen cheng xiong	598
+陳德霖	chen de lin	935
+陳鋼	chen gang	983
+陳培勳	chen pei xun	977
+陳燮陽	chen xie yang	1047
+程長庚	cheng chang geng	967
+程繼先	cheng ji xian	949
+程硯秋	cheng yan qiu	933
+持續音	chi xu yin	375
+重唱	chong chang	756
+崇高偉大的	chong gao wei da de	506
+重奏	chong zou	755
+丑角	chou jue	914
+儲望華	chu wang hua	982
+船歌	chuan ge	1086
+川劇	chuan ju	856
+傳奇曲	chuan qi qu	1076
+創意曲	chuang yi qu	1098
+吹腔	chui qiang	893
+純八度	chun ba du	403
+春祭	chun ji	690
+春江花月夜	chun jiang hua yue ye	692
+純律	chun lv	778
+純四度	chun si du	417
+春臺班	chun tai ban	842
+純五度	chun wu du	414
+純一度	chun yi du	422
+純音程	chun yin cheng	369
+匆忙的	cong mang de	523
+催趕的	cui gan de	494
+大調類	da diao lei	459
+大二度	da er du	420
+大鼓	da gu	721
+大管	da guan	667
+大號	da hao	663
+打金枝	da jin zhi	826
+達拉皮科拉	da la pi ke la	1148
+大六度	da liu du	410
+大鑼	da luo	716
+大呂	da lv	774
+大譜表	da pu biao	368
+大七度	da qi du	407
+大七和絃	da qi he xian	364
+大齊奏	da qi zou	471
+大阮	da ruan	714
+大三度	da san du	400
+大三和絃	da san he xian	363
+大提琴	da ti qin	675
+大小七和絃	da xiao qi he xian	362
+打嚴嵩	da yan song	819
+大音程	da yin cheng	367
+大音階	da yin jie	366
+打漁殺家	da yu sha jia	829
+打棗	da zao	793
+大字組	da zi zu	365
+戴留斯	dai liu si	1154
+戴玉強	dai yu qiang	1053
+單純分拍	dan chun fen pai	361
+單純複拍子	dan chun fu pai zi	359
+單純音符	dan chun yin fu	360
+丹第	dan di	1167
+單附點	dan fu dian	358
+單符幹	dan fu gan	117
+單簧管	dan huang guan	669
+旦角	dan jue	939
+單拍子	dan pai zi	357
+單音程	dan yin cheng	356
+單音音樂	dan yin yin yue	635
+擋馬	dang ma	818
+導七和絃	dao qi he xian	355
+導音	dao yin	101
+倒影	dao ying	435
+德彪西	de biao xi	1182
+德累斯頓國立交響樂團	de lei si dun guo li jiao xiang yue tuan	615
+德沃夏克	de wo xia ke	1186
+等和絃	deng he xian	353
+等音	deng yin	354
+等音程	deng yin cheng	352
+等音調	deng yin diao	351
+第二交響曲	di er jiao xiang qu	680
+第三潮流音樂	di san chao liu yin yue	51
+第三交響曲	di san jiao xiang qu	679
+第四交響曲	di si jiao xiang qu	678
+第五交響曲	di wu jiao xiang qu	677
+第一交響曲	di yi jiao xiang qu	681
+低音譜表	di yin pu biao	350
+低音譜號	di yin pu hao	349
+低音提琴	di yin ti qin	673
+笛子	di zi	723
+調號	diao hao	348
+調律	diao lv	757
+調式	diao shi	779
+調式和聲	diao shi he sheng	467
+調式交替	diao shi jiao ti	347
+調式色彩	diao shi se cai	345
+調式音階	diao shi yin jie	468
+調性	diao xing	346
+調性並置	diao xing bing zhi	344
+丁善德	ding shan de	980
+定音鼓	ding yin gu	661
+杜卡斯	du ka si	1165
+杜鳴心	du ming xin	751
+杜兆植	du zhao zhi	1035
+短笛	duan di	671
+短斷音	duan duan yin	343
+短分弓	duan fen gong	13
+短倚音	duan yi yin	341
+斷音記號	duan yin ji hao	340
+對稱音階	dui chen yin jie	339
+對等拍子	dui deng pai zi	338
+對花	dui hua	568
+對位	dui wei	434
+多曹爾	duo cao er	36
+多利亞調式	duo li ya diao shi	446
+多尼采蒂	duo ni cai di	1176
+多聲部	duo sheng bu	762
+二重倚音	er chong yi yin	332
+二重奏鳴曲	er chong zou ming qu	1096
+二次分拍	er ci fen pai	336
+二二拍	er er pai	112
+二分拍	er fen pai	337
+二和絃	er he xian	335
+二胡	er hu	708
+二黃基本腔調	er huang ji ben qiang diao	896
+二簧調	er huang tiao	846
+二連音	er lian yin	334
+二拍子	er pai zi	333
+二人轉	er ren zhuan	800
+法雅	fa ya	1149
+反覆機號	fan fu ji hao	331
+樊江關	fan jiang guan	816
+反向	fan xiang	424
+放馬山歌	fang ma shan ge	566
+分解和絃	fen jie he xian	329
+分句線	fen ju xian	330
+分譜	fen pu	474
+風格	feng ge	611
+風琴	feng qin	650
+風雲兒女	feng yun er nv	789
+馮子和	feng zi he	929
+佛羅貝格爾	fo luo bei ge er	1117
+附點	fu dian	328
+附點音符	fu dian yin fu	327
+復調	fu diao	785
+復附點	fu fu dian	325
+復附點音符	fu fu dian yin fu	324
+符幹	fu gan	120
+賦格	fu ge	1068
+附加音和絃	fu jia yin he xian	326
+福建錦歌	fu jian jin ge	805
+弗朗居爾	fu lang ju er	39
+弗朗克	fu lang ke	1168
+弗朗科爾	fu lang ke er	40
+福雷	fu lei	1170
+弗雷斯克巴爾迪	fu lei si ke ba er di	642
+弗裏幾亞調式	fu li ji ya diao shi	445
+富尼埃	fu ni ai	26
+複拍子	fu pai zi	323
+夫妻逗趣	fu qi dou qu	562
+副三和絃	fu san he xian	319
+副屬和絃	fu shu he xian	317
+副調	fu tiao	321
+符頭	fu tou	119
+符尾	fu wei	121
+複音程	fu yin cheng	322
+副音級	fu yin ji	320
+富有表情的	fu you biao qing de	510
+副主和絃	fu zhu he xian	318
+嘎達梅林	ga da mei lin	691
+蓋叫天	gai jiao tian	942
+鋼伴	gang ban	78
+鋼琴	gang qin	651
+鋼琴伴奏	gang qin ban zou	79
+鋼琴縮譜	gang qin suo pu	476
+高貴而莊嚴地	gao gui er zhuang yan de	502
+高胡	gao hu	707
+高甲戲	gao jia xi	861
+高慶奎	gao qing kui	958
+高爲傑	gao wei jie	606
+戈恩斯	ge en si	28
+革胡	ge hu	705
+歌劇	ge ju	61
+格里格	ge li ge	1187
+格列高利	ge lie gao li	637
+格列高利聖詠	ge lie gao li sheng yong	638
+格林卡	ge lin ka	1189
+格什溫	ge shi wen	1141
+戈特曼	ge te man	29
+根音	gen yin	432
+根音位置	gen yin wei zhi	430
+宮調式	gong diao shi	464
+弓杆	gong gan	19
+弓根	gong gen	15
+弓尖	gong jian	16
+弓毛	gong mao	18
+功能和聲	gong neng he sheng	466
+宮商角徵羽	gong shang jue zhi yu	457
+弓速	gong su	17
+龔一	gong yi	736
+龔雲甫	gong yun fu	925
+古典主義時期	gu dian zhu yi shi qi	65
+固定唱名法	gu ding chang ming fa	314
+固定調唱名法	gu ding tiao chang ming fa	91
+古爾德	gu er de	645
+谷建芬	gu jian fen	989
+古雷斯基	gu lei si ji	1129
+古諾	gu nuo	1178
+古琴	gu qin	719
+鼓師	gu shi	903
+姑冼	gu xian	771
+古音階	gu yin jie	315
+古箏	gu zheng	715
+古組曲	gu zu qu	1101
+刮奏記號	gua zou ji hao	316
+管風琴	guan feng qin	648
+管風琴衆讚歌	guan feng qin zhong zan ge	1067
+關係大小調	guan xi da xiao diao	313
+關峽	guan xia	1048
+冠音	guan yin	431
+管子	guan zi	717
+廣板	guang ban	538
+廣闊的	guang kuo de	505
+光未然	guang wei ran	1016
+廣西文場	guang xi wen chang	806
+圭多	gui duo	1218
+國粹	guo cui	886
+國劇	guo ju	890
+郭文景	guo wen jing	1034
+哈巴涅拉	ha ba nie la	1063
+哈恰圖良	ha qia tu liang	1127
+海頓	hai dun	1226
+漢劇	han ju	880
+漢森	han sen	1139
+行當	hang dang	888
+杭子和	hang zi he	902
+浩大地	hao da di	504
+合唱	he chang	754
+和春班	he chun ban	843
+何桂山	he gui shan	918
+河南梆子	he nan bang zi	851
+河南墜子	he nan zhui zi	801
+和聲	he sheng	786
+和聲半音階	he sheng ban yin jie	310
+和聲大調	he sheng da diao	454
+和聲教材	he sheng jiao cai	299
+和聲理論	he sheng li lun	763
+和聲模進	he sheng mo jin	311
+和聲小調	he sheng xiao diao	453
+和聲音程	he sheng yin cheng	312
+和絃外音	he xian wai yin	309
+何訓田	he xun tian	605
+何佔豪	he zhan hao	984
+何振京	he zhen jing	584
+合奏	he zou	753
+亨策	heng ce	1157
+亨德爾	heng de er	1211
+亨德密特	heng de mi te	1160
+洪湖赤衛隊	hong hu chi wei dui	687
+後倚音	hou yi yin	308
+湖北小曲	hu bei xiao qu	807
+滬劇	hu ju	870
+湖南花鼓	hu nan hua gu	866
+胡詠言	hu yong yan	35
+華彩段	hua cai duan	307
+華彩樂段	hua cai yue duan	306
+華爾茲	hua er zi	69
+滑音記號	hua yin ji hao	305
+化妝	hua zhuang	835
+槐花幾時開	huai hua ji shi kai	571
+換氣記號	huan qi ji hao	304
+幻想交響曲	huan xiang jiao xiang qu	626
+幻想曲	huan xiang qu	1104
+還原	huan yuan	480
+還原記號	huan yuan ji hao	479
+黃安倫	huang an lun	991
+黃飛立	huang fei li	992
+黃鶴的故事	huang he de gu shi	695
+黃梅戲	huang mei xi	867
+黃蒙拉	huang meng la	1058
+黃腔	huang qiang	885
+黃潤甫	huang run fu	919
+黃曉飛	huang xiao fei	985
+黃曉和	huang xiao he	573
+黃楊扁擔	huang yang bian dan	559
+黃月山	huang yue shan	944
+黃鐘	huang zhong	775
+恢復原速	hui fu yuan su	302
+徽漢合流	hui han he liu	840
+徽秦合流	hui qin he liu	841
+迴旋曲	hui xuan qu	1070
+迴旋曲式	hui xuan qu shi	301
+迴音	hui yin	303
+混合複拍子	hun he fu pai zi	297
+混合裏底亞調式	hun he li di ya diao shi	443
+混合拍子	hun he pai zi	298
+霍爾斯特	huo er si te	1152
+火熱的	huo re de	508
+活躍的	huo yue de	516
+急板	ji ban	530
+基本拍型	ji ben pai xing	296
+基本音程	ji ben yin cheng	295
+基本音級	ji ben yin ji	73
+急促的	ji cu de	522
+激動地	ji dong de	518
+基督教音樂	ji du jiao yin yue	639
+吉格舞曲	ji ge wu qu	1091
+吉他	ji ta	653
+即興曲	ji xing qu	1087
+加布裏埃利	jia bu li ai li	1121
+賈達羣	jia da qun	604
+加伏特	jia fu te	547
+加速	jia su	293
+加沃特	jia wo te	38
+加線	jia xian	294
+夾鍾	jia zhong	772
+減八度	jian ba du	401
+減和絃	jian he xian	288
+減和絃音階	jian he xian yin jie	287
+漸快	jian kuai	526
+漸快加急	jian kuai jia ji	527
+減六度	jian liu du	408
+減慢	jian man	286
+漸慢	jian man	521
+簡譜	jian pu	292
+減七度	jian qi du	404
+減七和絃	jian qi he xian	290
+漸強	jian qiang	525
+減三和絃	jian san he xian	289
+減三聲	jian san sheng	76
+減時線	jian shi xian	291
+減四度	jian si du	415
+減小七和絃	jian xiao qi he xian	97
+簡約音樂	jian yue yin yue	48
+間奏曲	jian zou qu	1073
+降半音	jiang ban yin	285
+降號	jiang hao	483
+降號類調號	jiang hao lei diao hao	284
+江姐	jiang jie	688
+姜妙香	jiang miao xiang	948
+江文也	jiang wen ye	748
+角調式	jiao diao shi	462
+教會調式	jiao hui diao shi	449
+教堂奏鳴曲	jiao tang zou ming qu	1094
+交響曲	jiao xiang qu	682
+劫夫	jie fu	1014
+節拍	jie pai	610
+節拍器	jie pai qi	283
+結束句	jie shu ju	83
+傑蘇阿爾多	jie su a er duo	1214
+近關係調	jin guan xi tiao	282
+緊迫的	jin po de	495
+金少山	jin shao shan	916
+金湘	jin xiang	603
+進行曲	jin xing qu	1083
+進行曲風格	jin xing qu feng ge	503
+進行曲風格的	jin xing qu feng ge de	500
+金玉奴	jin yu nu	817
+京調	jing diao	884
+經過音	jing guo yin	281
+京胡	jing hu	703
+京劇	jing ju	899
+淨角	jing jue	921
+經文歌	jing wen ge	634
+京戲	jing xi	883
+京韻大鼓	jing yun da gu	811
+九度音	jiu du yin	280
+九和絃	jiu he xian	279
+九連音	jiu lian yin	278
+劇目	ju mu	877
+劇團	ju tuan	875
+居伊	ju yi	1194
+劇種	ju zhong	889
+卡巴列夫斯基	ka ba lie fu si ji	1126
+卡拉揚	ka la yang	1112
+卡特	ka te	1136
+凱奇	kai qi	1138
+看秧歌	kan yang ge	549
+坎佐納	kan zuo na	1105
+康塔塔	kang ta ta	622
+考威爾	kao wei er	1142
+柯達伊	ke da yi	1185
+可互換拍子	ke hu huan pai zi	277
+克拉拉	ke la la	1
+克拉姆	ke la mu	1134
+科雷利	ke lei li	1120
+科普蘭	ke pu lan	1201
+空城計	kong cheng ji	813
+孔雀開屏	kong que kai ping	752
+庫朗舞曲	ku lang wu qu	1092
+快板	kuai ban	609
+快速	kuai su	276
+狂想曲	kuang xiang qu	1081
+崑劇	kun ju	857
+崑曲	kun qu	892
+拉赫瑪尼諾夫	la he ma ni nuo fu	1184
+拉赫曼	la he man	1156
+拉羅	la luo	34
+拉摩	la mo	1124
+拉索	la suo	1216
+拉威爾	la wei er	1183
+拉弦板	la xian ban	4
+拉一	la yi	31
+藍花花	lan hua hua	560
+朗朗	lang lang	1057
+浪漫主義時期	lang man zhu yi shi qi	64
+狼音器	lang yin qi	3
+老旦	lao dan	926
+老羅	lao luo	25
+老生	lao sheng	968
+雷奧諾拉序曲	lei ao nuo la xu qu	545
+雷斯闢基	lei si pi ji	1150
+雷頌德	lei song de	997
+李重光	li chong guang	585
+李春來	li chun lai	943
+李純一	li chun yi	575
+裏底亞調式	li di ya diao shi	444
+力度	li du	540
+力度重音	li du zhong yin	274
+李多奎	li duo kui	923
+利蓋蒂	li gai di	1158
+李煥之	li huan zhi	1012
+厲慧良	li hui liang	940
+黎錦暉	li jin hui	749
+李金泉	li jin quan	922
+裏姆斯基科薩科夫	li mu si ji ke sa ke fu	1197
+利切卡爾	li qie ka er	1106
+李少春	li shao chun	952
+李叔同	li shu tong	987
+李斯特	li si te	1208
+離調	li tiao	275
+李心草	li xin cao	593
+李亞多夫	li ya duo fu	1180
+黎英海	li ying hai	973
+李元慶	li yuan qing	580
+梨園戲	li yuan xi	853
+李雲迪	li yun di	1056
+李忠勇	li zhong yong	586
+連頓弓	lian dun gong	12
+練耳	lian er	114
+臉譜	lian pu	834
+練聲曲	lian sheng qu	1071
+練習曲	lian xi qu	1080
+連線	lian xian	273
+連音符	lian yin fu	272
+連音線	lian yin xian	271
+樑茂春	liang mao chun	1038
+廖昌永	liao chang yong	1054
+列昂卡瓦羅	lie ang ka wa luo	1172
+林聲翕	lin sheng xi	576
+臨時變拍	lin shi bian pai	107
+臨時記號	lin shi ji hao	270
+林昭亮	lin zhao liang	735
+林鐘	lin zhong	768
+鈴鼓	ling gu	655
+劉北茂	liu bei mao	738
+劉長福	liu chang fu	1022
+六代樂舞	liu dai yue wu	44
+劉德海	liu de hai	1030
+劉敦南	liu dun nan	587
+劉趕三	liu gan san	913
+六和絃	liu he xian	269
+劉鴻聲	liu hong sheng	961
+六連音	liu lian yin	268
+六拍子	liu pai zi	267
+柳琴	liu qin	710
+劉三姐	liu san jie	686
+六聲音階	liu sheng yin jie	266
+劉詩昆	liu shi kun	583
+劉索拉	liu suo la	1032
+劉天華	liu tian hua	1031
+劉文金	liu wen jin	744
+柳葉青	liu ye qing	794
+劉湲	liu yuan	591
+六月雪	liu yue xue	823
+流徵	liu zheng	75
+柳子腔	liu zi qiang	894
+龍伯格	long bo ge	33
+陸春齡	lu chun ling	1028
+魯託斯瓦夫斯基	lu tuo si wa fu si ji	1130
+亂彈	luan tan	878
+鑼鼓	luo gu	836
+洛克里亞調式	luo ke li ya diao shi	442
+羅羅腔	luo luo qiang	847
+羅西尼	luo xi ni	1177
+羅忠鎔	luo zhong rong	976
+羅宗賢	luo zong xian	1007
+呂劇	lv ju	863
+呂利	lv li	1191
+呂其明	lv qi ming	986
+呂思清	lv si qing	1061
+馬車	ma che	697
+馬爾蒂努	ma er di nu	1111
+馬可	ma ke	1015
+馬勒	ma le	1222
+馬連良	ma lian liang	955
+馬倫齊奧	ma lun qi ao	1213
+麻雀與小孩	ma que yu xiao hai	701
+馬思聰	ma si cong	747
+馬斯卡尼	ma si ka ni	1174
+馬向華	ma xiang hua	1024
+馬肖	ma xiao	624
+瑪祖卡舞曲	ma zu ka wu qu	548
+麥斯基	mai si ji	27
+慢板	man ban	608
+慢速	man su	265
+曼陀鈴	man tuo ling	652
+茅沅	mao yuan	597
+梅蘭芳	mei lan fang	970
+梅蘭田	mei lan tian	907
+梅路洛	mei lu luo	1122
+梅巧玲	mei qiao ling	938
+美聲唱法	mei sheng chang fa	81
+梅西安	mei xi an	1162
+門德爾鬆	men de er song	1210
+蒙特威爾第	meng te wei er di	1219
+孟衛東	meng wei dong	998
+米約	mi yue	1163
+閔惠芬	min hui fen	1029
+閩劇	min ju	862
+民族調式	min zu diao shi	465
+模進	mo jin	264
+模進動機	mo jin dong ji	263
+模進音組	mo jin yin zu	262
+茉莉花	mo li hua	569
+莫扎特	mo zha te	1225
+穆蒂	mu di	1113
+穆鳳山	mu feng shan	920
+木琴	mu qin	659
+穆索爾斯基	mu suo er si ji	1195
+娜木拉	na mu la	2
+男低音	nan di yin	617
+男高音	nan gao yin	618
+南呂	nan lv	766
+男中音	nan zhong yin	616
+鬧元宵	nao yuan xiao	551
+逆迴音	ni hui yin	261
+逆行	ni xing	436
+諾諾	nuo nuo	1145
+女低音	nv di yin	619
+女高音	nv gao yin	621
+女娃擔水	nv wa dan shui	563
+女中音	nv zhong yin	620
+偶然音樂	ou ran yin yue	55
+歐陽予倩	ou yang yu qian	930
+帕蒂塔	pa di ta	1100
+帕格尼尼主題狂想曲	pa ge ni ni zhu ti kuang xiang qu	625
+帕勒斯特里那	pa le si te li na	1212
+帕薩卡里亞	pa sa ka li ya	1065
+爬山調	pa shan tiao	550
+琶音記號	pa yin ji hao	260
+拍號	pai hao	258
+排鍾	pai zhong	658
+拍子	pai zi	259
+拍子的分類	pai zi de fen lei	256
+拍子重音	pai zi zhong yin	257
+潘德雷斯基	pan de lei si ji	1131
+佩爾戈萊西	pei er ge lai xi	1190
+配器分析	pei qi fen xi	470
+彭家鵬	peng jia peng	1043
+皮黃腔	pi huang qiang	898
+皮斯頓	pi si dun	1140
+皮亞斯通	pi ya si tong	5
+偏音	pian yin	255
+頻率	pin lv	254
+拼貼音樂	pin tie yin yue	47
+平靜的	ping jing de	488
+平劇	ping ju	882
+平行八度	ping xing ba du	427
+平行調	ping xing tiao	253
+平行五度	ping xing wu du	252
+譜表	pu biao	124
+譜號	pu hao	123
+蒲劇	pu ju	852
+普羅科菲耶夫	pu luo ke fei ye fu	1128
+普契尼	pu qi ni	1173
+七和絃	qi he xian	98
+七連音	qi lian yin	122
+七聲	qi sheng	22
+七聲調式	qi sheng diao shi	93
+黔劇	qian ju	864
+錢仁康	qian ren kang	994
+遣興曲	qian xing qu	1074
+前奏曲	qian zou qu	1109
+強力集團	qiang li ji tuan	1199
+強拍	qiang pai	251
+強音記號	qiang yin ji hao	250
+強音踏板	qiang yin ta ban	249
+喬羽	qiao yu	1011
+琴師	qin shi	909
+秦香蓮	qin xiang lian	820
+秦詠誠	qin yong cheng	1006
+清唱劇	qing chang ju	623
+清角	qing jiao	247
+清角爲宮	qing jiao wei gong	246
+清樂音階	qing le yin jie	244
+清商音階	qing shang yin jie	245
+裘桂仙	qiu gui xian	917
+裘盛戎	qiu sheng rong	915
+曲牌	qu pai	891
+瞿希賢	qu xi xian	978
+瞿小松	qu xiao song	742
+全音階	quan yin jie	243
+羣英會	qun ying hui	830
+熱烈的	re lie de	507
+熱情的	re qing de	491
+熱情的快板	re qing de kuai ban	607
+人聲演唱	ren sheng yan chang	632
+柔板	rou ban	537
+柔情地	rou qing di	489
+如歌的	ru ge de	513
+蕤賓	rui bin	769
+弱拍	ruo pai	242
+弱起	ruo qi	241
+弱起小節	ruo qi xiao jie	240
+若斯坎	ruo si kan	1209
+薩蒂	sa di	1166
+薩拉邦德舞曲	sa la bang de wu qu	1090
+三寶	san bao	1049
+三重奏鳴曲	san chong zou ming qu	1095
+三次分拍	san ci fen pai	236
+三度音	san du yin	235
+三分損一	san fen sun yi	239
+三分益一	san fen yi yi	238
+三和絃	san he xian	99
+三擊掌	san ji zhang	824
+三角鐵	san jiao tie	657
+三連音	san lian yin	234
+三拍子	san pai zi	233
+三慶班	san qing ban	845
+三全音	san quan yin	237
+三四和絃	san si he xian	232
+三絃	san xian	711
+三音位置	san yin wei zhi	429
+森吉德瑪	sen ji de ma	696
+山東琴書	shan dong qin shu	802
+上波音	shang bo yin	87
+上黨梆子	shang dang bang zi	860
+商調式	shang diao shi	463
+上弓	shang gong	11
+上海音樂學院	shang hai yin yue xue yuan	731
+尚和玉	shang he yu	941
+上滑音	shang hua yin	89
+上加線	shang jia xian	478
+傷逝	shang shi	685
+尚小云	shang xiao yun	931
+上行	shang xing	231
+上行音階	shang xing yin jie	441
+上行音列	shang xing yin lie	438
+上主音	shang zhu yin	105
+紹劇	shao ju	850
+神劇	shen ju	62
+神祕的	shen mi de	497
+沈心工	shen xin gong	972
+瀋陽音樂學院	shen yang yin yue xue yuan	729
+升半音	sheng ban yin	226
+生旦淨醜	sheng dan jing chou	872
+升號	sheng hao	484
+生茂	sheng mao	1009
+聖桑	sheng sang	1192
+盛中國	sheng zhong guo	1060
+視唱	shi chang	116
+十二分拍	shi er fen pai	221
+十二拍子	shi er pai zi	220
+十二平均律	shi er ping jun lv	776
+石夫	shi fu	589
+施光南	shi guang nan	1008
+世界音樂	shi jie yin yue	49
+時樂濛	shi le meng	1005
+十連音	shi lian yin	225
+室內樂	shi nei yue	58
+十三度音	shi san du yin	219
+十三和絃	shi san he xian	218
+史塔克	shi ta ke	24
+十一度音	shi yi du yin	223
+十一和絃	shi yi he xian	222
+十一連音	shi yi lian yin	224
+施詠康	shi yong kang	578
+實用音樂	shi yong yin yue	633
+拾玉鐲	shi yu zhuo	825
+時值	shi zhi	217
+首次分拍	shou ci fen pai	227
+手風琴	shou feng qin	649
+首調唱名法	shou tiao chang ming fa	90
+舒伯特	shu bo te	1224
+屬和絃	shu he xian	229
+舒曼	shu man	1223
+屬七和絃	shu qi he xian	228
+豎琴	shu qin	654
+屬調	shu tiao	230
+屬音	shu yin	103
+數字低音	shu zi di yin	72
+雙符幹	shuang fu gan	118
+雙簧管	shuang huang guan	670
+斯波索賓	si bo suo bin	300
+四川清音	si chuan qing yin	808
+四川揚琴	si chuan yang qin	803
+四川音樂學院	si chuan yin yue xue yuan	727
+四次分拍	si ci fen pai	215
+四大徽班	si da hui ban	881
+四二拍	si er pai	111
+四分拍	si fen pai	216
+四胡	si hu	704
+四進士	si jin shi	822
+斯卡拉蒂	si ka la di	1215
+斯克麗雅賓	si ke li ya bin	1193
+四連音	si lian yin	214
+四六和絃	si liu he xian	213
+斯美塔那	si mei ta na	1188
+四四拍	si si pai	110
+斯特勞斯	si te lao si	1221
+斯韋林克	si wei lin ke	1118
+四喜班	si xi ban	844
+死之舞	si zhi wu	627
+頌樂	song le	42
+搜孤救孤	sou gu jiu gu	821
+速度	su du	612
+速度還原	su du huan yuan	529
+速度術語	su du shu yu	541
+蘇夏	su xia	577
+蘇州彈詞	su zhou tan ci	810
+隨想曲	sui xiang qu	1099
+孫菊仙	sun ju xian	963
+孫佑臣	sun you chen	908
+嗩吶	suo na	722
+踏板	ta ban	248
+塔蒂尼	ta di ni	1119
+太簇	tai cu	773
+泰勒曼	tai le man	1123
+太陽出來喜洋洋	tai yang chu lai xi yang yang	557
+譚盾	tan dun	1051
+譚富英	tan fu ying	953
+譚利華	tan li hua	1042
+譚小麟	tan xiao lin	588
+譚鑫培	tan xin pei	971
+堂鼓	tang gu	718
+唐建平	tang jian ping	1036
+套曲	tao qu	59
+特性音程	te xing yin cheng	212
+田豐	tian feng	1018
+田桂鳳	tian gui feng	936
+天津時調	tian jin shi diao	804
+天津音樂學院	tian jin yin yue xue yuan	728
+跳弓	tiao gong	14
+挑華車	tiao hua che	827
+跳躍記號	tiao yue ji hao	211
+聽音	ting yin	115
+同宮系統	tong gong xi tong	208
+同名調	tong ming tiao	210
+通俗唱法	tong su chang fa	80
+同向	tong xiang	425
+同音列	tong yin lie	207
+同音列調式	tong yin lie diao shi	206
+同主音大小調	tong zhu yin da xiao diao	92
+同主音調	tong zhu yin diao	209
+通奏低音	tong zou di yin	1097
+突慢	tu man	520
+突然加快	tu ran jia kuai	524
+託卡塔	tuo ka ta	1107
+託雷利	tuo lei li	646
+托斯卡尼尼	tuo si ka ni ni	1115
+瓦格納	wa ge na	1220
+瓦格納號	wa ge na hao	662
+瓦雷茲	wa lei zi	1143
+晚會	wan hui	698
+完滿終止	wan man zhong zhi	205
+完全等和絃	wan quan deng he xian	203
+完全等音程	wan quan deng yin cheng	204
+完全協和音程	wan quan xie he yin cheng	202
+王長林	wang chang lin	911
+王方亮	wang fang liang	734
+汪桂芬	wang gui fen	964
+王鴻壽	wang hong shou	960
+王紅藝	wang hong yi	1025
+王惠然	wang hui ran	1026
+王健	wang jian	23
+王進	wang jin	595
+王立平	wang li ping	743
+汪立三	wang li san	745
+王洛賓	wang luo bin	1052
+王寧	wang ning	602
+王少卿	wang shao qing	905
+王鐵錘	wang tie chui	1027
+王西麟	wang xi lin	601
+王憲	wang xian	1001
+汪笑儂	wang xiao nong	962
+王燮元	wang xie yuan	900
+王耀華	wang yao hua	1039
+王瑤卿	wang yao qing	934
+王雲階	wang yun jie	979
+王中山	wang zhong shan	1021
+王祖皆	wang zu jie	1003
+韋伯	wei bo	1205
+威伯恩	wei bo en	1203
+微斷音	wei duan yin	200
+威爾第	wei er di	1171
+微分音	wei fen yin	201
+微分音音樂	wei fen yin yin yue	53
+尾杆	wei gan	9
+維拉爾特	wei la er te	1116
+未來主義音樂	wei lai zhu yi yin yue	54
+威廉斯	wei lian si	1153
+威尼斯樂派	wei ni si yue pai	1125
+唯音音樂	wei yin yin yue	46
+穩定音	wen ding yin	100
+穩定音程	wen ding yin cheng	198
+穩定音級	wen ding yin ji	199
+溫柔地	wen rou de	490
+沃爾頓	wo er dun	1151
+沃爾夫	wo er fu	1179
+臥雲居士	wo yun ju shi	924
+五梆子	wu bang zi	799
+吳碧霞	wu bi xia	1055
+無詞歌	wu ci ge	1089
+五度相生律	wu du xiang sheng lv	777
+五度循環	wu du xun huan	194
+五度音	wu du yin	197
+武漢音樂學院	wu han yin yue xue yuan	730
+伍嘉冀	wu jia ji	999
+五連音	wu lian yin	196
+五六和絃	wu liu he xian	193
+五拍子	wu pai zi	195
+五人義	wu ren yi	828
+武生	wu sheng	946
+五聲調式	wu sheng diao shi	94
+五聲音階	wu sheng yin jie	192
+無錫景	wu xi jing	556
+無射	wu yi	765
+五音位置	wu yin wei zhi	428
+吳釗	wu zhao	574
+吳祖強	wu zu qiang	974
+西安音樂學院	xi an yin yue xue yuan	726
+西班牙舞曲	xi ban ya wu qu	1066
+西貝柳斯	xi bei liu si	1181
+錫劇	xi ju	869
+西皮	xi pi	897
+奚其明	xi qi ming	590
+戲謔地	xi xue de	493
+夕陽簫鼓	xi yang xiao gu	693
+嬉遊曲	xi you qu	1075
+下波音	xia bo yin	190
+下弓	xia gong	10
+下滑音	xia hua yin	88
+下加線	xia jia xian	477
+夏空	xia kong	1064
+下屬和絃	xia shu he xian	187
+下屬調	xia shu tiao	189
+下屬音	xia shu yin	188
+下行	xia xing	191
+下行音階	xia xing yin jie	440
+下行音列	xia xing yin lie	437
+夏一峯	xia yi feng	739
+下中音	xia zhong yin	102
+顯赫輝煌地	xian he hui huang de	509
+仙呂	xian lv	85
+先現音	xian xian yin	186
+冼星海	xian xing hai	1017
+絃軸	xian zhou	6
+響板	xiang ban	656
+湘劇	xiang ju	854
+薌劇	xiang ju	871
+項祖華	xiang zu hua	737
+小白菜	xiao bai cai	570
+肖邦	xiao bang	1207
+蕭長華	xiao chang hua	910
+筱翠花	xiao cui hua	928
+小大七和絃	xiao da qi he xian	177
+小調	xiao diao	185
+小調類	xiao diao lei	458
+小二度	xiao er du	419
+小二黑結婚	xiao er hei jie hun	683
+小放牛	xiao fang niu	797
+小鼓	xiao gu	720
+小廣板	xiao guang ban	535
+小號	xiao hao	665
+小河淌水	xiao he tang shui	567
+小節	xiao jie	184
+小節線	xiao jie xian	183
+小快板	xiao kuai ban	531
+小六度	xiao liu du	411
+小七度	xiao qi du	406
+小七和絃	xiao qi he xian	178
+小三度	xiao san du	418
+小三和絃	xiao san he xian	179
+小生	xiao sheng	951
+肖斯塔科維奇	xiao si ta ke wei qi	1206
+小提琴	xiao ti qin	676
+小小畫家	xiao xiao hua jia	700
+小行板	xiao xing ban	533
+小夜曲	xiao ye qu	1082
+小音程	xiao yin cheng	182
+小音階	xiao yin jie	181
+小澤征爾	xiao ze zheng er	1114
+小字組	xiao zi zu	180
+楔槌鍵	xie chui jian	1062
+謝德林	xie de lin	644
+協和音程	xie he yin cheng	176
+諧虐曲	xie nue qu	68
+斜向	xie xiang	423
+協奏曲	xie zou qu	1102
+新調性音樂	xin diao xing yin yue	45
+新古典主義音樂	xin gu dian zhu yi yin yue	52
+辛滬光	xin hu guang	750
+新浪漫主義音樂	xin lang man zhu yi yin yue	50
+新事曲	xin shi qu	1077
+新音階	xin yin jie	175
+行板	xing ban	534
+星海音樂學院	xing hai yin yue xue yuan	725
+匈牙利小音階	xiong ya li xiao yin jie	171
+繡荷包	xiu he bao	558
+休止符	xiu zhi fu	174
+徐蘭沅	xu lan yuan	906
+序列音樂	xu lie yin yue	56
+徐沛東	xu pei dong	1000
+序曲	xu qu	1069
+敘事曲	xu shi qu	1084
+徐小香	xu xiao xiang	950
+徐新	xu xin	596
+絮絮低語地	xu xu di yu di	499
+栩栩如生的	xu xu ru sheng de	485
+旋宮轉調	xuan gong zhuan diao	759
+旋律	xuan lv	787
+旋律半音階	xuan lv ban yin jie	172
+旋律大調	xuan lv da diao	452
+旋律模進	xuan lv mo jin	173
+旋律小調	xuan lv xiao diao	451
+旋律音程	xuan lv yin cheng	781
+宣敘調	xuan xu diao	70
+勳伯格	xun bo ge	1204
+荀慧生	xun hui sheng	932
+潯陽夜月	xun yang ye yue	694
+亞當斯	ya dang si	1133
+亞那切克	ya na qie ke	1132
+雅樂	ya yue	43
+雅樂音階	ya yue yin jie	170
+延長記號	yan chang ji hao	167
+言菊朋	yan ju peng	957
+燕樂音階	yan le yin jie	166
+延留音	yan liu yin	169
+咽音	yan yin	82
+延音線	yan yin xian	168
+演奏方式	yan zou fang shi	539
+楊寶森	yang bao sen	954
+楊寶忠	yang bao zhong	904
+楊鴻年	yang hong nian	1020
+楊嘉仁	yang jia ren	995
+揚劇	yang ju	868
+楊立青	yang li qing	993
+楊柳青	yang liu qing	555
+楊鳴玉	yang ming yu	912
+揚琴	yang qin	709
+楊青	yang qing	600
+楊小樓	yang xiao lou	969
+楊蔭瀏	yang yin liu	582
+揚子江暴風雨	yang zi jiang bao feng yu	699
+搖籃曲	yao lan qu	1079
+葉棟	ye dong	740
+夜曲	ye qu	1085
+葉盛蘭	ye sheng lan	947
+葉小剛	ye xiao gang	1033
+野豬林	ye zhu lin	815
+伊奧尼亞調式	yi ao ni ya diao shi	447
+意大利術語	yi da li shu yu	161
+意大利語	yi da li yu	543
+移調	yi diao	164
+移調記號	yi diao ji hao	163
+異宮系統	yi gong xi tong	162
+一拍子	yi pai zi	165
+伊斯拉美	yi si la mei	20
+弋陽	yi yang	879
+弋陽腔	yi yang qiang	849
+倚音	yi yin	342
+義勇軍進行曲	yi yong jun jin xing qu	790
+夷則	yi ze	767
+一枝花	yi zhi hua	792
+音程的性質	yin cheng de xing zhi	156
+音程關係	yin cheng guan xi	760
+音程轉位	yin cheng zhuan wei	433
+音調重音	yin diao zhong yin	153
+音符	yin fu	157
+隱伏八度	yin fu ba du	426
+音高分組	yin gao fen zu	154
+音級	yin ji	74
+音階	yin jie	788
+音階線	yin jie xian	159
+音列	yin lie	439
+音名	yin ming	158
+音區	yin qu	160
+音頭	yin tou	473
+印象主義時期	yin xiang zhu yi shi qi	57
+音域	yin yu	155
+音樂	yin yue	838
+音樂編輯	yin yue bian ji	544
+音樂劇	yin yue ju	60
+音樂理論	yin yue li lun	783
+音樂史	yin yue shi	782
+音樂術語	yin yue shu yu	542
+音樂瞬間	yin yue shun jian	1088
+音樂素材	yin yue su cai	895
+音樂學	yin yue xue	784
+音樂作品	yin yue zuo pin	613
+音值組合	yin zhi zu he	469
+音值組合法	yin zhi zu he fa	152
+蔭中鳥	yin zhong niao	798
+音準	yin zhun	780
+英國管	ying guo guan	668
+應鐘	ying zhong	764
+詠歎調	yong tan diao	71
+有活力的	you huo li de	514
+有精力的	you jing li de	487
+有精神	you jing shen	515
+有力的	you li de	486
+優美的	you mei de	512
+幽默曲	you mo qu	1078
+有生氣的	you sheng qi de	517
+右踏板	you ta ban	125
+憂鬱的	you yu de	498
+雨不灑花花不紅	yu bu sa hua hua bu hong	565
+羽調式	yu diao shi	460
+俞峯	yu feng	594
+羽管鍵琴	yu guan jian qin	647
+於紅梅	yu hong mei	1023
+俞菊笙	yu ju sheng	945
+俞麗拿	yu li na	1059
+餘隆	yu long	1046
+余三勝	yu san sheng	966
+餘叔巖	yu shu yan	959
+玉堂春	yu tang chun	832
+宇宙鋒	yu zhou feng	833
+餘紫雲	yu zi yun	937
+遠關係調	yuan guan xi tiao	148
+圓號	yuan hao	666
+原位和絃	yuan wei he xian	151
+圓舞曲	yuan wu qu	67
+原野	yuan ye	684
+樂句	yue ju	858
+越劇粵劇	yue ju yue ju	859
+樂器伴奏	yue qi ban zou	631
+樂器製造	yue qi zhi zao	758
+月琴	yue qin	712
+樂音	yue yin	150
+樂音體系	yue yin ti xi	149
+樂章	yue zhang	614
+雲南花燈	yun nan hua deng	865
+讚美歌	zan mei ge	636
+噪音	zao yin	147
+增八度	zeng ba du	402
+增六度	zeng liu du	409
+增七度	zeng qi du	405
+增三和絃	zeng san he xian	144
+增時線	zeng shi xian	146
+增四度	zeng si du	416
+增一度	zeng yi du	421
+增音程	zeng yin cheng	145
+張二奎	zhang er kui	965
+張寒暉	zhang han hui	1004
+張君秋	zhang jun qiu	927
+張千一	zhang qian yi	988
+張肖虎	zhang xiao hu	746
+張藝	zhang yi	592
+張卓婭	zhang zhuo ya	1002
+趙方幸	zhao fang xing	990
+趙季平	zhao ji ping	996
+震音	zhen yin	142
+徵調式	zheng diao shi	461
+正格終止	zheng ge zhong zhi	140
+正宮	zheng gong	86
+鄭律成	zheng lv cheng	1019
+正三和絃	zheng san he xian	141
+鄭曉瑛	zheng xiao ying	1044
+正音級	zheng yin ji	143
+鄭志聲	zheng zhi sheng	579
+指板	zhi ban	7
+指揮圖示	zhi hui tu shi	139
+中板	zhong ban	532
+中古調式	zhong gu diao shi	450
+中國歌劇	zhong guo ge ju	975
+中國戲曲	zhong guo xi qu	887
+中國音樂學院	zhong guo yin yue xue yuan	732
+中胡	zhong hu	706
+中華人民共和國國歌	zhong hua ren min gong he guo guo ge	791
+重降	zhong jiang	481
+重降號	zhong jiang hao	373
+重降音	zhong jiang yin	372
+中呂	zhong lv	84
+仲呂	zhong lv	770
+鐘琴	zhong qin	660
+中軟	zhong ruan	713
+重升	zhong sheng	482
+重升號	zhong sheng hao	371
+重升音	zhong sheng yin	370
+中世紀	zhong shi ji	640
+重屬和絃	zhong shu he xian	77
+中速	zhong su	134
+中提琴	zhong ti qin	674
+中央音樂學院	zhong yang yin yue xue yuan	733
+中央音樂學院附中	zhong yang yin yue xue yuan fu zhong	37
+中音	zhong yin	104
+重音	zhong yin	133
+重音記號	zhong yin ji hao	132
+終止式	zhong zhi shi	138
+周信芳	zhou xin fang	956
+朱庇特交響曲	zhu bi te jiao xiang qu	628
+竹笛	zhu di	724
+朱工一	zhu gong yi	981
+朱世瑞	zhu shi rui	599
+主音	zhu yin	106
+助音	zhu yin	137
+朱載堉	zhu zai yu	741
+主奏聲部	zhu zou sheng bu	641
+轉調	zhuan diao	136
+轉位	zhuan wei	96
+轉位和絃	zhuan wei he xian	135
+莊板	zhuang ban	536
+裝飾音	zhuang shi yin	629
+着重的	zhuo zhong de	501
+自然半音	zi ran ban yin	131
+自然大調	zi ran da diao	456
+自然大小調式	zi ran da xiao diao shi	95
+自然全音	zi ran quan yin	130
+自然小調	zi ran xiao diao	455
+自然音程	zi ran yin cheng	129
+自由拍子	zi you pai zi	128
+自由速度用語	zi you su du yong yu	127
+紫竹調	zi zhu diao	553
+總譜	zong pu	475
+縱向結合	zong xiang jie he	761
+走絳州	zou jiang zhou	561
+奏鳴曲	zou ming qu	1103
+走西口	zou xi kou	552
+組曲	zu qu	63
+阻塞音	zu se yin	472
+左踏板	zuo ta ban	126

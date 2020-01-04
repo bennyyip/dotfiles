@@ -1,0 +1,53 @@
+# double_pinyin.custom.yaml
+#
+# 補靪功能：將自然碼雙拼的詞庫修改爲朙月拼音擴充詞庫
+#
+# 作者：瑾昀 <cokunhui@gmail.com>
+#
+# 部署位置：
+# ~/.config/ibus/rime  (Linux)
+# ~/Library/Rime  (Mac OS)
+# %APPDATA%\Rime  (Windows)
+#
+# 於重新部署後生效
+#
+#
+# 注意：本補靪適用於所有雙拼方案（「自然碼雙拼」、「智能ABC雙拼」、「小鶴雙拼」、「MSPY雙拼」）。
+# 只須將本 custom.yaml 的前面名字改爲對應的輸入方案名字然後放入用戶文件夾重新部署即可。如 double_pinyin_abc.custom.yaml。
+# 朙月拼音用戶請使用 luna_pinyin.custom.yaml。
+#
+#
+# 附雙拼方案與其對應的 id 一覽表：
+# 輸入方案	id
+# 自然碼雙拼	double_pinyin
+# 智能ABC雙拼	double_pinyin_abc
+# 小鶴雙拼	double_pinyin_flypy
+# MSPY雙拼	double_pinyin_mspy
+#
+
+patch:
+  # 雙拼碼不轉換成全拼碼
+  "translator/preedit_format": {}
+  # 載入朙月拼音擴充詞庫
+  "translator/dictionary": double_pinyin_flypy.awesome
+
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中文, 西文 ]
+    - name: simplification
+      reset: 1
+      states: [ 漢字, 汉字 ]
+    - name: emoji_suggestion
+      states: [ "🈚️️\uFE0E", "🈶️️\uFE0F" ]
+    - name: ascii_punct
+      states: [ 。，, ．， ]
+    - name: full_shape
+      states: [ 半角, 全角 ]
+
+  'engine/filters/@before 0':
+    simplifier@emoji_suggestion
+  emoji_suggestion:
+    opencc_config: emoji.json
+    option_name: emoji_suggestion
+    tips: all

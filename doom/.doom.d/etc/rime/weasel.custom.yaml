@@ -1,0 +1,14 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.12.0
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Sat Dec  1 00:45:14 2018"
+  rime_version: 1.3.2
+patch:
+  style:
+    horizontal: false
+    color_scheme: steam
+    font_face: "更纱黑体 UI CL"
+    font_point: 18
+    layout: {border_width: 3, candidate_spacing: 5, hilite_padding: 2, hilite_spacing: 4, margin_x: 12, margin_y: 12, min_height: 0, min_width: 160, round_corner: 4, spacing: 10}
+  "style/color_scheme": lost_temple

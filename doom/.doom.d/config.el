@@ -1,26 +1,21 @@
-;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(evil-define-key 'normal 'global
-  ;; select the previously pasted text
-  "gp" "`[v`]"
-  ;; run the macro in the q register
-  "Q" "@q")
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; refresh' after modifying this file!
 
 
-(eval-after-load 'evil-core
-                   '(evil-set-initial-state 'nov-mode 'emacs))
-
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(defun my-nov-setup ()
-  (blink-cursor-mode 0)
-  (face-remap-add-relative 'variable-pitch :family "Source Han Serif K"
-                                           :height 1.1))
-
-(setq nov-text-width 60)
-(setq visual-fill-column-center-text t)
-(add-hook 'nov-mode-hook 'visual-line-mode)
-(add-hook 'nov-mode-hook 'visual-fill-column-mode)
-(add-hook 'nov-mode-hook 'my-nov-setup)
-
-
-(setq org-agenda-files (list "~/org/todo.org"))
+;; Here are some additional functions/macros that could help you configure Doom:
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', where Emacs
+;;   looks when you load packages with `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
+;; This will open documentation for it, including demos of how they are used.
+;;
+;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
+;; they are implemented.
