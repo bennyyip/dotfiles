@@ -15,6 +15,11 @@
   (setq default-input-method "pyim"
         pyim-page-length 9)
 
+  ;; 根据探针决定全角半角
+  (setq-default pyim-punctuation-half-width-functions
+                '(pyim-probe-punctuation-line-beginning
+                  pyim-probe-punctuation-after-punctuation))
+
   ;; 开启拼音搜索功能
   (pyim-isearch-mode 1))
 
