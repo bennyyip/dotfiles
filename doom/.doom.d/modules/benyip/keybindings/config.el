@@ -6,7 +6,7 @@
 (map!
   :n "-" 'dired-jump ; like dirvish
   :n "gp" "`[v`]" ; select the previously pasted text
-  :n "q" "@q" ; run the macro in the q register
+  :n "Q" "@q" ; run the macro in the q register
 
  :map evil-window-map
  "o" 'doom/window-maximize-buffer) ; close other windows like vim
