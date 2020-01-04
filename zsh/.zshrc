@@ -135,7 +135,7 @@ setopt hist_ignore_space
 setopt hist_fcntl_lock 2>/dev/null
 if [[ $_has_re -eq 1 &&
   ! ( $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-4]' ) ]]; then
-setopt hist_reduce_blanks
+    setopt hist_reduce_blanks
 else
   # This may cause the command messed up due to a memcpy bug
 fi
@@ -880,7 +880,7 @@ source ~/.zsh/plugin/commacd.zsh
 
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 
-if [[ -n $DISPLAY ]]; then
+if [[ -n $IS_ARCH ]]; then
     ZSH_AUTOSUGGEST_USE_ASYNC=1
     source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
     FAST_HIGHLIGHT[use_async]=1
