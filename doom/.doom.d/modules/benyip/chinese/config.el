@@ -14,18 +14,13 @@
   (setq pyim-default-scheme 'rime)
 
   (setq default-input-method "pyim"
-        pyim-page-length 9
-        pyim-dicts
-        `((:name
-           "pyim-bigdict"
-           :file
-           ,(expand-file-name (concat doom-private-dir "etc/pyim/pyim-bigdict.pyim.gz")))))
+        pyim-page-length 9)
 
   ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
   ;; 我自己使用的中英文动态切换规则是：
   ;; 1. 光标只有在注释里面时，才可以输入中文。
   ;; 2. 光标前是汉字字符时，才能输入中文。
-  ;; 3. 使用 C-S-M-s-SPC 快捷键，强制将光标前的拼音字符串转换为中文。
+  ;; 3. 使用 M-] 快捷键，强制将光标前的拼音字符串转换为中文。
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-dynamic-english
                   pyim-probe-isearch-mode
