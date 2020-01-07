@@ -4,5 +4,8 @@
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
 (setq user-full-name "Ben Yip"
-      user-mail-address "bennyye@protonmail.com"
-      doom-localleader-key "\\")
+      user-mail-address "bennyye@protonmail.com")
+
+(setq doom-localleader-key "\\")
+
+(setq projectile-project-search-path '("~/ghq" "~/tencent"))
