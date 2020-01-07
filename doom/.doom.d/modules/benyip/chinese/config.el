@@ -1,5 +1,7 @@
 ;;; benyip/chinese/config.el -*- lexical-binding: t; -*-
 (use-package! pyim
+  :init
+  (setq pyim-title "ㄓ")
   :bind
   :config
   (if (display-graphic-p)
@@ -14,7 +16,6 @@
 
   (setq default-input-method "pyim"
         pyim-page-length 9)
-
   ;; 根据探针决定全角半角
   (setq-default pyim-punctuation-half-width-functions
                 '(pyim-probe-punctuation-line-beginning
@@ -27,5 +28,4 @@
   :init
   (setq liberime-user-data-dir (concat doom-private-dir "etc/rime"))
   (add-hook 'after-liberime-load-hook
-    (lambda ()
-      (liberime-select-schema "double_pinyin_flypy"))))
+    (lambda! (liberime-select-schema "double_pinyin_flypy"))))
