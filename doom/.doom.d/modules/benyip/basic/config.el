@@ -8,4 +8,8 @@
 
 (setq doom-localleader-key "\\")
 
-(setq projectile-project-search-path '("~/ghq" "~/tencent"))
+(setq projectile-project-search-path '("~/tencent"))
+
+(defun ghq-add-to-projectile ()
+  (interactive)
+  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
