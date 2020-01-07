@@ -14,10 +14,12 @@
  :v "Q" (kbd ":norm @q RET")
  :v (kbd "RET") 'align-regexp ; vim-easy-align. press number before get interactive mode
 
- :map evil-window-map
- "o" 'doom/window-maximize-buffer; close other windows like vim
+:leader
+ (:prefix-map ("o" . "open")
+   "c" (λ! (find-file "~/org/gtd/calendar.org"))
+   "n" (λ! (find-file "~/org/notes.org"))
+   "t" (λ! (find-file "~/org/todo.org")))
 
- :leader
  :n "1"    #'+workspace/switch-to-0
  :n "2"    #'+workspace/switch-to-1
  :n "3"    #'+workspace/switch-to-2
