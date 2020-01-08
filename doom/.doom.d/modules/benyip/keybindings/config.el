@@ -1,20 +1,30 @@
 ;;; benyip/keybindings/config.el -*- lexical-binding: t; -*-
 
+(use-package! move-lines
+  :config
+  (map!
+   :n "[e" #'move-lines-up   ; unimpaired
+   :n "]e" #'move-lines-down ; unimpaired
+   ))
+
 (setq evil-snipe-scope 'visible)
 (setq evil-want-Y-yank-to-eol 't)
 
 (map!
- :n "-" 'dired-jump ; like dirvish
+ :n "-" #'dired-jump ; like dirvish
  :n "gp" "`[v`]" ; select the previously pasted text
  :n "Q" "@q" ; run the macro in the q register
- :n "gb" 'ivy-switch-buffer
+ :n "gb" #'ivy-switch-buffer
  :n "T"  #'+workspace/new
+
+ :n "[q" #'previous-error ; good old quickfix
+ :n "]q" #'next-error     ; good old quickfix
 
  :v "." (kbd ":norm . RET")
  :v "Q" (kbd ":norm @q RET")
- :v (kbd "RET") 'align-regexp ; vim-easy-align. press number before get interactive mode
+ :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
-:leader
+ :leader
  (:prefix-map ("o" . "open")
    "c" (λ! (find-file "~/org/gtd/calendar.org"))
    "n" (λ! (find-file "~/org/notes.org"))
