@@ -15,7 +15,7 @@
 ;;      directory (for easy access to its source code).
 
 (doom! :input
-       chinese
+       (:if IS-LINUX chinese)
        ;;japanese
 
        :completion
@@ -185,5 +185,5 @@
        keybindings
        orgmode
        ui
-       chinese
+       (:if IS-LINUX chinese)
        tools)
