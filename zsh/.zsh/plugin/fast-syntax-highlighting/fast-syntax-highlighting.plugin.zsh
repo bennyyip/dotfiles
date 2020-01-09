@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------------------
 # Copyright (c) 2010-2016 zsh-syntax-highlighting contributors
-# Copyright (c) 2017 Sebastian Gniazdowski (modifications)
+# Copyright (c) 2017-2019 Sebastian Gniazdowski (modifications)
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification, are permitted
@@ -35,6 +35,8 @@
 # the plugin directory (i.e. set ZERO parameter)
 # http://zdharma.org/Zsh-100-Commits-Club/Zsh-Plugin-Standard.html
 0="${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}"
+0="${${(M)0:#/*}:-$PWD/$0}"
+
 typeset -g FAST_BASE_DIR="${0:h}"
 typeset -ga _FAST_MAIN_CACHE
 # Holds list of indices pointing at brackets that
@@ -208,15 +210,19 @@ _zsh_highlight_cursor_moved()
 # $1 is name of widget to call
 _zsh_highlight_call_widget()
 {
-  builtin zle "$@" && _zsh_highlight
+  integer ret
+  builtin zle "$@"
+  ret=$?
+  _zsh_highlight
+  return $ret
 }
 
 # Rebind all ZLE widgets to make them invoke _zsh_highlights.
 _zsh_highlight_bind_widgets()
 {
   setopt localoptions noksharrays
-  typeset -F SECONDS
-  local prefix=orig-s$SECONDS-r$RANDOM # unique each time, in case we're sourced more than once
+  local -F2 SECONDS
+  local prefix=orig-s${SECONDS/./}-r$(( RANDOM % 1000 )) # unique each time, in case we're sourced more than once
 
   # Load ZSH module zsh/zleparameter, needed to override user defined widgets.
   zmodload zsh/zleparameter 2>/dev/null || {
@@ -313,15 +319,15 @@ zmodload zsh/system 2>/dev/null
 
 autoload -Uz -- is-at-least fast-theme fast-read-ini-file -fast-run-git-command -fast-make-targets \
                 -fast-run-command -fast-zts-read-all
-autoload -Uz -- chroma/-git.ch chroma/-hub.ch chroma/-lab.ch chroma/-example.ch \
-                chroma/-grep.ch chroma/-perl.ch chroma/-make.ch chroma/-awk.ch \
-                chroma/-vim.ch chroma/-source.ch chroma/-sh.ch chroma/-docker.ch \
-                chroma/-autoload.ch chroma/-ssh.ch chroma/-scp.ch chroma/-which.ch \
-                chroma/-printf.ch chroma/-ruby.ch chroma/-whatis.ch chroma/-alias.ch \
-                chroma/-subcommand.ch chroma/-autorandr.ch chroma/-nmcli.ch \
-                chroma/-fast-theme.ch chroma/-node.ch chroma/-fpath_peq.ch \
-                chroma/-precommand.ch chroma/-subversion.ch chroma/-ionice.ch \
-                chroma/-nice.ch chroma/main-chroma.ch chroma/-ogit.ch chroma/-zplugin.ch
+autoload -Uz -- :chroma/-git.ch :chroma/-hub.ch :chroma/-lab.ch :chroma/-example.ch \
+                :chroma/-grep.ch :chroma/-perl.ch :chroma/-make.ch :chroma/-awk.ch \
+                :chroma/-vim.ch :chroma/-source.ch :chroma/-sh.ch :chroma/-docker.ch \
+                :chroma/-autoload.ch :chroma/-ssh.ch :chroma/-scp.ch :chroma/-which.ch \
+                :chroma/-printf.ch :chroma/-ruby.ch :chroma/-whatis.ch :chroma/-alias.ch \
+                :chroma/-subcommand.ch :chroma/-autorandr.ch :chroma/-nmcli.ch \
+                :chroma/-fast-theme.ch :chroma/-node.ch :chroma/-fpath_peq.ch \
+                :chroma/-precommand.ch :chroma/-subversion.ch :chroma/-ionice.ch \
+                :chroma/-nice.ch :chroma/main-chroma.ch :chroma/-ogit.ch :chroma/-zplugin.ch
 
 source "${0:h}/fast-highlight"
 source "${0:h}/fast-string-highlight"
@@ -330,6 +336,12 @@ local __fsyh_theme
 zstyle -s :plugin:fast-syntax-highlighting theme __fsyh_theme
 
 [[ ( "${+termcap}" != 1 || "${termcap[Co]}" != <-> || "${termcap[Co]}" -lt "256" ) && "$__fsyh_theme" = (default|) ]] && {
+    FAST_HIGHLIGHT_STYLES[defaultvariable]="none"
+    FAST_HIGHLIGHT_STYLES[defaultglobbing-ext]="fg=blue,bold"
+    FAST_HIGHLIGHT_STYLES[defaulthere-string-text]="bg=blue"
+    FAST_HIGHLIGHT_STYLES[defaulthere-string-var]="fg=cyan,bg=blue"
+    FAST_HIGHLIGHT_STYLES[defaultcorrect-subtle]="bg=blue"
+    FAST_HIGHLIGHT_STYLES[defaultsubtle-bg]="bg=blue"
     [[ "${FAST_HIGHLIGHT_STYLES[variable]}" = "fg=113" ]] && FAST_HIGHLIGHT_STYLES[variable]="none"
     [[ "${FAST_HIGHLIGHT_STYLES[globbing-ext]}" = "fg=13" ]] && FAST_HIGHLIGHT_STYLES[globbing-ext]="fg=blue,bold"
     [[ "${FAST_HIGHLIGHT_STYLES[here-string-text]}" = "bg=18" ]] && FAST_HIGHLIGHT_STYLES[here-string-text]="bg=blue"
