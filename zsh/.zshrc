@@ -886,6 +886,8 @@ if [[ -n $IS_ARCH ]]; then
     FAST_HIGHLIGHT[use_async]=1
 fi
 
+source ~/.zsh/plugin/autopair.zsh && autopair-init
+
 export _ZL_FZF=sk
 source ~/.zsh/plugin/z.lua.plugin.zsh
 
