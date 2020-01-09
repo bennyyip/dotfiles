@@ -894,3 +894,4 @@ source ~/.zsh/plugin/z.lua.plugin.zsh
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
 # vim:fdm=marker
+
