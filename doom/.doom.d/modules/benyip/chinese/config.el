@@ -3,6 +3,7 @@
   :init
   (setq pyim-title "ㄓ")
   :bind
+  (("M-]" . pyim-convert-string-at-point)) ;与 pyim-probe-dynamic-english 配合
   :config
   (if (display-graphic-p)
       (setq pyim-page-tooltip 'posframe)

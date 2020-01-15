@@ -5,6 +5,9 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+(use-package! deadgrep)
+
+
 
 (setq keyfreq-excluded-commands
       '(self-insert-command

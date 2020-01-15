@@ -2,3 +2,4 @@
 ;;; benyip/tools/packages.el
 
 (package! keyfreq)
+(package! deadgrep)
