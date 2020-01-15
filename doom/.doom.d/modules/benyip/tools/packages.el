@@ -3,3 +3,4 @@
 
 (package! keyfreq)
 (package! deadgrep)
+(package! sdcv)

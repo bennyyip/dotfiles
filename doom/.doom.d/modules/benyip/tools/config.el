@@ -7,6 +7,13 @@
 
 (use-package! deadgrep)
 
+(use-package! sdcv
+  :config
+  (map!
+   :leader
+   (:prefix-map ("a" . "private")
+     "s" #'sdcv-search-pointer
+     "S" #'sdcv-search-input )))
 
 
 (setq keyfreq-excluded-commands
