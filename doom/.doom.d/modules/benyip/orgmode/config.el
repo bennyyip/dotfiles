@@ -1,7 +1,7 @@
 ;;; benyip/orgmode/config.el -*- lexical-binding: t; -*-
 (setq
  ;; one archive file instead of many
- org-directory "~/org"
+ org-directory "~/org/"
  org-archive-location
  (concat org-directory "archive.org::* From %s")
  org-log-done 'time
