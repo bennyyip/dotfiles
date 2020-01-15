@@ -9,11 +9,15 @@
 
 (use-package! sdcv
   :config
+  (evil-set-initial-state 'sdcv-mode 'emacs)
+  (setq sdcv-dictionary-data-dir (expand-file-name  "~/.config/startdict/"))
   (map!
    :leader
    (:prefix-map ("a" . "private")
      "s" #'sdcv-search-pointer
-     "S" #'sdcv-search-input )))
+     "S" #'sdcv-search-pointer+
+     "i" #'sdcv-search-input
+     "I" #'sdcv-search-input+)))
 
 
 (setq keyfreq-excluded-commands

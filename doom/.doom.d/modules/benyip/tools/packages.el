@@ -3,4 +3,4 @@
 
 (package! keyfreq)
 (package! deadgrep)
-(package! sdcv)
+(package! sdcv :recipe (:host github :repo "manateelazycat/sdcv" :files ("sdcv.el")))
