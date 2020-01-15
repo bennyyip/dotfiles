@@ -13,3 +13,8 @@
 (defun ghq-add-to-projectile ()
   (interactive)
   (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
+
+(defun alacritty-here ()
+  (interactive "@")
+  (shell-command (format "alacritty --working-directory %S > /dev/null 2>&1 & disown"
+                         default-directory)))
