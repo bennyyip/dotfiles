@@ -173,7 +173,7 @@
        ;;(wanderlust +gmail)
 
        :app
-       ;;calendar
+       calendar
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
@@ -183,9 +183,10 @@
        (default +bindings +smartparens)
 
        :benyip
+       chinese
        basic
        keybindings
        orgmode
-       ui
-       (:if IS-LINUX chinese)
-       tools)
+       telega
+       tools
+       ui)
