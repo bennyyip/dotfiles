@@ -9,3 +9,8 @@
  org-bullets-bullet-list '("⁂")
  org-ellipsis (if (char-displayable-p ?⬎)  " ▾ " nil)
  org-startup-with-inline-images t)
+
+(after! org-clock
+  (setq
+   org-clock-into-drawer t
+   org-clock-out-remove-zero-time-clocks t))
