@@ -15,7 +15,7 @@
 ;;      directory (for easy access to its source code).
 
 (doom! :input
-       (:if IS-LINUX chinese)
+       chinese
        ;;japanese
 
        :completion
