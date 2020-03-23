@@ -61,12 +61,24 @@
   ;; 开启拼音搜索功能
   (pyim-isearch-mode 1))
 
-(use-package! liberime-config
-  :when IS-LINUX
+(use-package! liberime
+  :when (or IS-LINUX IS-MAC)
   :init
   (setq liberime-user-data-dir (concat doom-private-dir "etc/rime"))
-  (add-hook 'liberime-after-start-hook
-    (lambda! (liberime-select-schema "double_pinyin_flypy"))))
+  (when IS-LINUX
+    (setq liberime-shared-data-dir (expand-file-name "~/.config/fcitx/rime/")))
+  (when IS-MAC
+    (setq liberime-shared-data-dir (expand-file-name "~/Library/Rime/")))
+  (setq pyim-title "ㄓ")
+  (add-hook! 'liberime-after-start-hook
+    (lambda () (liberime-select-schema "double_pinyin_flypy")))
+  ;; (add-hook! 'after-init-hook
+  ;;  #'liberime-sync)
+  :config
+  (unless (file-exists-p (concat (liberime-get-library-directory)
+                               "build/liberime-core"
+                               module-file-suffix))
+    (liberime-build)))
 
 (use-package! sdcv
   :commands (sdcv-search-pointer
