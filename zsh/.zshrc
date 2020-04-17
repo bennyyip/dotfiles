@@ -880,7 +880,7 @@ source ~/.zsh/plugin/commacd.zsh
 
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 
-if [[ -n $IS_ARCH ]]; then
+if [[ $IS_ARCH == 1 ]]; then
     ZSH_AUTOSUGGEST_USE_ASYNC=1
     source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
     FAST_HIGHLIGHT[use_async]=1
