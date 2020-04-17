@@ -1,10 +1,10 @@
 #! /usr/bin/env lua
 --=====================================================================
 --
--- z.lua - a cd command that learns, by skywind 2018, 2019
+-- z.lua - a cd command that learns, by skywind 2018, 2019, 2020
 -- Licensed under MIT license.
 --
--- Version 1.7.4, Last Modified: 2019/12/29 04:52
+-- Version 1.8.6, Last Modified: 2020/03/17 16:32
 --
 -- * 10x faster than fasd and autojump, 3x faster than z.sh
 -- * available for posix shells: bash, zsh, sh, ash, dash, busybox
@@ -1585,7 +1585,7 @@ function z_cd(patterns)
 		io.stderr:write('> ')
 		io.stderr:flush()
 		local input = io.read('*l')
-		if input == nil then
+		if input == nil or input == '' then
 			return nil
 		end
 		local index = tonumber(input)
@@ -1768,6 +1768,91 @@ end
 
 
 -----------------------------------------------------------------------
+-- cd breadcrumbs: z -b -i, z -b -I
+-----------------------------------------------------------------------
+function cd_breadcrumbs(pwd, interactive)
+	local pwd = (pwd == nil or pwd == '') and os.pwd() or pwd
+	local pwd = os.path.normpath(pwd)
+	local path, _ = os.path.split(pwd)
+	local elements = {}
+	local interactive = interactive and interactive or 1
+	local fullname = os.environ('_ZL_FULL_PATH', false)
+	while true do
+		local head, name = os.path.split(path)
+		if head == path  then		-- reached root
+			table.insert(elements, {head, head})
+			break
+		elseif name ~= '' then
+			table.insert(elements, {name, path})
+		else
+			break
+		end
+		path = head
+	end
+	local tmpname = '/tmp/zlua.txt'
+	local fp = io.stderr
+	if interactive == 2 then
+		if not windows then
+			tmpname = os.tmpname()
+		else
+			tmpname = os.tmpname():gsub('\\', ''):gsub('%.', '')
+			tmpname = os.environ('TMP', '') .. '\\zlua_' .. tmpname .. '.txt'
+		end
+		fp = io.open(tmpname, 'w')
+	end
+	-- print table
+	local maxsize = string.len(tostring(#elements))
+	for i = #elements, 1, -1 do
+		local item = elements[i]
+		local name = item[1]
+		local text = string.rep(' ', maxsize - string.len(i)) .. tostring(i)
+		text = text .. ': ' .. (fullname and item[2] or item[1])
+		fp:write(text .. '\n')
+	end
+	if fp ~= io.stderr then
+		fp:close()
+	end
+	local retval = ''
+	-- select from stdin or fzf
+	if interactive == 1 then
+		io.stderr:write('> ')
+		io.stderr:flush()
+		retval = io.read('*l')
+	elseif interactive == 2 then
+		local fzf = os.environ('_ZL_FZF', 'fzf')
+		local cmd = '--reverse --inline-info --tac '
+		local flag = os.environ('_ZL_FZF_FLAG', '')
+		flag = (flag == '' or flag == nil) and '+s -e' or flag
+		cmd = ((fzf == '') and 'fzf' or fzf) .. ' ' .. cmd .. ' ' .. flag
+		if not windows then
+			local height = os.environ('_ZL_FZF_HEIGHT', '35%')
+			if height ~= nil and height ~= '' and height ~= '0' then
+				cmd = cmd .. ' --height ' .. height
+			end
+			cmd = cmd .. '< "' .. tmpname .. '"'
+		else
+			cmd = 'type "' .. tmpname .. '" | ' .. cmd
+		end
+		retval = os.call(cmd)
+		os.remove(tmpname)
+		if retval == '' or retval == nil then
+			return nil
+		end
+		local pos = retval:find(':')
+		if not pos then
+			return nil
+		end
+		retval = retval:sub(1, pos - 1):gsub('^%s*', '')
+	end
+	local index = tonumber(retval)
+	if index == nil or index < 1 or index > #elements then
+		return nil
+	end
+	return elements[index][2]
+end
+
+
+-----------------------------------------------------------------------
 -- main entry
 -----------------------------------------------------------------------
 function main(argv)
@@ -1801,7 +1886,11 @@ function main(argv)
 	if options['--cd'] or options['-e'] then
 		local path = ''
 		if options['-b'] then
-			path = cd_backward(args, options)
+			if Z_INTERACTIVE == 0 then
+				path = cd_backward(args, options)
+			else
+				path = cd_breadcrumbs('', Z_INTERACTIVE)
+			end
 		elseif options['-'] then
 			path = cd_minus(args, options)
 		elseif #args == 0 then
@@ -2112,14 +2201,14 @@ fi
 local script_complete_zsh = [[
 _zlua_zsh_tab_completion() {
 	# tab completion
-	local compl
-	read -l compl
 	(( $+compstate )) && compstate[insert]=menu # no expand
-	reply=(${(f)"$(_zlua --complete "$compl")"})
+	local -a tmp=(${(f)"$(_zlua --complete "${words/_zlua/z}")"})
+	_describe "directory" tmp -U
 }
-compctl -U -K _zlua_zsh_tab_completion _zlua
+if [ "${+functions[compdef]}" -ne 0 ]; then
+	compdef _zlua_zsh_tab_completion _zlua 2> /dev/null
+fi
 ]]
-
 
 
 -----------------------------------------------------------------------
@@ -2141,6 +2230,10 @@ function z_shell_init(opts)
 
 	local prompt_hook = (not os.environ("_ZL_NO_PROMPT_COMMAND", false))
 	local once = os.environ("_ZL_ADD_ONCE", false) or opts.once ~= nil
+
+	if opts.clean ~= nil then
+		prompt_hook = false
+	end
 
 	if opts.bash ~= nil then
 		if prompt_hook then
@@ -2311,18 +2404,24 @@ function z_fish_init(opts)
 	print('set -x ZLUA_SCRIPT "' .. os.scriptname() .. '"')
 	print('set -x ZLUA_LUAEXE "' .. os.interpreter() .. '"')
 	local once = (os.getenv("_ZL_ADD_ONCE") ~= nil) or opts.once ~= nil
+	local prompt_hook = (not os.environ("_ZL_NO_PROMPT_COMMAND", false))
+	if opts.clean ~= nil then
+		prompt_hook = false
+	end
 	print(script_zlua_fish)
-	if once then
-		print(script_init_fish_once)
-	else
-		print(script_init_fish)
+	if prompt_hook then
+		if once then
+			print(script_init_fish_once)
+		else
+			print(script_init_fish)
+		end
 	end
 	print(script_complete_fish)
 	if opts.enhanced ~= nil then
 		print('set -x _ZL_MATCH_MODE 1')
 	end
 	if opts.echo then
-		print('set _ZL_ECHO 1')
+		print('set -g _ZL_ECHO 1')
 	end
 	if opts.nc then
 		print('set -x _ZL_NO_CHECK 1')
@@ -2505,6 +2604,10 @@ if (!$env:_ZL_NO_PROMPT_COMMAND -and (!$global:_zlua_inited)) {
 -- initialize cmd/powershell
 -----------------------------------------------------------------------
 function z_windows_init(opts)
+	local prompt_hook = (not os.environ("_ZL_NO_PROMPT_COMMAND", false))
+	if opts.clean ~= nil then
+		prompt_hook = false
+	end
 	if opts.powershell ~= nil then
 		print('$script:ZLUA_LUAEXE = "' .. os.interpreter() .. '"')
 		print('$script:ZLUA_SCRIPT = "' .. os.scriptname() .. '"')
@@ -2521,7 +2624,9 @@ function z_windows_init(opts)
 		if opts.nc ~= nil then
 			print('$env:_ZL_NO_CHECK = 1')
 		end
-		print(script_init_powershell)
+		if prompt_hook then
+			print(script_init_powershell)
+		end
 	else
 		print('@echo off')
 		print('setlocal EnableDelayedExpansion')
@@ -2592,6 +2697,5 @@ if not pcall(debug.getlocal, 4, 1) then
 		main()
 	end
 end
-
 
 
