@@ -845,7 +845,7 @@ PS2="%{${E}[2m%}%_>%{${E}[0m%} "
 unset E
 
 # 分割线
-PS1=$'${(r:$COLUMNS::\u2500:)}'$PS1
+# PS1=$'${(r:$COLUMNS::\u2500:)}'$PS1
 
 CORRECT_IGNORE='_*'
 READNULLCMD=less
@@ -880,13 +880,14 @@ source ~/.zsh/plugin/commacd.zsh
 
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
 
+source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/plugin/autopair.zsh && autopair-init
+
+
 if [[ $IS_ARCH == 1 ]]; then
     ZSH_AUTOSUGGEST_USE_ASYNC=1
-    source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
     FAST_HIGHLIGHT[use_async]=1
 fi
-
-source ~/.zsh/plugin/autopair.zsh && autopair-init
 
 export _ZL_FZF=sk
 source ~/.zsh/plugin/z.lua.plugin.zsh
