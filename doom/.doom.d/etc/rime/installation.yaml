@@ -1,0 +1,7 @@
+distribution_code_name: "emacs-liberime"
+distribution_name: Rime
+distribution_version: 0.1.0
+install_time: "Thu May 21 10:55:01 2020"
+sync_dir: "/home/benyip/.config/fcitx/rime/sync"
+installation_id: "Emacs"
+rime_version: 1.5.3
