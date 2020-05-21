@@ -28,6 +28,7 @@
   ;; 2. 光标前是汉字字符时，才能输入中文。
   ;; 3. 使用 C-S-M-s-SPC 快捷键，强制将光标前的拼音字符串转换为中文。
   ;; 4. 当光标在按钮上时，切换到英文输入。
+  ;; 开启拼音搜索功能
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-isearch-mode
                   pyim-probe-program-mode
@@ -45,6 +46,12 @@
     (add-to-list 'pyim-english-input-switch-functions
                  'pyim-probe-auto-english))
 
+  (add-hook! '(text-mode-hook prog-mode-hook)
+             ;; active pyim by default
+             ;; for some unknown reason directly calling `active-input-method'
+             ;; is not working, but it works with `run-at-time'
+             ((lambda () (run-at-time nil nil 'activate-input-method "pyim"))))
+
   (setq-default pyim-punctuation-half-width-functions
                 '(pyim-probe-punctuation-line-beginning
                   pyim-probe-punctuation-after-punctuation
@@ -58,27 +65,27 @@
   (setq pyim-local-variable-list
         (delete 'pyim-english-input-switch-functions pyim-local-variable-list))
 
-  ;; 开启拼音搜索功能
   (pyim-isearch-mode 1))
 
 (use-package! liberime
   :when (or IS-LINUX IS-MAC)
   :init
-  (setq liberime-user-data-dir (concat doom-private-dir "etc/rime"))
-  (when IS-LINUX
-    (setq liberime-shared-data-dir (expand-file-name "~/.config/fcitx/rime/")))
-  (when IS-MAC
-    (setq liberime-shared-data-dir (expand-file-name "~/Library/Rime/")))
-  (setq pyim-title "ㄓ")
+  (setq liberime-user-data-dir (expand-file-name (concat doom-private-dir "/etc/rime/")))
+                                        ; (when IS-LINUX
+                                        ;   (setq liberime-shared-data-dir (expand-file-name "~/.config/fcitx/rime/")))
+                                        ; (when IS-MAC
+                                        ;   (setq liberime-shared-data-dir (expand-file-name "~/Library/Rime/")))
+  (setq pyim-titles '("ㄓ" "ㄓ-EN" "ㄓ-AU"))
+  (add-hook! 'after-init-hook
+             #'liberime-sync)
   (add-hook! 'liberime-after-start-hook
     (lambda () (liberime-select-schema "double_pinyin_flypy")))
-  ;; (add-hook! 'after-init-hook
-  ;;  #'liberime-sync)
   :config
   (unless (file-exists-p (concat (liberime-get-library-directory)
-                               "build/liberime-core"
-                               module-file-suffix))
+                                 "build/liberime-core"
+                                 module-file-suffix))
     (liberime-build)))
+
 
 (use-package! sdcv
   :commands (sdcv-search-pointer
@@ -89,10 +96,10 @@
   (map!
    :leader
    (:prefix-map ("a" . "private")
-     "s" #'sdcv-search-pointer
-     "S" #'sdcv-search-pointer+
-     "i" #'sdcv-search-input
-     "I" #'sdcv-search-input+))
+    "s" #'sdcv-search-pointer
+    "S" #'sdcv-search-pointer+
+    "i" #'sdcv-search-input
+    "I" #'sdcv-search-input+))
 
   :config
   (evil-set-initial-state 'sdcv-mode 'emacs)
