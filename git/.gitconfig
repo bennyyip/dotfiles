@@ -44,6 +44,10 @@
 [help]
   autocorrect = 1
 [url "git@git.code.oa.com:"]
-	insteadOf = https://git.code.oa.com/
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+        insteadOf = https://git.code.oa.com/
+[url "git@git.code.oa.com:"]
+        insteadOf = http://git.code.oa.com/
+# [url "git@github.com:"]
+#       insteadOf = https://github.com/
+# [http]
+#       proxy = http://10.14.36.121:8080
