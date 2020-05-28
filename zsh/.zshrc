@@ -654,7 +654,7 @@ imgvim(){
 
 dsf(){
   # depends on diff-so-fancy
-  git diff --histogram --color=always $@ | diff-so-fancy | less --tab=4 -RFX
+  git diff --patience --color=always $@ | diff-so-fancy | less --tab=4 -RFX
 }
 
 alias md=mkdir
@@ -827,24 +827,28 @@ function lambda()
   fi
 }
 
-ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
-
-if [[ -n $DISPLAY ]]; then
-  PS1='%F{74}%* %F{114}%n%F{white} @ %F{174}%M %F{white}ω %F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
-elif [[ -n $SSH_CONNECTION ]]; then
-  PS1='%F{74}%* %F{114}%n%F{white}@%F{174}$ipL%F{white}:%F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
+if [[ $commands[starship] ]]; then
+    eval $(starship init zsh)
 else
-  # do not use unicode in tty
-  PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
->>>%f '
+    ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
+
+    if [[ -n $DISPLAY ]]; then
+      PS1='%F{74}%* %F{114}%n%F{white} @ %F{174}%M %F{white}ω %F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
+    elif [[ -n $SSH_CONNECTION ]]; then
+      PS1='%F{74}%* %F{114}%n%F{white}@%F{174}$ipL%F{white}:%F{142}%~ %F{yellow}$_current_branch$(lambda) %f'
+    else
+      # do not use unicode in tty
+      PS1='%F{yellow}%* %F{cyan}%n%F{white} @ %F{magenta}%M %F{white}in %F{green}%~ %F{red}$_current_branch %F{cyan}
+    >>>%f '
+    fi
+
+    # 次提示符：使用暗色
+    PS2="%{${E}[2m%}%_>%{${E}[0m%} "
+    unset E
+
+    # 分割线
+    # PS1=$'${(r:$COLUMNS::\u2500:)}'$PS1
 fi
-
-# 次提示符：使用暗色
-PS2="%{${E}[2m%}%_>%{${E}[0m%} "
-unset E
-
-# 分割线
-# PS1=$'${(r:$COLUMNS::\u2500:)}'$PS1
 
 CORRECT_IGNORE='_*'
 READNULLCMD=less
@@ -897,3 +901,4 @@ source ~/.zsh/plugin/docker-alias.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
 # vim:fdm=marker
 
+export PATH="$PATH:$HOME/.ft"
