@@ -601,7 +601,6 @@ alias :q="exit"
 alias :qa="tmux detach"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 
-alias d="sudo docker"
 alias k="kubectl"
 
 (($+commands[exa])) && {
@@ -883,14 +882,16 @@ source ~/.zsh/plugin/zsh-autosuggestions.zsh
 source ~/.zsh/plugin/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/plugin/autopair.zsh && autopair-init
 
-
 if [[ $IS_ARCH == 1 ]]; then
     ZSH_AUTOSUGGEST_USE_ASYNC=1
     FAST_HIGHLIGHT[use_async]=1
 fi
 
+
 export _ZL_FZF=sk
 source ~/.zsh/plugin/z.lua.plugin.zsh
+
+source ~/.zsh/plugin/docker-alias.zsh
 
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
