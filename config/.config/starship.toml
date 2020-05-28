@@ -44,15 +44,26 @@ prompt_order =  [
 
 [custom.username]
 command = "whoami"
-when = "true"
+when = """test "$SSH_CONNECTION" != ''"""
 prefix = ""
 suffix = ""
 symbol = ""
 style = "fg:114"
 
+[custom.ip]
+command = """ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1"""
+when = """test "$SSH_CONNECTION" != ''"""
+style = "fg:174"
+symbol="@"
+prefix = ""
+suffix = ":"
+
 [directory]
-prefix = ":"
-style = "142"
+prefix = ""
+style = "fg:142"
+truncation_length = 999
+truncate_to_repo = true
+fish_style_pwd_dir_length = 2
 
 [character]
 symbol = "λ"
@@ -61,14 +72,6 @@ style_success = "fg:yellow"
 [time]
 style = "fg:74"
 disabled = false
-
-[custom.ip]
-command = """ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1"""
-when = "true"
-style = "fg:174"
-symbol="@"
-prefix = ""
-suffix = ""
 
 [git_status]
 disabled = true
