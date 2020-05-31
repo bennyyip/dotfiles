@@ -827,7 +827,7 @@ function lambda()
   fi
 }
 
-if [[ $commands[starship] ]]; then
+if (( $+commands[starship] )); then
     eval $(starship init zsh)
 else
     ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
