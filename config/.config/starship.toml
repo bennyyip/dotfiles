@@ -46,20 +46,17 @@ prompt_order =  [
 command = "whoami"
 when = """test "$SSH_CONNECTION" != ''"""
 prefix = ""
-suffix = ""
-symbol = ""
 style = "fg:114"
 
 [custom.ip]
 command = """ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1"""
 when = """test "$SSH_CONNECTION" != ''"""
 style = "fg:174"
-symbol="@"
+symbol="@ "
 prefix = ""
-suffix = ":"
 
 [directory]
-prefix = ""
+prefix = "ω "
 style = "fg:142"
 truncation_length = 999
 truncate_to_repo = true
@@ -75,3 +72,4 @@ disabled = false
 
 [git_status]
 disabled = true
+
