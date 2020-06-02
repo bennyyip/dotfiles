@@ -43,13 +43,18 @@
     rebase = true
 [help]
     autocorrect = 1
+
 [url "git@git.code.oa.com:"]
     insteadOf = https://git.code.oa.com/
-[url "git@git.code.oa.com:"]
     insteadOf = http://git.code.oa.com/
-    insteadOf = https://git.code.oa.com/
-[url "git@github.com:"]
-    insteadOf = https://github.com/
+    insteadOf = https://git.oa.com/
+    insteadOf = http://git.oa.com/
+
+[push]
+    default = current
 
 [includeIf "gitdir:~/tencent/"]
+    path = .gitconfig-tencent
+
+[includeIf "gitdir:~/ghq/git.code.oa.com"]
     path = .gitconfig-tencent
