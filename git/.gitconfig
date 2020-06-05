@@ -56,5 +56,5 @@
 [includeIf "gitdir:~/tencent/"]
     path = .gitconfig-tencent
 
-[includeIf "gitdir:~/ghq/git.code.oa.com"]
+[includeIf "gitdir:~/ghq/git.code.oa.com/"]
     path = .gitconfig-tencent
