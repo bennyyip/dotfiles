@@ -5,6 +5,7 @@
 [user]
     name = bennyyip
     email = yebenmy@protonmail.com
+	signingkey = 0x11CD7ED945B1A60F
 [push]
     default = matching
 [core]
