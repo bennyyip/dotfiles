@@ -593,6 +593,29 @@ elif [[ $TERM == screen* ]]; then
 elif [[ $TERM == tmux* ]]; then
   cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
 fi
+
+# GPG
+function gpg_restart {
+  pkill gpg
+  pkill pinentry
+  pkill ssh-agent
+  eval $(gpg-agent --daemon --enable-ssh-support) }
+
+function secret {
+  output="${HOME}/$(basename ${1}).$(date +%F).enc"
+  gpg --encrypt --armor \
+    --output ${output} \
+    -r $KEYID \
+    "${1}" && echo "${1} -> ${output}" }
+
+function reveal {
+  output=$(echo "${1}" | rev | cut -c16- | rev)
+  gpg --decrypt --output ${output} "${1}" \
+    && echo "${1} -> ${output}" }
+
+
+
+
 # 別名 {{{1
 alias vi=vim
 alias nv=nvim
@@ -899,6 +922,13 @@ source ~/.zsh/plugin/docker-alias.zsh
 
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
-# vim:fdm=marker
 
-export PATH="$PATH:$HOME/.ft"
+# put in .zshrc.local
+#
+# export KEYID=0x11CD7ED945B1A60F
+#
+# export GPG_TTY="$(tty)"
+# export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+# gpgconf --launch gpg-agent
+
+# vim:fdm=marker
