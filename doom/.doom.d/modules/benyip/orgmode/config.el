@@ -14,3 +14,5 @@
   (setq
    org-clock-into-drawer t
    org-clock-out-remove-zero-time-clocks t))
+
+(use-package! ox-gfm)
