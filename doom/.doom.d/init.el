@@ -187,6 +187,5 @@
        basic
        keybindings
        orgmode
-       telega
        tools
        ui)
