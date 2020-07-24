@@ -16,6 +16,7 @@
  :n "Q" "@q" ; run the macro in the q register
  :n "gb" #'ivy-switch-buffer
  :n "T"  #'+workspace/new
+ :n "gs" #'+workspace/close-window-or-workspace
 
  :n "[q" #'previous-error ; good old quickfix
  :n "]q" #'next-error     ; good old quickfix
@@ -24,11 +25,16 @@
  :v "Q" (kbd ":norm @q RET")
  :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
+ :i "C-v" #'evil-paste-after
+
  :leader
  (:prefix-map ("o" . "open")
    "c" (λ! (find-file "~/org/gtd/calendar.org"))
    "n" (λ! (find-file "~/org/notes.org"))
    "t" (λ! (find-file "~/org/todo.org")))
+
+ :n "m" #'highlight-symbol-at-point
+ :n "M" #'unhighlight-regexp
 
  :n "1"    #'+workspace/switch-to-0
  :n "2"    #'+workspace/switch-to-1
