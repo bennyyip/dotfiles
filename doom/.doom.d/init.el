@@ -184,6 +184,7 @@
 
        :benyip
        chinese
+       japanese
        basic
        keybindings
        orgmode
