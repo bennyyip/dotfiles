@@ -730,6 +730,11 @@ paclist() {
 
 alias upvim="vim +PlugUpgrade +PlugUpdate"
 
+
+# julia
+alias jl=julia
+alias jl.="julia --project=."
+
 # 全局别名 {{{2
 # 当前目录下最后修改的文件
 # 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
