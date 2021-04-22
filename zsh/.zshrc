@@ -925,6 +925,8 @@ source ~/.zsh/plugin/z.lua.plugin.zsh
 
 source ~/.zsh/plugin/docker-alias.zsh
 
+export PATH=$PATH:~/.zsh/plugin/git-fuzzy/bin
+
 # Modeline {{{1
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
 
