@@ -1,10 +1,10 @@
 #! /usr/bin/env lua
 --=====================================================================
 --
--- z.lua - a cd command that learns, by skywind 2018, 2019, 2020
+-- z.lua - a cd command that learns, by skywind 2018, 2019, 2020, 2021
 -- Licensed under MIT license.
 --
--- Version 1.8.6, Last Modified: 2020/03/17 16:32
+-- Version 1.8.12, Last Modified: 2021/02/15 00:05
 --
 -- * 10x faster than fasd and autojump, 3x faster than z.sh
 -- * available for posix shells: bash, zsh, sh, ash, dash, busybox
@@ -49,9 +49,9 @@
 --         source (lua /path/to/z.lua --init fish | psub)
 --
 -- Power Shell Install:
---
 --     * put something like this in your config file:
---         iex ($(lua /path/to/z.lua --init powershell) -join "`n")
+--         Invoke-Expression (& { 
+--           (lua /path/to/z.lua --init powershell) -join "`n" })
 --
 -- Windows Install (with Clink):
 --     * copy z.lua and z.cmd to clink's home directory
@@ -62,6 +62,10 @@
 --     * copy z.lua and z.cmd to cmder/vendor
 --     * Add cmder/vendor to %PATH%
 --     * Ensure that "lua" can be called in %PATH%
+--
+-- Windows WSL-1:
+--     * Install lua-filesystem module before init z.lua:
+--         sudo apt-get install lua-filesystem
 --
 -- Configure (optional):
 --   set $_ZL_CMD in .bashrc/.zshrc to change the command (default z).
@@ -319,14 +323,16 @@ if os.native.status then
 		uint32_t GetTickCount(void);
 		uint32_t GetFileAttributesA(const char *name);
 		uint32_t GetCurrentDirectoryA(uint32_t size, char *ptr);
+		uint32_t GetShortPathNameA(const char *longname, char *shortname, uint32_t size);
+		uint32_t GetLongPathNameA(const char *shortname, char *longname, uint32_t size);
 		]]
 		local kernel32 = ffi.load('kernel32.dll')
-		local buffer = ffi.new('char[?]', 300)
+		local buffer = ffi.new('char[?]', 4100)
 		local INVALID_FILE_ATTRIBUTES = 0xffffffff
 		local FILE_ATTRIBUTE_DIRECTORY = 0x10
 		os.native.kernel32 = kernel32
 		function os.native.GetFullPathName(name)
-			local hr = kernel32.GetFullPathNameA(name, 290, buffer, nil)
+			local hr = kernel32.GetFullPathNameA(name, 4096, buffer, nil)
 			return (hr > 0) and ffi.string(buffer, hr) or nil
 		end
 		function os.native.ReplaceFile(replaced, replacement)
@@ -338,6 +344,21 @@ if os.native.status then
 		end
 		function os.native.GetFileAttributes(name)
 			return kernel32.GetFileAttributesA(name)
+		end
+		function os.native.GetLongPathName(name)
+			local hr = kernel32.GetLongPathNameA(name, buffer, 4096)
+			return (hr ~= 0) and ffi.string(buffer, hr) or nil
+		end
+		function os.native.GetShortPathName(name)
+			local hr = kernel32.GetShortPathNameA(name, buffer, 4096)
+			return (hr ~= 0) and ffi.string(buffer, hr) or nil
+		end
+		function os.native.GetRealPathName(name)
+			local short = os.native.GetShortPathName(name)
+			if short then
+				return os.native.GetLongPathName(short)
+			end
+			return nil
 		end
 		function os.native.exists(name)
 			local attr = os.native.GetFileAttributes(name)
@@ -352,7 +373,7 @@ if os.native.status then
 			return (attr % (2 * isdir)) >= isdir
 		end
 		function os.native.getcwd()
-			local hr = kernel32.GetCurrentDirectoryA(299, buffer)
+			local hr = kernel32.GetCurrentDirectoryA(4096, buffer)
 			if hr <= 0 then return nil end
 			return ffi.string(buffer, hr)
 		end
@@ -553,6 +574,9 @@ end
 function os.path.exists(name)
 	if name == '/' then
 		return true
+	end
+	if os.native and os.native.exists then
+		return os.native.exists(name)
 	end
 	local ok, err, code = os.rename(name, name)
 	if not ok then
@@ -1357,6 +1381,14 @@ function z_add(path)
 				end
 			end
 			if not skip then
+				if windows then
+					if os.native and os.native.GetRealPathName then
+						local ts = os.native.GetRealPathName(path)
+						if ts then
+							path = ts
+						end
+					end
+				end
 				M = data_insert(M, path)
 				count = count + 1
 			end
@@ -1927,6 +1959,8 @@ function main(argv)
 			z_windows_init(opts)
 		elseif opts.fish then
 			z_fish_init(opts)
+		elseif opts.powershell then
+		       z_windows_init(opts)
 		else
 			z_shell_init(opts)
 		end
@@ -2029,6 +2063,7 @@ end
 -----------------------------------------------------------------------
 function z_clink_init()
 	local once = os.environ("_ZL_ADD_ONCE", false)
+	local _zl_clink_prompt_priority = os.environ('_ZL_CLINK_PROMPT_PRIORITY', 99)
 	local previous = ''
 	function z_add_to_database()
 		pwd = clink.get_cwd()
@@ -2040,7 +2075,7 @@ function z_clink_init()
 		end
 		z_add(clink.get_cwd())
 	end
-	clink.prompt.register_filter(z_add_to_database, 99)
+	clink.prompt.register_filter(z_add_to_database, _zl_clink_prompt_priority)
 	function z_match_completion(word)
 		local M = z_match({word}, Z_METHOD, Z_SUBDIR)
 		for _, item in pairs(M) do
@@ -2050,6 +2085,8 @@ function z_clink_init()
 	end
 	local z_parser = clink.arg.new_parser()
 	z_parser:set_arguments({ z_match_completion })
+	z_parser:set_flags("-c", "-r", "-i", "--cd", "-e", "-b", "--add", "-x", "--purge", 
+		"--init", "-l", "-s", "--complete", "--help", "-h")
 	clink.arg.register_parser("z", z_parser)
 end
 
@@ -2472,6 +2509,11 @@ if /i "%1"=="-x" (
 	shift /1
 	goto parse
 )
+if /i "%1"=="--add" (
+	set "RunMode=--add"
+	shift /1
+	goto parse
+)
 if "%1"=="-i" (
 	set "InterMode=-i"
 	shift /1
@@ -2510,12 +2552,18 @@ if /i "%RunMode%"=="-n" (
 			pushd !NewPath!
 			pushd !NewPath!
 			endlocal
-			popd
+			goto popdir
 		)
 	)
 )	else (
 	call "%LuaExe%" "%LuaScript%" "%RunMode%" %MatchType% %StrictSub% %InterMode% %StripMode% %*
 )
+goto end
+:popdir
+popd
+setlocal
+set "NewPath=%CD%"
+endlocal & popd & cd /d "%NewPath%"
 :end
 ]]
 
@@ -2664,6 +2712,7 @@ end
 -----------------------------------------------------------------------
 os.lfs = {}
 os.lfs.enable = os.getenv('_ZL_USE_LFS')
+os.lfs.enable = '1'
 if os.lfs.enable ~= nil then
 	local m = string.lower(os.lfs.enable)
 	if (m == '1' or m == 'yes' or m == 'true' or m == 't') then
@@ -2698,4 +2747,5 @@ if not pcall(debug.getlocal, 4, 1) then
 	end
 end
 
+-- vim: set ts=4 sw=4 tw=0 noet :
 
