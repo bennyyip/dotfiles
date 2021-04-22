@@ -53,7 +53,7 @@ then
     fpath+=( "${0:h}" )
 fi
 
-if [[ "$FAST_WORK_DIR" = /usr/* || ( "$FAST_WORK_DIR" = /opt/* && ! -w "$FAST_WORK_DIR" ) ]]; then
+if [[ ! -w $FAST_WORK_DIR ]]; then
     FAST_WORK_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/fsh"
     command mkdir -p "$FAST_WORK_DIR"
 fi
@@ -236,7 +236,7 @@ _zsh_highlight_bind_widgets()
 
   # Override ZLE widgets to make them invoke _zsh_highlight.
   local -U widgets_to_bind
-  widgets_to_bind=(${${(k)widgets}:#(.*|run-help|which-command|beep|set-local-history|yank|zle-line-pre-redraw)})
+  widgets_to_bind=(${${(k)widgets}:#(.*|run-help|which-command|beep|set-local-history|yank|zle-line-pre-redraw|zle-keymap-select)})
 
   # Always wrap special zle-line-finish widget. This is needed to decide if the
   # current line ends and special highlighting logic needs to be applied.
@@ -360,15 +360,22 @@ alias fsh-alias=fast-theme
 
 -fast-highlight-fill-option-variables
 
-if [[ ! -e $FAST_BASE_DIR/secondary_theme.zsh ]] {
+if [[ ! -e $FAST_WORK_DIR/secondary_theme.zsh ]] {
     if { type curl &>/dev/null } {
-        curl -fsSL -o "$FAST_BASE_DIR/secondary_theme.zsh" \
+        curl -fsSL -o "$FAST_WORK_DIR/secondary_theme.zsh" \
             https://raw.githubusercontent.com/zdharma/fast-syntax-highlighting/master/share/free_theme.zsh \
             &>/dev/null
     } elif { type wget &>/dev/null } {
-        wget -O "$FAST_BASE_DIR/secondary_theme.zsh" \
+        wget -O "$FAST_WORK_DIR/secondary_theme.zsh" \
             https://raw.githubusercontent.com/zdharma/fast-syntax-highlighting/master/share/free_theme.zsh \
             &>/dev/null
     }
-    touch "$FAST_BASE_DIR/secondary_theme.zsh"
+    touch "$FAST_WORK_DIR/secondary_theme.zsh"
 }
+
+if [[ $(uname -a) = (#i)*darwin* ]] {
+    typeset -gA FAST_HIGHLIGHT
+    FAST_HIGHLIGHT[chroma-man]=
+}
+
+[[ $COLORTERM == (24bit|truecolor) || ${terminfo[colors]} -eq 16777216 ]] || zmodload zsh/nearcolor &>/dev/null
