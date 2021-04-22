@@ -2,10 +2,12 @@
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f
     required = true
+[github]
+    user = bennyyip
 [user]
     name = bennyyip
     email = yebenmy@protonmail.com
-	signingkey = 0x11CD7ED945B1A60F
+    signingkey = 0x11CD7ED945B1A60F
 [push]
     default = matching
 [core]
@@ -33,9 +35,9 @@
     co = checkout
     cl = clone
     ci = commit
+    unstage = reset HEAD --
     st = status -sb
     br = branch
-    unstage = reset HEAD --
     dc = diff --cached
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
     supdate = submodule update --remote --recursive --rebase
@@ -59,3 +61,34 @@
 
 [includeIf "gitdir:~/ghq/git.code.oa.com/"]
     path = .gitconfig-tencent
+[init]
+    defaultBranch = master
+[diff]
+    algorithm = patience
+
+[pager]
+    # or not... # insanely beautiful diffs ==> npm install -g diff-so-fancy
+    # https://github.com/dandavison/delta
+    diff = delta # diff-so-fancy | less --tabs=4 -RFX
+    show = delta # diff-so-fancy | less --tabs=4 -RFX
+
+[diff]
+    # https://blog.github.com/2018-04-05-git-217-released/
+    colorMoved = plain
+
+[delta]
+    syntax-theme = gruvbox-dark
+
+    file-decoration-style = yellow ol ul
+    file-style = bold yellow ul
+    hunk-header-decoration-style = none
+
+    # features = side-by-side line-numbers decorations
+
+[delta "decorations"]
+    file-decoration-style = yellow ol ul
+    file-style = bold yellow ul
+    hunk-header-decoration-style = none
+
+[interactive]
+    diffFilter = delta --color-only
