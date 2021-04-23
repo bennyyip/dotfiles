@@ -1,75 +1,60 @@
 add_newline = false
-prompt_order =  [
-    "time",
-    "custom.username",
-    "custom.ip",
-    "kubernetes",
-    "directory",
-    "git_branch",
-    "git_commit",
-    "git_state",
-    "git_status",
-    "hg_branch",
-    "docker_context",
-    "package",
-    "dotnet",
-    "elixir",
-    "elm",
-    "erlang",
-    "golang",
-    "haskell",
-    "java",
-    "julia",
-    "nodejs",
-    "ocaml",
-    "php",
-    "purescript",
-    "python",
-    "ruby",
-    "rust",
-    "terraform",
-    "zig",
-    "nix_shell",
-    "conda",
-    "memory_usage",
-    "aws",
-    "env_var",
-    "crystal",
-    "cmd_duration",
-    "line_break",
-    "jobs",
-    "battery",
-    "character",
-]
+format =  """$time\
+    $custom\
+    $kubernetes\
+    $directory\
+    $git_branch\
+    $docker_context\
+    $python\
+    $package\
+    $cmd_duration\
+    $status\
+    $jobs\
+    $line_break\
+    $character"""
 
 [custom.username]
 command = "whoami"
 when = """test "$SSH_CONNECTION" != ''"""
-prefix = ""
 style = "fg:114"
+format = "[$symbol$output]($style) "
 
 [custom.ip]
 command = """ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1"""
 when = """test "$SSH_CONNECTION" != ''"""
 style = "fg:174"
-symbol="@ "
-prefix = ""
+format = "@ [$symbol$output]($style) "
 
 [directory]
-prefix = "ω "
 style = "fg:142"
 truncation_length = 999
 truncate_to_repo = true
 fish_style_pwd_dir_length = 2
+format = "ω [$path]($style)[$read_only]($read_only_style) "
 
 [character]
-symbol = "λ"
-style_success = "fg:yellow"
+success_symbol = "[λ](bold yellow)"
+error_symbol = "[λ](bold red)"
+vicmd_symbol = "[λ](bold green)"
 
 [time]
+format = '[$time ]($style)'
 style = "fg:74"
 disabled = false
 
-[git_status]
-disabled = true
+[status]
+style = "bg:red"
+format = '[$status]($style) '
+map_symbol = true
+disabled = false
 
+[python]
+symbol = 'PY '
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[package]
+symbol = 'PKG '
+format = "[$symbol$version]($style) "
+
+[git_branch]
+format = '[\($branch\)](yellow) '
