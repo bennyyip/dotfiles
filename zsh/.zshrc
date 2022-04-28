@@ -1,3 +1,4 @@
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
 # 确定环境 {{{1
 OS=${$(uname)%_*}
 if [[ $OS == "CYGWIN" || $OS == "MSYS" ]]; then
@@ -920,7 +921,7 @@ if [[ $IS_ARCH == 1 ]]; then
 fi
 
 
-export _ZL_FZF=sk
+[ $commands[sk] ] && export _ZL_FZF=sk
 source ~/.zsh/plugin/z.lua.plugin.zsh
 
 source ~/.zsh/plugin/docker-alias.zsh
@@ -928,7 +929,7 @@ source ~/.zsh/plugin/docker-alias.zsh
 export PATH=$PATH:~/.zsh/plugin/git-fuzzy/bin
 
 # Modeline {{{1
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local || true
+[[ -f ~/.zshrc.local.after ]] && source ~/.zshrc.local.after || true
 
 # put in .zshrc.local
 #
@@ -939,3 +940,5 @@ export PATH=$PATH:~/.zsh/plugin/git-fuzzy/bin
 # gpgconf --launch gpg-agent
 
 # vim:fdm=marker
+
+export PATH="$PATH:$HOME/.ft"
