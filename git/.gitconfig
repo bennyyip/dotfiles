@@ -1,7 +1,3 @@
-[filter "lfs"]
-    clean = git-lfs clean %f
-    smudge = git-lfs smudge %f
-    required = true
 [github]
     user = bennyyip
 [user]
@@ -56,11 +52,6 @@
 [push]
     default = current
 
-[includeIf "gitdir:~/tencent/"]
-    path = .gitconfig-tencent
-
-[includeIf "gitdir:~/ghq/git.code.oa.com/"]
-    path = .gitconfig-tencent
 [init]
     defaultBranch = master
 [diff]
@@ -83,7 +74,7 @@
     file-style = bold yellow ul
     hunk-header-decoration-style = none
 
-    # features = side-by-side line-numbers decorations
+    features = side-by-side line-numbers decorations
 
 [delta "decorations"]
     file-decoration-style = yellow ol ul
