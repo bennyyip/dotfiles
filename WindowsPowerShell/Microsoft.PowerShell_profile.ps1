@@ -1,35 +1,61 @@
 ﻿$scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+$env:PAGER = 'less.exe'
 
-$env:_ZL_NO_PROMPT_COMMAND=1
-iex ($(lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n")
+$env:EDITOR = "vim"
+$env:PATH = $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
 
 ###############################################################################
+# https://www.lua.org/download.html
 
-import-module $scriptDir\prompt.psm1
+if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
+    $env:STARSHIP_CONFIG = $scriptDir + "\Contrib\starship.toml"
+    Invoke-Expression (&starship init powershell)
+    Invoke-Expression (& { (lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
+}
+else {
+    import-module $scriptDir\prompt.psm1
 
-function prompt {
-	gitFancyPrompt
+    Invoke-Expression ($(lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n")
+
+    function prompt {
+        gitFancyPrompt
         _zlua --update
+    }
 }
 
 ###############################################################################
 
 Import-Module PSReadLine
-Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -EditMode vi
 
 Set-PSReadLineOption -HistoryNoDuplicates
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
 Set-PSReadLineOption -MaximumHistoryCount 4000
 # history substring search
-Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadlineKeyHandler -Key   UpArrow         -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key   DownArrow       -Function HistorySearchForward
 
 # Tab completion
-Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete
-Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+Set-PSReadlineKeyHandler -Chord 'Shift+Tab'     -Function Complete
+Set-PSReadlineKeyHandler -Key   Tab             -Function MenuComplete
 
-Set-PSReadlineKeyHandler -Key Ctrl+Backspace -Function UnixWordRubout
+
+Set-PSReadLineKeyHandler -Key   Alt+Backspace   -Function BackwardKillWord
+Set-PSReadLineKeyHandler -Key   Alt+b           -Function BackwardWord
+Set-PSReadLineKeyHandler -Key   Alt+d           -Function KillWord
+Set-PSReadLineKeyHandler -Key   Alt+f           -Function ForwardWord
+Set-PSReadLineKeyHandler -Key   Ctrl+a          -Function BeginningOfLine
+Set-PSReadLineKeyHandler -Key   Ctrl+b          -Function BackwardChar
+Set-PSReadLineKeyHandler -Key   Ctrl+d          -Function DeleteCharOrExit
+Set-PSReadLineKeyHandler -Key   Ctrl+e          -Function EndOfLine
+Set-PSReadLineKeyHandler -Key   Ctrl+f          -Function ForwardChar
+Set-PSReadLineKeyHandler -Key   Ctrl+g          -Function Abort
+Set-PSReadLineKeyHandler -Key   Ctrl+n          -Function NextHistory
+Set-PSReadLineKeyHandler -Key   Ctrl+p          -Function PreviousHistory
+Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function UnixWordRubout
+Set-PSReadlineKeyHandler -Chord 'Ctrl+x,Ctrl+e' -Function ViEditVisually
+Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 
 Set-PSReadlineKeyHandler -Chord Ctrl+V -ScriptBlock {
     $clipboard = Get-Clipboard -Raw
@@ -39,7 +65,7 @@ Set-PSReadlineKeyHandler -Chord Ctrl+V -ScriptBlock {
         $clipboard = "'${clipboard}'"
     }
     [Microsoft.PowerShell.PSConsoleReadLine]::Insert($clipboard)
-  }
+}
 
 ###############################################################################
 
@@ -47,23 +73,52 @@ Import-Module cd-extras
 
 ###############################################################################
 
-Import-Module Get-ChildItemColor
+# https://github.com/junegunn/fzf/releases
+# https://github.com/BurntSushi/ripgrep/releases
+# https://github.com/sharkdp/fd/releases
+# https://github.com/sharkdp/bat/releases
+
+if (Get-Command "fzf.exe" -ErrorAction SilentlyContinue) {
+    Import-Module PSFzf
+    $env:FZF_DEFAULT_OPTS = '--bind tab:down,shift-tab:up --layout=reverse'
+    $env:FZF_DEFAULT_COMMAND = 'fd --type f --strip-cwd-prefix --hidden --follow --exclude .git --exclude .vscode --exclude __pycache__'
+    $env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND
+    Set-Alias frg Invoke-PsFzfRipgrep
+    Set-Alias fkill Invoke-FuzzyKillProcess
+    Set-Alias fgs Invoke-FuzzyGitStatus
+    Set-PsFzfOption -PSReadlineChordReverseHistory 'Alt+s' -PSReadlineChordProvider 'Ctrl+t'
+    function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d | Invoke-Fzf -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
+    function vff { Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote $_ } }
+    function vfr { Get-Content $HOME/.LfCache/python3/mru/mruCache | Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote $_ } }
+}
 
 ###############################################################################
 
+If (-Not (Test-Path Variable:PSise)) {
+    # Only run this in the console and not in the ISE
+    Import-Module Get-ChildItemColor
+
+    Set-Alias l Get-ChildItemColor -option AllScope
+    Set-Alias ll Get-ChildItemColor -option AllScope
+    Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
+}
+
+###############################################################################
+
+$env:RIPGREP_CONFIG_PATH = $HOME + "/.ripgreprc"
 . $scriptDir/Completions/_rg.ps1
 
 ###############################################################################
 # ALIASES
+
 remove-item Alias:wget -force -ErrorAction SilentlyContinue
 remove-item Alias:curl -force -ErrorAction SilentlyContinue
-
-Set-Alias l Get-ChildItemColor -option AllScope
-Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
-
 remove-item Alias:gci -force -ErrorAction SilentlyContinue
 remove-item Alias:gp -force -ErrorAction SilentlyContinue
 remove-item Alias:gcm -force -ErrorAction SilentlyContinue
+
+Set-Alias which Get-Command
+
 function gst { git status  $args }
 function glg { git lg $args }
 function gci { git commit $args }
@@ -73,11 +128,17 @@ function gcan! { git commit -v -a --no-edit --amend $args }
 function gp { git push $args }
 function dsf { git diff $args }
 function grv { git remote -v $args }
-function pjson { python $HOME/bin/pjson.py $args }
+function vr { gvim --remote $args }
+
+function zz { z -i $args }
+function zc { z -c $args }
+function zf { z -I $args }
+function zb { z -b $args }
+function zbi { z -b -i $args }
+function zbf { z -b -I $args }
+function zh { z -I -t . $args }
+function zzc { zz -c $args }
+
 function rmrf { Remove-Item -Recurse -Force $args }
 
-# Chocolatey profile
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
+function update { . $profile }
