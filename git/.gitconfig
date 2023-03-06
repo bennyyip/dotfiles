@@ -84,3 +84,6 @@
 
 [interactive]
     diffFilter = delta --color-only
+
+[include]
+    path = .gitconfig-local
