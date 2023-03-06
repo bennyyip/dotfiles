@@ -1,5 +1,10 @@
 [github]
     user = bennyyip
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
+    process = git-lfs filter-process
 [user]
     name = bennyyip
     email = yebenmy@protonmail.com
@@ -43,12 +48,6 @@
 [help]
     autocorrect = 1
 
-[url "git@git.code.oa.com:"]
-    insteadOf = https://git.code.oa.com/
-    insteadOf = http://git.code.oa.com/
-    insteadOf = https://git.oa.com/
-    insteadOf = http://git.oa.com/
-
 [push]
     default = current
 
@@ -56,6 +55,9 @@
     defaultBranch = master
 [diff]
     algorithm = patience
+    # https://blog.github.com/2018-04-05-git-217-released/
+    colorMoved = plain
+
 
 [pager]
     # or not... # insanely beautiful diffs ==> npm install -g diff-so-fancy
@@ -63,23 +65,22 @@
     diff = delta # diff-so-fancy | less --tabs=4 -RFX
     show = delta # diff-so-fancy | less --tabs=4 -RFX
 
-[diff]
-    # https://blog.github.com/2018-04-05-git-217-released/
-    colorMoved = plain
-
 [delta]
     syntax-theme = gruvbox-dark
-
-    file-decoration-style = yellow ol ul
-    file-style = bold yellow ul
-    hunk-header-decoration-style = none
-
-    features = side-by-side line-numbers decorations
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    side-by-side = false
+    line-numbers = true
+    features = decorations
 
 [delta "decorations"]
     file-decoration-style = yellow ol ul
     file-style = bold yellow ul
     hunk-header-decoration-style = none
+    commit-decoration-style = bold yellow box ul
+
+[merge]
+    conflictstyle = diff3
 
 [interactive]
     diffFilter = delta --color-only
