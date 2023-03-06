@@ -116,6 +116,7 @@ remove-item Alias:curl -force -ErrorAction SilentlyContinue
 remove-item Alias:gci -force -ErrorAction SilentlyContinue
 remove-item Alias:gp -force -ErrorAction SilentlyContinue
 remove-item Alias:gcm -force -ErrorAction SilentlyContinue
+remove-item Alias:diff -force -ErrorAction SilentlyContinue
 
 Set-Alias which Get-Command
 
@@ -128,6 +129,11 @@ function gcan! { git commit -v -a --no-edit --amend $args }
 function gp { git push $args }
 function dsf { git diff $args }
 function grv { git remote -v $args }
+function gfk {
+    $fork_url=$(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
+    git remote add fork $fork_url
+}
+
 function vr { gvim --remote $args }
 
 function zz { z -i $args }
@@ -142,3 +148,14 @@ function zzc { zz -c $args }
 function rmrf { Remove-Item -Recurse -Force $args }
 
 function update { . $profile }
+
+$proxy = "socks5://127.0.0.1:10808"
+function Enable-Proxy {
+    $env:HTTP_PROXY= $proxy
+    $env:HTTPS_PROXY= $proxy
+}
+
+function Disable-Proxy {
+    $env:HTTP_PROXY= ""
+    $env:HTTPS_PROXY= ""
+}

@@ -83,4 +83,6 @@ style = "yellow"
 format = '[$symbol]($style)'
 
 [python]
-format = '[$symbol]($style)'
+symbol = 'PY '
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
