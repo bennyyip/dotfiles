@@ -1,4 +1,4 @@
 *~
 bin/
 /WindowsPowerShell/Modules/
-/WindowsPowerShell/local_profile.psm1
+WindowsPowerShell/local_profile.psm1
