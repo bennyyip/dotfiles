@@ -73,6 +73,10 @@ Import-Module cd-extras
 
 ###############################################################################
 
+Import-Module "$scriptDir\venvlink-autoenv.psm1"
+
+###############################################################################
+
 # https://github.com/junegunn/fzf/releases
 # https://github.com/BurntSushi/ripgrep/releases
 # https://github.com/sharkdp/fd/releases
