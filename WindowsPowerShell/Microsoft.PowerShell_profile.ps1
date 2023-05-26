@@ -134,7 +134,7 @@ function gp { git push $args }
 function dsf { git diff $args }
 function grv { git remote -v $args }
 function gfk {
-    $fork_url=$(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
+    $fork_url = $(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
     git remote add fork $fork_url
 }
 
@@ -155,11 +155,52 @@ function update { . $profile }
 
 $proxy = "socks5://127.0.0.1:10808"
 function Enable-Proxy {
-    $env:HTTP_PROXY= $proxy
-    $env:HTTPS_PROXY= $proxy
+    $env:HTTP_PROXY = $proxy
+    $env:HTTPS_PROXY = $proxy
 }
 
 function Disable-Proxy {
-    $env:HTTP_PROXY= ""
-    $env:HTTPS_PROXY= ""
+    $env:HTTP_PROXY = ""
+    $env:HTTPS_PROXY = ""
+}
+
+function vimv {
+    $tempfile = New-TemporaryFile
+
+    if ($args.Length -gt 0) {
+        $src = $args
+    }
+    else {
+        $src = Get-ChildItem -name 
+    }
+    Write-Output $src > $tempfile
+
+    vim $tempfile
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output "WARN: Vim exit code $LASTEXITCODE. Aborting.."
+        return
+    }
+
+    $dst = Get-Content $tempfile
+    if ($src.Length -ne $dst.Length) {
+        Write-Output "WARN: Number of files changed. Did you delete a line by accident? Aborting.."
+        return 
+    }
+
+    $count = 0
+    for ($i = 0; $i -lt $src.Length; $i++) {
+        if ($src[$i] -eq $dst[$i]) {
+            continue
+        }
+        $count ++
+        $p = Split-Path -Parent $dst[$i]
+        if ($p -ne "" ) {
+            Mkdir -Force $p | Out-Null
+        }
+        Move-Item $src[$i] $dst[$i]
+    }
+    
+    Remove-Item $tempfile
+
+    Write-Output "$count files renamed."
 }
