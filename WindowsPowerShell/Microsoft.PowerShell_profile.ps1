@@ -77,6 +77,10 @@ Import-Module "$scriptDir\venvlink-autoenv.psm1"
 
 ###############################################################################
 
+Import-Module "$scriptDir\local_profile.psm1"
+
+###############################################################################
+
 # https://github.com/junegunn/fzf/releases
 # https://github.com/BurntSushi/ripgrep/releases
 # https://github.com/sharkdp/fd/releases
@@ -123,6 +127,7 @@ remove-item Alias:gcm -force -ErrorAction SilentlyContinue
 remove-item Alias:diff -force -ErrorAction SilentlyContinue
 
 Set-Alias which Get-Command
+Set-Alias realpath Convert-Path
 
 function gst { git status  $args }
 function glg { git lg $args }
@@ -199,7 +204,7 @@ function vimv {
         }
         Move-Item $src[$i] $dst[$i]
     }
-    
+
     Remove-Item $tempfile
 
     Write-Output "$count files renamed."
