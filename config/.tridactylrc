@@ -1,0 +1,66 @@
+" General Settings
+
+set incsearch true
+set smoothscroll true
+set theme default
+set editorcmd gvim
+
+
+set searchurls.gh  https://github.com/search?utf8=✓&q=
+set searchurls.douban  https://www.douban.com/search?q=
+set searchurls.zh  https://www.zhihu.com/search?type=content&q=
+set searchurls.gg  https://www.google.com/search?hl=en&q=
+set searchurls.duck  https://duckduckgo/q=
+set searchurls.disc  https://www.discogs.com/search/?type=all&q=
+set searchurls.mcm  https://www.metacritic.com/search/movie/%s/results
+set searchurls.wiki  https://zh.wikipedia.org/wiki/Special:Search/
+set searchurls.wikien  https://en.wikipedia.org/wiki/Special:Search/
+
+set searchengine gg
+
+
+" Binds
+bind j scrollline 20
+bind k scrollline -20
+bind J tabnext
+bind K tabprev
+bind d scrollpage 0.9
+bind x tabclose
+bind gs tabclose
+bind X undo tab
+bind u scrollpage -0.9
+
+" search
+bind B fillcmdline bmarks -t
+bind / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+bind <Backspace> nohlsearch
+
+" native search
+unbind <C-f>
+
+" Tree Style Tab
+unbind <F1>
+
+" Allow Ctrl-c to copy in the commandline
+unbind --mode=ex <C-c>
+
+
+" Only hint search results on Google and DDG
+bindurl www.google.com f hint -Jc .rc > .r > a
+bindurl www.google.com F hint -Jbc .rc>.r>a
+
+bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
+bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
+
+" Inject Google Translate
+" This (clearly) is remotely hosted code. Google will be sent the whole
+" contents of the page you are on if you run `:translate`
+" From https://github.com/jeremiahlee/page-translator
+command translate js let googleTranslateCallback = document.createElement('script'); googleTranslateCallback.innerHTML = "function googleTranslateElementInit(){ new google.translate.TranslateElement(); }"; document.body.insertBefore(googleTranslateCallback, document.body.firstChild); let googleTranslateScript = document.createElement('script'); googleTranslateScript.charset="UTF-8"; googleTranslateScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&tl=&sl=&hl="; document.body.insertBefore(googleTranslateScript, document.body.firstChild);
+
+blacklistadd miniflux.dllmpkw.xyz
+
+" vim: set filetype=vim:

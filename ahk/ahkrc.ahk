@@ -22,6 +22,17 @@ Capslock::4
 ~CapsLock Up:: Send("{4 up}")
 #HotIf
 
+#HotIf WinActive("ahk_exe SumatraPDF.exe")
+XButton2::d
+XButton1::Send "+d"
+#HotIf
+
+#HotIf WinActive("ahk_exe anki.exe")
+XButton1::1
+XButton2::Space
+#HotIf
+
+
 #F:: Run "C:\Program Files\Everything\Everything.exe"
 
 #S:: Send "#4"
