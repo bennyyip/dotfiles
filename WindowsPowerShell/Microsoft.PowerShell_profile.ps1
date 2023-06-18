@@ -73,7 +73,7 @@ Import-Module cd-extras
 
 ###############################################################################
 
-Import-Module "$scriptDir\venvlink-autoenv.psm1"
+# Import-Module "$scriptDir\venvlink-autoenv.psm1"
 
 ###############################################################################
 
@@ -129,6 +129,8 @@ remove-item Alias:diff -force -ErrorAction SilentlyContinue
 Set-Alias which Get-Command
 Set-Alias realpath Convert-Path
 
+function npm { pnpm $args }
+
 function gst { git status  $args }
 function glg { git lg $args }
 function gci { git commit $args }
@@ -156,9 +158,11 @@ function zzc { zz -c $args }
 
 function rmrf { Remove-Item -Recurse -Force $args }
 
+function rgv { rg --no-ignore-vcs $args }
+
 function update { . $profile }
 
-$proxy = "socks5://127.0.0.1:10808"
+$proxy = "http://127.0.0.1:10809"
 function Enable-Proxy {
     $env:HTTP_PROXY = $proxy
     $env:HTTPS_PROXY = $proxy
