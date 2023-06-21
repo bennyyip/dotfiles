@@ -25,11 +25,14 @@ CapsLock & t:: CapsWithMod("t", "^")
 CapsLock & u:: CapsWithMod("u", "^")
 CapsLock & v:: CapsWithMod("v", "^")
 CapsLock & w:: CapsWithMod("w", "^")
+CapsLock & `:: CapsWithMod("``", "^")
 CapsLock & enter:: CapsWithMod("enter", "^")
 
-CapsLock & 1::Send "#4"
-CapsLock & 2::Send "#5"
-CapsLock & 3::Send "#6"
+CapsLock & 1:: Send "#4"
+CapsLock & 2:: Send "#5"
+CapsLock & 3:: Send "#6"
+
+CapsLock & LButton:: Send "^{LButton}"
 
 CapsLock & F12:: Reload
 

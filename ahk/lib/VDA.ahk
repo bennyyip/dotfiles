@@ -26,10 +26,10 @@ GetDesktopCount() {
 }
 
 MoveCurrentWindowToDesktop(number) {
-    global MoveWindowToDesktopNumberProc, GoToDesktopNumberProc
+    global MoveWindowToDesktopNumberProc
     activeHwnd := WinGetID("A")
     DllCall(MoveWindowToDesktopNumberProc, "Ptr", activeHwnd, "Int", number, "Int")
-    DllCall(GoToDesktopNumberProc, "Int", number, "Int")
+    GoToDesktopNumber(number)
 }
 
 GoToPrevDesktop() {
@@ -59,8 +59,16 @@ GoToNextDesktop() {
 }
 
 GoToDesktopNumber(num) {
+    ; Workaround: fix flashing after switch virtual desktop
+    ; https://github.com/FuPeiJiang/VD.ahk/blob/273edefde9b790ddeee7c0a306af65fdc93fb5b5/README.md?plain=1#L89
+    WinActivate "ahk_class Shell_TrayWnd"
+    WinWaitActive "ahk_class Shell_TrayWnd"
+
     global GoToDesktopNumberProc
     DllCall(GoToDesktopNumberProc, "Int", num, "Int")
+
+    ; Workaround: fix flashing after switch virtual desktop
+    WinMinimize "ahk_class Shell_TrayWnd"
     return
 }
 MoveOrGotoDesktopNumber(num) {
@@ -70,6 +78,8 @@ MoveOrGotoDesktopNumber(num) {
     } else {
         GoToDesktopNumber(num)
     }
+
+
     return
 }
 CreateDesktop() {
@@ -92,7 +102,7 @@ MoveOrGoToLastOpenedDesktop() {
 DllCall(RegisterPostMessageHookProc, "Ptr", A_ScriptHwnd, "Int", 0x1400 + 30, "Int")
 OnMessage(0x1400 + 30, OnChangeDesktop)
 OnChangeDesktop(wParam, lParam, msg, hwnd) {
-    global LastOpenedDesktop 
+    global LastOpenedDesktop
     Critical(1)
     OldDesktop := wParam
     NewDesktop := lParam

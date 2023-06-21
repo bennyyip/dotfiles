@@ -11,6 +11,10 @@ CapsLock & F2:: ShowDir(HOME_DIR . '\github')
 CapsLock & F3:: ShowDir(HOME_DIR . '\dotfiles')
 CapsLock & F4:: ShowDir(HOME_DIR)
 
+; Pomodoro
+>#Enter:: Pomodoro
++>#Enter:: Pomodoro(true)
+
 ; others
 
 #+E:: CloseDuplicateExplorerWindows()
