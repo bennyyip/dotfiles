@@ -12,3 +12,6 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 #Include "Core/Keymap.ahk"
 
 TrayTip "ahkrc started!"
+
+
+; #Include "komorebic\komorebi.ahk"
