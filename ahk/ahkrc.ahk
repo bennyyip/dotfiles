@@ -8,7 +8,7 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 
 #Include "Core/Functions.ahk"
 #Include "Core/AppSpecific.ahk"
-#Include "Core/Keymap.ahk"
 #Include "Core/MyMenu.ahk"
+#Include "Core/Keymap.ahk"
 
 TrayTip "ahkrc started!"

@@ -4,7 +4,6 @@ MyMenu.Add "Paste into &HTML and Open",  ClipToBrowser
 MyMenu.Add "Translate with &DeepL",  DeepL
 MyMenu.Add "Translate with &Google Translate",  GoogleTranslate
 
-#m::MyMenu.Show  ; i.e. press the Win-Z hotkey to show the menu.
 
 ClipToBrowser(*) {
     f := FileOpen(A_Temp "\temp.html", "w")
