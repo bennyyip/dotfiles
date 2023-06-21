@@ -1,6 +1,6 @@
 ; Path to the DLL, relative to the script
 ; https://github.com/Ciantic/VirtualDesktopAccessor 5bc1bba
-VDA_PATH := A_ScriptDir . "\VirtualDesktopAccessor.dll"
+VDA_PATH := A_ScriptDir . "\lib\VirtualDesktopAccessor.dll"
 hVirtualDesktopAccessor := DllCall("LoadLibrary", "Str", VDA_PATH, "Ptr")
 
 GetDesktopCountProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "GetDesktopCount", "Ptr")
