@@ -20,3 +20,9 @@ CloseDuplicateExplorerWindows() {
         }
     }
 }
+
+PasteToVim() {
+    draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
+    RunWait "gvim.exe --remote " . draftFile
+    SendText 'G] j"+p'
+}

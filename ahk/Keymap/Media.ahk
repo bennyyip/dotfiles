@@ -5,21 +5,22 @@ CapsLock & Down:: Send "{Volume_Down}"
 CapsLock & Left:: Send "{Media_Prev}"
 CapsLock & Right:: Send "{Media_Next}"
 Pause::Send "{Media_Play_Pause}"
-PrintScreen:: Launch("ahk_exe Spotify.exe", A_AppData "\Spotify\Spotify.exe")
-ScrollLock:: Launch("ahk_exe foobar2000.exe", "C:\Program Files\foobar2000\foobar2000.exe")
+ScrollLock:: Launch("C:\Program Files\foobar2000\foobar2000.exe")
+PrintScreen:: Launch(A_AppData "\Spotify\Spotify.exe")
 
 #,:: Send "{Media_Play_Pause}"
 
-Launch(title, exe) {
+Launch(fullpath) {
+    SplitPath fullpath, &exe_name
+    title := "ahk_exe " . exe_name
     if WinActive(title) {
-        send "!{tab}"
         WinMinimize title
     } else {
         if WinExist(title) {
             WinActivate
         }
         else {
-            Run exe
+            Run fullpath
         }
     }
 }
