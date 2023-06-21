@@ -2,3 +2,4 @@
 bin/
 /WindowsPowerShell/Modules/
 WindowsPowerShell/local_profile.psm1
+ahk/ahkrc.exe
