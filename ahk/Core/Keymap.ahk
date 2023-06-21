@@ -2,6 +2,9 @@
 #Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
 
+; menu
+#m::MyMenu.Show
+
 ; folders
 CapsLock & F1:: ShowDir(HOME_DIR . '\Downloads')
 CapsLock & F2:: ShowDir(HOME_DIR . '\github')
@@ -12,7 +15,7 @@ CapsLock & F4:: ShowDir(HOME_DIR)
 
 #+E:: CloseDuplicateExplorerWindows()
 
-#F:: Run "C:\Program Files\Everything\Everything.exe", , "-filename " A_Clipboard
+#F:: Run "C:\Program Files\Everything\Everything.exe"
 
 #+Q:: WinClose WinGetID("A")
 
