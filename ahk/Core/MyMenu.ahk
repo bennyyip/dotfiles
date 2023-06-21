@@ -1,6 +1,10 @@
 MyMenu := Menu()
 
-MyMenu.Add "Paste into html and open",  ClipToBrowser
+MyMenu.Add "Paste into &HTML and Open",  ClipToBrowser
+MyMenu.Add "Translate with &DeepL",  DeepL
+MyMenu.Add "Translate with &Google Translate",  GoogleTranslate
+
+#m::MyMenu.Show  ; i.e. press the Win-Z hotkey to show the menu.
 
 ClipToBrowser(*) {
     f := FileOpen(A_Temp "\temp.html", "w")
@@ -9,4 +13,10 @@ ClipToBrowser(*) {
     Run (A_Temp "\temp.html")
 }
 
-#z::MyMenu.Show  ; i.e. press the Win-Z hotkey to show the menu.
+DeepL(*) {
+    Run "https://www.deepl.com/translator#en/zh/" . A_Clipboard
+}
+
+GoogleTranslate(*) {
+    Run "https://translate.google.com/?sl=auto&tl=zh-CN&op=translate&text=" . A_Clipboard
+}
