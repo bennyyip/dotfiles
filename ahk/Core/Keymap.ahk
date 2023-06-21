@@ -15,3 +15,7 @@ CapsLock & F4:: ShowDir(HOME_DIR)
 #F:: Run "C:\Program Files\Everything\Everything.exe", , "-filename " A_Clipboard
 
 #+Q:: WinClose WinGetID("A")
+
+#/::Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
+
+#h::PasteToVim()
