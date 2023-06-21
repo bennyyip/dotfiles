@@ -1,4 +1,5 @@
 #Include "%A_ScriptDir%\lib\VDA.ahk"
+#Include "%A_ScriptDir%\lib\Pomodoro.ahk"
 
 ShowDir(title) {
     if WinExist(title . " ahk_class CabinetWClass") {
