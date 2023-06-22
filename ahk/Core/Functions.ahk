@@ -27,3 +27,7 @@ PasteToVim() {
     RunWait "gvim.exe --remote " . draftFile
     SendText 'G] j"+p'
 }
+
+Quote(s) {
+    return '"' . s '"'
+}

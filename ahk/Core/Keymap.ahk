@@ -3,7 +3,7 @@
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
 
 ; menu
-#m::MyMenu.Show
+#z::MyMenu.Show
 
 ; folders
 CapsLock & F1:: ShowDir(HOME_DIR . '\Downloads')
@@ -16,10 +16,7 @@ CapsLock & F4:: ShowDir(HOME_DIR)
 +>#Enter:: Pomodoro(true)
 
 ; others
-
 #+E:: CloseDuplicateExplorerWindows()
-
-#F:: Run "C:\Program Files\Everything\Everything.exe"
 
 #+Q:: WinClose WinGetID("A")
 
