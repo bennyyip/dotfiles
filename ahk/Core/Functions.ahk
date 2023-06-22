@@ -28,6 +28,21 @@ PasteToVim() {
     SendText 'G] j"+p'
 }
 
+Launch(fullpath) {
+    SplitPath fullpath, &exe_name
+    title := "ahk_exe " . exe_name
+    if WinActive(title) {
+        WinMinimize title
+    } else {
+        if WinExist(title) {
+            WinActivate
+        }
+        else {
+            Run fullpath
+        }
+    }
+}
+
 Quote(s) {
     return '"' . s '"'
 }
