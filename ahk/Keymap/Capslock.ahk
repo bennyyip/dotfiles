@@ -25,8 +25,10 @@ CapsLock & t:: CapsWithMod("t", "^")
 CapsLock & u:: CapsWithMod("u", "^")
 CapsLock & v:: CapsWithMod("v", "^")
 CapsLock & w:: CapsWithMod("w", "^")
+CapsLock & x:: CapsWithMod("x", "^")
 CapsLock & `:: CapsWithMod("``", "^")
 CapsLock & enter:: CapsWithMod("enter", "^")
+CapsLock & Tab:: CapsWithMod("tab", "^")
 
 CapsLock & 1:: Send "#4"
 CapsLock & 2:: Send "#5"
