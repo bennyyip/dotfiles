@@ -1,67 +1,60 @@
 class Everything {
+    static exe := 'C:\Program Files\Everything 1.5a\Everything64.exe'
+
     static searchExecutabe() {
-        ControlChooseString "Executable", "ComboBox1"
-        Send "+^R" ; sort by run count
+        RunWait this.exe . ' -filter executable -sort "run count" -sort-descending'
     }
     static searchEverything() {
-        controlchoosestring "Everything", "ComboBox1"
-        Send "^6" ; sort by mtime
+        RunWait this.exe . ' -filter everything -sort "Date Modified" -sort-descending'
     }
     static searchFolder() {
-        ControlChooseString "Folder", "ComboBox1"
-        Send "^6" ; sort by mtime
+        RunWait this.exe ' -filter Folder -sort "Date Modified" -sort-descending'
+    }
+
+    ; Open file in vim, dir in terminal
+    static OpenInVimOrTerminal() {
+        row := ListViewGetContent("Focused", "SysListView321", "ahk_class EVERYTHING_(1.5a)")
+        parts := StrSplit(row, "`t")
+        fullpath := Quote(parts[2] . '\' . parts[1])
+        entryType := parts[4]
+        if (entryType = "File Folder") {
+            Run "wt new-tab -d " . fullpath
+        } else {
+            Run EDITOR . fullpath
+        }
+    }
+
+    ; Copy parent path
+    static CopyParentPath() {
+        row := ListViewGetContent("Focused", "SysListView321")
+        parts := StrSplit(row, "`t")
+        parentPath := parts[2]
+        A_Clipboard := parentPath
+    }
+
+    ; Run terminal in parent dir
+    static OpenParentInTerminal() {
+        row := ListViewGetContent("Focused", "SysListView321")
+        parts := StrSplit(row, "`t")
+        Run "wt new-tab -d " . Quote(parts[2])
     }
 }
 
-#F:: {
-    Run "C:\Program Files\Everything\Everything.exe"
-    WinWaitActive "ahk_class EVERYTHING"
-    Everything.searchEverything
-}
-#+F:: {
-    Run "C:\Program Files\Everything\Everything.exe"
-    WinWaitActive "ahk_class EVERYTHING"
-    Everything.searchExecutabe
-}
+#F:: Everything.searchEverything
+#+F:: Everything.searchExecutabe
 
-#HotIf WinActive("ahk_class EVERYTHING")
+#HotIf WinActive("ahk_class EVERYTHING_(1.5a)")
 
-; Open file in vim, dir in terminal
-+Enter:: {
-    row := ListViewGetContent("Focused", "SysListView321")
-    parts := StrSplit(row, "`t")
-    fullpath := Quote(parts[2] . '\' . parts[1])
-    entryType := parts[4]
-    if (entryType = "File Folder") {
-        Run "wt new-tab -d " . fullpath
-    } else {
-        Run EDITOR . fullpath
-    }
-}
++Enter:: Everything.OpenInVimOrTerminal
++^Enter:: Everything.OpenParentInTerminal
 
-; Run shell in parent dir
-+^Enter:: {
-    row := ListViewGetContent("Focused", "SysListView321")
-    parts := StrSplit(row, "`t")
-    MsgBox parts[2]
-    Run "wt new-tab -d " . Quote(parts[2])
-}
-
-; Copy parent path
 CapsLock & C::
-^C:: {
-    row := ListViewGetContent("Focused", "SysListView321")
-    parts := StrSplit(row, "`t")
-    parentPath := parts[2]
-    A_Clipboard := parentPath
-}
+^C:: Everything.CopyParentPath
 
 ; Run
 !R:: Everything.searchExecutabe
-
 ; All
 !A:: Everything.searchEverything
-
 ; Dir
 !D:: Everything.searchFolder
 
