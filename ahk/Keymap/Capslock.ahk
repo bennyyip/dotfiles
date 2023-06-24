@@ -3,19 +3,21 @@
 
 SetCapsLockState "AlwaysOff"
 
-CapsLock & /:: CapsWithMod("/", "^")
-CapsLock & [:: CapsWithMod("[", "^")
+; Ctrl
 CapsLock & ,:: CapsWithMod(",", "^")
+CapsLock & /:: CapsWithMod("/", "^")
+CapsLock & BackSpace:: CapsWithMod("backspace", "^")
+CapsLock & Tab:: CapsWithMod("tab", "^")
+CapsLock & [:: CapsWithMod("[", "^")
 CapsLock & ]:: CapsWithMod("]", "^")
+CapsLock & `:: CapsWithMod("``", "^")
 CapsLock & a:: CapsWithMod("a", "^")
-CapsLock & i:: CapsWithMod("i", "^")
 CapsLock & c:: CapsWithMod("c", "^")
 CapsLock & d:: CapsWithMod("d", "^")
+CapsLock & e:: CapsWithMod("e", "^")
+CapsLock & enter:: CapsWithMod("enter", "^")
 CapsLock & f:: CapsWithMod("f", "^")
-CapsLock & h:: CapsWithMod("Left")
-CapsLock & j:: CapsWithMod("Down")
-CapsLock & k:: CapsWithMod("Up")
-CapsLock & l:: CapsWithMod("Right")
+CapsLock & i:: CapsWithMod("i", "^")
 CapsLock & n:: CapsWithMod("n", "^")
 CapsLock & o:: CapsWithMod("o", "^")
 CapsLock & p:: CapsWithMod("p", "^")
@@ -26,16 +28,20 @@ CapsLock & u:: CapsWithMod("u", "^")
 CapsLock & v:: CapsWithMod("v", "^")
 CapsLock & w:: CapsWithMod("w", "^")
 CapsLock & x:: CapsWithMod("x", "^")
-CapsLock & `:: CapsWithMod("``", "^")
-CapsLock & enter:: CapsWithMod("enter", "^")
-CapsLock & Tab:: CapsWithMod("tab", "^")
 
-CapsLock & 1:: Send "#4"
-CapsLock & 2:: Send "#5"
-CapsLock & 3:: Send "#6"
+; Win
+CapsLock & 1:: CapsWithMod("4", "#")
+CapsLock & 2:: CapsWithMod("5", "#")
+CapsLock & 3:: CapsWithMod("6", "#")
 
+; hjkl
+CapsLock & h:: CapsWithMod("Left")
+CapsLock & j:: CapsWithMod("Down")
+CapsLock & k:: CapsWithMod("Up")
+CapsLock & l:: CapsWithMod("Right")
+
+; other
 CapsLock & LButton:: Send "^{LButton}"
-
 CapsLock & F12:: Reload
 
 CapsWithMod(action, initmod := "")

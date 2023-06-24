@@ -213,3 +213,11 @@ function vimv {
 
     Write-Output "$count files renamed."
 }
+
+function New-Symlink() {
+    param (
+        [Parameter(Position = 0, Mandatory = $true)]  [String] $src,
+        [Parameter(Position = 1, Mandatory = $true)] [String] $dst
+    )
+    New-Item -type SymbolicLink -Value $src $dst
+}

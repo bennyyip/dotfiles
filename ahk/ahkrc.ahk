@@ -17,3 +17,5 @@ TrayTip "ahkrc started!"
 
 
 ; #Include "komorebic\komorebi.ahk"
+
+XButton2::LButton
