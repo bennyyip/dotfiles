@@ -16,10 +16,29 @@ CapsLock & F4:: ShowDir(HOME_DIR)
 +>#Enter:: Pomodoro(true)
 
 ; others
-#+E:: CloseDuplicateExplorerWindows()
+#+E:: _CloseDuplicateExplorerWindows()
 
 #+Q:: WinClose WinGetID("A")
 
 #/::Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
 
-#h::PasteToVim()
+#h::_PasteToVim()
+
+_PasteToVim() {
+    draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
+    RunWait "gvim.exe --remote " . draftFile
+    SendText 'G] j"+p'
+}
+
+_CloseDuplicateExplorerWindows() {
+    ws := WinGetList("ahk_class CabinetWClass")
+    winSet := Map()
+    for w in ws {
+        title := WinGetTitle(w)
+        if winSet.Has(title) {
+            WinClose w
+        } else {
+            winSet[title] := 1
+        }
+    }
+}
