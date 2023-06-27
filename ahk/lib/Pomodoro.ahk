@@ -21,14 +21,14 @@ Pomodoro(reset := false) {
     } else if (state = "BreakEnd") {
         state := "Work"
         beginTime := A_now
-        MsgBox "Work starts", "Pomodoro"
+        noti "Work starts"
         SetTimer PomodoroWorkEnd, minute * WorkTime
     } else if (state = "Work") {
         MsgBox(DateDiff(A_Now, beginTime, "Minutes") . "/" . WorkTime, "Pomodoro Work")
     } else if (state = "WorkEnd") {
-        state := "break"
+        state := "Break"
         beginTime := A_now
-        MsgBox "Break starts", "Pomodoro"
+        noti "Break starts"
         m := ShortBreakTime
         if (Mod(breakTimes, 4) = 3) {
             m := longBreakTime
@@ -36,7 +36,7 @@ Pomodoro(reset := false) {
         } else {
             isLongBreak := false
         }
-        SetTimer PomodoroBreakEnd, minute * 5
+        SetTimer PomodoroBreakEnd, minute * m
     } else if (state = "Break") {
         m := ShortBreakTime
         if isLongBreak
@@ -46,14 +46,21 @@ Pomodoro(reset := false) {
     }
 
     PomodoroWorkEnd() {
-        TrayTip "Time for a break!"
+        noti "Time for a break!"
         state := "WorkEnd"
     }
 
     PomodoroBreakEnd() {
-        TrayTip "Time to focus!"
+        msg := "Time to focus!"
+        KDE_CONNECT.Ping(msg)
+        noti msg
         state := "BreakEnd"
         breakTimes += 1
+    }
+
+    noti(msg) {
+        MsgBox msg, "Pomodoro"
+        TrayTip msg
     }
 
 }
