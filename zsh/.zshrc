@@ -940,5 +940,3 @@ export PATH=$PATH:~/.zsh/plugin/git-fuzzy/bin
 # gpgconf --launch gpg-agent
 
 # vim:fdm=marker
-
-export PATH="$PATH:$HOME/.ft"
