@@ -12,6 +12,7 @@
     ~/.ipython/profile_default/startup/disable_warnings.py: ipython/disable_warnings.py
     ~/.prettierrc:
     ~/.ripgreprc:
+    ~/vimfiles: vim
     ~/Documents/Powershell: WindowsPowerShell
     ~/Documents/WindowsPowerShell: WindowsPowerShell
 
