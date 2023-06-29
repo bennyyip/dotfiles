@@ -13,6 +13,7 @@
     ~/.config/:
       glob: true
       path: config/.config/*
+    ~/.ssh/config: ssh/config
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global
     ~/.ipython/profile_default/ipython_config.py: ipython/ipython_config.py
