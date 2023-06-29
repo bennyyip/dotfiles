@@ -194,7 +194,7 @@ function vimv {
     $dst = Get-Content $tempfile
     if ($src.Length -ne $dst.Length) {
         Write-Output "WARN: Number of files changed. Did you delete a line by accident? Aborting.."
-        return 
+        return
     }
 
     $count = 0
