@@ -5,6 +5,8 @@ add_newline = false
 
 format = """
 $time\
+$username\
+$localip\
 $kubernetes\
 $directory\
 $git_branch\
@@ -42,18 +44,21 @@ $line_break\
 $battery\
 $character"""
 
-# [custom.username]
-# command = "whoami"
-# when = """test "$SSH_CONNECTION" != ''"""
-# prefix = ""
-# style = "fg:114"
+[username]
+format = '[$user]($style)'
 
-# [custom.ip]
-# command = """ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1"""
-# when = """test "$SSH_CONNECTION" != ''"""
-# style = "fg:174"
-# symbol="@ "
-# prefix = ""
+
+[localip]
+ssh_only = true
+format = '@[$localipv4](bold red) '
+disabled = false
+
+# [hostname]
+# ssh_only = true
+# format = '[$ssh_symbol](bold blue) [$hostname](bold red) '
+# ssh_symbol = 'SSH'
+# trim_at = '.companyname.com'
+# disabled = false
 
 [directory]
 truncation_length = 999

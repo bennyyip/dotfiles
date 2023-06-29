@@ -700,6 +700,7 @@ alias -s {jpg,png,gif}=feh
 alias -s tar="tar -xvf"
 alias -s {tgz,gz}="tar -xvzf"
 alias -s bz2="tar -xvjf"
+alias -s 7z="7zr x"
 alias -s zip=unzip
 alias -s epub="emacsclient -n"
 

@@ -1,12 +1,13 @@
+# for pinentry
+export GPG_TTY="$(tty)"
+
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS='@im=fcitx'
 export TERMINAL=alacritty
 
-xcape -e 'Control_L=Escape'
-
-fcitx &
+/usr/bin/setxkbmap -option 'caps:ctrl_modifier'
+/usr/bin/xcape -e 'Caps_Lock=Escape' -t 100
 
 source /etc/locale.conf
 
-[[ -f ~/.extend.xprofile ]] && source ~/.extend.xprofile
