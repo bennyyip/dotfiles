@@ -1,4 +1,4 @@
-﻿$scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+﻿$scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
 $env:PAGER = 'less.exe'
 
 $env:EDITOR = "vim"
@@ -77,7 +77,9 @@ Import-Module cd-extras
 
 ###############################################################################
 
-Import-Module "$scriptDir\local_profile.psm1"
+if (Test-Path "$env:USERPROFILE\local.psm1") {
+    Import-Module "$env:USERPROFILE\local.psm1"
+}
 
 ###############################################################################
 
@@ -181,7 +183,7 @@ function vimv {
         $src = $args
     }
     else {
-        $src = Get-ChildItem -name 
+        $src = Get-ChildItem -name
     }
     Write-Output $src > $tempfile
 
