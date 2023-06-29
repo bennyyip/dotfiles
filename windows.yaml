@@ -10,6 +10,7 @@
     - ~/.ipython/profile_default/startup
 
 - link:
+    ~/.ssh/config: ssh/config
     ~/.config/starship.toml: config/.config/starship.toml
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global

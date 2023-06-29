@@ -227,8 +227,7 @@ function New-Symlink() {
 
 function sshcopyid {
     param(
-    [Parameter(Position = 0, Mandatory = $true)] [String] $remote
+        [Parameter(Position = 0, Mandatory = $true)] [String] $remote
     )
     Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | ssh $remote "cat >> .ssh/authorized_keys"
 }
-
