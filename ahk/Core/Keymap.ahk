@@ -3,7 +3,7 @@
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
 
 ; menu
-#z::MyMenu.Show
+#z:: MyMenu.Show
 
 ; folders
 CapsLock & F1:: ShowDir(HOME_DIR . '\Downloads')
@@ -20,9 +20,11 @@ CapsLock & F4:: ShowDir(HOME_DIR)
 
 #+Q:: WinClose WinGetID("A")
 
-#/::Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
+#/:: Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
 
-#h::_PasteToVim()
+#h:: _PasteToVim()
+
+#c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
 
 _PasteToVim() {
     draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
