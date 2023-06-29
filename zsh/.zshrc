@@ -34,7 +34,7 @@ compinit
 # 變量設置 {{{1
 [[ -z $EDITOR ]] && (( $+commands[vim] )) && export EDITOR=vim
 export RUST_SRC_PATH=~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/
-export PATH=~/.cargo/bin/:~/.local/bin:$PATH
+export PATH=~/bin/:~/.cargo/bin/:~/.local/bin:$PATH
 
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
