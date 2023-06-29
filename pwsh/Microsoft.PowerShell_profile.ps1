@@ -8,7 +8,7 @@ $env:PATH = $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
 # https://www.lua.org/download.html
 
 if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
-    $env:STARSHIP_CONFIG = $scriptDir + "\Contrib\starship.toml"
+    $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
     Invoke-Expression (&starship init powershell)
     Invoke-Expression (& { (lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
 }
