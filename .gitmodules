@@ -7,3 +7,12 @@
 	url = git@github.com:bennyyip/dot-vim.git
 	update = rebase
 	ignore = dirty
+[submodule "minimal/vim/pack/vendor/start/vim-sensible"]
+	path = minimal/vim/pack/vendor/start/vim-sensible
+	url = git@github.com:tpope/vim-sensible.git
+[submodule "minimal/vim/pack/vendor/start/vim-surround"]
+	path = minimal/vim/pack/vendor/start/vim-surround
+	url = git@github.com:tpope/vim-surround.git
+[submodule "minimal/vim/pack/vendor/start/vim-unimpaired"]
+	path = minimal/vim/pack/vendor/start/vim-unimpaired
+	url = git@github.com:tpope/vim-unimpaired
