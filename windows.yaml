@@ -13,8 +13,8 @@
     ~/.prettierrc:
     ~/.ripgreprc:
     ~/vimfiles: vim
-    ~/Documents/Powershell: WindowsPowerShell
-    ~/Documents/WindowsPowerShell: WindowsPowerShell
+    ~/Documents/Powershell: pwsh
+    ~/Documents/WindowsPowerShell: pwsh
 
 - create:
     - ~/bin

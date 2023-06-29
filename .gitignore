@@ -1,5 +1,5 @@
 *~
 bin/
-/WindowsPowerShell/Modules/
-WindowsPowerShell/local_profile.psm1
+/pwsh/Modules/
+pwsh/local_profile.psm1
 ahk/ahkrc.exe
