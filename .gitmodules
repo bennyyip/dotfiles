@@ -5,3 +5,5 @@
 [submodule "vim"]
 	path = vim
 	url = git@github.com:bennyyip/dot-vim.git
+	update = rebase
+	ignore = dirty
