@@ -2,15 +2,16 @@
     link:
       relink: true
 
-- clean: ['~']
+- clean: ['~', '~/.config']
 
 - create:
-    - ~/bin
     - ~/.ipython/profile_default/
     - ~/.ipython/profile_default/startup
-#     - ~/.vim/undo-history
 
 - link:
+    ~/.config/:
+      glob: true
+      path: config/.config/*
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global
     ~/.ipython/profile_default/ipython_config.py: ipython/ipython_config.py
@@ -18,11 +19,15 @@
     ~/.ipython/profile_default/startup/disable_warnings.py: ipython/disable_warnings.py
     ~/.prettierrc:
     ~/.ripgreprc:
-    ~/vimfiles: vim
-    ~/Documents/Powershell: pwsh
-    ~/Documents/WindowsPowerShell: pwsh
+    ~/.vim: vim
+    ~/.xprofile: X/.xprofile
+    ~/.zsh: zsh/.zsh
+    ~/.zshrc: zsh/.zshrc
+    ~/bin: bin
 
 - shell:
-    - [git submodule update --init --remote --recursive vim, Installing submodules]
+    - [
+        git submodule update --init --remote --recursive vim,
+        Installing submodules,
+      ]
     - [git submodule update --init --recursive, Installing submodules]
-    - [powershell -NoProfile ./ahk/install.ps1, Installing ahkrc]
