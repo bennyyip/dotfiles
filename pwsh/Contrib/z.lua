@@ -2669,7 +2669,7 @@ function global:_zlua {
 		$dest = & $script:ZLUA_LUAEXE $script:ZLUA_SCRIPT --cd $arg_type $arg_subdir $arg_inter $args
 		if ($dest) {
 			if ($env:_ZL_CD) { & $env:_ZL_CD "$dest" }
-			else { & "Push-Location" "$dest" }
+			else { & "Set-LocationEx" "$dest" }
 			if ($env:_ZL_ECHO) { Write-Host $PWD }
 		}
 	}

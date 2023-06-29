@@ -1,14 +1,13 @@
 [github]
     user = bennyyip
+[user]
+    name = bennyyip
+    email = yebenmy@protonmail.com
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
     required = true
     process = git-lfs filter-process
-[user]
-    name = bennyyip
-    email = yebenmy@protonmail.com
-    signingkey = 0x11CD7ED945B1A60F
 [push]
     default = matching
 [core]
@@ -19,6 +18,7 @@
     eol = lf
     safecrlf = true
     quotepath = false
+    excludesfile = ~/.gitignore_global
 [color]
     ui = true
 [merge]
@@ -35,14 +35,21 @@
     cp = cherry-pick
     co = checkout
     cl = clone
-    ci = commit
+    ci = commit -v
+    ca = commit --amend -v
     unstage = reset HEAD --
     st = status -sb
-    br = branch
+    br = branch -vv
+    bra = branch -vv --all
     dc = diff --cached
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
-    supdate = submodule update --remote --recursive --rebase
+    update-submodules = submodule update --init --recursive
+    upgrade-submodules = submodule update --init --remote
     p1 = diff HEAD~1 --diff-algorithm=minimal --output=1.patch
+    tar = ! "tar() { git archive --format tar --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; tar"
+    targz = ! "targz() { git archive --format tar.gz --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; targz"
+    zip = ! "zip() { git archive --format zip --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; zip"
+    root = rev-parse --show-toplevel
 [pull]
     rebase = true
 [help]
@@ -86,4 +93,6 @@
     diffFilter = delta --color-only
 
 [include]
-    path = .gitconfig-local
+    path = .gitconfig_local
+[url "git@github.com:"]
+    insteadOf = https://github.com/

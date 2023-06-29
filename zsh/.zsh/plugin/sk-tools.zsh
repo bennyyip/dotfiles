@@ -45,7 +45,7 @@ sk-vim-files () {
   local file cmd
   cmd=${1:-vim}
 
-  file=$(fd |  \
+  file=$(fd --type f --strip-cwd-prefix --hidden --follow --exclude .git |  \
     sk --height $(__calc_height) --reverse -p "$cmd> ")
   if [[ -n $file ]]; then
     ${=cmd} $file

@@ -1,0 +1,10 @@
+IPQoS=throughput
+PermitLocalCommand=yes
+ServerAliveInterval 10
+
+Include local_config
+
+Host github.com
+    HostName ssh.github.com
+    User git
+    Port 443
