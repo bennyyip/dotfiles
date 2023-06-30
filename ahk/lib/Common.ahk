@@ -11,13 +11,15 @@ Launch(fullpath) {
     title := "ahk_exe " . exe_name
     if WinActive(title) {
         WinMinimize title
+        return false
     } else {
         if WinExist(title) {
             WinActivate
         }
         else {
-            Run fullpath
+            RunWait fullpath
         }
+        return true
     }
 }
 
