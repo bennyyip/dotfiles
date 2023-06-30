@@ -624,6 +624,7 @@ alias pxy='proxychains -q'
 alias :q="exit"
 alias :qa="tmux detach"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
+alias npm="pnpm"
 
 alias k="kubectl"
 
@@ -691,7 +692,7 @@ alias bpy=bpython
 
 [ $commands[ghq] ]  && {
   alias glook='cd $(ghq list -p | fzf)'
-  alias gget='ghq get'
+  alias gget='ghq get --no-recursive --shallow'
 }
 (( $+commands[diff-so-fancy] )) && alias diff-so-fancy='diff-so-fancy | less'
 # 後綴別名 {{{2
