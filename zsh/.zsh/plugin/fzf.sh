@@ -1,11 +1,11 @@
 export FZF_DEFAULT_OPTS='--bind tab:down,shift-tab:up --layout=reverse'
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=bg+:#3c3836,bg:#282828,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git --exclude .vscode --exclude __pycache__'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 __fzf_run() {
   if [[ $TERM_PROGRAM = 'tmux' ]]; then
-    # fzf-tmux $*
-    fzf --height $(__calc_height) $*
+    fzf-tmux -p $*
   else
     fzf --height $(__calc_height) $*
   fi
@@ -77,6 +77,35 @@ fzf-search-history() {
   fi
 }
 
+fzf-rg() {
+# Two-phase filtering with Ripgrep and fzf
+#
+# 1. Search for text in files using Ripgrep
+# 2. Interactively restart Ripgrep with reload action
+#    * Press ctrl-r to switch to fzf-only filtering
+# 3. Open the file in Vim
+RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+INITIAL_QUERY="${*:-}"
+: | fzf --ansi --disabled --query "$INITIAL_QUERY" \
+    --bind "start:reload:$RG_PREFIX {q}" \
+    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+    --bind "ctrl-r:unbind(change,ctrl-r)+change-prompt(2. fzf> )+enable-search+clear-query" \
+    --color "hl:-1:underline,hl+:-1:underline:reverse" \
+    --prompt '1. ripgrep> ' \
+    --delimiter : \
+    --preview 'bat --color=always {1} --highlight-line {2}' \
+    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+    --bind 'enter:become(vim {1} +{2})'
+}
+
+fzf-kill() {
+(date; ps -ef) |
+  fzf --bind='ctrl-r:reload(date; ps -ef)' \
+      --header=$'Press CTRL-R to reload\n\n' --header-lines=2 \
+      --preview='echo {}' --preview-window=down,3,wrap \
+      --layout=reverse --height=80% | awk '{print $2}' | xargs kill -9
+}
+
 scd() {
   local _path="$(fd --hidden --follow --exclude .git --exclude .vscode --exclude __pycache__ -H -t d | __fzf_run --no-sort --prompt 'fzfcd> ')"
   [ "${_path}" == "" ] || cd $_path
@@ -129,4 +158,4 @@ tmpane() {
   fi
 }
 
-# vim: se ft=zsh:
+# vim: ft=zsh:sw=2
