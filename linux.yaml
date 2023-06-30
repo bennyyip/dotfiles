@@ -13,6 +13,7 @@
     ~/.config/:
       glob: true
       path: config/.config/*
+    ~/.config/doom: doom
     ~/.ssh/config: ssh/config
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global
