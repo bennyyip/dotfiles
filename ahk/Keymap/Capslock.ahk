@@ -49,6 +49,8 @@ CapsWithMod(action, initmod := "")
     mods := ''
     if GetKeyState("shift")
         mods .= "+"
+    if GetKeyState("ctrl")
+        mods .= "^"
     Send (initmod . mods . "{" action "}")
     SetCapsLockState "AlwaysOff"
 }
