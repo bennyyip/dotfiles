@@ -147,6 +147,10 @@ function gfk {
     $fork_url = $(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
     git remote add fork $fork_url
 }
+function gget { ghq get --no-recursive --shallow $args }
+function gget-full { ghq get $args }
+function glook { cd $(ghq list -p | fzf) }
+function glookii { Invoke-Item $(ghq list -p | fzf) }
 
 function vr { gvim --remote $args }
 
