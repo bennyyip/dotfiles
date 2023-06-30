@@ -690,7 +690,7 @@ alias ipy=ipython
 alias bpy=bpython
 
 [ $commands[ghq] ]  && {
-  alias glook='cd $(ghq list -p | sk)'
+  alias glook='cd $(ghq list -p | fzf)'
   alias gget='ghq get'
 }
 (( $+commands[diff-so-fancy] )) && alias diff-so-fancy='diff-so-fancy | less'
@@ -908,7 +908,12 @@ export DISABLE_AUTO_TITLE=true
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # Plugin {{{1
 source ~/.zsh/plugin/git.zsh
-[ $commands[sk] ] && source ~/.zsh/plugin/sk-tools.zsh
+if [ $commands[fzf] ]; then
+    source ~/.zsh/plugin/fzf.sh
+    zle -N fzf-search-history
+    bindkey "\esr" fzf-search-history
+    export _ZL_FZF=fzf
+fi
 source ~/.zsh/plugin/commacd.zsh
 
 source ~/.zsh/plugin/zsh-autosuggestions.zsh
@@ -922,7 +927,6 @@ if [[ $IS_ARCH == 1 ]]; then
 fi
 
 
-[ $commands[sk] ] && export _ZL_FZF=sk
 source ~/.zsh/plugin/z.lua.plugin.zsh
 
 source ~/.zsh/plugin/docker-alias.zsh
