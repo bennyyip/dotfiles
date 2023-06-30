@@ -22,9 +22,5 @@
     ~/bin: bin
 
 - shell:
-    - [
-        git submodule update --init --remote --recursive vim,
-        Installing submodules,
-      ]
     - [git submodule update --init --recursive, Installing submodules]
 
