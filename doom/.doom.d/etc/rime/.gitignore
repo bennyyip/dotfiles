@@ -1,9 +1,0 @@
-build/
-trash/
-*.userdb*
-*user.yaml
-.DS_Store
-.idea
-*.log
-tmp/
-sync/

@@ -45,12 +45,11 @@ $battery\
 $character"""
 
 [username]
-format = '[$user]($style)'
-
+format = ' [$user]($style)'
 
 [localip]
 ssh_only = true
-format = '@[$localipv4](bold red) '
+format = '@[$localipv4](bold red)'
 disabled = false
 
 # [hostname]
@@ -64,7 +63,7 @@ disabled = false
 truncation_length = 999
 truncate_to_repo = false
 # fish_style_pwd_dir_length = 2
-format = '[ω $path]($style)[$read_only]($read_only_style) '
+format = ' [ω $path]($style)[$read_only]($read_only_style) '
 style = "fg:142"
 
 [character]
@@ -75,7 +74,7 @@ vimcmd_symbol = "[❮](purple)"
 [time]
 style = "fg:74"
 disabled = false
-format = '[$time]($style) '
+format = '[$time]($style)'
 
 [git_status]
 disabled = true
