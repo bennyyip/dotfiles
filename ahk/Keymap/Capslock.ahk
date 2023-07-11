@@ -42,6 +42,7 @@ CapsLock & l:: CapsWithMod("Right")
 
 ; other
 CapsLock & LButton:: Send "^{LButton}"
+CapsLock & F11:: Run "C:\Program Files\AutoHotkey\v2\AutoHotkey.chm"
 CapsLock & F12:: Reload
 
 CapsWithMod(action, initmod := "")

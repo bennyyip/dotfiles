@@ -2,9 +2,9 @@ Pomodoro(reset := false) {
     ; State: BreakEnd -> Work -> JobDone -> Break -> BreakEnd
     ; take a long break at every fourth break.
 
-    WorkTime := 52
-    ShortBreakTime := 17
-    longBreakTime := 17
+    WorkTime := 25
+    ShortBreakTime := 5
+    longBreakTime := 15
 
     static state := "BreakEnd"
     static beginTime := A_Now
