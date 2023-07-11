@@ -4,6 +4,8 @@ $env:PAGER = 'less.exe'
 $env:EDITOR = "vim"
 $env:PATH = $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
 
+$proxy = "http://127.0.0.1:10809"
+
 ###############################################################################
 # https://www.lua.org/download.html
 
@@ -169,7 +171,6 @@ function rgv { rg --no-ignore-vcs $args }
 
 function update { . $profile }
 
-$proxy = "http://127.0.0.1:10809"
 function Enable-Proxy {
     $env:HTTP_PROXY = $proxy
     $env:HTTPS_PROXY = $proxy
@@ -234,4 +235,8 @@ function sshcopyid {
         [Parameter(Position = 0, Mandatory = $true)] [String] $remote
     )
     Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | ssh $remote "cat >> .ssh/authorized_keys"
+}
+
+function Open-Stream {
+    python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
 }

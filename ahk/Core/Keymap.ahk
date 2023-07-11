@@ -11,6 +11,8 @@ CapsLock & F2:: ShowDir(HOME_DIR . '\github')
 CapsLock & F3:: ShowDir(HOME_DIR . '\dotfiles')
 CapsLock & F4:: ShowDir(HOME_DIR)
 
+CapsLock & F5:: Launch(HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
+
 ; Pomodoro
 >#Enter:: Pomodoro
 +>#Enter:: Pomodoro(true)
