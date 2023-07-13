@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from typing import Iterable, List, Optional, Union
+from typing import Iterable, List, Optional, Union, cast
 
 # from https://github.com/AceofSpades5757/fzflib
 
@@ -41,7 +41,6 @@ class FZF:
         executable: Optional[str] = None,
         input: Optional[FZFInputValues] = None,
         cwd: Optional[PathLike] = None,
-        multi: bool = False,
         fzf_extras: Optional[List[str]] = None,
     ) -> None:
         if executable is None:
@@ -52,17 +51,16 @@ class FZF:
         self.fzf = executable
         self.input = input
         self.cwd: Optional[PathLike] = cwd
-        self.multi: bool = multi
 
         # Extra Arguments
         self.fzf_args: List = fzf_extras
 
-    def prompt(self, *args, **kwargs) -> Union[str, List[str]]:
+    def _prompt(self, multi: bool, *args, **kwargs) -> str | List[str]:
         """Given current configuration, run fzf and return selection."""
 
         # Buid Command
         command: List[str] = [self.fzf]
-        if self.multi:
+        if multi:
             command.append(MULTI_FLAG)
 
         command += self.fzf_args
@@ -88,7 +86,13 @@ class FZF:
             stdout, _ = process.communicate()
 
         # Process - Output
-        if self.multi:
+        if multi:
             return stdout.splitlines()
         else:
             return stdout.strip()
+
+    def prompt(self, *args, **kwargs) -> str:
+        return cast(str, self._prompt(multi=False, *args, **kwargs))
+
+    def prompt_multi(self, *args, **kwargs) -> List[str]:
+        return cast(List[str], self._prompt(multi=True, *args, **kwargs))
