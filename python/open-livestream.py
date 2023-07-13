@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import json
 import os
 import subprocess
 import webbrowser
@@ -24,13 +23,10 @@ class TwitchAPI:
     CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 
     def __init__(self) -> None:
-        proxies = {
-            "all://": http_proxy,
-        }
         self.headers = {
             "Client-ID": self.CLIENT_ID,
         }
-        self.client = httpx.AsyncClient(proxies=proxies, headers=self.headers)
+        self.client = httpx.AsyncClient(proxies=http_proxy, headers=self.headers)
 
     async def call(self, data, **kwargs):
         res = await self.client.post(
@@ -67,7 +63,7 @@ class TwitchAPI:
 
     async def is_online(self, channel):
         resp = await self.metadata_channel(channel)
-        return resp[0]["data"]["user"]["stream"] != None
+        return resp[0]["data"]["user"]["stream"] is not None
 
 
 async def is_online(url: str) -> bool:
@@ -75,7 +71,7 @@ async def is_online(url: str) -> bool:
     twitch = TwitchAPI()
     if "douyu.com" in url:
         resp = await client.get(f"https://open.douyucdn.cn/api/RoomApi/room/{room_id}")
-        return resp.json()["data"]["room_status"] == 1
+        return resp.json()["data"]["room_status"] == "1"
     elif "bilibili.com" in url:
         resp = await client.get(
             f"https://api.live.bilibili.com/room/v1/Room/room_init?id={room_id}"
@@ -110,6 +106,25 @@ async def get_streamer_urls(filter_online):
     return streamer_urls
 
 
+def run_detached_process(args):
+    # https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags
+    if "nt" == os.name:
+        creationflags = (
+            subprocess.CREATE_NO_WINDOW
+            | subprocess.CREATE_NEW_PROCESS_GROUP
+            | subprocess.DETACHED_PROCESS
+        )
+
+        pkwargs = {
+            "close_fds": True,  # close stdin/stdout/stderr on child
+            "creationflags": creationflags,
+        }
+    else:
+        pkwargs = {}
+
+    subprocess.Popen(args, stdout=subprocess.DEVNULL, **pkwargs)
+
+
 async def main():
     parser = argparse.ArgumentParser(prog="OpenLivestream")
     parser.add_argument("-o", "--filter-online", action="store_true")
@@ -121,7 +136,9 @@ async def main():
         streamer_urls = await get_streamer_urls(args.filter_online)
         fzf = FZF()
         fzf.input = list(streamer_urls.keys())
-        streamer = fzf.prompt()
+        streamer: str = fzf.prompt()
+        if streamer == "":
+            return
         url = streamer_urls[streamer]
     else:
         url = args.url
@@ -138,9 +155,12 @@ async def main():
             "--player",
             "mpv",
         ]
+        if "twitch" in url or "youtube" in url:
+            streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:
-            streamlink_cmd.extend(["--http-proxy", http_proxy, "--twitch-disable-ads"])
-        subprocess.Popen(streamlink_cmd, stdout=subprocess.DEVNULL)
+            streamlink_cmd.extend(["--twitch-disable-ads"])
+
+        run_detached_process(streamlink_cmd)
 
         danmu_cmd = ["danmu.CMD", url]
 
