@@ -59,12 +59,12 @@ Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function UnixWordRubout
 Set-PSReadlineKeyHandler -Chord 'Ctrl+x,Ctrl+e' -Function ViEditVisually
 Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 
-Set-PSReadlineKeyHandler -Chord Ctrl+V -ScriptBlock {
+Set-PSReadlineKeyHandler -Chord 'Ctrl+V' -ScriptBlock {
     $clipboard = Get-Clipboard -Raw
     if ($clipboard -match '^\s*(http|ftp|magnet)' -or `
         (Test-Path $clipboard.Trim()) ) {
         $clipboard = $clipboard.Trim()
-        $clipboard = "'${clipboard}'"
+        $clipboard = "`"${clipboard}`""
     }
     [Microsoft.PowerShell.PSConsoleReadLine]::Insert($clipboard)
 }
@@ -99,7 +99,7 @@ if (Get-Command "fzf.exe" -ErrorAction SilentlyContinue) {
     Set-Alias fkill Invoke-FuzzyKillProcess
     Set-Alias fgs Invoke-FuzzyGitStatus
     Set-PsFzfOption -PSReadlineChordReverseHistory 'Alt+s' -PSReadlineChordProvider 'Ctrl+t'
-    function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d | Invoke-Fzf -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
+    function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d $args | Invoke-Fzf -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
     function vff { Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote $_ } }
     function vfr { Get-Content $HOME/.LfCache/python3/mru/mruCache | Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote $_ } }
 }
@@ -143,6 +143,7 @@ function gcm { git commit -m $args }
 function gcam { git commit -a -m $args }
 function gcan! { git commit -v -a --no-edit --amend $args }
 function gp { git push $args }
+function gpa { git push --all && git push --tags }
 function dsf { git diff $args }
 function grv { git remote -v $args }
 function gfk {
@@ -154,7 +155,7 @@ function gget-full { ghq get $args }
 function glook { cd $(ghq list -p | fzf) }
 function glookii { Invoke-Item $(ghq list -p | fzf) }
 
-function vr { gvim --remote $args }
+function vr { gvim --remote-silent $args }
 
 function zz { z -i $args }
 function zc { z -c $args }
@@ -237,6 +238,6 @@ function sshcopyid {
     Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | ssh $remote "cat >> .ssh/authorized_keys"
 }
 
-function Open-Stream {
+function Open-Livestream {
     python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
 }
