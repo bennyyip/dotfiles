@@ -5,6 +5,7 @@ import sys
 import traceback
 from dataclasses import dataclass
 from pathlib import Path
+from typing_extensions import reveal_type
 
 import ffmpeg
 
@@ -105,6 +106,7 @@ def get_track_list(tracks):
 
 
 if __name__ == "__main__":
+    reveal_type(to_mp4)
     d = Path(sys.argv[1])
     cover = Path(sys.argv[2])
     os.chdir(d)

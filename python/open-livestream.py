@@ -106,7 +106,7 @@ async def get_streamer_urls(filter_online):
     return streamer_urls
 
 
-def run_detached_process(args):
+def run_detached_process(args, **kwargs):
     # https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags
     if "nt" == os.name:
         creationflags = (
@@ -122,7 +122,9 @@ def run_detached_process(args):
     else:
         pkwargs = {}
 
-    subprocess.Popen(args, stdout=subprocess.DEVNULL, **pkwargs)
+    print(' '.join(args))
+
+    subprocess.Popen(args, **pkwargs, **kwargs)
 
 
 async def main():
@@ -141,7 +143,7 @@ async def main():
             return
         url = streamer_urls[streamer]
     else:
-        url = args.url
+        url: str = args.url
 
     if args.open_in_browser:
         webbrowser.open(url)
@@ -160,14 +162,10 @@ async def main():
         if "twitch" in url:
             streamlink_cmd.extend(["--twitch-disable-ads"])
 
-        run_detached_process(streamlink_cmd)
+        run_detached_process(streamlink_cmd, stdout=subprocess.DEVNULL)
 
         danmu_cmd = ["danmu.CMD", url]
-
-        try:
-            subprocess.call(danmu_cmd)
-        except:
-            pass
+        run_detached_process(danmu_cmd)
 
 
 if __name__ == "__main__":
