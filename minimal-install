@@ -2,4 +2,4 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 ./install -c minimal.yaml
 which starship >/dev/null 2>&1 || curl -sS https://starship.rs/install.sh | sh
-grep -qxF 'let g:minimal_plugins = v:false' || echo 'let g:minimal_plugins = v:false' > $HOME/local.vim
+grep -qxF 'let g:minimal_plugins = v:true' $HOME/local.vim || echo 'let g:minimal_plugins = v:true' > $HOME/local.vim
