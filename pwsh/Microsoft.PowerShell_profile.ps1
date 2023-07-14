@@ -2,7 +2,7 @@
 $env:PAGER = 'less.exe'
 
 $env:EDITOR = "vim"
-$env:PATH = $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
+$env:PATH = "$env:PYENV\shims" + "$env:PYENV\bin" + $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
 
 $proxy = "http://127.0.0.1:10809"
 

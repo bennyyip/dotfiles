@@ -16,11 +16,12 @@
     ~/.ipython/profile_default/startup/disable_warnings.py: ipython/disable_warnings.py
     ~/.prettierrc:
     ~/.ripgreprc:
-    ~/.vim: minimal/vim
+    ~/.vim: vim
     ~/.zsh: zsh/.zsh
     ~/.zshrc: zsh/.zshrc
     ~/bin: bin
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
+
 
