@@ -9,18 +9,6 @@
 	update = rebase
 	ignore = dirty
 	shallow = true
-[submodule "minimal/vim/pack/vendor/start/vim-sensible"]
-	path = minimal/vim/pack/vendor/start/vim-sensible
-	url = git@github.com:tpope/vim-sensible.git
-	shallow = true
-[submodule "minimal/vim/pack/vendor/start/vim-surround"]
-	path = minimal/vim/pack/vendor/start/vim-surround
-	url = git@github.com:tpope/vim-surround.git
-	shallow = true
-[submodule "minimal/vim/pack/vendor/start/vim-unimpaired"]
-	path = minimal/vim/pack/vendor/start/vim-unimpaired
-	url = git@github.com:tpope/vim-unimpaired
-	shallow = true
 [submodule "zsh/.zsh/plugin/fast-syntax-highlighting"]
 	path = zsh/.zsh/plugin/fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
