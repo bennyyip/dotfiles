@@ -1,13 +1,11 @@
+import argparse
+import json
 import os
 import secrets
 import subprocess
-import sys
 import traceback
 from dataclasses import dataclass
 from pathlib import Path
-from typing_extensions import reveal_type
-
-import ffmpeg
 
 audio_suffices = [".mp3", ".flac", ".m4a", ".aac"]
 
@@ -27,7 +25,7 @@ def format_time(t: float):
 
 
 def probe(fname: Path):
-    info = ffmpeg.probe(fname)
+    info = ffmpeg_probe(fname)
     fmt = info["format"]
     duration = float(fmt["duration"])
     tags = fmt["tags"]
@@ -57,11 +55,12 @@ def to_mp4(tracks: list[Track], cover: Path):
     audio_fname = f"{artist} - {album}{ext}"
     video_fname = f"{artist} - {album}.mp4"
 
+    # Concat audios
     tmp_fname = f"filelist_{secrets.token_hex(5)}.txt"
 
     with open(tmp_fname, "w") as fp:
         for t in tracks:
-            line = f"file '{t.fname.as_posix()}'\n"
+            line = f"""file {t.fname.as_posix().replace(' ','\\ ').replace("'", "\\'")}\n"""
             fp.write(line)
     cmd = [
         "ffmpeg",
@@ -79,17 +78,31 @@ def to_mp4(tracks: list[Track], cover: Path):
     os.remove(tmp_fname)
     assert exit_code == 0
 
-    audio = ffmpeg.input(audio_fname)
-    video = ffmpeg.input(cover, loop=1)
+    # Attach cover and make a video
+    cmd = [
+        "ffmpeg",
+        "-i",
+        audio_fname,
+        "-loop",
+        "1",
+        "-i",
+        cover,
+        "-map",
+        "0",
+        "-map",
+        "1",
+        "-acodec",
+        "copy",
+        "-shortest",
+        "-vcodec",
+        "libx264",
+        video_fname,
+        "-y",
+    ]
+
     try:
-        ffmpeg.output(
-            audio,
-            video,
-            video_fname,
-            shortest=None,
-            vcodec="libx264",
-            acodec="copy",
-        ).overwrite_output().run()
+        exit_code = subprocess.call(cmd)
+        assert exit_code == 0
     except:
         traceback.print_exc()
     finally:
@@ -105,10 +118,33 @@ def get_track_list(tracks):
     return track_list
 
 
+def ffmpeg_probe(filename, cmd="ffprobe"):
+    """Run ffprobe on the specified file and return a JSON representation of the output.
+
+    Raises:
+        :class:`ffmpeg.Error`: if ffprobe returns a non-zero exit code,
+            an :class:`Error` is returned with a generic error message.
+            The stderr output can be retrieved by accessing the
+            ``stderr`` property of the exception.
+    """
+    args = [cmd, "-show_format", "-show_streams", "-of", "json"]
+    args += [filename]
+
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        raise OSError("ffprobe", out, err)
+    return json.loads(out.decode("utf-8"))
+
+
 if __name__ == "__main__":
-    reveal_type(to_mp4)
-    d = Path(sys.argv[1])
-    cover = Path(sys.argv[2])
+    parser = argparse.ArgumentParser(prog="album_to_mp4")
+    parser.add_argument("folder", help="folder contains audio files")
+    parser.add_argument("cover", help="path to album art")
+    args = parser.parse_args()
+
+    d = Path(args.folder)
+    cover = Path(args.cover)
     os.chdir(d)
 
     audios = [d / f for f in os.listdir(d) if (d / f).suffix in audio_suffices]
