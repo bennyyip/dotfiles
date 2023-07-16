@@ -49,6 +49,7 @@
     tar = ! "tar() { git archive --format tar --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; tar"
     targz = ! "targz() { git archive --format tar.gz --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; targz"
     zip = ! "zip() { git archive --format zip --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; zip"
+    tgz-submodule = ! "tgz() { git ls-files --recurse-submodules | tar caf ${1} --xform s:^:prog/: --verbatim-files-from -T-; }; tgz"
     root = rev-parse --show-toplevel
 [pull]
     rebase = true
