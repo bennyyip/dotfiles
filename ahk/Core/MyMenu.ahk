@@ -4,6 +4,12 @@ MyMenu.Add "Paste into &HTML and Open", MyMenuItems.ClipToBrowser
 MyMenu.Add "Translate with &DeepL", MyMenuItems.DeepL
 MyMenu.Add "Translate with &Google Translate", MyMenuItems.GoogleTranslate
 MyMenu.Add "Open win MP&V", MyMenuItems.MPV
+MyMenu.Add "&Paste to Vim", MyMenuItems.PasteToVim
+
+killMenu := Menu()
+killMenu.Add "&All explorers", MyMenuItems.KillAllExplorers
+killMenu.Add "&Duplicate explorers", MyMenuItems.KillDuplicateExplorers
+MyMenu.Add "&Kill", killMenu
 
 
 class MyMenuItems {
@@ -25,4 +31,36 @@ class MyMenuItems {
     static MPV(*) {
         Run "mpv " . A_Clipboard
     }
+
+    static KillAllExplorers(*) {
+        wins := WinGetList("ahk_class CabinetWClass")
+        subMenu := Menu()
+        for w in wins {
+            try {
+                WinClose w
+            }
+        }
+    }
+
+    static KillDuplicateExplorers(*) {
+        ws := WinGetList("ahk_class CabinetWClass")
+        winSet := Map()
+        for w in ws {
+            title := WinGetTitle(w)
+            if winSet.Has(title) {
+                try {
+                    WinClose w
+                }
+            } else {
+                winSet[title] := 1
+            }
+        }
+    }
+
+    static PasteToVim(*) {
+        draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
+        RunWait "gvim.exe --remote-silent " . draftFile
+        SendText 'G] j"+p'
+    }
+
 }

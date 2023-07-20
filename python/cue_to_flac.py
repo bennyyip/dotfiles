@@ -162,6 +162,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="cue_to_flac",
         description="convert cue to flacs",
+        epilog="Example: python cue_to_flac.py -d (Get-ChildItem */*.cue)",
     )
     parser.add_argument(
         "-d", "--delete", action="store_true", help="delete cue and wav files"

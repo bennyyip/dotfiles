@@ -18,31 +18,8 @@ CapsLock & F5:: Launch(HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
 +>#Enter:: Pomodoro(true)
 
 ; others
-#+E:: _CloseDuplicateExplorerWindows()
-
 #+Q:: WinClose WinGetID("A")
 
 #/:: Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
 
-#h:: _PasteToVim()
-
 #c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
-
-_PasteToVim() {
-    draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
-    RunWait "gvim.exe --remote " . draftFile
-    SendText 'G] j"+p'
-}
-
-_CloseDuplicateExplorerWindows() {
-    ws := WinGetList("ahk_class CabinetWClass")
-    winSet := Map()
-    for w in ws {
-        title := WinGetTitle(w)
-        if winSet.Has(title) {
-            WinClose w
-        } else {
-            winSet[title] := 1
-        }
-    }
-}
