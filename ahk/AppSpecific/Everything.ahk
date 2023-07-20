@@ -18,7 +18,7 @@ class Everything {
         fullpath := Quote(parts[2] . '\' . parts[1])
         entryType := parts[4]
         if (entryType = "File Folder") {
-            Run "wt new-tab -d " . fullpath
+            Run "pwsh -wd " . fullpath
         } else {
             Run EDITOR . fullpath
         }

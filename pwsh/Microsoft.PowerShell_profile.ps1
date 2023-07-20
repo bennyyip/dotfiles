@@ -143,7 +143,10 @@ function gcm { git commit -m $args }
 function gcam { git commit -a -m $args }
 function gcan! { git commit -v -a --no-edit --amend $args }
 function gp { git push $args }
-function gpa { git push --all && git push --tags }
+function gpa { 
+    git push --all 
+    git push --tags 
+}
 function dsf { git diff $args }
 function grv { git remote -v $args }
 function gfk {
@@ -152,9 +155,9 @@ function gfk {
 }
 function gget { ghq get --no-recursive --shallow $args }
 function gget-full { ghq get $args }
-function glook { cd $(ghq list -p | fzf) }
-function glookii { Invoke-Item $(ghq list -p | fzf) }
+function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
 
+# function vr { gvim --remote-silent ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
 function vr { gvim --remote-silent $args }
 
 function zz { z -i $args }

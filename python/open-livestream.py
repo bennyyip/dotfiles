@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import os
+import re
 import subprocess
 import webbrowser
 
@@ -79,7 +80,10 @@ async def is_online(url: str) -> bool:
         return resp.json()["data"]["live_status"] == 1
     elif "huya.com" in url:
         resp = await client.get(url)
-        return 'var TT_ROOM_DATA = {"type":"NORMAL","state":"ON"' in resp.text
+        return (
+            re.search(r'var TT_ROOM_DATA = {"type":".+","state":"ON"', resp.text)
+            is not None
+        )
     elif "twitch.tv" in url:
         return await twitch.is_online(room_id)
 
@@ -122,7 +126,7 @@ def run_detached_process(args, **kwargs):
     else:
         pkwargs = {}
 
-    print(' '.join(args))
+    print(" ".join(args))
 
     subprocess.Popen(args, **pkwargs, **kwargs)
 
