@@ -20,6 +20,11 @@ client = httpx.AsyncClient()
 http_proxy = "http://127.0.0.1:10809"
 
 
+def is_termux():
+    prefix = os.environ.get("PREFIX")
+    return prefix is not None and "com.termux" in prefix
+
+
 class TwitchAPI:
     CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 
@@ -94,7 +99,10 @@ async def get_streamer_urls(filter_online):
     streamer_urls: dict[str, str] = {}
     with open(os.path.expanduser("~/streamers.csv")) as fp:
         for line in fp:
-            url, streamer = line.strip().split(",")
+            line = line.strip()
+            if line == "":
+                continue
+            url, streamer = line.split(",")
             streamer_urls[streamer] = url
 
     if filter_online:
@@ -153,23 +161,32 @@ async def main():
         webbrowser.open(url)
     else:
         streamlink_cmd = [
-            "python.exe",
-            "-m",
             "streamlink",
             url,
             "best",
-            "--player",
-            "mpv",
         ]
-        if "twitch" in url or "youtube" in url:
+        if is_termux():
+            player_args = [
+                "--player-external-http",
+                "--player-external-http-port",
+                "4567",
+            ]
+
+        else:
+            player_args = ["--player", "mpv"]
+        streamlink_cmd.extend(player_args)
+        if not is_termux() and ("twitch" in url or "youtube" in url):
             streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:
             streamlink_cmd.extend(["--twitch-disable-ads"])
 
-        run_detached_process(streamlink_cmd, stdout=subprocess.DEVNULL)
+        if is_termux():
+            subprocess.call(streamlink_cmd)
+        else:
+            run_detached_process(streamlink_cmd, stdout=subprocess.DEVNULL)
 
-        danmu_cmd = ["danmu.CMD", url]
-        run_detached_process(danmu_cmd)
+            danmu_cmd = ["danmu.CMD", url]
+            run_detached_process(danmu_cmd)
 
 
 if __name__ == "__main__":

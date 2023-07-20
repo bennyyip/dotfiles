@@ -9,11 +9,11 @@
 	update = rebase
 	ignore = dirty
 	shallow = true
-[submodule "zsh/.zsh/plugin/fast-syntax-highlighting"]
-	path = zsh/.zsh/plugin/fast-syntax-highlighting
-	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
-	shallow = true
-[submodule "zsh/.zsh/plugin/git-fuzzy"]
-	path = zsh/.zsh/plugin/git-fuzzy
+[submodule "zsh/plugins/git-fuzzy"]
+	path = zsh/plugins/git-fuzzy
 	url = https://github.com/bigH/git-fuzzy
+	shallow = true
+[submodule "zsh/plugins/fast-syntax-highlighting"]
+	path = zsh/plugins/fast-syntax-highlighting
+	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
 	shallow = true
