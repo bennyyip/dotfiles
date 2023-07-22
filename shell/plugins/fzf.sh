@@ -4,8 +4,10 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --e
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 __fzf_run() {
-  if [[ $TERM_PROGRAM = 'tmux' ]]; then
+  if [[ $TERM_PROGRAM =~ 'tmux' ]]; then
     fzf-tmux -p $*
+  elif [[ $0 =~ 'bash' ]]; then
+    fzf --height 50 $*
   else
     fzf --height $(__calc_height) $*
   fi
@@ -136,7 +138,7 @@ tm() {
     tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1")
     return
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | __fzf_run --no-sort --prompt 'tmux session> ' --exit-0) && tmux $change -t "$session" || echo "No sessions found."
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | __fzf_run --no-sort --prompt 'tmux_session> ' --exit-0) && tmux $change -t "$session" || echo "No sessions found."
 }
 
 tmpane() {
@@ -145,7 +147,7 @@ tmpane() {
   current_pane=$(tmux display-message -p '#I:#P')
   current_window=$(tmux display-message -p '#I')
 
-  target=$(echo "$panes" | grep -v "$current_pane" | __fzf_run --no-sort --prompt 'tmux pane> ') || return
+  target=$(echo "$panes" | grep -v "$current_pane" | __fzf_run --no-sort --prompt 'tmux_pane> ') || return
 
   target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
   target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)

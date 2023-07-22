@@ -8,3 +8,5 @@ else
 fi
 
 source ~/.shell/plugins/commacd.sh
+source ~/.shell/plugins/fzf.sh
+source ~/.shell/plugins/git.sh

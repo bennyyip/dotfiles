@@ -20,6 +20,9 @@ source ~/.shell/alias.sh
 # External settings
 source ~/.shell/external.sh
 
+# Bash Functions
+source ~/.bash/functions.bash
+
 # Custom prompt
 source ~/.bash/prompt.bash
 
