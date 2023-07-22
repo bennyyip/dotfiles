@@ -1,0 +1,3 @@
+update() {
+  source ~/.bashrc
+}
