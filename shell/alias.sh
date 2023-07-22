@@ -39,7 +39,6 @@ alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
 alias pfc="curl -F c=@- http://fars.ee/"
 
 alias md=mkdir
-alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 alias vi=vim
 
 alias py=python
@@ -48,6 +47,8 @@ alias bpy=bpython
 
 alias jl=julia
 alias jl.="julia --project=."
+
+alias fd=fdfind
 
 if exists exa; then
   alias e='exa'
@@ -64,15 +65,11 @@ imgvim() {
 }
 
 
-if exists diff-so-fancy; then
-  dsf() {
-    # depends on diff-so-fancy
-    git diff --patience --color=always $@ | diff-so-fancy | less --tab=4 -RFX
-  }
-  alias diff-so-fancy='diff-so-fancy | less'
-else
-  alias dsf='git diff'
-fi
+dsf() {
+  # depends on diff-so-fancy
+  git diff --patience --color=always $@ | diff-so-fancy | less --tab=4 -RFX
+}
+alias diff-so-fancy='diff-so-fancy | less'
 
 if exists ghq; then
   alias glook='cd $(ghq list -p | fzf)'

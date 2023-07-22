@@ -392,6 +392,7 @@ vman () { vim +"set ft=man" +"Man $*" }
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 # 別名 {{{1
 source ~/.shell/alias.sh
+alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
 # 後綴別名 {{{2
 alias -s pdf=zathura
@@ -420,7 +421,7 @@ fi
 # Plugin {{{1
 source ~/.zsh/plugins/git.zsh
 if [ $commands[fzf] ]; then
-    source ~/.zsh/plugins/fzf.sh
+    source ~/.shell/plugins/fzf.sh
     zle -N fzf-search-history
     bindkey "\esr" fzf-search-history
     export _ZL_FZF=fzf
