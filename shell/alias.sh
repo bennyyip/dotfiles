@@ -48,8 +48,6 @@ alias bpy=bpython
 alias jl=julia
 alias jl.="julia --project=."
 
-alias fd=fdfind
-
 if exists exa; then
   alias e='exa'
   alias l='exa -al'
