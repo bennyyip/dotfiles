@@ -23,6 +23,7 @@
     ~/Documents/Powershell: pwsh
     ~/Documents/WindowsPowerShell: pwsh
     ~/vimfiles: vim
+    ~/mpv/portable_config: mpv
 
 - shell:
     - [git submodule update --init --remote --recursive vim, Installing submodules]
