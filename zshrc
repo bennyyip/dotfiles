@@ -90,11 +90,7 @@ if [[ $OS = Linux ]]; then
   # This term is quirk. ls doesn't like it.
   # _256colors=1
 fi
-if [[ $_256colors -eq 1 ]]; then
-  export LS_COLORS="$(cat "$HOME/.shell/dircolors-gruvbox-dark")"
-else
-  (( $+commands[dircolors] )) && eval "$(dircolors -b)"
-fi
+eval $(dircolors ~/.shell/dir_colors)
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 unset _256colors

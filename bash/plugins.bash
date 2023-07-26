@@ -1,10 +1,5 @@
-# dircolors
-if [[ "$(tput colors)" == "256" ]]; then
-  export LS_COLORS="$(cat "$HOME/.shell/dircolors-gruvbox-dark")"
-else
-  if exists dircolors; then
-    eval "$(dircolors -b)"
-  fi
+if exists dircolors; then
+  eval "$(dircolors ~/.shell/dir_colors)"
 fi
 
 source ~/.shell/plugins/commacd.sh
