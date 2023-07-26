@@ -16,7 +16,6 @@ def run_cmds(cmds):
     for cmd in cmds:
         subprocess.run(cmd)
 
-
 def get_cut_cmds(cue_file):
     p = Path(cue_file)
     if not (p.is_file() and p.suffix == ".cue"):
@@ -183,5 +182,7 @@ if __name__ == "__main__":
     else:
         cue_files = args.cue_files
 
+
     for cue_file in cue_files:
         cut_cue(Path(cue_file), args.delete)
+

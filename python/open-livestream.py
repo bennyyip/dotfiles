@@ -16,13 +16,13 @@ https://www.douyu.com/9999,yyf
 """
 
 
+is_termux = "com.termux" in os.environ.get("PREFIX", "")
+
 client = httpx.AsyncClient()
-http_proxy = "http://127.0.0.1:10809"
-
-
-def is_termux():
-    prefix = os.environ.get("PREFIX")
-    return prefix is not None and "com.termux" in prefix
+if is_termux:
+    http_proxy = ""
+else:
+    http_proxy = "http://127.0.0.1:10809"
 
 
 class TwitchAPI:
@@ -75,22 +75,28 @@ class TwitchAPI:
 async def is_online(url: str) -> bool:
     room_id = url.split("/")[-1]
     twitch = TwitchAPI()
-    if "douyu.com" in url:
-        resp = await client.get(f"https://open.douyucdn.cn/api/RoomApi/room/{room_id}")
-        return resp.json()["data"]["room_status"] == "1"
-    elif "bilibili.com" in url:
-        resp = await client.get(
-            f"https://api.live.bilibili.com/room/v1/Room/room_init?id={room_id}"
-        )
-        return resp.json()["data"]["live_status"] == 1
-    elif "huya.com" in url:
-        resp = await client.get(url)
-        return (
-            re.search(r'var TT_ROOM_DATA = {"type":".+","state":"ON"', resp.text)
-            is not None
-        )
-    elif "twitch.tv" in url:
-        return await twitch.is_online(room_id)
+    try:
+        if "douyu.com" in url:
+            resp = await client.get(
+                f"https://open.douyucdn.cn/api/RoomApi/room/{room_id}"
+            )
+            return resp.json()["data"]["room_status"] == "1"
+        elif "bilibili.com" in url:
+            resp = await client.get(
+                f"https://api.live.bilibili.com/room/v1/Room/room_init?id={room_id}"
+            )
+            return resp.json()["data"]["live_status"] == 1
+        elif "huya.com" in url:
+            resp = await client.get(url)
+            return (
+                re.search(r'var TT_ROOM_DATA = {"type":".+","state":"ON"', resp.text)
+                is not None
+            )
+        elif "twitch.tv" in url:
+            return await twitch.is_online(room_id)
+    except:
+        print(f"Failed to get online status for {url}")
+        return False
 
     return True
 
@@ -165,7 +171,7 @@ async def main():
             url,
             "best",
         ]
-        if is_termux():
+        if is_termux:
             player_args = [
                 "--player-external-http",
                 "--player-external-http-port",
@@ -175,15 +181,15 @@ async def main():
         else:
             player_args = ["--player", "mpv"]
         streamlink_cmd.extend(player_args)
-        if not is_termux() and ("twitch" in url or "youtube" in url):
+        if not is_termux and ("twitch" in url or "youtube" in url):
             streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:
             streamlink_cmd.extend(["--twitch-disable-ads"])
 
-        if is_termux():
+        if is_termux:
             subprocess.call(streamlink_cmd)
         else:
-            run_detached_process(streamlink_cmd, stdout=subprocess.DEVNULL)
+            run_detached_process(streamlink_cmd)
 
             danmu_cmd = ["danmu.CMD", url]
             run_detached_process(danmu_cmd)
