@@ -12,12 +12,12 @@ $proxy = "http://127.0.0.1:10809"
 if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
     $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
     Invoke-Expression (&starship init powershell)
-    Invoke-Expression (& { (lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
+    Invoke-Expression (& { (luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
 }
 else {
     import-module $scriptDir\prompt.psm1
 
-    Invoke-Expression ($(lua53 $scriptDir\Contrib\z.lua --init powershell) -join "`n")
+    Invoke-Expression ($(luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n")
 
     function prompt {
         gitFancyPrompt
@@ -55,7 +55,7 @@ Set-PSReadLineKeyHandler -Key   Ctrl+f          -Function ForwardChar
 Set-PSReadLineKeyHandler -Key   Ctrl+g          -Function Abort
 Set-PSReadLineKeyHandler -Key   Ctrl+n          -Function NextHistory
 Set-PSReadLineKeyHandler -Key   Ctrl+p          -Function PreviousHistory
-Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function UnixWordRubout
+# Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Chord 'Ctrl+x,Ctrl+e' -Function ViEditVisually
 Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 
@@ -157,8 +157,8 @@ function gget { ghq get --no-recursive --shallow $args }
 function gget-full { ghq get $args }
 function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
 
+function vr { gvim --remote-silent ($args | foreach  { $_ -replace '\\', '/' }) }
 # function vr { gvim --remote-silent ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
-function vr { gvim --remote-silent $args }
 
 function zz { z -i $args }
 function zc { z -c $args }
@@ -243,4 +243,11 @@ function sshcopyid {
 
 function Open-Livestream {
     python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
+}
+
+function Torrent-MPV {
+    param(
+        [Parameter(Position = 0, Mandatory = $true)] [String] $uri
+    )
+    webtorrent.ps1 download --mpv $uri
 }
