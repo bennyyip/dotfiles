@@ -4,6 +4,8 @@ $env:PAGER = 'less.exe'
 $env:EDITOR = "vim"
 $env:PATH = "$env:PYENV\shims" + "$env:PYENV\bin" + $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
 
+$env:AGV_EDITOR = 'gvim --remote-silent'
+
 $proxy = "http://127.0.0.1:10809"
 
 ###############################################################################
@@ -55,7 +57,7 @@ Set-PSReadLineKeyHandler -Key   Ctrl+f          -Function ForwardChar
 Set-PSReadLineKeyHandler -Key   Ctrl+g          -Function Abort
 Set-PSReadLineKeyHandler -Key   Ctrl+n          -Function NextHistory
 Set-PSReadLineKeyHandler -Key   Ctrl+p          -Function PreviousHistory
-# Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function BackwardKillWord
+Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Chord 'Ctrl+x,Ctrl+e' -Function ViEditVisually
 Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 
@@ -250,4 +252,13 @@ function Torrent-MPV {
         [Parameter(Position = 0, Mandatory = $true)] [String] $uri
     )
     webtorrent.ps1 download --mpv $uri
+}
+
+function rgg {
+    bash $env:USERPROFILE\dotfiles\bin\rgg $args
+}
+
+
+function agv {
+    python $env:USERPROFILE\dotfiles\bin\agv $args
 }

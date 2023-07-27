@@ -1,17 +1,16 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
+import traceback
 
-from __future__ import with_statement
-from __future__ import absolute_import
-import os
-import sys
-import re
-import math
-import glob
-import subprocess
 import argparse
-from string import Template
+import glob
+import math
+import os
+import re
+import subprocess
+import sys
 from collections import defaultdict
 from io import open
+from string import Template
 
 # The AGV_EDITOR environmental variable
 # default: $EDITOR, then 'vi'
@@ -20,22 +19,23 @@ from io import open
 #   AGV_EDITOR='vim +$line $file'
 # escape: '$$' (but shell may recognize it!)
 # unknown -> ''
-editor = os.environ.get(u'AGV_EDITOR', os.environ.get(u'EDITOR', u'vi'))
+editor = os.environ.get("AGV_EDITOR", os.environ.get("EDITOR", "vi"))
 
-if editor in (u'vi', u'vim'):
-    editor += u' +$line'
+if editor in ("vi", "vim"):
+    editor += " +$line"
 
-if u'$file' not in editor:
-    editor += u' $file'
+if "$file" not in editor:
+    editor += " $file"
 editor = Template(editor)
 
-if u'XDG_RUNTIME_DIR' in os.environ:
-    logfile_base = u'%s/.agg.log' % os.environ[u'XDG_RUNTIME_DIR']
+if os.name == "nt":
+    logfile_base = "%s/.agg.log" % os.environ["TEMP"]
+elif "XDG_RUNTIME_DIR" in os.environ:
+    logfile_base = "%s/.agg.log" % os.environ["XDG_RUNTIME_DIR"]
 else:
-    logfile_base = u'/%s/%d/.agg.log' % (os.environ.get(u'TMPDIR', u'/tmp'),
-                                         os.getuid())
+    logfile_base = "/%s/%d/.agg.log" % (os.environ.get("TMPDIR", "/tmp"), os.getuid())
 matcher = re.compile(
-    ur'''
+    r"""
                      \s*\d+\s*          # column number
                      (?:\x1b[^mK]+[mK])*
                      (?P<file>[^\x1b]+)
@@ -47,27 +47,35 @@ matcher = re.compile(
                      (?:[^:]*:
                      (?:\x1b[^mK]+[mK])*
                      (?P<col>\d+))?
-                     ''', re.VERBOSE)
+                     """,
+    re.VERBOSE,
+)
+
+def convert_msys_path(p):
+    return re.sub(r'^/([a-z])/', r'\1:/', p)
 
 
 def get_logfile(index):
-    u'''
-  index == 0: try to choose one depending on ttyname
-  index > 0: file index after sorting
-  index < 0:  return all files
-  '''
+    """
+    index == 0: try to choose one depending on ttyname
+    index > 0: file index after sorting
+    index < 0:  return all files
+    """
     files = None
 
     if index <= 0:
-        try:
-            ttyname = os.ttyname(sys.stderr.fileno()).replace(u'/', u'_')
-        except OSError:
+        if os.name == "nt":
+            ttyname = "nt"
+        else:
             try:
-                ttyname = os.ttyname(sys.stdout.fileno()).replace(u'/', u'_')
+                ttyname = os.ttyname(sys.stderr.fileno()).replace("/", "_")
             except OSError:
-                ttyname = os.ttyname(sys.stdin.fileno()).replace(u'/', u'_')
+                try:
+                    ttyname = os.ttyname(sys.stdout.fileno()).replace("/", "_")
+                except OSError:
+                    ttyname = os.ttyname(sys.stdin.fileno()).replace("/", "_")
 
-        try_file = logfile_base + u'.' + ttyname
+        try_file = logfile_base + "." + ttyname
 
         if os.path.exists(try_file):
             if index == 0:
@@ -76,9 +84,9 @@ def get_logfile(index):
                 files = [try_file]
 
     if files:
-        files += [x for x in glob.glob(logfile_base + u'*') if x != files[0]]
+        files += [x for x in glob.glob(logfile_base + "*") if x != files[0]]
     else:
-        files = glob.glob(logfile_base + u'*')
+        files = glob.glob(logfile_base + "*")
     files.sort(reverse=True, key=lambda f: os.stat(f).st_mtime)
 
     if index > 0:
@@ -93,10 +101,10 @@ def edit(line):
     m = matcher.match(line)
     info = m.groupdict()
 
-    if not info[u'col']:
-        info[u'col'] = u'0'
-    print u'File: %(file)s, Line %(line)s, Col %(col)s.' % info
-    d = defaultdict(unicode)
+    if not info["col"]:
+        info["col"] = "0"
+    print("File: %(file)s, Line %(line)s, Col %(col)s." % info)
+    d = defaultdict(str)
     d.update(info)
     cmd = editor.substitute(d)
     os.system(cmd)
@@ -104,8 +112,11 @@ def edit(line):
 
 def edit_entry(n, logfile):
     try:
-        with open(logfile, encoding=u'utf-8', errors=u'surrogateescape') as f:
-            os.chdir(f.readline()[:-1])
+        with open(logfile, encoding="utf-8", errors="surrogateescape") as f:
+            d = f.readline()[:-1]
+            if os.name == 'nt':
+                d = convert_msys_path(d)
+            os.chdir(d)
             f.readline()  # args
 
             for i, l in enumerate(f):
@@ -114,17 +125,20 @@ def edit_entry(n, logfile):
 
                     break
             else:
-                sys.exit(u'out of index.')
-    except IOError, e:
-        print >> sys.stderr, u'Error opening logfile %s: %s' % (logfile, e)
+                sys.exit("out of index.")
+    except IOError as e:
+        print("Error opening logfile %s: %s" % (logfile, e), file=sys.stderr)
+        traceback.print_exc()
         sys.exit(2)
 
 
 def cat(logfile):
     if sys.stdout.isatty():
-        p = subprocess.Popen([os.environ.get(u'PAGER', u'less')],
-                             stdin=subprocess.PIPE,
-                             universal_newlines=True)
+        p = subprocess.Popen(
+            [os.environ.get("PAGER", "less")],
+            stdin=subprocess.PIPE,
+            universal_newlines=True,
+        )
         output = p.stdin
     else:
         p = None
@@ -153,45 +167,45 @@ def list_logfiles(logfiles):
     dirs = []
 
     for log in logfiles:
-        with open(log, errors=u'replace') as f:
+        with open(log, errors="replace") as f:
             dirs.append(f.readline()[:-1])
             args.append(f.readline()[:-1])
 
-    fmt = u'%%%dd: %%-%ds (dir: %%s)' % (
+    fmt = "%%%dd: %%-%ds (dir: %%s)" % (
         math.ceil(math.log10(len(logfiles))),
         min(max(len(x) for x in args), 40),
     )
 
-    for i in xrange(len(args)):
-        print fmt % (i + 1, args[i], dirs[i])
+    for i in range(len(args)):
+        print(fmt % (i + 1, args[i], dirs[i]))
 
 
 def main():
-    parser = argparse.ArgumentParser(description=u'view and go to agg results')
+    parser = argparse.ArgumentParser(description="view and go to agg results")
     parser.add_argument(
-        u'indices',
-        metavar=u'N',
+        "indices",
+        metavar="N",
         type=int,
-        nargs=u'*',
-        help=u'index of result entry to go to')
+        nargs="*",
+        help="index of result entry to go to",
+    )
     parser.add_argument(
-        u'-l',
-        action=u'store_true',
+        "-l",
+        action="store_true",
         default=False,
-        help=u'list results (same without args)')
+        help="list results (same without args)",
+    )
     parser.add_argument(
-        u'-L',
-        u'--list',
-        action=u'store_true',
-        default=False,
-        help=u'list all log files')
+        "-L", "--list", action="store_true", default=False, help="list all log files"
+    )
     parser.add_argument(
-        u'-f',
-        u'--file',
+        "-f",
+        "--file",
         type=int,
         default=0,
-        metavar=u'NUMBER',
-        help=u'explicitly select a log file')
+        metavar="NUMBER",
+        help="explicitly select a log file",
+    )
 
     args = parser.parse_args()
 
@@ -199,13 +213,13 @@ def main():
         logfiles = get_logfile(-1)
 
         if not logfiles:
-            sys.exit(u'no agg log files')
+            sys.exit("no agg log files")
         list_logfiles(logfiles)
     else:
         try:
             logfile = get_logfile(args.file)
         except IndexError:
-            sys.exit(u'no agg log files')
+            sys.exit("no agg log files")
 
         if args.indices:
             for index in args.indices:
@@ -214,10 +228,11 @@ def main():
             cat(logfile)
 
 
-if __name__ == u'__main__':
+if __name__ == "__main__":
     try:
         import setproctitle
-        setproctitle.setproctitle(u'agv')
+
+        setproctitle.setproctitle("agv")
     except ImportError:
         pass
 
