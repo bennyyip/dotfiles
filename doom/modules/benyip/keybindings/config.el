@@ -21,6 +21,8 @@
  :n "[q" #'previous-error ; good old quickfix
  :n "]q" #'next-error     ; good old quickfix
 
+ :n "<backspace>" #'evil-ex-nohighlight
+
  :v "." (kbd ":norm . RET")
  :v "Q" (kbd ":norm @q RET")
  :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
