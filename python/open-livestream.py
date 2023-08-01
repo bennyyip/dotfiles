@@ -149,10 +149,11 @@ async def main():
     parser = argparse.ArgumentParser(prog="OpenLivestream")
     parser.add_argument("-o", "--filter-online", action="store_true")
     parser.add_argument("-b", "--open-in-browser", action="store_true")
+    parser.add_argument("-r", "--record", action="store_true")
     parser.add_argument("url", nargs="?")
     args = parser.parse_args()
 
-    if args.url is None:
+    if args.url is None or not (args.url.startswith("http")):
         streamer_urls = await get_streamer_urls(args.filter_online)
         fzf = FZF()
         fzf.input = list(streamer_urls.keys())
@@ -162,6 +163,7 @@ async def main():
         url = streamer_urls[streamer]
     else:
         url: str = args.url
+        streamer = url
 
     if args.open_in_browser:
         webbrowser.open(url)
@@ -180,7 +182,14 @@ async def main():
 
         else:
             player_args = ["--player", "mpv"]
+
         streamlink_cmd.extend(player_args)
+
+        if args.record:
+            d = os.path.expanduser("~/recordings")
+            os.makedirs(d, exist_ok=True)
+            streamlink_cmd.extend(["--record", f"{d}/{streamer}.ts"])
+
         if not is_termux and ("twitch" in url or "youtube" in url):
             streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:

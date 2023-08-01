@@ -23,3 +23,6 @@ CapsLock & F5:: Launch(HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
 #/:: Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
 
 #c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
+
+>#J:: Send "{PgDn}"
+>#K:: Send "{PgUp}"
