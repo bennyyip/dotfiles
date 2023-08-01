@@ -103,7 +103,7 @@ if (Get-Command "fzf.exe" -ErrorAction SilentlyContinue) {
     Set-PsFzfOption -PSReadlineChordReverseHistory 'Alt+s' -PSReadlineChordProvider 'Ctrl+t'
     function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d $args | Invoke-Fzf -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
     function vff { Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote-silent $_ } }
-    function vfr { Get-Content $HOME/.LfCache/python3/mru/mruCache | Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote-silent $_ } }
+    function vfr { Get-Content $env:APPDATA\LeaderF\python3\mru\mruCache | Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote-silent $_ } }
 }
 
 ###############################################################################
