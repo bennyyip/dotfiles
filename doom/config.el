@@ -34,7 +34,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'whiteboard)
+(if (display-graphic-p)
+    (setq doom-theme 'doom-material-dark)
+  (setq doom-theme 'whiteboard))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -86,15 +88,32 @@
 
 (defun alacritty-here ()
   (interactive "@")
-  (shell-command (format "alacritty --working-directory %S > /dev/null 2>&1 & disown"
-                         default-directory)))
+  (shell-command
+   (format
+    "alacritty --working-directory %S > /dev/null 2>&1 & disown"
+    default-directory)))
 
+(use-package! tree-sitter
+  :config
+  (setq +tree-sitter-hl-enabled-modes
+        '(python-mode
+          js-mode
+          sh-mode
+          markdown-mode
+          json-mode)))
 
-(setq +tree-sitter-hl-enabled-modes '(python-mode js-mode sh-mode markdown-mode json-mode))
+(after! geiser
+  (geiser-implementation-extension 'guile "scm")
+  (setq geiser-chez-binary "chez"))
 
-(setq geiser-chez-binary "chez")
+(use-package! server
+  :config
+  (if (display-graphic-p)
+      (progn
+        (setq server-name "gui")
+        (server-start))
+    (setq server-name "server")))
 
-(geiser-implementation-extension 'chez "scm")
+(defun geiser-racket--language () '())
 
-;; start server so emacsclient works
-(server-start)
+(setq select-enable-clipboard nil)

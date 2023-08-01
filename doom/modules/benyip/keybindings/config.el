@@ -3,56 +3,67 @@
 (use-package! move-lines
   :config
   (map!
-   :n "[e" #'move-lines-up   ; unimpaired
-   :n "]e" #'move-lines-down ; unimpaired
-   ))
+   :n "[e" #'move-lines-up
+   :n "]e" #'move-lines-down))
 
-(setq evil-snipe-scope 'visible)
-(setq evil-want-Y-yank-to-eol 't)
+(use-package! clipetty
+  :bind (("M-w" . clipetty-kill-ring-save))
+  :config
+  (map!
+   :leader
+   :v "c" #'clipetty-kill-ring-save))
 
-(map!
- :n "-" #'dired-jump ; like dirvish
- :n "gp" "`[v`]" ; select the previously pasted text
- :n "Q" "@q" ; run the macro in the q register
- :n "gb" #'switch-to-buffer
- :n "T"  #'+workspace/new
- :n "gs" #'+workspace/close-window-or-workspace
 
- :n "[q" #'previous-error ; good old quickfix
- :n "]q" #'next-error     ; good old quickfix
+(use-package! evil
+  :config
+  (setq evil-snipe-scope 'visible)
+  (setq evil-want-Y-yank-to-eol 't)
 
- :n [?\C-?] #'evil-ex-nohighlight
+  (map!
+   :n "-" #'dired-jump                  ; like dirvish
+   :n "gp" "`[v`]"                      ; select the previously pasted text
+   :n "Q" "@q"                          ; run the macro in the q register
+   :n "gb" #'switch-to-buffer
+   :n "T" #'+workspace/new
+   :n "gs" #'+workspace/close-window-or-workspace
 
- :v "." (kbd ":norm . RET")
- :v "Q" (kbd ":norm @q RET")
- :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
+   :n "[s" #'previous-error
+   :n "]s" #'next-error
 
- :i "C-v" #'evil-paste-after
+   :n [?\C-?] #'evil-ex-nohighlight
 
- :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
+   (:prefix "C-w"
+    :n "o" #'doom/window-maximize-buffer ; instead of doom/window-enlargen
+    )
 
- :leader
- (:prefix-map ("o" . "open")
-              "c" (λ! (find-file "~/org/gtd/calendar.org"))
-              "n" (λ! (find-file "~/org/notes.org"))
-              "t" (λ! (find-file "~/org/todo.org")))
+   :v "." (kbd ":norm . RET")
+   :v "Q" (kbd ":norm @q RET")
+   :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
- :n "m" #'highlight-symbol-at-point
- :n "M" #'unhighlight-regexp
+   :i "C-v" #'evil-paste-after
 
- :n "=" #'+format/buffer
+   :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
 
- :n "1" #'+workspace/switch-to-0
- :n "2" #'+workspace/switch-to-1
- :n "3" #'+workspace/switch-to-2
- :n "4" #'+workspace/switch-to-3
- :n "5" #'+workspace/switch-to-4
- :n "6" #'+workspace/switch-to-5
- :n "7" #'+workspace/switch-to-6
- :n "8" #'+workspace/switch-to-7
- :n "9" #'+workspace/switch-to-8
- :n "0" #'+workspace/switch-to-final
+   :leader
+   ;; (:prefix-map ("o" . "open")
+   ;;              "c" (λ! (find-file "~/org/gtd/calendar.org"))
+   ;;              "n" (λ! (find-file "~/org/notes.org"))
+   ;;              "t" (λ! (find-file "~/org/todo.org")))
 
- )
+   :n "m" #'highlight-symbol-at-point
+   :n "M" #'unhighlight-regexp
 
-(define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w"))
+   :n "=" #'+format/buffer
+
+   :n "1" #'+workspace/switch-to-0
+   :n "2" #'+workspace/switch-to-1
+   :n "3" #'+workspace/switch-to-2
+   :n "4" #'+workspace/switch-to-3
+   :n "5" #'+workspace/switch-to-4
+   :n "6" #'+workspace/switch-to-5
+   :n "7" #'+workspace/switch-to-6
+   :n "8" #'+workspace/switch-to-7
+   :n "9" #'+workspace/switch-to-8
+   :n "0" #'+workspace/switch-to-final)
+
+  (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
