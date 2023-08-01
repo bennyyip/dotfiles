@@ -398,7 +398,6 @@ alias -s {tgz,gz}="tar -xvzf"
 alias -s bz2="tar -xvjf"
 alias -s 7z="7zr x"
 alias -s zip=unzip
-alias -s epub="emacsclient -n"
 
 # 全局别名 {{{2
 # 当前目录下最后修改的文件
