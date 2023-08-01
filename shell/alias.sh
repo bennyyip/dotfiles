@@ -5,6 +5,7 @@ alias :q="exit"
 alias :qa="tmux detach"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
+alias e="emacsclient -n"
 
 alias k="kubectl"
 
@@ -49,7 +50,6 @@ alias jl=julia
 alias jl.="julia --project=."
 
 if exists exa; then
-  alias e='exa'
   alias l='exa -al'
   xtree() {
     exa -Tl "$@"

@@ -95,3 +95,6 @@
 (setq geiser-chez-binary "chez")
 
 (geiser-implementation-extension 'chez "scm")
+
+;; start server so emacsclient works
+(server-start)
