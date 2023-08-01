@@ -14,14 +14,14 @@
  :n "-" #'dired-jump ; like dirvish
  :n "gp" "`[v`]" ; select the previously pasted text
  :n "Q" "@q" ; run the macro in the q register
- :n "gb" #'ivy-switch-buffer
+ :n "gb" #'switch-to-buffer
  :n "T"  #'+workspace/new
  :n "gs" #'+workspace/close-window-or-workspace
 
  :n "[q" #'previous-error ; good old quickfix
  :n "]q" #'next-error     ; good old quickfix
 
- :n "<backspace>" #'evil-ex-nohighlight
+ :n [?\C-?] #'evil-ex-nohighlight
 
  :v "." (kbd ":norm . RET")
  :v "Q" (kbd ":norm @q RET")
@@ -29,24 +29,30 @@
 
  :i "C-v" #'evil-paste-after
 
+ :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
+
  :leader
  (:prefix-map ("o" . "open")
-   "c" (λ! (find-file "~/org/gtd/calendar.org"))
-   "n" (λ! (find-file "~/org/notes.org"))
-   "t" (λ! (find-file "~/org/todo.org")))
+              "c" (λ! (find-file "~/org/gtd/calendar.org"))
+              "n" (λ! (find-file "~/org/notes.org"))
+              "t" (λ! (find-file "~/org/todo.org")))
 
  :n "m" #'highlight-symbol-at-point
  :n "M" #'unhighlight-regexp
 
- :n "1"    #'+workspace/switch-to-0
- :n "2"    #'+workspace/switch-to-1
- :n "3"    #'+workspace/switch-to-2
- :n "4"    #'+workspace/switch-to-3
- :n "5"    #'+workspace/switch-to-4
- :n "6"    #'+workspace/switch-to-5
- :n "7"    #'+workspace/switch-to-6
- :n "8"    #'+workspace/switch-to-7
- :n "9"    #'+workspace/switch-to-8
- :n "0"    #'+workspace/switch-to-final)
+ :n "=" #'+format/buffer
+
+ :n "1" #'+workspace/switch-to-0
+ :n "2" #'+workspace/switch-to-1
+ :n "3" #'+workspace/switch-to-2
+ :n "4" #'+workspace/switch-to-3
+ :n "5" #'+workspace/switch-to-4
+ :n "6" #'+workspace/switch-to-5
+ :n "7" #'+workspace/switch-to-6
+ :n "8" #'+workspace/switch-to-7
+ :n "9" #'+workspace/switch-to-8
+ :n "0" #'+workspace/switch-to-final
+
+ )
 
 (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w"))
