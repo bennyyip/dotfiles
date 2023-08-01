@@ -6,3 +6,5 @@
   :recipe (
            :host github
            :repo "targzeta/move-lines"))
+
+(package! clipetty)
