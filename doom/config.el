@@ -28,7 +28,8 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "Sarasa Term CL Nerd" :size 24))
+(setq doom-font (font-spec :family "Sarasa Term CL Nerd" :size 24)
+      doom-unicode-font (font-spec :family "Sarasa Term CL Nerd"))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -79,6 +80,10 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(defvar my-home-dir
+  (if IS-WINDOWS
+      (concat (getenv "USERPROFILE") "\\")
+    (concat (getenv "HOME") "/")))
 
 (setq doom-localleader-key "\\")
 
@@ -117,3 +122,18 @@
 (defun geiser-racket--language () '())
 
 (setq select-enable-clipboard nil)
+
+;; :iabbrev
+(setq-default abbrev-mode t)
+(setq save-abbrevs 'silently)
+(setq abbrev-file-name
+      "~/.doom.d/abbrev_defs")
+
+;; https://www.emacswiki.org/emacs/SmoothScrolling
+(setq-default pixel-scroll-precision-mode t)
+(setq pixel-scroll-precision-large-scroll-height 40.0)
+
+;; open in gvim
+(defun open-in-vim ()
+  (interactive)
+  (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))

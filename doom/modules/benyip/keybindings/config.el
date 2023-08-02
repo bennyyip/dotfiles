@@ -1,5 +1,9 @@
 ;;; benyip/keybindings/config.el -*- lexical-binding: t; -*-
 
+(defun benyip/find-file-in-home ()
+  (interactive)
+  (doom-project-browse my-home-dir))
+
 (use-package! move-lines
   :config
   (map!
@@ -40,7 +44,7 @@
    :v "Q" (kbd ":norm @q RET")
    :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
-   :i "C-v" #'evil-paste-after
+   :i "C-v" #'clipboard-yank            ; yank system clipboard
 
    :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
 
@@ -64,6 +68,10 @@
    :n "7" #'+workspace/switch-to-6
    :n "8" #'+workspace/switch-to-7
    :n "9" #'+workspace/switch-to-8
-   :n "0" #'+workspace/switch-to-final)
+   :n "0" #'+workspace/switch-to-final
+
+   (:prefix "f"
+    :n "f" #'+default/find-file-under-here
+    :n "`" #'benyip/find-file-in-home))
 
   (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
