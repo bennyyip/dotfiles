@@ -58,9 +58,7 @@ class MyMenuItems {
     }
 
     static PasteToVim(*) {
-        draftFile := HOME_DIR . "/temp/" . FormatTime(, "yyyy-MM-dd") . ".txt"
-        RunWait "gvim.exe --remote-silent " . draftFile
-        SendText 'G] j"+p'
+        RunWait "gvim --remote-send :Capture<CR>"
     }
 
 }

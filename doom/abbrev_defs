@@ -1,0 +1,18 @@
+;;-*-coding: utf-8;-*-
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("cosnt" "const" nil :count 1)
+    ("qutoa" "quota" nil :count 1)
+    ("improt" "import" nil :count 1)
+    ("udpate" "update" nil :count 1)
+    ("udpates" "updates" nil :count 1)
+    ("shcedule" "schedule" nil :count 1)
+    ("shceduler" "scheduler" nil :count 1)
+    ("shcd" "schd" nil :count 1)
+    ("intsall" "install" nil :count 1)
+    ("isntall" "install" nil :count 1)
+    ("paht" "path" nil :count 1)
+    ("filed" "field" nil :count 1)
+    ("fileds" "fields" nil :count 1)
+   ))
+
