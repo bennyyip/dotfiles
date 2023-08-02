@@ -12,6 +12,7 @@ CapsLock & F3:: ShowDir(HOME_DIR . '\dotfiles')
 CapsLock & F4:: ShowDir(HOME_DIR)
 
 CapsLock & F5:: Launch(HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
+CapsLock & F6:: Launch('C:\Program Files (x86)\GoldenDict\GoldenDict.exe')
 
 ; Pomodoro
 >#Enter:: Pomodoro
@@ -22,7 +23,8 @@ CapsLock & F5:: Launch(HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
 
 #/:: Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
 
-#c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
+; #c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
+#c:: Run "goldendict://" . A_Clipboard
 
 >#J:: Send "{PgDn}"
 >#K:: Send "{PgUp}"

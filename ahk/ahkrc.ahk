@@ -2,7 +2,7 @@
 #SingleInstance Force
 SetWorkingDir(A_ScriptDir)
 HOME_DIR := "C:\Users\" . A_UserName
-VIM := "gvim --remote "
+VIM := "gvim --remote-silent-tab "
 EDITOR := VIM
 
 A_HotkeyInterval := 999999999  ; This is the default value (2000 milliseconds).
