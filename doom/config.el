@@ -36,7 +36,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (if (display-graphic-p)
-    (setq doom-theme 'doom-material-dark)
+    (progn (setq doom-theme 'sanityinc-tomorrow-night)
+           (custom-set-faces '(cursor ((t (:background "#81a2be"))))))
   (setq doom-theme 'whiteboard))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -80,7 +81,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(defvar my-home-dir
+(defvar benyip-home-dir
   (if IS-WINDOWS
       (concat (getenv "USERPROFILE") "\\")
     (concat (getenv "HOME") "/")))
@@ -121,12 +122,17 @@
   (if (display-graphic-p)
       (progn
         (setq server-name "gui")
-        (server-start))
+        (unless (server-running-p "gui") (server-start)))
     (setq server-name "server")))
 
 (use-package! python
   :config
   (set-repl-handler! 'python-mode #'+python/open-ipython-repl))
+
+(use-package! lsp
+  :config
+  (setq lsp-enable-file-watchers 'nil))
+
 
 ;; :iabbrev
 (setq-default abbrev-mode t)
@@ -142,6 +148,12 @@
 (defun open-in-vim ()
   (interactive)
   (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))
+
+;; open in VS Code
+(defun open-in-vscode ()
+  (interactive)
+  (doom-call-process "code" buffer-file-name))
+
 
 ;; save buffers on focus lost
 (add-function :after after-focus-change-function (lambda () (save-some-buffers t)))

@@ -2,12 +2,7 @@ IPQoS=throughput
 PermitLocalCommand=yes
 ServerAliveInterval 10
 
-Include local_config
-
-Host arch
-    HostName arch
-    ForwardAgent yes
-    ForwardX11 yes
+Include config.local
 
 Host github.com
     HostName ssh.github.com

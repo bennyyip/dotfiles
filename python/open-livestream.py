@@ -94,6 +94,10 @@ async def is_online(url: str) -> bool:
             )
         elif "twitch.tv" in url:
             return await twitch.is_online(room_id)
+        elif 'cc.163.com' in url:
+            resp = await client.get (f"https://api.cc.163.com/v1/activitylives/anchor/lives?anchor_ccid={room_id}")
+            return 'channel_id' in resp.json()['data'][str(room_id)]
+
     except:
         print(f"Failed to get online status for {url}")
         return False
