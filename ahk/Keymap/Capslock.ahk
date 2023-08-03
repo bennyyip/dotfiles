@@ -1,12 +1,8 @@
 SetCapsLockState "AlwaysOff"
-global OtherKeyPressedDuringCaps := false
 
 CapsLock Up:: Send "{ESC}"
 
 CapsWithMod(action, initmod := "") {
-    ; global OtherKeyPressedDuringCaps
-
-    ; OtherKeyPressedDuringCaps := true
     mods := ''
     if GetKeyState("shift")
         mods .= "+"
@@ -16,21 +12,6 @@ CapsWithMod(action, initmod := "") {
         mods .= "!"
     Send (initmod . mods . "{" action "}")
     SetCapsLockState "AlwaysOff"
-}
-
-CapsUp() {
-    global OtherKeyPressedDuringCaps
-    if (!OtherKeyPressedDuringCaps) {
-        Send "{ESC}"
-    }
-    OtherKeyPressedDuringCaps := false
-}
-
-CpasWrap(Fn, args*) {
-    ; global OtherKeyPressedDuringCaps
-
-    ; OtherKeyPressedDuringCaps := true
-    Fn(args*)
 }
 
 ; Ctrl
@@ -71,24 +52,24 @@ CapsLock & k:: CapsWithMod("Up")
 CapsLock & l:: CapsWithMod("Right")
 
 ; Other
-CapsLock & LButton:: CpasWrap Send, "^{LButton}"
-CapsLock & F11:: CpasWrap Run, "C:\Program Files\AutoHotkey\v2\AutoHotkey.chm"
-CapsLock & F12:: CpasWrap Reload
+CapsLock & LButton:: Send "^{LButton}"
+CapsLock & F11:: Run "C:\Program Files\AutoHotkey\v2\AutoHotkey.chm"
+CapsLock & F12:: Reload
 
 ; Media
-CapsLock & PgUp::CpasWrap  Send, "{Volume_Up}"
-CapsLock & Up:: CpasWrap Send, "{Volume_Up}"
-CapsLock & PgDn:: CpasWrap Send, "{Volume_Down}"
-CapsLock & Down:: CpasWrap Send, "{Volume_Down}"
-CapsLock & Left:: CpasWrap Send, "{Media_Prev}"
-CapsLock & Right:: CpasWrap Send, "{Media_Next}"
+CapsLock & PgUp:: Send "{Volume_Up}"
+CapsLock & Up:: Send "{Volume_Up}"
+CapsLock & PgDn:: Send "{Volume_Down}"
+CapsLock & Down:: Send "{Volume_Down}"
+CapsLock & Left:: Send "{Media_Prev}"
+CapsLock & Right:: Send "{Media_Next}"
 
 ; Folders
-CapsLock & F1:: CpasWrap ShowDir, HOME_DIR . '\Downloads'
-CapsLock & F2:: CpasWrap ShowDir, HOME_DIR . '\github'
-CapsLock & F3:: CpasWrap ShowDir, HOME_DIR . '\dotfiles'
-CapsLock & F4:: CpasWrap ShowDir, HOME_DIR
+CapsLock & F1:: ShowDir HOME_DIR . '\Downloads'
+CapsLock & F2:: ShowDir HOME_DIR . '\github'
+CapsLock & F3:: ShowDir HOME_DIR . '\dotfiles'
+CapsLock & F4:: ShowDir HOME_DIR
 
 ; App
-CapsLock & F5:: CpasWrap Launch, (HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
-CapsLock & F6:: CpasWrap Launch, ('C:\Program Files (x86)\GoldenDict\GoldenDict.exe')
+CapsLock & F5:: Launch (HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
+CapsLock & F6:: Launch ('C:\Program Files (x86)\GoldenDict\GoldenDict.exe')
