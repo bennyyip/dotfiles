@@ -87,6 +87,10 @@
 
 (setq doom-localleader-key "\\")
 
+;;  don't mess with system clipboard
+(setq select-enable-clipboard nil)
+
+
 (defun ghq-add-to-projectile ()
   (interactive)
   (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
@@ -110,6 +114,7 @@
 (after! geiser
   (geiser-implementation-extension 'guile "scm")
   (setq geiser-chez-binary "chez"))
+(defun geiser-racket--language () '())
 
 (use-package! server
   :config
@@ -119,9 +124,9 @@
         (server-start))
     (setq server-name "server")))
 
-(defun geiser-racket--language () '())
-
-(setq select-enable-clipboard nil)
+(use-package! python
+  :config
+  (set-repl-handler! 'python-mode #'+python/open-ipython-repl))
 
 ;; :iabbrev
 (setq-default abbrev-mode t)
@@ -137,3 +142,6 @@
 (defun open-in-vim ()
   (interactive)
   (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))
+
+;; save buffers on focus lost
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))

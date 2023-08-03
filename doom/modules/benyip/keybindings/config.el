@@ -1,6 +1,6 @@
 ;;; benyip/keybindings/config.el -*- lexical-binding: t; -*-
 
-(defun benyip/find-file-in-home ()
+(defun benyip/find-file-from-home ()
   (interactive)
   (doom-project-browse my-home-dir))
 
@@ -72,6 +72,6 @@
 
    (:prefix "f"
     :n "f" #'+default/find-file-under-here
-    :n "`" #'benyip/find-file-in-home))
+    :n  "`" #'benyip/find-file-from-home))
 
   (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
