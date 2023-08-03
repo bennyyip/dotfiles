@@ -2,7 +2,7 @@
 
 (defun benyip/find-file-from-home ()
   (interactive)
-  (doom-project-browse my-home-dir))
+  (doom-project-browse benyip-home-dir))
 
 (use-package! move-lines
   :config
@@ -23,6 +23,11 @@
   (setq evil-snipe-scope 'visible)
   (setq evil-want-Y-yank-to-eol 't)
 
+  (when (modulep! :benyip format)
+    (map!
+     :leader
+     :n "=" #'benyip/format-buffer))
+
   (map!
    :n "-" #'dired-jump                  ; like dirvish
    :n "gp" "`[v`]"                      ; select the previously pasted text
@@ -39,6 +44,9 @@
    (:prefix "C-w"
     :n "o" #'doom/window-maximize-buffer ; instead of doom/window-enlargen
     )
+
+   (:prefix "g"
+    :nv "X" #'browse-url)
 
    :v "." (kbd ":norm . RET")
    :v "Q" (kbd ":norm @q RET")
@@ -57,8 +65,6 @@
    :n "m" #'highlight-symbol-at-point
    :n "M" #'unhighlight-regexp
 
-   :n "=" #'+format/buffer
-
    :n "1" #'+workspace/switch-to-0
    :n "2" #'+workspace/switch-to-1
    :n "3" #'+workspace/switch-to-2
@@ -72,6 +78,6 @@
 
    (:prefix "f"
     :n "f" #'+default/find-file-under-here
-    :n  "`" #'benyip/find-file-from-home))
+    :n "`" #'benyip/find-file-from-home))
 
   (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
