@@ -3,3 +3,4 @@
 #Include "%A_ScriptDir%\AppSpecific\DOTA2.ahk"
 #Include "%A_ScriptDir%\AppSpecific\SumatraPDF.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Everything.ahk"
+#Include "%A_ScriptDir%\AppSpecific\gvim.ahk"

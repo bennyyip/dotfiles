@@ -162,7 +162,7 @@ function gget-full { ghq get $args }
 function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
 
 function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
-function e { emacsclient --server-file "$emacs_dir/server/gui" -n $args }
+function e { emacsclient --server-file "$emacs_dir/server/gui" -n ($args | foreach  { (Convert-Path $_) -replace '\\', '/' })}
 # function vr { gvim --remote-silent-tab ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
 
 function zz { z -i $args }

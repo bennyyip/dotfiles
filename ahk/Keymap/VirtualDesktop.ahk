@@ -1,4 +1,3 @@
-
 #F1:: MoveOrGotoDesktopNumber(0)
 #F2:: MoveOrGotoDesktopNumber(1)
 #F3:: MoveOrGotoDesktopNumber(2)
