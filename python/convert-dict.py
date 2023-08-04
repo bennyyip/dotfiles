@@ -9,10 +9,13 @@ ofile = os.path.expanduser("~/vmwaresharefolders/ben.pyim")
 shutil.copyfile(ifile, ofile)
 
 
+is_begining = True
 for line in edit_file(ofile):
-    print(";; -*- coding: utf-8 -*--")
     if line.startswith("#"):
         continue
+    if is_begining:
+        print(";; -*- coding: utf-8 -*--")
+        is_begining = False
     parts = line.split("\t")
     if re.match(r"^[a-zA-Z\s]+$", parts[1]):
         continue

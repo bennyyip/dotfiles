@@ -13,6 +13,9 @@ $emacs_dir = "$env:APPDATA\.emacs.d"
 ###############################################################################
 # https://www.lua.org/download.html
 
+# if ( $env:TERM -eq 'emacs' ) {
+#
+# } else 
 if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
   $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
   Invoke-Expression (&starship init powershell)
@@ -162,7 +165,7 @@ function gget-full { ghq get $args }
 function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
 
 function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
-function e { emacsclient --server-file "$emacs_dir/server/gui" -n ($args | foreach  { (Convert-Path $_) -replace '\\', '/' })}
+function e { emacsclient --server-file "$emacs_dir/server/gui" -n ($args | foreach { (Convert-Path $_) -replace '\\', '/' }) }
 # function vr { gvim --remote-silent-tab ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
 
 function zz { z -i $args }

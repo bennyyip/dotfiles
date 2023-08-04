@@ -1,4 +1,4 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; benyip/windows/packages.el
 
-(package! powershell)
+(package! powershell :disable t)
