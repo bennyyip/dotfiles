@@ -5,9 +5,9 @@ alias :q="exit"
 alias :qa="tmux detach"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
-alias e="emacsclient -t"
-alias er="emacsclient -n -s gui"
-alias en="emacsclient -n"
+alias e="emacsclient -nw"
+alias er="emacsclient -n"
+alias ec="emacsclient -c -n"
 
 alias k="kubectl"
 
