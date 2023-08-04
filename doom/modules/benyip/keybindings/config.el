@@ -34,10 +34,10 @@
    :n "Q" "@q"                          ; run the macro in the q register
    :n "gb" #'switch-to-buffer
    :n "T" #'+workspace/new
-   :n "gs" #'+workspace/close-window-or-workspace
+   :n "gs" #'delete-window
 
-   :n "[s" #'previous-error
-   :n "]s" #'next-error
+   :n "[q" #'previous-error
+   :n "]q" #'next-error
 
    :n [?\C-?] #'evil-ex-nohighlight
 
