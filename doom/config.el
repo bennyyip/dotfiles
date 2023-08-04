@@ -28,9 +28,13 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "Sarasa Term CL Nerd" :size 24)
-      doom-unicode-font (font-spec :family "Sarasa Term CL Nerd"))
-
+(if IS-LINUX
+    (defconst benyip-font-spec (font-spec :family "monospace" :size 24))
+  (defconst benyip-font-spec (font-spec :family "Sarasa Term CL Nerd" :size 20)))
+(setq doom-font benyip-font-spec
+      doom-variable-pitch-font benyip-font-spec
+      doom-serif-font benyip-font-spec
+      doom-unicode-font benyip-font-spec)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -38,7 +42,7 @@
 (if (display-graphic-p)
     (progn (setq doom-theme 'sanityinc-tomorrow-night)
            (custom-set-faces '(cursor ((t (:background "#81a2be"))))))
-  (setq doom-theme 'whiteboard))
+  (setq doom-theme 'sanityinc-tomorrow-night))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,31 +95,10 @@
 ;;  don't mess with system clipboard
 (setq select-enable-clipboard nil)
 
+(setq show-trailing-whitespace t)
 
-(defun ghq-add-to-projectile ()
-  (interactive)
-  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
-
-(defun alacritty-here ()
-  (interactive "@")
-  (shell-command
-   (format
-    "alacritty --working-directory %S > /dev/null 2>&1 & disown"
-    default-directory)))
-
-(use-package! tree-sitter
-  :config
-  (setq +tree-sitter-hl-enabled-modes
-        '(python-mode
-          js-mode
-          sh-mode
-          markdown-mode
-          json-mode)))
-
-(after! geiser
-  (geiser-implementation-extension 'guile "scm")
-  (setq geiser-chez-binary "chez"))
-(defun geiser-racket--language () '())
+;; save buffers on focus lost
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
 
 (use-package! server
   :config
@@ -125,6 +108,119 @@
         (unless (server-running-p "gui") (server-start)))
     (setq server-name "server")))
 
+;; Enable `repeat-mode' to reduce key sequence length
+;;
+;; If we have been idle for `repeat-exit-timeout' seconds, exit the repeated
+;; state.
+(use-package! repeat
+  :custom
+  (repeat-mode t)
+  (repeat-exit-timeout 3)
+  (repeat-exit-key (kbd "<escape>")))
+
+;; Hiding structured data
+;;
+;; zm hide-all
+;; zr show-all
+;; za toggle-fold
+;; zo show-block
+;; zc hide-block
+(use-package! hideshow
+  :hook (prog-mode . hs-minor-mode)
+  :config
+  (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
+
+  (defface hideshow-border-face
+    '((((background light))
+       :background "rosy brown" :extend t)
+      (t
+       :background "sandy brown" :extend t))
+    "Face used for hideshow fringe."
+    :group 'hideshow)
+
+  (define-fringe-bitmap 'hideshow-folded-fringe
+    (vector #b00000000
+            #b00000000
+            #b00000000
+            #b11000011
+            #b11100111
+            #b01111110
+            #b00111100
+            #b00011000))
+
+  (defun hideshow-folded-overlay-fn (ov)
+    "Display a folded region indicator with the number of folded lines."
+    (when (eq 'code (overlay-get ov 'hs))
+      (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
+             (info (format " (%d)..." nlines)))
+        ;; fringe indicator
+        (overlay-put ov 'before-string (propertize " "
+                                                   'display '(left-fringe hideshow-folded-fringe
+                                                                          hideshow-border-face)))
+        ;; folding indicator
+        (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
+  :custom
+  (hs-set-up-overlay #'hideshow-folded-overlay-fn))
+
+(use-package! dired
+  :custom
+  (dired-kill-when-opening-new-dired-buffer t))
+
+;; Holidays
+(use-package! calendar
+  :hook (calendar-today-visible . calendar-mark-today)
+  :custom
+  (calendar-chinese-all-holidays-flag t)
+  (holiday-local-holidays `((holiday-fixed 3 8  "Women's Day")
+                            (holiday-fixed 3 12 "Arbor Day")
+                            ,@(cl-loop for i from 1 to 3
+                                       collect `(holiday-fixed 5 ,i "International Workers' Day"))
+                            (holiday-fixed 5 4  "Chinese Youth Day")
+                            (holiday-fixed 6 1  "Children's Day")
+                            (holiday-fixed 9 10 "Teachers' Day")
+                            ,@(cl-loop for i from 1 to 7
+                                       collect `(holiday-fixed 10 ,i "National Day"))
+                            (holiday-fixed 10 24 "Programmers' Day")
+                            (holiday-fixed 11 11 "Singles' Day")))
+  (holiday-other-holidays '((holiday-fixed 4 22 "Earth Day")
+                            (holiday-fixed 4 23 "World Book Day")
+                            (holiday-sexp '(if (or (zerop (% year 400))
+                                                   (and (% year 100) (zerop (% year 4))))
+                                               (list 9 12 year)
+                                             (list 9 13 year))
+                                          "World Programmers' Day")
+                            (holiday-fixed 10 10 "World Mental Health Day")))
+  (calendar-holidays `(,@holiday-general-holidays
+                       ,@holiday-oriental-holidays
+                       ,@holiday-christian-holidays
+                       ,@holiday-other-holidays
+                       ,@holiday-local-holidays))
+  (calendar-mark-holidays-flag t)
+  (calendar-mark-diary-entries-flag nil)
+  ;; Prefer +0800 over CST
+  (calendar-time-zone-style 'numeric)
+  ;; year/month/day
+  (calendar-date-style 'iso))
+
+(use-package! lispy
+  :config
+  (map! :localleader
+        :mode (list lisp-mode emacs-lisp-mode scheme-mode racket-mode)
+        :n "l" #'lispy-mode))
+
+(use-package! tree-sitter
+  :config
+  (setq +tree-sitter-hl-enabled-modes
+        '(python-mode
+          js-mode
+          sh-mode
+          markdown-mode)))
+
+(after! geiser
+  (geiser-implementation-extension 'guile "scm")
+  (defun geiser-racket--language () '())
+  (setq geiser-chez-binary "chez"))
+
 (use-package! python
   :config
   (set-repl-handler! 'python-mode #'+python/open-ipython-repl))
@@ -132,7 +228,6 @@
 (use-package! lsp
   :config
   (setq lsp-enable-file-watchers 'nil))
-
 
 ;; :iabbrev
 (setq-default abbrev-mode t)
@@ -154,6 +249,17 @@
   (interactive)
   (doom-call-process "code" buffer-file-name))
 
+(defun ghq-add-to-projectile ()
+  (interactive)
+  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
 
-;; save buffers on focus lost
-(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+(defun alacritty-here ()
+  (interactive "@")
+  (shell-command
+   (format
+    "alacritty --working-directory %S > /dev/null 2>&1 & disown"
+    default-directory)))
+
+;; (setq term-prompt-regexp "^[^#$%>\n]*[Xλ#$%>] *")
+
+;; (setq term-prompt-regexp "^W")

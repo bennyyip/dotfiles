@@ -3,3 +3,4 @@
 
 (package! pyim)
 (package! pyim-basedict)
+(package! posframe)

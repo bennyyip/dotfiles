@@ -68,7 +68,7 @@ if [[ -n $DISPLAY || -n $SSH_CONNECTION ]]; then
   if [[ $TERM == linux ]]; then
     _256colors=0
   else
-    [[ $TERM != *color* ]] && export TERM=${TERM%%[.-]*}-256color
+    [[ $TERM != *color* ]] && [[ $TERM != dumb ]] && export TERM=${TERM%%[.-]*}-256color
     _256colors=1
   fi
 else
@@ -408,7 +408,7 @@ alias -g NUL="/dev/null"
 alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
 # Prompt {{{1
-if (( $+commands[starship] )); then
+if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
     eval $(starship init zsh)
 else
     source ~/.zsh/prompt.zsh
