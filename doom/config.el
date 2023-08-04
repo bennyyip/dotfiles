@@ -100,14 +100,6 @@
 ;; save buffers on focus lost
 (add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
 
-(use-package! server
-  :config
-  (if (display-graphic-p)
-      (progn
-        (setq server-name "gui")
-        (unless (server-running-p "gui") (server-start)))
-    (setq server-name "server")))
-
 ;; Enable `repeat-mode' to reduce key sequence length
 ;;
 ;; If we have been idle for `repeat-exit-timeout' seconds, exit the repeated
