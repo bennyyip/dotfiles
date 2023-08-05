@@ -1,4 +1,4 @@
-# Functions
+# Functi ons
 source ~/.shell/functions.sh
 
 # External settings
