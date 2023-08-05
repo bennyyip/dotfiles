@@ -2,9 +2,5 @@
 ;;; benyip/keybindings/packages.el
 
 
-(package! move-lines
-  :recipe (
-           :host github
-           :repo "targzeta/move-lines"))
-
 (package! clipetty)
+(package! move-text)
