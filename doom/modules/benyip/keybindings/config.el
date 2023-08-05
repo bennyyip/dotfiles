@@ -1,14 +1,11 @@
 ;;; benyip/keybindings/config.el -*- lexical-binding: t; -*-
 
-(defun benyip/find-file-from-home ()
-  (interactive)
-  (doom-project-browse benyip-home-dir))
-
-(use-package! move-lines
+(use-package! move-text
   :config
   (map!
-   :n "[e" #'move-lines-up
-   :n "]e" #'move-lines-down))
+   :n "[e" #'move-text-up
+   :n "]e" #'move-text-down))
+
 
 (use-package! clipetty
   :bind (("M-w" . clipetty-kill-ring-save))
@@ -87,5 +84,5 @@
   (define-key evil-ex-search-keymap (kbd "C-v") (general-simulate-key "C-r \""))
   (define-key evil-ex-completion-map (kbd "C-v") (general-simulate-key "C-r \""))
 
-  (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
-(global-set-key [remap list-buffers] 'ibuffer)
+  (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w"))
+  (global-set-key [remap list-buffers] 'ibuffer))

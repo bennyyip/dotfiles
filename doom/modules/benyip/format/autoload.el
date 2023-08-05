@@ -2,6 +2,7 @@
 
 (defvar benyip/format-conf (make-hash-table))
 
+;;;###autoload
 (defun benyip/format-buffer ()
   (interactive)
   (let ((format-fns (gethash
@@ -13,5 +14,6 @@
     (delete-trailing-whitespace)
     (whitespace-cleanup)))
 
+;;;###autoload
 (defun benyip/format-register (major--mode &rest fns)
   (puthash major--mode fns benyip/format-conf))

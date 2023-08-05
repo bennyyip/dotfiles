@@ -96,23 +96,8 @@
 
 (use-package! deadgrep)
 
-;; open in gvim
-(defun open-in-vim ()
-  (interactive)
-  (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))
-
-;; open in VS Code
-(defun open-in-vscode ()
-  (interactive)
-  (doom-call-process "code" buffer-file-name))
-
-(defun ghq-add-to-projectile ()
-  (interactive)
-  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
-
-(defun alacritty-here ()
-  (interactive "@")
-  (shell-command
-   (format
-    "alacritty --working-directory %S > /dev/null 2>&1 & disown"
-    default-directory)))
+;; Browse devdocs.io
+(use-package devdocs
+  :bind ("C-c b" . devdocs-lookup)
+  :config
+  (add-to-list 'completion-category-defaults '(devdocs (styles . (flex)))))
