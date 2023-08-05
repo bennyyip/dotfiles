@@ -30,11 +30,9 @@
 
   (map!
    :n "-" #'dired-jump                  ; like dirvish
-   :n "gp" "`[v`]"                      ; select the previously pasted text
-   :n "Q" "@q"                          ; run the macro in the q register
    :n "gb" #'switch-to-buffer
    :n "T" #'+workspace/new
-   :n "gs" #'delete-window
+   :n "gs" #'delete-window              ; TODO: map avy and easymotion
 
    :n "[q" #'previous-error
    :n "]q" #'next-error
@@ -42,28 +40,34 @@
    :n [?\C-?] #'evil-ex-nohighlight
 
    (:prefix "C-w"
-    :n "o" #'doom/window-maximize-buffer ; instead of doom/window-enlargen
-    )
+    :n "o" #'doom/window-maximize-buffer) ; instead of doom/window-enlargen
 
-   (:prefix "g"
-    :nv "X" #'browse-url)
+   :nv "gX" #'browse-url
 
    :v "." (kbd ":norm . RET")
-   :v "Q" (kbd ":norm @q RET")
+   ;;  :v "Q" (kbd ":norm @q RET")
    :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
    :i "C-v" #'clipboard-yank            ; yank system clipboard
 
    :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
 
-   :leader
-   ;; (:prefix-map ("o" . "open")
-   ;;              "c" (λ! (find-file "~/org/gtd/calendar.org"))
-   ;;              "n" (λ! (find-file "~/org/notes.org"))
-   ;;              "t" (λ! (find-file "~/org/todo.org")))
-
    :n "m" #'highlight-symbol-at-point
    :n "M" #'unhighlight-regexp
+
+   ;; TODO: yop toggle
+   :n "]p" (lambda () ())
+   ;; reset after evil-insert-state-exit-hook
+   ;; (add-hook HOOK FUNCTION &optional DEPTH LOCAL)
+   ;; LOCAL non-nil means modify buffer local
+   ;; (remove-hook HOOK FUNCTION &optional LOCAL)
+
+
+   :leader
+   ;;  ;; (:prefix-map ("o" . "open")
+   ;;  ;;              "c" (λ! (find-file "~/org/gtd/calendar.org"))
+   ;;  ;;              "n" (λ! (find-file "~/org/notes.org"))
+   ;;  ;;              "t" (λ! (find-file "~/org/todo.org")))
 
    :n "1" #'+workspace/switch-to-0
    :n "2" #'+workspace/switch-to-1
@@ -80,4 +84,8 @@
     :n "f" #'+default/find-file-under-here
     :n "`" #'benyip/find-file-from-home))
 
+  (define-key evil-ex-search-keymap (kbd "C-v") (general-simulate-key "C-r \""))
+  (define-key evil-ex-completion-map (kbd "C-v") (general-simulate-key "C-r \""))
+
   (define-key evil-normal-state-map (kbd "'") (general-simulate-key "C-w")))
+(global-set-key [remap list-buffers] 'ibuffer)
