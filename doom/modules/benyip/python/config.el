@@ -2,6 +2,7 @@
 
 
 (use-package! flycheck
+  :if (executable-find "ruff")
   :config
 
   (flycheck-define-checker python-ruff
@@ -26,9 +27,10 @@ See URL `http://pypi.python.org/pypi/ruff'."
               line-end))
     :modes python-mode)
 
+  (defun flycheck-setup-python-ruff-h () (setq-local flycheck-checker 'python-ruff))
   (add-to-list 'flycheck-checkers 'python-ruff)
-  (when (executable-find "ruff")
-    (add-hook 'python-mode-hook (lambda () (setq-local flycheck-checker 'python-ruff)))))
+  (add-hook 'python-mode-hook #'flycheck-setup-python-ruff-h))
+
 
 
 (use-package! reformatter
@@ -39,3 +41,9 @@ See URL `http://pypi.python.org/pypi/ruff'."
 
   (when (modulep! :benyip format)
     (benyip/format-register 'python-mode #'black-buffer #'ruff-buffer #'isort-buffer)))
+
+
+(use-package! python
+  :if (executable-find "ipython")
+  :config
+  (set-repl-handler! 'python-mode #'+python/open-ipython-repl))

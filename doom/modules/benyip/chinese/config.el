@@ -4,23 +4,26 @@
 ;; legacy config
 ;; https://github.com/bennyyip/dotfiles/blob/400b28677e39a0782a87300e360e6ff476161e58/doom/.doom.d/modules/benyip/chinese/config.el
 
+
 (use-package! pyim
   :init
   (setq pyim-title "ㄓ")
-  (if (file-exists-p "~/.doom.d/private/ben.pyim")
-      (setq pyim-dicts '((:name "ben" :file "~/.doom.d/private/ben.pyim"))))
+  (let ((user-dict (concat doom-user-dir "private/ben.pyim")))
+    (when (file-exists-p user-dict)
+      (setq pyim-dicts (list (list :name "ben" :file user-dict)))))
+
   :bind (("M-]" . pyim-convert-string-at-point))
   :config
   (require 'pyim-basedict)
+
 
   (setq pyim-page-tooltip '(posframe popup minibuffer))
   (pyim-default-scheme 'xiaohe-shuangpin)
 
   (pyim-basedict-enable)
 
-
-  (add-hook 'emacs-startup-hook
-            (lambda () (pyim-restart-1 t)))
+  (defun pyim-setup-h () (pyim-restart-1 t))
+  (add-hook 'emacs-startup-hook #'pyim-setup-h)
 
   ;; 设置 pyim 探针
   ;; ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
