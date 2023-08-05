@@ -100,6 +100,8 @@
 ;; save buffers on focus lost
 (add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
 
+(global-set-key [remap list-buffers] 'ibuffer)
+
 ;; Enable `repeat-mode' to reduce key sequence length
 ;;
 ;; If we have been idle for `repeat-exit-timeout' seconds, exit the repeated
@@ -117,6 +119,7 @@
 ;; za toggle-fold
 ;; zo show-block
 ;; zc hide-block
+;; FIXME: 显示数字 not working
 (use-package! hideshow
   :hook (prog-mode . hs-minor-mode)
   :config
@@ -148,7 +151,7 @@
         ;; fringe indicator
         (overlay-put ov 'before-string (propertize " "
                                                    'display '(left-fringe hideshow-folded-fringe
-                                                                          hideshow-border-face)))
+                                                              hideshow-border-face)))
         ;; folding indicator
         (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
   :custom
@@ -157,6 +160,10 @@
 (use-package! dired
   :custom
   (dired-kill-when-opening-new-dired-buffer t))
+
+;; (use-package! bookmark
+;;   :config
+;;   (add-hook 'kill-emacs-hook #'bookmark-save))
 
 ;; Holidays
 (use-package! calendar
@@ -213,13 +220,35 @@
   (defun geiser-racket--language () '())
   (setq geiser-chez-binary "chez"))
 
-(use-package! python
-  :config
-  (set-repl-handler! 'python-mode #'+python/open-ipython-repl))
-
 (use-package! lsp
   :config
   (setq lsp-enable-file-watchers 'nil))
+
+;; (use-package! orderless
+;;   :config
+;;   (defun ++vertico-orderless-dispatch (pattern _index _total)
+;;     (cond
+;;      ;; Ensure $ works with Consult commands, which add disambiguation suffixes
+;;      ((string-prefix-p "$" pattern) `(orderless-regexp . ,(substring pattern 1)))
+;;      ;; ((string-suffix-p "$" pattern)
+;;      ;;  `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x200000-\x300000]*$")))
+;;      ;; Ignore single !
+;;      ((string= "!" pattern) `(orderless-literal . ""))
+;;      ;; Without literal
+;;      ((string-prefix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 1)))
+;;      ;; Character folding
+;;      ((string-prefix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 1)))
+;;      ((string-suffix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 0 -1)))
+;;      ;; Initialism matching
+;;      ((string-prefix-p "`" pattern) `(orderless-initialism . ,(substring pattern 1)))
+;;      ((string-suffix-p "`" pattern) `(orderless-initialism . ,(substring pattern 0 -1)))
+;;      ;; Literal matching
+;;      ((string-prefix-p "=" pattern) `(orderless-literal . ,(substring pattern 1)))
+;;      ((string-suffix-p "=" pattern) `(orderless-literal . ,(substring pattern 0 -1)))
+;;      ;; Flex matching
+;;      ((string-prefix-p "~" pattern) `(orderless-flex . ,(substring pattern 1)))
+;;      ((string-suffix-p "~" pattern) `(orderless-flex . ,(substring pattern 0 -1)))))
+;;   (setq orderless-style-dispatchers '(++vertico-orderless-dispatch)))
 
 ;; :iabbrev
 (setq-default abbrev-mode t)
@@ -230,28 +259,3 @@
 ;; https://www.emacswiki.org/emacs/SmoothScrolling
 (setq-default pixel-scroll-precision-mode t)
 (setq pixel-scroll-precision-large-scroll-height 40.0)
-
-;; open in gvim
-(defun open-in-vim ()
-  (interactive)
-  (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))
-
-;; open in VS Code
-(defun open-in-vscode ()
-  (interactive)
-  (doom-call-process "code" buffer-file-name))
-
-(defun ghq-add-to-projectile ()
-  (interactive)
-  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
-
-(defun alacritty-here ()
-  (interactive "@")
-  (shell-command
-   (format
-    "alacritty --working-directory %S > /dev/null 2>&1 & disown"
-    default-directory)))
-
-;; (setq term-prompt-regexp "^[^#$%>\n]*[Xλ#$%>] *")
-
-;; (setq term-prompt-regexp "^W")
