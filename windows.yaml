@@ -24,6 +24,9 @@
     ~/Documents/WindowsPowerShell: pwsh
     ~/vimfiles: vim
     ~/mpv/portable_config: mpv
+    ~/AppData/Roaming/alacritty/alacritty.yml:
+      create: true
+      path: alacritty-windows.yml
 
 - shell:
     - [git submodule update --init --remote --recursive vim, Installing submodules]
