@@ -1,4 +1,4 @@
-﻿$scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
+$scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
 $env:PAGER = 'less.exe'
 
 $env:EDITOR = "vim"
