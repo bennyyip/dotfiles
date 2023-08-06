@@ -7,7 +7,10 @@
 ;;;###autoload
 (defun open-in-vim ()
   (interactive)
-  (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name))
+  (if (display-graphic-p)
+      (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name)
+    (progn (emamux:run-command (concat "vim " buffer-file-name) default-directory)
+           (emamux:zoom-runner))))
 
 ;; open in VS Code
 ;;;###autoload

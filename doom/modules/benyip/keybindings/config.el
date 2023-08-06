@@ -42,15 +42,12 @@
    :nv "gX" #'browse-url
 
    :v "." (kbd ":norm . RET")
-   ;;  :v "Q" (kbd ":norm @q RET")
+   :v "Q" (kbd ":norm @q RET")
    :v (kbd "RET") #'align-regexp ; vim-easy-align. press number before get interactive mode
 
    :i "C-v" #'clipboard-yank            ; yank system clipboard
 
    :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
-
-   :n "m" #'highlight-symbol-at-point
-   :n "M" #'unhighlight-regexp
 
    ;; TODO: yop toggle
    :n "]p" (lambda () ())
@@ -66,6 +63,9 @@
    ;;  ;;              "n" (λ! (find-file "~/org/notes.org"))
    ;;  ;;              "t" (λ! (find-file "~/org/todo.org")))
 
+   :n "m" #'highlight-symbol-at-point
+   :n "M" #'unhighlight-regexp
+
    :n "1" #'+workspace/switch-to-0
    :n "2" #'+workspace/switch-to-1
    :n "3" #'+workspace/switch-to-2
@@ -77,9 +77,9 @@
    :n "9" #'+workspace/switch-to-8
    :n "0" #'+workspace/switch-to-final
 
-   (:prefix "f"
-    :n "f" #'+default/find-file-under-here
-    :n "`" #'benyip/find-file-from-home))
+  (:prefix "f"
+   :n "f" #'+default/find-file-under-here
+   :n "`" #'benyip/find-file-from-home))
 
   (define-key evil-ex-search-keymap (kbd "C-v") (general-simulate-key "C-r \""))
   (define-key evil-ex-completion-map (kbd "C-v") (general-simulate-key "C-r \""))
