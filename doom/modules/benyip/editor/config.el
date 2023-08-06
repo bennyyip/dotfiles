@@ -1,0 +1,33 @@
+;;; benyip/editor/config.el -*- lexical-binding: t; -*-
+
+(use-package! grugru
+  :config
+  (map! :n "+" #'grugru)
+  (grugru-default-setup)
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("true" "false")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("yes" "no")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("and" "or")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("on" "off")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '(">" "<")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("==" "!=")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("是" "否")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("有" "无")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("in" "out")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("min" "max")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("get" "post")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("to" "from")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("read" "write")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("with" "without")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("exclude" "include")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("asc" "desc")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("next" "prev")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("encode" "decode")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("left" "right")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("hide" "show")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("「:」" "『:』" "sub_pairs")))
+  (grugru-define-global 'symbol '("Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("enable" "disable")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("add" "remove")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("up" "down")))
+  (grugru-define-global 'symbol (grugru-metagenerator-keep-case '("after" "before"))))
+

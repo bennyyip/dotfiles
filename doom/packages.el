@@ -52,3 +52,5 @@
 (package! color-theme-sanityinc-tomorrow)
 (package! rainbow-mode)
 
+(package! pyimport :disable t)
+(package! py-isort :disable t)

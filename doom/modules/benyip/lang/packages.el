@@ -1,4 +1,7 @@
 ;; -*- no-byte-compile: t; -*-
-;;; benyip/format/packages.el
+;;; benyip/lang/packages.el
+
+
+(package! citre)
 
 (package! reformatter)

@@ -77,9 +77,9 @@
    :n "9" #'+workspace/switch-to-8
    :n "0" #'+workspace/switch-to-final
 
-  (:prefix "f"
-   :n "f" #'+default/find-file-under-here
-   :n "`" #'benyip/find-file-from-home))
+   (:prefix "f"
+    :n "f" #'+default/find-file-under-here
+    :n "`" #'benyip/find-file-from-home))
 
   (define-key evil-ex-search-keymap (kbd "C-v") (general-simulate-key "C-r \""))
   (define-key evil-ex-completion-map (kbd "C-v") (general-simulate-key "C-r \""))
