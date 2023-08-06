@@ -39,14 +39,21 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(if (display-graphic-p)
-    (progn (setq doom-theme 'sanityinc-tomorrow-night)
-           (custom-set-faces '(cursor ((t (:background "#81a2be"))))))
-  (setq doom-theme 'sanityinc-tomorrow-night))
+
+
+(setq doom-theme 'sanityinc-tomorrow-night)
+
+(after! color-theme-sanityinc-tomorrow
+  (with-no-warnings
+    (color-theme-sanityinc-tomorrow--with-colors
+     'night
+     (custom-set-faces
+      `(cursor ((t (:background ,foreground))))
+      `(show-paren-match ((t (:bold t :underline t :background ,term-black :foreground ,term-white))))))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'visual)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -161,10 +168,6 @@
   :custom
   (dired-kill-when-opening-new-dired-buffer t))
 
-;; (use-package! bookmark
-;;   :config
-;;   (add-hook 'kill-emacs-hook #'bookmark-save))
-
 ;; Holidays
 (use-package! calendar
   :hook (calendar-today-visible . calendar-mark-today)
@@ -220,41 +223,36 @@
   (defun geiser-racket--language () '())
   (setq geiser-chez-binary "chez"))
 
+(use-package! vdiff-magit
+  :config
+  (evil-define-key 'normal vdiff-mode-map "," vdiff-mode-prefix-map)
+  (define-key magit-mode-map "e" 'vdiff-magit-dwim)
+  (define-key magit-mode-map "E" 'vdiff-magit)
+  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
+
+(use-package! lispyville
+  :init
+  (setq lispyville-key-theme
+        '((operators normal)
+          c-w
+          (prettify insert)
+          (atom-movement t)
+          ;; slurp/barf-lispy ;; save << >> for indent
+          additional
+          additional-insert)))
+
 (use-package! lsp
   :config
   (setq lsp-enable-file-watchers 'nil))
-
-;; (use-package! orderless
-;;   :config
-;;   (defun ++vertico-orderless-dispatch (pattern _index _total)
-;;     (cond
-;;      ;; Ensure $ works with Consult commands, which add disambiguation suffixes
-;;      ((string-prefix-p "$" pattern) `(orderless-regexp . ,(substring pattern 1)))
-;;      ;; ((string-suffix-p "$" pattern)
-;;      ;;  `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x200000-\x300000]*$")))
-;;      ;; Ignore single !
-;;      ((string= "!" pattern) `(orderless-literal . ""))
-;;      ;; Without literal
-;;      ((string-prefix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 1)))
-;;      ;; Character folding
-;;      ((string-prefix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 1)))
-;;      ((string-suffix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 0 -1)))
-;;      ;; Initialism matching
-;;      ((string-prefix-p "`" pattern) `(orderless-initialism . ,(substring pattern 1)))
-;;      ((string-suffix-p "`" pattern) `(orderless-initialism . ,(substring pattern 0 -1)))
-;;      ;; Literal matching
-;;      ((string-prefix-p "=" pattern) `(orderless-literal . ,(substring pattern 1)))
-;;      ((string-suffix-p "=" pattern) `(orderless-literal . ,(substring pattern 0 -1)))
-;;      ;; Flex matching
-;;      ((string-prefix-p "~" pattern) `(orderless-flex . ,(substring pattern 1)))
-;;      ((string-suffix-p "~" pattern) `(orderless-flex . ,(substring pattern 0 -1)))))
-;;   (setq orderless-style-dispatchers '(++vertico-orderless-dispatch)))
 
 ;; :iabbrev
 (setq-default abbrev-mode t)
 (setq save-abbrevs 'silently)
 (setq abbrev-file-name
-      "~/.doom.d/abbrev_defs")
+      (concat doom-user-dir "abbrev_defs"))
 
 ;; https://www.emacswiki.org/emacs/SmoothScrolling
 (setq-default pixel-scroll-precision-mode t)
