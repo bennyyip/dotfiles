@@ -9,7 +9,7 @@
   (interactive)
   (if (display-graphic-p)
       (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name)
-    (progn (emamux:run-command (concat "vim " buffer-file-name) default-directory)
+    (progn (emamux:run-command (concat "vim " (shell-quote-argument buffer-file-name)))
            (emamux:zoom-runner))))
 
 ;; open in VS Code
