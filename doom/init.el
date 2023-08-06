@@ -136,7 +136,7 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       ;;(go +lsp)         ; the hipster dialect
+       (go +lsp +tree-sitter)         ; the hipster dialect
        ;;(graphql +lsp)    ; Give queries a REST
        ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
@@ -195,12 +195,18 @@
        (default +bindings +smartparens)
 
        :benyip
-       format
        keybindings
+       builtin
+       editor
        chinese
+       lang
+       lisp
        python
        tools
        vcs
        shell
        ;;org
        (:if IS-WINDOWS windows))  ; improve compatibility with macOS
+
+;; Ensure localleader is \
+(setq doom-localleader-key "\\")

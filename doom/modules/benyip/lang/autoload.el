@@ -1,4 +1,5 @@
-;;; benyip/format/config.el -*- lexical-binding: t; -*-
+;;; benyip/lang/autoload.el -*- lexical-binding: t; -*-
+
 
 (defvar benyip/format-conf (make-hash-table))
 
