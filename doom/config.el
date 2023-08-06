@@ -223,16 +223,6 @@
   (defun geiser-racket--language () '())
   (setq geiser-chez-binary "chez"))
 
-(use-package! vdiff-magit
-  :config
-  (evil-define-key 'normal vdiff-mode-map "," vdiff-mode-prefix-map)
-  (define-key magit-mode-map "e" 'vdiff-magit-dwim)
-  (define-key magit-mode-map "E" 'vdiff-magit)
-  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
-
 (use-package! lispyville
   :init
   (setq lispyville-key-theme
