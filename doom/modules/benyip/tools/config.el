@@ -101,3 +101,9 @@
   :bind ("C-c b" . devdocs-lookup)
   :config
   (add-to-list 'completion-category-defaults '(devdocs (styles . (flex)))))
+
+(use-package! evil
+  :config
+  (map! :leader
+        :n "gv" #'open-in-vim
+        :n "gg" #'fugitive))

@@ -5,12 +5,18 @@
 
 ;; open in gvim
 ;;;###autoload
-(defun open-in-vim ()
+(defun open-in-vim (&optional ARGS)
   (interactive)
   (if (display-graphic-p)
-      (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name)
-    (progn (emamux:run-command (concat "vim " (shell-quote-argument buffer-file-name)))
-           (emamux:zoom-runner))))
+      (doom-call-process "gvim" "--remote-silent-tab" buffer-file-name ARGS)
+    (progn
+      (emamux:run-command (concat "sleep 0.1 && vim " (shell-quote-argument buffer-file-name) " " ARGS)) ; sleep 0.1 to avoid glitch
+      (emamux:zoom-runner))))
+
+;;;###autoload
+(defun fugitive ()
+  (interactive)
+  (open-in-vim "+Git"))
 
 ;; open in VS Code
 ;;;###autoload
