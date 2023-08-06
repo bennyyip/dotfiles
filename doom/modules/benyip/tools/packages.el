@@ -4,3 +4,4 @@
 (package! keyfreq)
 (package! deadgrep)
 (package! devdocs)
+(package! emamux)

@@ -16,3 +16,9 @@
    org-clock-out-remove-zero-time-clocks t))
 
 (use-package! ox-gfm)
+
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . evil-org-mode))
