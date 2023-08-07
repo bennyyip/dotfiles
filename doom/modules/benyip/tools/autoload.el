@@ -27,7 +27,9 @@
 ;;;###autoload
 (defun ghq-add-to-projectile ()
   (interactive)
-  (mapc 'projectile-add-known-project (split-string (shell-command-to-string "ghq list -p") "\n")))
+  (mapc
+   'projectile-add-known-project
+   (split-string (shell-command-to-string "ghq list -p") "\n")))
 
 ;;;###autoload
 (defun alacritty-here ()

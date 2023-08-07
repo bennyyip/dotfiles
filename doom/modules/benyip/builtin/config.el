@@ -1,5 +1,7 @@
 ;;; benyip/builtin/config.el -*- lexical-binding: t; -*-
 
+;; relace list-buffer with ibuffer
+(global-set-key [remap list-buffers] 'ibuffer)
 
 ;; Enable `repeat-mode' to reduce key sequence length
 ;;
@@ -95,6 +97,18 @@
   (calendar-time-zone-style 'numeric)
   ;; year/month/day
   (calendar-date-style 'iso))
+
+;; (use-package! tramp
+;;   :config
+;;   (setq tramp-syntax 'simplified)
+;;   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+;;   :custom
+;;   (remote-file-name-inhibit-cache nil)
+;;   (tramp-default-method "ssh")
+;;   (tramp-set-completion-function
+;;    "ssh" (append (tramp-get-completion-function "ssh")
+;;                  (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
+;;                          (ensure-list (concat benyip-home-dir ".ssh/config.local"))))))
 
 
 ;; :iabbrev
