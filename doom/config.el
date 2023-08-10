@@ -127,4 +127,3 @@
 ;; https://www.emacswiki.org/emacs/SmoothScrolling
 (setq-default pixel-scroll-precision-mode t)
 (setq pixel-scroll-precision-large-scroll-height 40.0)
-

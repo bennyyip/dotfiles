@@ -7,7 +7,7 @@
  org-log-done 'time
  org-log-done-with-time t
  org-bullets-bullet-list '("⁂")
- org-ellipsis (if (char-displayable-p ?⬎)  " ▾ " nil)
+ org-ellipsis (if (char-displayable-p ?⬎) " ▾ " nil)
  org-startup-with-inline-images t)
 
 (after! org-clock
