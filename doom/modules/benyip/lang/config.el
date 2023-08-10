@@ -11,7 +11,7 @@
 
 ;; (use-package! lsp
 ;;   :config
-;;   (setq lsp-enable-file-watchers 'nil))
+;;   (setq lsp-enable-file-watchers '()))
 
 
 ;; https ://emacs-china.org/t/citre-ctags/17604
@@ -27,3 +27,5 @@
   :custom
   (citre-auto-enable-citre-mode-modes '(prog-mode))
   (citre-prompt-language-for-ctags-command t))
+
+(map! :leader :n "=" #'benyip/format-buffer)

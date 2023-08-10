@@ -20,17 +20,12 @@ See URL `http://pypi.python.org/pypi/ruff'."
                     (let ((errors (flycheck-sanitize-errors errors)))
                       (seq-map #'flycheck-flake8-fix-error-level errors)))
     :error-patterns
-    ((warning line-start
-              (file-name) ":" line ":" (optional column ":") " "
-              (id (one-or-more (any alpha)) (one-or-more digit)) " "
-              (message (one-or-more not-newline))
-              line-end))
+    ((error line-start (file-name) ":" line ":" (message) line-end))
     :modes python-mode)
 
   (defun flycheck-setup-python-ruff-h () (setq-local flycheck-checker 'python-ruff))
   (add-to-list 'flycheck-checkers 'python-ruff)
   (add-hook 'python-mode-hook #'flycheck-setup-python-ruff-h))
-
 
 
 (use-package! reformatter
@@ -39,8 +34,7 @@ See URL `http://pypi.python.org/pypi/ruff'."
   (reformatter-define isort :program "black" :args '("-"))
   (reformatter-define ruff :program "ruff" :args '("--fix" "-"))
 
-  (when (modulep! :benyip format)
-    (benyip/format-register 'python-mode #'black-buffer #'ruff-buffer #'isort-buffer)))
+  (benyip/format-register 'python-mode #'black-buffer #'ruff-buffer #'isort-buffer))
 
 
 (use-package! python

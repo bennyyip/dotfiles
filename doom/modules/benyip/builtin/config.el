@@ -20,7 +20,6 @@
 ;; za toggle-fold
 ;; zo show-block
 ;; zc hide-block
-;; FIXME: 显示数字 not working
 (use-package! hideshow
   :hook (prog-mode . hs-minor-mode)
   :config
@@ -49,14 +48,12 @@
     (when (eq 'code (overlay-get ov 'hs))
       (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
              (info (format " (%d)..." nlines)))
-        ;; fringe indicator
-        (overlay-put ov 'before-string (propertize " "
-                                                   'display '(left-fringe hideshow-folded-fringe
-                                                              hideshow-border-face)))
+        ;; gutter. only in GUI
+        (overlay-put ov 'before-string (propertize " " 'display '(left-fringe hideshow-folded-fringe hideshow-border-face)))
         ;; folding indicator
         (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
-  :custom
-  (hs-set-up-overlay #'hideshow-folded-overlay-fn))
+
+  (setq hs-set-up-overlay #'hideshow-folded-overlay-fn))
 
 (use-package! dired
   :custom
@@ -67,12 +64,12 @@
   :hook (calendar-today-visible . calendar-mark-today)
   :custom
   (calendar-chinese-all-holidays-flag t)
-  (holiday-local-holidays `((holiday-fixed 3 8  "Women's Day")
+  (holiday-local-holidays `((holiday-fixed 3 8 "Women's Day")
                             (holiday-fixed 3 12 "Arbor Day")
                             ,@(cl-loop for i from 1 to 3
                                        collect `(holiday-fixed 5 ,i "International Workers' Day"))
-                            (holiday-fixed 5 4  "Chinese Youth Day")
-                            (holiday-fixed 6 1  "Children's Day")
+                            (holiday-fixed 5 4 "Chinese Youth Day")
+                            (holiday-fixed 6 1 "Children's Day")
                             (holiday-fixed 9 10 "Teachers' Day")
                             ,@(cl-loop for i from 1 to 7
                                        collect `(holiday-fixed 10 ,i "National Day"))
@@ -114,5 +111,4 @@
 ;; :iabbrev
 (setq-default abbrev-mode t)
 (setq save-abbrevs 'silently)
-(setq abbrev-file-name
-      (concat doom-user-dir "abbrev_defs"))
+(setq abbrev-file-name (concat doom-user-dir "abbrev_defs"))
