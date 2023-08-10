@@ -13,11 +13,12 @@
     ~/.config/:
       glob: true
       path: config/.config/*
-    # ~/.config/emacs: emacs
     ~/.bash:
     ~/.bashrc:
     ~/.bin:
+    ~/.config/emacs: ~/.config/doomemacs
     ~/.config/doom: doom
+    # ~/.config/emacs: ~/emacs-next
     ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
     ~/.editrc:
     ~/.gitconfig: git/.gitconfig

@@ -14,6 +14,7 @@
    :leader
    :v "c" #'clipetty-kill-ring-save))
 
+
 (use-package! evil
   :config
   (setq evil-snipe-scope 'visible)
@@ -22,11 +23,6 @@
   (keymap-set evil-ex-search-keymap "C-v" (general-simulate-key "C-r \""))
   (keymap-set evil-ex-completion-map "C-v" (general-simulate-key "C-r \""))
   (keymap-set evil-normal-state-map "'" (general-simulate-key "C-w"))
-
-  (when (modulep! :benyip format)
-    (map!
-     :leader
-     :n "=" #'benyip/format-buffer))
 
   (map!
    :n "-" #'dired-jump                  ; like dirvish
@@ -55,14 +51,6 @@
    :i "C-v" #'clipboard-yank            ; yank system clipboard
 
    :textobj "e" #'+evil:whole-buffer-txtobj #'+evil:whole-buffer-txtobj
-
-   ;; TODO: yop toggle
-   :n "]p" (lambda () ())
-   ;; reset after evil-insert-state-exit-hook
-   ;; (add-hook HOOK FUNCTION &optional DEPTH LOCAL)
-   ;; LOCAL non-nil means modify buffer local
-   ;; (remove-hook HOOK FUNCTION &optional LOCAL)
-
 
    :leader
    ;;  ;; (:prefix-map ("o" . "open")
