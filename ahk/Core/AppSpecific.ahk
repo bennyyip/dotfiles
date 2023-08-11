@@ -6,3 +6,4 @@
 #Include "%A_ScriptDir%\AppSpecific\gvim.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Alacritty.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Obsidian.ahk"
+#Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
