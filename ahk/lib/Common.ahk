@@ -14,9 +14,8 @@ Launch(fullpath) {
         return false
     } else {
         if WinExist(title) {
-            WinActivate
-        }
-        else {
+            WinActivate title
+        } else {
             RunWait fullpath
         }
         return true
