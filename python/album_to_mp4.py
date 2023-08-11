@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-import secrets
 import subprocess
 import traceback
 from dataclasses import dataclass
@@ -18,6 +17,13 @@ class Track:
     title: str
     duration: float
     fname: Path
+    date: str
+
+
+def ffmpeg_escape(s):
+    for c in ["'"]:
+        s = s.replace(c, "'\\" + c + "'")
+    return f"'{s}'"
 
 
 def format_time(t: float):
@@ -29,14 +35,18 @@ def probe(fname: Path):
     fmt = info["format"]
     duration = float(fmt["duration"])
     tags = fmt["tags"]
-    album = tags.get("ALBUM", tags.get("album"))
+    for k in list(tags.keys()):
+        tags[k.lower()] = tags[k]
+    album = tags.get("album")
+    date = tags.get("date")
     artist = tags.get("album_artist")
-    title = tags.get("TITLE", tags.get("title"))
+    title = tags.get("title")
     if artist is None:
-        artist = tags.get("ARTIST")
+        artist = tags.get("artist")
     trackno = tags["track"]
 
     return Track(
+        date=date,
         artist=artist,
         album=album,
         duration=duration,
@@ -50,17 +60,20 @@ def to_mp4(tracks: list[Track], cover: Path):
     tracks.sort(key=lambda x: x.trackno)
     artist = tracks[0].artist
     album = tracks[0].album
+    date = tracks[0].date
     ext = tracks[0].fname.suffix
 
     audio_fname = f"{artist} - {album}{ext}"
-    video_fname = f"{artist} - {album}.mp4"
+    video_fname = f"【{date}】{artist} - {album}.mp4"
 
     # Concat audios
-    tmp_fname = f"filelist_{secrets.token_hex(5)}.txt"
+    # tmp_fname = f"filelist_{secrets.token_hex(5)}.txt"
+    tmp_fname = "filelist.txt"
 
     with open(tmp_fname, "w") as fp:
         for t in tracks:
-            line = f"""file {t.fname.as_posix().replace(' ','\\ ').replace("'", "\\'")}\n"""
+            # line = f"""file {t.fname.as_posix().replace(' ','\\ ').replace("'", "\\'")}\n"""
+            line = f"""file {ffmpeg_escape(t.fname.as_posix())}\n"""
             fp.write(line)
     cmd = [
         "ffmpeg",
@@ -70,8 +83,6 @@ def to_mp4(tracks: list[Track], cover: Path):
         "concat",
         "-i",
         fp.name,
-        "-c",
-        "copy",
         audio_fname,
     ]
     exit_code = subprocess.call(cmd)
@@ -150,6 +161,7 @@ if __name__ == "__main__":
     audios = [d / f for f in os.listdir(d) if (d / f).suffix in audio_suffices]
     assert len(audios) > 0
 
+    print(audios)
     tracks = list(map(probe, audios))
     to_mp4(tracks, cover)
     print("Tracklist:")
