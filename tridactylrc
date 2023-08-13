@@ -1,0 +1,112 @@
+" DELETE ALL CONFIG: sanitise tridactylsync tridactyllocal tridactylhistory
+
+" Install in either way:
+" :nativeinstall :source
+" :source --url https://github.com/bennyyip/dotfiles/raw/master/tridactylrc
+
+" Basic settings
+set editorcmd gvim
+set theme quakelight
+
+
+" Search engines
+set searchengine gg
+set searchurls.gg https://www.google.com/search?hl=en&q=
+set searchurls.gh https://github.com/search?utf8=✓&q=
+set searchurls.douban https://www.douban.com/search?q=
+set searchurls.disc https://www.discogs.com/search/?type=all&q=
+set searchurls.duck https://duckduckgo/q=
+set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
+set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
+set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
+set searchurls.twitter https://twitter.com/search?q=
+set smoothscroll true
+
+" Comment toggler for Reddit, Hacker News and Lobste.rs
+bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
+
+" Git{Hub,Lab} git clone via SSH yank
+bind yg composite js "ghq get " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+" Search
+set incsearch true
+bind / fillcmdline find
+bind <Backspace> nohlsearch
+unbind <C-f>
+unbind <F1>
+bind ? fillcmdline find -?
+bind ? fillcmdline find -?
+bind N findnext -1
+bind n findnext 1
+
+
+" Tab
+bind J tabnext
+bind K tabprev
+bind x composite tabprev; tabclose #
+bind X undo tab
+bind gd tabdetach
+bind gD composite tabduplicate; tabdetach
+bind gs fillcmdline tabopen search
+
+" Bookmark
+bind B fillcmdline bmarks -t
+
+" make t open the selection with tabopen
+bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen
+
+
+" Scroll
+bind d scrollpage 0.9
+bind D scrollpage -0.9
+bind j scrollline 20
+bind k scrollline -20
+bind u scrollpage -0.9
+
+" Use vim bindding from website
+bind q nmode ignore 1 mode normal
+bind e nmode ignore 2 mode normal
+
+" Binds for new reader mode
+bind gr reader
+bind gR reader --tab
+
+" Sane hinting mode
+set hintfiltermode vimperator-reflow
+set hintnames short
+
+" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
+set hintdelay 100
+
+" I like wikiwand but I don't like the way it changes URLs
+bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.com/en","wikipedia.org/wiki") | clipboard yank
+
+" Make gu take you back to subreddit from comments
+bindurl reddit.com gu urlparent 4
+
+" Only hint search results on Google and DDG
+bindurl www.google.com f hint -Jc #search div:not(.action-menu) > a
+bindurl www.google.com F hint -Jbc #search div:not(.action-menu) > a
+
+
+" Broken as of 2023-07-18
+" bindurl ^https://duckduckgo.com f hint -Jc [data-testid="result-title-a"]
+" bindurl ^https://duckduckgo.com F hint -Jbc [data-testid="result-title-a"]
+
+" Suspend / "discard" all tabs - handy for stretching out battery life
+command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.map(t=>t.id)))
+
+" go current tab
+" gn new tab
+" gw new windows
+quickmark r https://miniflux.dllmpkw.xyz/
+
+" Avoid misclick in tenhou
+autocmd DocStart tenhou.net mode ignore
+
+" New reddit is bad
+autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
