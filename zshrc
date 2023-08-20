@@ -441,6 +441,15 @@ else
   source ~/.zsh/plugins/z.lua.plugin.zsh
 fi
 
+zb() {
+  _commacd_backward >/dev/null 2>&1
+}
+
+zbi() {
+  zb
+  scd
+}
+
 source ~/.zsh/plugins/docker-alias.zsh
 
 path_append ~/.zsh/plugins/git-fuzzy/bin
