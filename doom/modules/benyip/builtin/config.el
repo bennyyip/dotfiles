@@ -112,3 +112,7 @@
 (setq-default abbrev-mode t)
 (setq save-abbrevs 'silently)
 (setq abbrev-file-name (concat doom-user-dir "abbrev_defs"))
+
+
+;; cursor blink
+(setq-default blink-cursor-mode t)
