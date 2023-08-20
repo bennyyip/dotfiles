@@ -14,6 +14,9 @@ config.color_scheme = 'GruvboxDark'
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     config.default_prog = { 'pwsh', '--nologo', '-Command', 'ssh arch' }
+    config.font_size = 14.0
+else
+    config.font_size = 18.0
 end
 
 config.hide_tab_bar_if_only_one_tab = true
@@ -22,7 +25,6 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_close_confirmation = 'NeverPrompt'
 
 config.font = wezterm.font 'Sarasa Term CL Nerd'
-config.font_size = 14.0
 -- config.freetype_load_target = "Light"
 -- config.freetype_render_target = "HorizontalLcd"
 
