@@ -9,3 +9,12 @@ export EDITOR=vim
 
 # https://emacs.stackexchange.com/questions/77082/how-to-enable-24-bit-color-emacs-on-terminal-when-opening-it-from-a-remote-machi
 export COLORTERM=truecolor
+
+ya() {
+  tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+  yazi --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
