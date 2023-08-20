@@ -11,15 +11,23 @@ $proxy = "http://127.0.0.1:10809"
 $emacs_dir = "$env:APPDATA\.emacs.d"
 
 ###############################################################################
-# https://www.lua.org/download.html
 
-# if ( $env:TERM -eq 'emacs' ) {
-#
-# } else 
 if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
   $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
   Invoke-Expression (&starship init powershell)
-  Invoke-Expression (& { (luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
+  if (Get-Command "zoxide.exe" -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init powershell | % {$_.replace("Set-Location", "Set-LocationEx")} | Out-String) })
+  }
+  else {
+    Invoke-Expression (& { (luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
+    function zz { z -i $args }
+    function zc { z -c $args }
+    function zf { z -I $args }
+    function zbi { z -b -i $args }
+    function zbf { z -b -I $args }
+    function zh { z -I -t . $args }
+    function zzc { zz -c $args }
+  }
 }
 else {
   import-module $scriptDir\prompt.psm1
@@ -30,6 +38,23 @@ else {
     gitFancyPrompt
     _zlua --update
   }
+}
+
+function zb {
+    $root = $(git rev-parse --show-toplevel 2>$null)
+    if ($root -eq $null) {
+        $root = '..'
+    }
+    Set-LocationEx $root
+}
+
+function zbi {
+    $root = $(git rev-parse --show-toplevel 2>$null)
+    if ($root -eq $null) {
+        $root = '..'
+    }
+    Set-LocationEx $root
+    scd
 }
 
 ###############################################################################
@@ -167,15 +192,6 @@ function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  
 function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
 function e { emacsclient -n ($args | foreach { (Convert-Path $_) -replace '\\', '/' }) }
 # function vr { gvim --remote-silent-tab ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
-
-function zz { z -i $args }
-function zc { z -c $args }
-function zf { z -I $args }
-function zb { z -b $args }
-function zbi { z -b -i $args }
-function zbf { z -b -I $args }
-function zh { z -I -t . $args }
-function zzc { zz -c $args }
 
 function rmrf { Remove-Item -Recurse -Force $args }
 
