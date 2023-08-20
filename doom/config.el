@@ -29,7 +29,7 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 (if IS-LINUX
-    (defconst benyip-font-spec (font-spec :family "monospace" :size 24))
+    (defconst benyip-font-spec (font-spec :family "Sarasa Term CL Nerd" :size 24))
   (defconst benyip-font-spec (font-spec :family "Sarasa Term CL Nerd" :size 20)))
 (setq doom-font benyip-font-spec
       doom-variable-pitch-font benyip-font-spec

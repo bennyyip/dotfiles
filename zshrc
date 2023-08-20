@@ -4,14 +4,14 @@ source ~/.shell/functions.sh
 # External settings
 source ~/.shell/external.sh
 
-# Allow local customizations in the ~/.shell_local_before file
-if [ -f ~/.shell_local_before ]; then
-  source ~/.shell_local_before
+# Allow local customizations in the ~/.shell.local_before file
+if [ -f ~/.shell.local_before ]; then
+  source ~/.shell.local_before
 fi
 
-# Allow local customizations in the ~/.zshrc_local_before file
-if [ -f ~/.zshrc_local_before ]; then
-  source ~/.zshrc_local_before
+# Allow local customizations in the ~/.zshrc.local_before file
+if [ -f ~/.zshrc.local_before ]; then
+  source ~/.zshrc.local_before
 fi
 
 # 确定环境 {{{1
@@ -433,20 +433,26 @@ if [[ $IS_ARCH == 1 ]]; then
     FAST_HIGHLIGHT[use_async]=1
 fi
 
-source ~/.zsh/plugins/z.lua.plugin.zsh
+if [ $commands[zoxide] ]; then
+  eval "$(zoxide init zsh)"
+  export _ZO_RESOLVE_SYMLINKS=1
+  alias zf=zi
+else
+  source ~/.zsh/plugins/z.lua.plugin.zsh
+fi
 
 source ~/.zsh/plugins/docker-alias.zsh
 
 path_append ~/.zsh/plugins/git-fuzzy/bin
 # Modeline {{{1
-# Allow local customizations in the ~/.shell_local_after file
-if [ -f ~/.shell_local_after ]; then
-  source ~/.shell_local_after
+# Allow local customizations in the ~/.shell.local_after file
+if [ -f ~/.shell.local_after ]; then
+  source ~/.shell.local_after
 fi
 
-# Allow local customizations in the ~/.zshrc_local_after file
-if [ -f ~/.zshrc_local_after ]; then
-  source ~/.zshrc_local_after
+# Allow local customizations in the ~/.zshrc.local_after file
+if [ -f ~/.zshrc.local_after ]; then
+  source ~/.zshrc.local_after
 fi
 
 # Allow private customizations (not checked in to version control)

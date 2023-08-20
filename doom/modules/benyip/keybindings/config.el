@@ -14,6 +14,11 @@
    :leader
    :v "c" #'clipetty-kill-ring-save))
 
+(use-package! embark
+  :config
+  (map!
+   (:map minibuffer-local-map
+         "C-c C-c" #'embark-export)))
 
 (use-package! evil
   :config
@@ -32,6 +37,8 @@
    :n "]q" #'next-error
 
    :n [?\C-?] #'evil-ex-nohighlight
+
+   :i "C-e" #'end-of-line
 
    (:prefix "C-w"
     :n "RET" (general-simulate-key "C-x 4") ; open in other window
