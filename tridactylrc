@@ -42,7 +42,9 @@ bind n findnext 1
 
 " Tab
 bind J tabnext
+" bind <ArrowDown> tabnext
 bind K tabprev
+" bind <ArrowUp> tabprev
 bind x composite tabprev; tabclose #
 bind X undo tab
 bind gd tabdetach
@@ -54,7 +56,6 @@ bind B fillcmdline bmarks -t
 
 " make t open the selection with tabopen
 bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen
-
 
 " Scroll
 bind d scrollpage 0.9
@@ -88,6 +89,11 @@ bindurl reddit.com gu urlparent 4
 bindurl www.google.com f hint -Jc #search div:not(.action-menu) > a
 bindurl www.google.com F hint -Jbc #search div:not(.action-menu) > a
 
+bindurl nyaa.si f hint -Jbqc tr > td:nth-child(2) > a:last-child
+bindurl nyaa.si <c-a> hint -Jc .pagination  li:last-child
+bindurl nyaa.si <c-x> hint -Jc .pagination  li:first-child
+
+bind ;l hint -Jyc a[href^=magnet]
 
 " Broken as of 2023-07-18
 " bindurl ^https://duckduckgo.com f hint -Jc [data-testid="result-title-a"]
