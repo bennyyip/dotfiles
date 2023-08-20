@@ -6,10 +6,10 @@ Dotfiles uses `Dotbot <https://github.com/anishathalye/dotbot>`_ for installatio
 
 Making Local Customizations
 ---------------------------
-- ``git`` : ``~/.gitconfig_local``
+- ``git`` : ``~/.gitconfig.local``
 - ``pwsh`` : ``~/local.psm1```
 - ``vim``: ``~/local.vim``
-- ``zsh``: ``~/.zshrc.local``
+- ``zsh``: ``~/.zshrc.local_{before,after}``
 
 
 License

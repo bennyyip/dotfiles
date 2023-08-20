@@ -94,7 +94,7 @@
     diffFilter = delta --color-only
 
 [include]
-    path = .gitconfig_local
+    path = .gitconfig.local
 [url "git@github.com:"]
     insteadOf = https://github.com/
 [url "git@github.com:"]

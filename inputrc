@@ -9,3 +9,5 @@
 # Control-l: clear-screen
 #
 # $endif
+
+set completion-ignore-case on
