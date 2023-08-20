@@ -109,7 +109,7 @@ fzf-kill() {
 }
 
 scd() {
-  local _path="$(fd --hidden --follow --exclude .git --exclude .vscode --exclude __pycache__ -H -t d | __fzf_run --no-sort --prompt 'fzfcd> ')"
+  local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d | __fzf_run --no-sort --prompt 'cd> ')"
   [ "${_path}" == "" ] || cd $_path
 }
 
