@@ -389,7 +389,6 @@ vman () { vim +"set ft=man" +"Man $*" }
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 # 別名 {{{1
 source ~/.shell/alias.sh
-alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
 # 後綴別名 {{{2
 alias -s pdf=zathura

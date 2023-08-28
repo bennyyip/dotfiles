@@ -1,3 +1,5 @@
+alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+
 alias vi=vim
 alias nv=nvim
 alias pxy='proxychains -q'
