@@ -1,6 +1,9 @@
 # Functi ons
 source ~/.shell/functions.sh
 
+# Bootstrap
+source ~/.shell/bootstrap.sh
+
 # External settings
 source ~/.shell/external.sh
 
@@ -45,8 +48,6 @@ fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
 autoload -Uz compinit
 compinit
 # 變量設置 {{{1
-path_append $HOME/.local/bin
-path_append $HOME/.bin
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
   export BROWSER=firefox
