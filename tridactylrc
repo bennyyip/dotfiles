@@ -51,6 +51,9 @@ bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
+" TODO: c-w
+" bind --mode=insert <c-w> backward_kill_word
+
 " Bookmark
 bind B fillcmdline bmarks -t
 
@@ -82,6 +85,7 @@ set hintdelay 100
 " I like wikiwand but I don't like the way it changes URLs
 bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.com/en","wikipedia.org/wiki") | clipboard yank
 
+" TODO: replace redirector
 " Make gu take you back to subreddit from comments
 bindurl reddit.com gu urlparent 4
 
@@ -112,6 +116,8 @@ autocmd DocStart tenhou.net mode ignore
 
 " New reddit is bad
 autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
+autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
 
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
