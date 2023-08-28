@@ -5,6 +5,9 @@ global ObsidianPDFMap := false
 ^PgDn:: {
   global ObsidianPDFMap := !ObsidianPDFMap
 }
+
+; ^j:: Send "{Down}"
+; ^k:: Send "{Up}"
 #HotIf
 
 #HotIf WinActive("ahk_exe obsidian.exe") && ObsidianPDFMap

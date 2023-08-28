@@ -307,3 +307,11 @@ function doom {
     emacs --quick --script "$emacs_dir\bin\doom" -- $args
   }
 }
+
+function cdtmp {
+    $parent = [System.IO.Path]::GetTempPath()
+    $name = 'benyip-' + $([System.IO.Path]::GetRandomFileName()).Split(".")[0]
+    New-Item -ItemType Directory -Path (Join-Path $parent $name)
+    cd (Join-Path $parent $name)
+}
+

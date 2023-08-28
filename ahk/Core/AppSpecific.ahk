@@ -7,3 +7,4 @@
 #Include "%A_ScriptDir%\AppSpecific\Alacritty.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Obsidian.ahk"
 #Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
+#Include "%A_ScriptDir%\AppSpecific\Firefox.ahk"

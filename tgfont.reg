@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]
+"DAOpenSans"="Sarasa Gothic CL Light"
+"DAOpenSansBold"="Sarasa Gothic CL Bold"
+"DAOpenSansBoldItalic"="Sarasa Gothic CL Bold Italic"
+"DAOpenSansItalic"="Sarasa Gothic CL Light Italic"
+"DAOpenSansRegular"="Sarasa Gothic CL"
+"DAOpenSansRegularItalic"="Sarasa Gothic CL Italic"
+"DAOpenSansSemibold"="Sarasa Gothic CL Bold"
+"DAOpenSansSemiboldItalic"="Sarasa Gothic CL Bold Italic"
