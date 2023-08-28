@@ -14,6 +14,9 @@ fi
 # Settings
 source ~/.bash/settings.bash
 
+# Bootstrap
+source ~/.shell/bootstrap.sh
+
 # Aliases
 source ~/.shell/alias.sh
 
