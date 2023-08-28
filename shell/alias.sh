@@ -83,6 +83,8 @@ sshpath() {
 }
 
 
+alias cdtmp='cd `mktemp -d /tmp/benyip-XXXXXX`'
+
 # pacman aliases
 Syu() {
   sudo pacman -Syu
