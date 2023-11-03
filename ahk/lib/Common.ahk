@@ -9,7 +9,10 @@ ShowDir(title) {
 Launch(fullpath) {
     SplitPath fullpath, &exe_name
     title := "ahk_exe " . exe_name
-    if WinExist(title) {
+
+    if WinActive(title) {
+        WinMinimize title
+    } else if WinExist(title) {
         WinActivate title
     } else {
         RunWait fullpath

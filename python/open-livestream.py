@@ -94,9 +94,11 @@ async def is_online(url: str) -> bool:
             )
         elif "twitch.tv" in url:
             return await twitch.is_online(room_id)
-        elif 'cc.163.com' in url:
-            resp = await client.get (f"https://api.cc.163.com/v1/activitylives/anchor/lives?anchor_ccid={room_id}")
-            return 'channel_id' in resp.json()['data'][str(room_id)]
+        elif "cc.163.com" in url:
+            resp = await client.get(
+                f"https://api.cc.163.com/v1/activitylives/anchor/lives?anchor_ccid={room_id}"
+            )
+            return "channel_id" in resp.json()["data"][str(room_id)]
 
     except:
         print(f"Failed to get online status for {url}")
@@ -158,13 +160,19 @@ async def main():
     args = parser.parse_args()
 
     if args.url is None or not (args.url.startswith("http")):
+        # select the only match
+        fzf_extras = None
+        if args.url is not None:
+            fzf_extras = ["-1", "-f", args.url]
+
         streamer_urls = await get_streamer_urls(args.filter_online)
-        fzf = FZF()
+        fzf = FZF(fzf_extras=fzf_extras)
         fzf.input = list(streamer_urls.keys())
         streamer: str = fzf.prompt()
         if streamer == "":
             return
         url = streamer_urls[streamer]
+
     else:
         url: str = args.url
         streamer = url

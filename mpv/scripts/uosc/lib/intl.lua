@@ -13,7 +13,7 @@ function get_languages()
 				itable_append(languages, slang)
 			end
 		else
-			itable_append(languages, { lang })
+			itable_append(languages, {lang})
 		end
 	end
 
@@ -22,7 +22,7 @@ end
 
 ---@param path string
 function get_locale_from_json(path)
-	local expand_path = mp.command_native({ 'expand-path', path })
+	local expand_path = mp.command_native({'expand-path', path})
 
 	local meta, meta_error = utils.file_info(expand_path)
 	if not meta or not meta.is_file then
@@ -38,12 +38,6 @@ function get_locale_from_json(path)
 	json_file:close()
 
 	return utils.parse_json(json)
-end
-
-function make_locale()
-	local translations = {}
-
-	return translations
 end
 
 ---@param text string

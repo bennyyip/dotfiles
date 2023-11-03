@@ -212,12 +212,7 @@ function Disable-Proxy {
 function vimv {
   $tempfile = New-TemporaryFile
 
-  if ($args.Length -gt 0) {
-    $src = $args
-  }
-  else {
-    $src = Get-ChildItem -name
-  }
+  $src = Get-ChildItem -name $args
   Write-Output $src > $tempfile
 
   vim $tempfile

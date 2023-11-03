@@ -6,8 +6,8 @@
 #z:: MyMenu.Show
 
 ; Pomodoro
->#Enter:: Pomodoro
-+>#Enter:: Pomodoro(true)
+>^Enter:: Pomodoro
++>^Enter:: Pomodoro(true)
 
 ; others
 #+Q:: WinClose WinGetID("A")
