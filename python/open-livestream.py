@@ -163,7 +163,7 @@ async def main():
         # select the only match
         fzf_extras = None
         if args.url is not None:
-            fzf_extras = ["-1", "-f", args.url]
+            fzf_extras = ["-e", "-1", "-f", args.url]
 
         streamer_urls = await get_streamer_urls(args.filter_online)
         fzf = FZF(fzf_extras=fzf_extras)
