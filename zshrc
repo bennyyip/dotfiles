@@ -409,7 +409,7 @@ alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
 # Prompt {{{1
 if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
-    eval $(starship init zsh)
+    eval "$(starship init zsh)"
 else
     source ~/.zsh/prompt.zsh
 fi
