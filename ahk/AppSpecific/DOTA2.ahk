@@ -1,5 +1,17 @@
-; TODO: not working
 #HotIf WinActive("ahk_exe dota2.exe")
-Capslock::Alt
-~CapsLock Up:: Send("{Alt up}")
+; alt -> caps
+CapsLock & q:: CapsWithMod("q", "!")
+CapsLock & w:: CapsWithMod("w", "!")
+CapsLock & e:: CapsWithMod("e", "!")
+CapsLock & r:: CapsWithMod("r", "!")
+CapsLock & d:: CapsWithMod("d", "!")
+CapsLock & f:: CapsWithMod("f", "!")
+CapsLock & 1:: CapsWithMod("1", "!")
+CapsLock & 2:: CapsWithMod("2", "!")
+CapsLock & 3:: CapsWithMod("3", "!")
+CapsLock & 4:: CapsWithMod("4", "!")
+CapsLock & 5:: CapsWithMod("5", "!")
+CapsLock & c:: CapsWithMod("c", "!")
+CapsLock & Space:: CapsWithMod("Space", "!")
+CapsLock & t:: CapsWithMod("t", "!")
 #HotIf

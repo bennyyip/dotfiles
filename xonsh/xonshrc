@@ -1,0 +1,66 @@
+# XONSH WEBCONFIG START
+# $PROMPT = '{BOLD_BLUE}{localtime} {BOLD_GREEN}ω {cwd} {RESET}\n{BOLD_YELLOW}𝕏 '
+# XONSH WEBCONFIG END
+
+import os.path
+from os import path
+
+from xonsh import platform
+from xonsh.tools import unthreadable
+
+if platform.ON_WINDOWS:
+    $HOME = $USERPROFILE
+    $XONTRIB_SH_SHELLS = ['pwsh']
+    $LANG = 'en_US.UTF-8'
+    aliases['tldr'] = 'tealdeer-windows-x86_64-msvc'
+
+imp = type('ImpCl', (object,), {'__getattr__':lambda self, name: __import__(name) })()
+
+$user_bins = [
+    f'{$HOME}/bin',
+]
+
+for dir in $user_bins:
+    if path.isdir(dir) and path.exists(dir):
+        $PATH.add(dir,front=True, replace=True)
+
+# TODO zb go back to vcs root
+# TODO open-livestream
+# TODO ctrl+shift+v paste url
+
+# aliases [[[1
+source f'{$HOME}/dotfiles/xonsh/alias.py'
+
+# WORKAROUND: hangs on winodws if it is not unthreadable
+@aliases.register('glook')
+@unthreadable
+def __update():
+    cd @$(ghq list -p | fzf)
+
+
+@aliases.register('update')
+@unthreadable
+def __update():
+    source ~/.xonshrc
+
+# plugins [[[1
+
+@aliases.register("install_xtrib")
+def __install_xtrib():
+    for pkg in [
+        'xontrib-zoxide',
+        'xontrib-sh',
+        'xontrib-prompt-starship',
+        'xontrib-free-cwd',
+        'xontrib-cd'
+    ]:
+        xpip install -U @(pkg)
+
+$STARSHIP_CONFIG = '~/.config/starship_xonsh.toml'
+
+xontrib load zoxide
+xontrib load sh
+xontrib load prompt_starship
+xontrib load free_cwd
+
+#  vim:fdm=marker:fmr=[[[,]]]
