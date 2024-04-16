@@ -31,6 +31,9 @@ for dir in $user_bins:
 # aliases [[[1
 source f'{$HOME}/dotfiles/xonsh/alias.py'
 
+if platform.ON_LINUX:
+    source-bash f'{$HOME}/dotfiles/shell/plugins/fzf.sh' --suppress-skip-message
+
 # WORKAROUND: hangs on winodws if it is not unthreadable
 @aliases.register('glook')
 @unthreadable

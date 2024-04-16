@@ -18,6 +18,8 @@
     ~/.bin:
     ~/.config/emacs: ~/.config/doomemacs
     ~/.config/doom: doom
+    ~/.config/starship.toml: config/.config/starship.toml
+    ~/.config/starship_xonsh.toml: config/.config/starship_xonsh.toml
     # ~/.config/emacs: ~/emacs-next
     ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
     ~/.editrc:
@@ -38,6 +40,7 @@
     ~/.xprofile: X/.xprofile
     ~/.zsh:
     ~/.zshrc:
+    ~/.xonshrc: xonsh/xonshrc
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
