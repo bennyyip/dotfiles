@@ -238,7 +238,6 @@ aliases |= {
     "pxy": ["proxychains", "-q"],
     "py": ["python"],
     "restart": ["sudo", "systemctl", "restart"],
-    "ssh": ["TERM=xterm-256color", "ssh"],
     "start": ["sudo", "systemctl", "start"],
     "status": ["sudo", "systemctl", "status"],
     "stop": ["sudo", "systemctl", "stop"],
@@ -260,7 +259,6 @@ if shutil.which("diff-so-fancy") is not None:
     ] = "git diff --patience --color=always @($args) | diff-so-fancy | less --tab=4 -RFX"
 else:
     aliases["dsf"] = "git diff"
-
 
 def __add_magnent(
     # fmt:off
@@ -305,4 +303,3 @@ aliases['zbi'] = 'zb; scd'
 aliases['zf'] = 'zi'
 
 aliases['..'] = 'cd ..'
-

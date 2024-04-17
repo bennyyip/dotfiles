@@ -47,6 +47,11 @@ def __disable_proxy():
     $HTTP_PROXY = ''
     $HTTPS_PROXY = ''
 
+@aliases.register("ssh")
+def __ssh(args):
+    with ${...}.swap(TERM="xterm-256color"):
+        ssh @(args)
+
 # plugins [[[1
 
 @aliases.register("install_xtrib")
