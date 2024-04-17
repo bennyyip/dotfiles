@@ -272,3 +272,4 @@ def __add_magnent(
 aliases["add-magnent"] = ArgParserAlias(
     func=__add_magnent, has_args=True, threadable=False
 )
+
