@@ -1,7 +1,4 @@
-# XONSH WEBCONFIG START
-# $PROMPT = '{BOLD_BLUE}{localtime} {BOLD_GREEN}ω {cwd} {RESET}\n{BOLD_YELLOW}𝕏 '
-# XONSH WEBCONFIG END
-
+#TODO agv rgg
 import os.path
 from os import path
 
@@ -47,10 +44,16 @@ def __disable_proxy():
     $HTTP_PROXY = ''
     $HTTPS_PROXY = ''
 
+if platform.ON_WINDOWS:
+    @aliases.register('ii')
+    def __ii(args):
+        explorer @(Path(args[0]).absolute())
+
 @aliases.register("ssh")
 def __ssh(args):
     with ${...}.swap(TERM="xterm-256color"):
         ssh @(args)
+
 
 # plugins [[[1
 
@@ -61,7 +64,6 @@ def __install_xtrib():
         'xontrib-sh',
         'xontrib-prompt-starship',
         'xontrib-free-cwd',
-        'xontrib-fzf-widgets',
     ]:
         xpip install -U @(pkg)
 

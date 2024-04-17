@@ -1,5 +1,6 @@
 import re
 
+from xonsh import platform
 from prompt_toolkit.clipboard import ClipboardData
 from prompt_toolkit.filters.app import vi_insert_mode
 from prompt_toolkit.key_binding.bindings.named_commands import get_by_name
@@ -25,6 +26,8 @@ def custom_keybindings(bindings, **kw):
 
     handle("escape", "b")(get_by_name("backward-word"))
     handle("escape", "f")(get_by_name("forward-word"))
+
+    handle("escape", "backspace", filter=vi_insert_mode)(get_by_name("backward-kill-word"))
 
     @handle("c-n", filter=vi_insert_mode)
     def _next(event) -> None:
@@ -59,5 +62,6 @@ def custom_keybindings(bindings, **kw):
                 event.current_buffer.cursor_position += len(prefix) + 1
         return handler
 
-    handle('escape', 'escape')(handle_prefix('sudo'))
-    handle('c-x', 'c-p')(handle_prefix('proxychains -q'))
+    if platform.ON_LINUX:
+        handle('escape', 'escape')(handle_prefix('sudo'))
+        handle('c-x', 'c-p')(handle_prefix('proxychains -q'))
