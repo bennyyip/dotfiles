@@ -8,9 +8,18 @@ from os import path
 from xonsh import platform
 from xonsh.tools import unthreadable
 
+
+$XONSH_HISTORY_MATCH_ANYWHERE = True
+$XONSH_HISTORY_SIZE = (2**20, 'commands')
+$XONSH_HISTORY_BACKEND = 'sqlite'
+$HISTCONTROL = {'erasedups', 'ignorespace', 'ignoreerr'}
+
+$XONSH_AUTOPAIR= True
+
 if platform.ON_WINDOWS:
     $HOME = $USERPROFILE
     $XONTRIB_SH_SHELLS = ['pwsh']
+    $FORCE_POSIX_PATHS = True
     $LANG = 'en_US.UTF-8'
     aliases['tldr'] = 'tealdeer-windows-x86_64-msvc'
 
@@ -25,26 +34,34 @@ for dir in $user_bins:
         $PATH.add(dir,front=True, replace=True)
 
 # TODO zb go back to vcs root
-# TODO open-livestream
-# TODO ctrl+shift+v paste url
+
+$VI_MODE = True
+source f'{$HOME}/dotfiles/xonsh/key.py'
 
 # aliases [[[1
 source f'{$HOME}/dotfiles/xonsh/alias.py'
 
-if platform.ON_LINUX:
-    source-bash f'{$HOME}/dotfiles/shell/plugins/fzf.sh' --suppress-skip-message
+source f'{$HOME}/dotfiles/xonsh/fzf.xsh'
+
+# if platform.ON_LINUX:
+#     source-bash f'{$HOME}/dotfiles/shell/plugins/fzf.sh' --suppress-skip-message
 
 # WORKAROUND: hangs on winodws if it is not unthreadable
-@aliases.register('glook')
-@unthreadable
-def __update():
-    cd @$(ghq list -p | fzf)
-
-
 @aliases.register('update')
 @unthreadable
 def __update():
     source ~/.xonshrc
+
+@aliases.register('ols')
+@unthreadable
+def __ols(args):
+    python f'{$HOME}/dotfiles/python/open-livestream.py' @(args)
+
+@aliases.register('vimode')
+def __vimode():
+    $VI_MODE = not $VI_MODE
+
+aliases['..'] = 'cd ..'
 
 # plugins [[[1
 
@@ -55,7 +72,7 @@ def __install_xtrib():
         'xontrib-sh',
         'xontrib-prompt-starship',
         'xontrib-free-cwd',
-        'xontrib-cd'
+        'xontrib-fzf-widgets',
     ]:
         xpip install -U @(pkg)
 
@@ -66,4 +83,4 @@ xontrib load sh
 xontrib load prompt_starship
 xontrib load free_cwd
 
-#  vim:fdm=marker:fmr=[[[,]]]
+#  vim:fdm=marker:fmr=[[[,]]]:ft=xonsh
