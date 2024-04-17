@@ -1,3 +1,4 @@
+$EDITOR = "vim"
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')
 $XONSH_HISTORY_BACKEND = 'sqlite'
@@ -6,7 +7,6 @@ $HISTCONTROL = {'erasedups', 'ignorespace', 'ignoreerr'}
 $XONSH_AUTOPAIR= True
 
 if platform.ON_WINDOWS:
-    $HOME = $USERPROFILE
     $XONTRIB_SH_SHELLS = ['pwsh']
     $FORCE_POSIX_PATHS = True
     $LANG = 'en_US.UTF-8'
