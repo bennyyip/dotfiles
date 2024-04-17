@@ -1,6 +1,9 @@
+import os
 import shutil
+from pathlib import Path
 
 import requests
+
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
 
 aliases |= {
@@ -78,7 +81,7 @@ aliases |= {
     "gca": ["git", "commit", "-v", "-a"],
     "gca!": ["git", "commit", "-v", "-a", "--amend"],
     "gcam": ["git", "commit", "-a", "-m"],
-    "gcan!": ["git", "commit", "-v", "-a", "--no-edit", "--amend"],
+    "gcaN": ["git", "commit", "-v", "-a", "--no-edit", "--amend"],
     "gcans!": ["git", "commit", "-v", "-a", "-s", "--no-edit", "--amend"],
     "gcb": ["git", "checkout", "-b"],
     "gcf": ["git", "config", "--list"],
@@ -260,7 +263,9 @@ else:
 
 
 def __add_magnent(
+    # fmt:off
     category: Annotated[str, Arg( choices=[ "A", "Game", "TV", "Movie", "Anime", "PhotoBook", "Normal", "Music"])],
+    # fmt:on
     url: str,
 ):
     QB_API = "http://localhost:8964/api/v2"
@@ -273,3 +278,27 @@ aliases["add-magnent"] = ArgParserAlias(
     func=__add_magnent, has_args=True, threadable=False
 )
 
+
+def find_vcs_root(path=".", *args):
+    p = Path(path).absolute()
+    markers = [".git", ".svn", ".hg", ".root"]
+    while True:
+        for marker in markers:
+            if (p / marker).exists():
+                return p
+
+        parent = p.parent
+        if p == parent:
+            break
+
+        p = parent
+    return None
+
+
+@aliases.register("zb")
+def __zb(args):
+    root = find_vcs_root(*args)
+    if root:
+        os.chdir(root)
+
+aliases['..'] = 'cd ..'
