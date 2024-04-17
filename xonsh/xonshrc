@@ -8,10 +8,12 @@ from os import path
 from xonsh import platform
 from xonsh.tools import unthreadable
 
+if platform.ON_WINDOWS:
+    $HOME = $USERPROFILE
+
 source f'{$HOME}/dotfiles/xonsh/setting.xsh'
 
-$VI_MODE = True
-source f'{$HOME}/dotfiles/xonsh/key.py'
+source f'{$HOME}/dotfiles/xonsh/key.xsh'
 
 imp = type('ImpCl', (object,), {'__getattr__':lambda self, name: __import__(name) })()
 
@@ -34,6 +36,17 @@ def __update():
 def __ols(args):
     python f'{$HOME}/dotfiles/python/open-livestream.py' @(args)
 
+@aliases.register('proxy_on')
+def __enable_proxy():
+    proxy = "http://127.0.0.1:10809"
+    $HTTP_PROXY = proxy
+    $HTTPS_PROXY = proxy
+
+@aliases.register('proxy_off')
+def __disable_proxy():
+    $HTTP_PROXY = ''
+    $HTTPS_PROXY = ''
+
 # plugins [[[1
 
 @aliases.register("install_xtrib")
@@ -48,6 +61,7 @@ def __install_xtrib():
         xpip install -U @(pkg)
 
 $STARSHIP_CONFIG = '~/.config/starship_xonsh.toml'
+$_ZO_FZF_OPTS = $FZF_DEFAULT_OPTS
 
 xontrib load zoxide
 xontrib load sh
