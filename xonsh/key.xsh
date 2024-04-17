@@ -6,6 +6,7 @@ from prompt_toolkit.key_binding.bindings.named_commands import get_by_name
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.selection import PasteMode
 
+$VI_MODE = True
 
 @events.on_ptk_create
 def custom_keybindings(bindings, **kw):
@@ -14,8 +15,9 @@ def custom_keybindings(bindings, **kw):
     # Emacs
     handle("c-a")(get_by_name("beginning-of-line"))
     handle("c-b")(get_by_name("backward-char"))
+    # c-e c-f breaks auto suggestion
     handle("c-e")(get_by_name("end-of-line"))
-    handle("c-f")(get_by_name("forward-char"))
+    # handle("c-f")(get_by_name("forward-char"))
     handle("c-left")(get_by_name("backward-word"))
     handle("c-right")(get_by_name("forward-word"))
 
@@ -35,7 +37,7 @@ def custom_keybindings(bindings, **kw):
         event.current_buffer.auto_up(count=event.arg)
 
     @handle(Keys.ControlV)
-    def paste(event):
+    def _paste(event):
         raw = event.app.clipboard.get_data()
         text: str = raw.text
         if re.match(r"^\s*(http|ftp|magnet)", text):
@@ -45,3 +47,17 @@ def custom_keybindings(bindings, **kw):
         event.current_buffer.paste_clipboard_data(
             d, count=event.arg, paste_mode=PasteMode.EMACS
         )
+
+    def handle_prefix(prefix):
+        def handler(event):
+            text = event.current_buffer.text
+            if text.strip() == '':
+                event.current_buffer.auto_up()
+                text = event.current_buffer.text
+            if not text.strip().startswith(prefix):
+                event.current_buffer.transform_current_line(lambda x: f'{prefix} {x}')
+                event.current_buffer.cursor_position += len(prefix) + 1
+        return handler
+
+    handle('escape', 'escape')(handle_prefix('sudo'))
+    handle('c-x', 'c-p')(handle_prefix('proxychains -q'))

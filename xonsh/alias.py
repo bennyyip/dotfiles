@@ -301,4 +301,8 @@ def __zb(args):
     if root:
         os.chdir(root)
 
+aliases['zbi'] = 'zb; scd'
+aliases['zf'] = 'zi'
+
 aliases['..'] = 'cd ..'
+

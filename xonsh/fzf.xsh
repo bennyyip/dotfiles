@@ -9,8 +9,7 @@ from prompt_toolkit.keys import Keys
 $FZF_DEFAULT_OPTS = '--bind tab:down,shift-tab:up --layout=reverse'
 $FZF_DEFAULT_COMMAND = 'fd --type f --strip-cwd-prefix --hidden --follow --exclude .git --exclude .vscode --exclude __pycache__'
 $FZF_CTRL_T_COMMAND = $FZF_DEFAULT_COMMAND
-if platform.ON_LINUX:
-    $FZF_DEFAULT_OPTS=f"{$FZF_DEFAULT_OPTS} --color=bg+:#3c3836,bg:#282828,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934"
+$FZF_DEFAULT_OPTS=f"{$FZF_DEFAULT_OPTS} --color=bg+:#3c3836,bg:#282828,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934"
 
 def get_fzf_binary_name():
     fzf_tmux_cmd = 'fzf-tmux'
