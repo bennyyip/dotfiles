@@ -6,6 +6,7 @@ import requests
 
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
+from xonsh.tools import unthreadable
 
 # fmt:off
 if ON_LINUX:
@@ -239,15 +240,46 @@ def find_vcs_root(path=".", *args):
         p = parent
     return None
 
-
 @aliases.register("zb")
 def __zb(args):
     root = find_vcs_root(*args)
     if root:
         os.chdir(root)
 
-
 aliases["zbi"] = "zb; scd"
 aliases["zf"] = "zi"
 
 aliases[".."] = "cd .."
+
+# WORKAROUND: hangs on winodws if it is not unthreadable
+@aliases.register('update')
+@unthreadable
+def __update():
+    source ~/.xonshrc
+
+@aliases.register('ols')
+@unthreadable
+def __ols(args):
+    python f'{$HOME}/dotfiles/python/open-livestream.py' @(args)
+
+@aliases.register('proxy_on')
+def __enable_proxy():
+    proxy = "http://127.0.0.1:10809"
+    $HTTP_PROXY = proxy
+    $HTTPS_PROXY = proxy
+
+@aliases.register('proxy_off')
+def __disable_proxy():
+    $HTTP_PROXY = ''
+    $HTTPS_PROXY = ''
+
+if ON_WINDOWS:
+    @aliases.register('ii')
+    def __ii(args):
+        explorer @(Path(args[0]).absolute())
+
+@aliases.register("ssh")
+def __ssh(args):
+    with ${...}.swap(TERM="xterm-256color"):
+        ssh @(args)
+
