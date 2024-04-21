@@ -1,3 +1,5 @@
+from xonsh.platform import ON_WINDOWS
+
 $EDITOR = "vim"
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')
@@ -20,7 +22,7 @@ $LESS_TERMCAP_se = "\033[0m"         # end standout-mode
 $LESS_TERMCAP_us = "\033[00;36m"     # begin underline
 $LESS_TERMCAP_ue = "\033[0m"         # end underline
 
-if platform.ON_WINDOWS:
+if ON_WINDOWS:
     $XONTRIB_SH_SHELLS = ['pwsh']
     $FORCE_POSIX_PATHS = True
     $AGV_EDITOR='gvim --remote-silent-tab'

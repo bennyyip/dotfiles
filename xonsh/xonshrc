@@ -1,10 +1,10 @@
 import os.path
 from os import path
 
-from xonsh import platform
+from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.tools import unthreadable
 
-if platform.ON_WINDOWS:
+if ON_WINDOWS:
     $HOME = $USERPROFILE
 
 source f'{$HOME}/dotfiles/xonsh/setting.xsh'
@@ -35,7 +35,7 @@ xontrib load free_cwd
 xontrib load abbrevs
 
 # aliases [[[1
-source f'{$HOME}/dotfiles/xonsh/alias.py'
+source f'{$HOME}/dotfiles/xonsh/alias.xsh'
 
 source f'{$HOME}/dotfiles/xonsh/fzf.xsh'
 
@@ -64,7 +64,7 @@ def __disable_proxy():
     $HTTP_PROXY = ''
     $HTTPS_PROXY = ''
 
-if platform.ON_WINDOWS:
+if ON_WINDOWS:
     @aliases.register('ii')
     def __ii(args):
         explorer @(Path(args[0]).absolute())
