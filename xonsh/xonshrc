@@ -1,4 +1,3 @@
-#TODO agv rgg
 import os.path
 from os import path
 
@@ -13,6 +12,27 @@ source f'{$HOME}/dotfiles/xonsh/setting.xsh'
 source f'{$HOME}/dotfiles/xonsh/key.xsh'
 
 imp = type('ImpCl', (object,), {'__getattr__':lambda self, name: __import__(name) })()
+
+# plugins [[[1
+
+@aliases.register("install_xtrib")
+def __install_xtrib():
+    for pkg in [
+        'xontrib-zoxide',
+        'xontrib-sh',
+        'xontrib-prompt-starship',
+        'xontrib-free-cwd',
+        'xontrib-abbrevs'
+    ]:
+        xpip install -U @(pkg)
+
+$STARSHIP_CONFIG = '~/.config/starship_xonsh.toml'
+
+xontrib load zoxide
+xontrib load sh
+xontrib load prompt_starship
+xontrib load free_cwd
+xontrib load abbrevs
 
 # aliases [[[1
 source f'{$HOME}/dotfiles/xonsh/alias.py'
@@ -54,26 +74,12 @@ def __ssh(args):
     with ${...}.swap(TERM="xterm-256color"):
         ssh @(args)
 
+# abbrevs
+abbrevs['!$'] = lambda buffer, word: _.args[-1]
+abbrevs['!!'] = lambda buffer, word: " ".join(_.args)
+abbrevs['gcan!'] = 'gcaN'
+abbrevs['udpate'] = 'update'
 
-# plugins [[[1
-
-@aliases.register("install_xtrib")
-def __install_xtrib():
-    for pkg in [
-        'xontrib-zoxide',
-        'xontrib-sh',
-        'xontrib-prompt-starship',
-        'xontrib-free-cwd',
-    ]:
-        xpip install -U @(pkg)
-
-$STARSHIP_CONFIG = '~/.config/starship_xonsh.toml'
-$_ZO_FZF_OPTS = $FZF_DEFAULT_OPTS
-
-xontrib load zoxide
-xontrib load sh
-xontrib load prompt_starship
-xontrib load free_cwd
 
 # local xonshrc [[[1
 local_xonshrc = pf'{$HOME}/local.xsh'

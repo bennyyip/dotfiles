@@ -62,6 +62,5 @@ def custom_keybindings(bindings, **kw):
                 event.current_buffer.cursor_position += len(prefix) + 1
         return handler
 
-    if platform.ON_LINUX:
-        handle('escape', 'escape')(handle_prefix('sudo'))
-        handle('c-x', 'c-p')(handle_prefix('proxychains -q'))
+    handle('escape', 'escape')(handle_prefix('sudo'))
+    handle('c-x', 'c-p')(handle_prefix('proxychains -q'))
