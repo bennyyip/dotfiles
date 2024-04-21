@@ -23,6 +23,7 @@ $LESS_TERMCAP_ue = "\033[0m"         # end underline
 if platform.ON_WINDOWS:
     $XONTRIB_SH_SHELLS = ['pwsh']
     $FORCE_POSIX_PATHS = True
+    $AGV_EDITOR='gvim --remote-silent-tab'
     $LANG = 'en_US.UTF-8'
     aliases['tldr'] = 'tealdeer-windows-x86_64-msvc'
 
