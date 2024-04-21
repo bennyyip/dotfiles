@@ -4,9 +4,30 @@ from pathlib import Path
 
 import requests
 
+from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
 
 # fmt:off
+if ON_LINUX:
+    aliases |= {
+        "Fo": ["pacman", "-F"],
+        "Fy": ["sudo", "pacman", "-Fy"],
+        "Qi": ["pacman", "-Qi"],
+        "Ql": ["pacman", "-Ql"],
+        "Qo": ["pacman", "-Qo"],
+        "Qs": ["pacman", "-Qs"],
+        "Rcs": ["sudo", "pacman", "-Rcs"],
+        "Si": ["pacman", "-Si"],
+        "Ss": ["pacman", "-Ss"],
+        "pain": ["sudo", "pacman", "-S", "--needed"],
+        "painn": ["sudo", "pacman", "-S"],
+    }
+
+    @aliases.register("Syu")
+    def __Syu(args):
+        sudo pacman -Syu
+        pacman -Qtdq | ifne sudo pacman -Rcs -
+
 aliases |= {
     "scp-resume": ["rsync", "--partial", "-h", "--progress", "--rsh=ssh"],
     "ipynb": ["jupyter", "notebook", "--no-browser"],
