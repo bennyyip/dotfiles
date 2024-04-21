@@ -175,12 +175,16 @@ aliases |= {
 }
 # fmt:on
 
+aliases['rgg'] = f'bash {$HOME}/dotfiles/bin/rgg'
+aliases['agv'] = f'python {$HOME}/dotfiles/bin/agv'
+
 if shutil.which("diff-so-fancy") is not None:
     aliases[
         "dsf"
     ] = "git diff --patience --color=always @($args) | diff-so-fancy | less --tab=4 -RFX"
 else:
     aliases["dsf"] = "git diff"
+
 
 def __add_magnent(
     # fmt:off
@@ -221,7 +225,8 @@ def __zb(args):
     if root:
         os.chdir(root)
 
-aliases['zbi'] = 'zb; scd'
-aliases['zf'] = 'zi'
 
-aliases['..'] = 'cd ..'
+aliases["zbi"] = "zb; scd"
+aliases["zf"] = "zi"
+
+aliases[".."] = "cd .."

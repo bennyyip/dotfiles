@@ -156,6 +156,7 @@ async def main():
     parser.add_argument("-o", "--filter-online", action="store_true")
     parser.add_argument("-b", "--open-in-browser", action="store_true")
     parser.add_argument("-r", "--record", action="store_true")
+    parser.add_argument("-q", "--no-danmu", action="store_true")
     parser.add_argument("url", nargs="?")
     args = parser.parse_args()
 
@@ -212,8 +213,9 @@ async def main():
         else:
             run_detached_process(streamlink_cmd)
 
-            danmu_cmd = ["danmu.CMD", url]
-            run_detached_process(danmu_cmd)
+            if not args.no_danmu:
+                danmu_cmd = ["danmu.CMD", url]
+                run_detached_process(danmu_cmd)
 
 
 if __name__ == "__main__":
