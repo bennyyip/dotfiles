@@ -39,10 +39,12 @@ def custom_keybindings(bindings, **kw):
         "Previous line."
         event.current_buffer.auto_up(count=event.arg)
 
-    @handle(Keys.ControlV)
+    @handle("c-v")
     def _paste(event):
         raw = event.app.clipboard.get_data()
         text: str = raw.text
+        # remove CR
+        text = text.replace('\r', '')
         if re.match(r"^\s*(http|ftp|magnet)", text):
             text = text.strip()
             text = f'"{text}"'
