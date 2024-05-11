@@ -6,7 +6,6 @@ import requests
 
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
-from xonsh.tools import unthreadable
 
 # fmt:off
 if ON_LINUX:
@@ -251,14 +250,11 @@ aliases["zf"] = "zi"
 
 aliases[".."] = "cd .."
 
-# WORKAROUND: hangs on winodws if it is not unthreadable
 @aliases.register('update')
-@unthreadable
 def __update():
     source ~/.xonshrc
 
 @aliases.register('ols')
-@unthreadable
 def __ols(args):
     python f'{$HOME}/dotfiles/python/open-livestream.py' @(args)
 
@@ -282,4 +278,3 @@ if ON_WINDOWS:
 def __ssh(args):
     with ${...}.swap(TERM="xterm-256color"):
         ssh @(args)
-
