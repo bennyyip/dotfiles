@@ -29,14 +29,12 @@ def get_fzf_binary_path():
 fzf_cmd = get_fzf_binary_name()
 
 @aliases.register('vff')
-@unthreadable
 def __vff():
     f = $(@(fzf_cmd) --prompt "gvim> " ).strip()
     if f != '':
         vr @(f)
 
 @aliases.register('vfr')
-@unthreadable
 def __vfr():
     if platform.ON_WINDOWS:
         mru_path = pf'{$APPDATA}/LeaderF/python3/mru/mruCache'
@@ -50,7 +48,6 @@ def __vfr():
         vr @(f)
 
 @aliases.register('scd')
-@unthreadable
 def __scd(args):
     p = $(fd -E .git -E __pycache__ -E .vscode -H -t d @(args) | @(fzf_cmd) --prompt "cd> ").strip()
     if p != '':
@@ -58,7 +55,6 @@ def __scd(args):
 
 
 @aliases.register('glook')
-@unthreadable
 def __glook():
     cd @$(ghq list -p | @(fzf_cmd))
 
