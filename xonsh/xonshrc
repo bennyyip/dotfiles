@@ -8,6 +8,8 @@ if ON_WINDOWS:
 
 source f'{$HOME}/dotfiles/xonsh/setting.xsh'
 
+source f'{$HOME}/dotfiles/xonsh/lib.py'
+
 source f'{$HOME}/dotfiles/xonsh/key.xsh'
 
 imp = type('ImpCl', (object,), {'__getattr__':lambda self, name: __import__(name) })()
@@ -21,7 +23,9 @@ def __install_xtrib():
         'xontrib-sh',
         'xontrib-prompt-starship',
         'xontrib-free-cwd',
-        'xontrib-abbrevs'
+        'xontrib-abbrevs',
+        'httpx',
+        'rich'
     ]:
         xpip install -U @(pkg)
 
@@ -37,6 +41,8 @@ xontrib load abbrevs
 source f'{$HOME}/dotfiles/xonsh/alias.xsh'
 
 source f'{$HOME}/dotfiles/xonsh/fzf.xsh'
+
+source f'{$HOME}/dotfiles/xonsh/dota2.xsh'
 
 # abbrevs
 abbrevs['!$'] = lambda buffer, word: _.args[-1]

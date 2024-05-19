@@ -1,5 +1,7 @@
 from xonsh.platform import ON_WINDOWS
 
+$MY_PROXY = "http://127.0.0.1:10809"
+
 $EDITOR = "vim"
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')

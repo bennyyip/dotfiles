@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+import webbrowser
 
 import requests
 
@@ -260,7 +261,7 @@ def __ols(args):
 
 @aliases.register('proxy_on')
 def __enable_proxy():
-    proxy = "http://127.0.0.1:10809"
+    proxy = $MY_PROXY
     $HTTP_PROXY = proxy
     $HTTPS_PROXY = proxy
 
