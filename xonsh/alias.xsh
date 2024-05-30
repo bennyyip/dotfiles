@@ -3,10 +3,14 @@ import shutil
 from pathlib import Path
 import webbrowser
 
-import requests
+import httpx
 
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
+import pyperclip
+
+from typing import Optional
+
 
 # fmt:off
 if ON_LINUX:
@@ -208,21 +212,27 @@ else:
     aliases["dsf"] = "git diff"
 
 
-def __add_magnent(
+def __add_magnet(
     # fmt:off
-    category: Annotated[str, Arg( choices=[ "A", "Game", "TV", "Movie", "Anime", "PhotoBook", "Normal", "Music"])],
+    category: Annotated[str, Arg(choices=[ "A", "Game", "TV", "Movie", "Anime", "PhotoBook", "Normal", "Music"])],
     # fmt:on
-    url: str,
+    # url: Annotated[Optional[str], Arg(nargs='?')],
+    url: Optional[str] = None,
 ):
+    if url is None:
+        url = pyperclip.paste()
+        if not url.startswith('magnet:?'):
+            print("No valid magnet url in clipboard.")
+            return
+
     QB_API = "http://localhost:8964/api/v2"
     data = dict(urls=url, ratioLimit=1.0, category=category, autoTMM="true")
-    r = requests.post(f"{QB_API}/torrents/add", data=data)
+    r = httpx.post(f"{QB_API}/torrents/add", data=data)
     print(r.text)
 
 
-aliases["add-magnent"] = ArgParserAlias(
-    func=__add_magnent, has_args=True, threadable=False
-)
+aliases["add-magnet"] = ArgParserAlias(func=__add_magnet, has_args=True, threadable=False)
+
 
 
 def find_vcs_root(path=".", *args):
@@ -275,7 +285,34 @@ if ON_WINDOWS:
     def __ii(args):
         explorer @(Path(args[0]).absolute())
 
+    aliases['powershell'] = 'pwsh'
+
 @aliases.register("ssh")
 def __ssh(args):
     with ${...}.swap(TERM="xterm-256color"):
         ssh @(args)
+
+@aliases.register("clp")
+def __clp(args, stdin, stdout):
+    if stdin is None:
+        print('No input. Example: `echo hello | clp`')
+        return -1
+    txt = ''
+    for line in stdin.readlines():
+        txt += line
+    pyperclip.copy(txt)
+    return 0
+
+def __extract_subtitle(
+        input_file:str,
+        output_file:str,
+        lang: Annotated[Optional[str], Arg(nargs='?')] = 'eng',
+        interative: Annotated[Optional[bool], Arg('--interative', '-i')] = False):
+    if interative:
+        s = $(ffprobe -hide_banner -i @(input_file)  2>&1 | grep Stream | grep Subtitle | fzf)
+        s = re.search(r'#(\d:\d+)', s)[1]
+        ffmpeg -hide_banner -i @(input_file)  -map  @(s) -vn -an @(output_file)
+    else:
+        ffmpeg -hide_banner -i @(input_file)  -map  f'0:m:language:{lang}' -vn -an @(output_file)
+
+aliases["extract-subtitle"] = ArgParserAlias(func=__extract_subtitle, has_args=True, threadable=False)

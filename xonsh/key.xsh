@@ -45,7 +45,7 @@ def custom_keybindings(bindings, **kw):
         text: str = raw.text
         # remove CR
         text = text.replace('\r', '')
-        if re.match(r"^\s*(http|ftp|magnet)", text):
+        if re.match(r"^\s*(https?://|ftp://|magnet:?)", text):
             text = text.strip()
             text = f'"{text}"'
         d = ClipboardData(text, raw.type)

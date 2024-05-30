@@ -53,6 +53,7 @@ def __scd(args):
     if p != '':
         cd @(p)
 
+aliases['cd.'] = 'scd -d 1'
 
 @aliases.register('glook')
 def __glook():

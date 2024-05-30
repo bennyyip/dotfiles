@@ -1,13 +1,14 @@
 #Include "%A_ScriptDir%\Keymap\Capslock.ahk"
-#Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
+; TODO VDA win 11
+; #Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
 
 ; menu
 #z:: MyMenu.Show
 
 ; Pomodoro
->^Enter:: Pomodoro
-+>^Enter:: Pomodoro(true)
+; >^Enter:: Pomodoro
+; +>^Enter:: Pomodoro(true)
 
 ; others
 #+Q:: WinClose WinGetID("A")
@@ -19,3 +20,5 @@
 
 >#J:: Send "{PgDn}"
 >#K:: Send "{PgUp}"
+
+#n:: Send "#+^n"

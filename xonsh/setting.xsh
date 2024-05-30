@@ -2,13 +2,15 @@ from xonsh.platform import ON_WINDOWS
 
 $MY_PROXY = "http://127.0.0.1:10809"
 
+$AUTO_CD = True
+
 $EDITOR = "vim"
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')
 $XONSH_HISTORY_BACKEND = 'sqlite'
 $HISTCONTROL = {'erasedups', 'ignorespace', 'ignoreerr'}
 
-$XONSH_AUTOPAIR= True
+$XONSH_AUTOPAIR = True
 
 # https://wiki.archlinux.org/title/Color_output_in_console#Using_less
 $MANPAGER="less -R --use-color -Dd+r -Du+b"
