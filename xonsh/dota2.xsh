@@ -18,7 +18,7 @@ def delete_replay(match_id):
 def __download_replay(args):
     proxy = ${...}.get('MY_PROXY')
 
-    retries = 4
+    retries = 5
 
     match_ids = args
 
