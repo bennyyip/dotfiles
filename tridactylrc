@@ -52,6 +52,12 @@ bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
+
+" https://github.com/akiirui/mpv-handler
+bind gm composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
+bind ;m hint -JFc a e => {const murl = "mpv://play/"+btoa(e.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, ""); console.log(murl); tri.excmds.open_quiet(murl);}
+composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
+
 " TODO: c-w
 " bind --mode=insert <c-w> backward_kill_word
 
@@ -85,6 +91,7 @@ set hintdelay 100
 
 " I like wikiwand but I don't like the way it changes URLs
 bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.com/en","wikipedia.org/wiki") | clipboard yank
+
 
 " TODO: replace redirector
 " Make gu take you back to subreddit from comments
