@@ -1,10 +1,13 @@
 import os
+import time
 import shutil
 from pathlib import Path
 import webbrowser
+import tempfile
 
 import httpx
 
+from xonsh.tools import unthreadable
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
 import pyperclip
@@ -203,6 +206,7 @@ aliases |= {
 
 aliases['rgg'] = f'bash {$HOME}/dotfiles/bin/rgg'
 aliases['agv'] = f'python {$HOME}/dotfiles/bin/agv'
+aliases['to-utf8'] = ["vim", "--clean", '+set nobomb | set fenc=utf8 | x']
 
 if shutil.which("diff-so-fancy") is not None:
     aliases[
@@ -316,3 +320,33 @@ def __extract_subtitle(
         ffmpeg -hide_banner -i @(input_file)  -map  f'0:m:language:{lang}' -vn -an @(output_file)
 
 aliases["extract-subtitle"] = ArgParserAlias(func=__extract_subtitle, has_args=True, threadable=False)
+
+@unthreadable
+@aliases.register("vimv")
+def __vimv(args):
+    try:
+        fp = tempfile.NamedTemporaryFile('w', delete=False)
+        fname = fp.name
+        src = $(ls @(args))
+        fp.write(src)
+        fp.close()
+        rtn = !(vim @(fname)).rtn
+        if rtn != 0:
+            print(f"WARN: Vim exit code {rtn}. Aborting..")
+            return
+        dst = $(cat @(fname))
+        src, dst = src.split('\n'), dst.split('\n')
+        if len(src) != len(dst):
+            print("WARN: Number of files changed. Did you delete a line by accident? Aborting..")
+        count = 0
+        for s, d in zip(src, dst):
+            if s == d:
+                continue
+            Path(d).parent.mkdir(exist_ok=True, parents=True)
+            mv @(s) @(d)
+            count += 1
+        print(f"{count} files renamed.")
+    except:
+        pass
+    finally:
+        os.unlink(fname)
