@@ -82,6 +82,8 @@ async def is_online(url: str) -> bool:
             )
             return resp.json()["data"]["room_status"] == "1"
         elif "bilibili.com" in url:
+            # TODO
+            return False
             resp = await client.get(
                 f"https://api.live.bilibili.com/room/v1/Room/room_init?id={room_id}"
             )

@@ -74,7 +74,7 @@ bind j scrollline 20
 bind k scrollline -20
 bind u scrollpage -0.9
 
-" Use vim bindding from website
+" Use vim binding from website
 bind q nmode ignore 1 mode normal
 bind e nmode ignore 2 mode normal
 
