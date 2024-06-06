@@ -26,6 +26,8 @@ $LESS_TERMCAP_se = "\033[0m"         # end standout-mode
 $LESS_TERMCAP_us = "\033[00;36m"     # begin underline
 $LESS_TERMCAP_ue = "\033[0m"         # end underline
 
+$RIPGREP_CONFIG_PATH = f'{$HOME}/.ripgreprc'
+
 if ON_WINDOWS:
     $XONTRIB_SH_SHELLS = ['pwsh']
     $FORCE_POSIX_PATHS = True
