@@ -23,6 +23,7 @@
     ~/.tridactylrc:
     ~/.ripgreprc:
     ~/python: python
+    ~/yt-dlp.conf: yt-dlp.conf
     ~/Documents/Powershell: pwsh
     ~/Documents/WindowsPowerShell: pwsh
     ~/vimfiles: vim

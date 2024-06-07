@@ -34,6 +34,9 @@ if ON_WINDOWS:
     $AGV_EDITOR='gvim --remote-silent-tab'
     $LANG = 'en_US.UTF-8'
     aliases['tldr'] = 'tealdeer-windows-x86_64-msvc'
+    $null = "NUL"
+else:
+    $null = "/dev/null"
 
 
 user_bins = [

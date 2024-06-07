@@ -2,4 +2,4 @@ _cache/
 cache/
 watch_later
 mpvHistory.log
-
+scripts/test.lua

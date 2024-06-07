@@ -201,6 +201,8 @@ aliases |= {
     "with-github-name": ["GIT_COMMITTER_NAME=BennyYip", "GIT_COMMITTER_EMAIL=yebenmy@protonmail.com", "GIT_AUTHOR_NAME=BennyYip", "GIT_AUTHOR_EMAIL=yebenmy@protonmail.com"],
     "xcp": ["rsync", "-aviHAXKhP", "--delete", "--exclude=*~", "--exclude=__pycache__"],
     "ydcvd": ["ydcv", "-x", "-n", "-t", "2", ">/dev/null"],
+    # "ytdl": ["yt-dlp", "--downloader", "aria2c"],
+    "ytdl": ["yt-dlp"],
 }
 # fmt:on
 

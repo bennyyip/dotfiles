@@ -289,6 +289,21 @@ local function scan_dir(path, current_file, dir_mode, separator, dir_depth, tota
     end
 end
 
+function read_playlist(dir)
+    local file = ("%s%s"):format(dir, 'playlist.txt')
+    local f = io.open(file, "rb")
+    if f then f:close() end
+    if not f then return {} end
+    local lines = {}
+    for line in io.lines(file) do
+        if not line:match("^%s*$") then
+            lines[#lines + 1] = ("%s%s"):format(dir, line)
+        end
+    end
+    return lines
+end
+
+
 local function find_and_add_entries()
     local aborted = mp.get_property_native("playback-abort")
     if aborted then
@@ -341,11 +356,15 @@ local function find_and_add_entries()
     msg.trace(("playlist-pos-1: %s, playlist: %s"):format(pl_current,
         utils.to_string(pl)))
 
-    local files = {}
-    scan_dir(autoloaded_dir, path,
-             o.directory_mode or mp.get_property("directory-mode", "lazy"),
-             mp.get_property_native("platform") == "windows" and "\\" or "/",
-             0, files, extensions)
+    -- Load playlist.txt， if exists
+    local files = read_playlist(dir)
+
+    if next(files) == nil then
+        scan_dir(autoloaded_dir, path,
+        o.directory_mode or mp.get_property("directory-mode", "lazy"),
+        mp.get_property_native("platform") == "windows" and "\\" or "/",
+        0, files, extensions)
+    end
 
     if next(files) == nil then
         msg.debug("no other files or directories in directory")
