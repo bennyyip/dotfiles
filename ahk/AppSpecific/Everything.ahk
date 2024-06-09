@@ -2,13 +2,13 @@ class Everything {
     static exe := 'C:\Program Files\Everything 1.5a\Everything64.exe'
 
     static searchExecutabe() {
-        RunWait this.exe . ' -filter executable -sort "run count" -sort-descending'
+        Run this.exe . ' -filter executable -sort "run count" -sort-descending'
     }
     static searchEverything() {
-        RunWait this.exe . ' -filter everything -sort "Date Modified" -sort-descending'
+        Run this.exe . ' -filter everything -sort "Date Modified" -sort-descending'
     }
     static searchFolder() {
-        RunWait this.exe ' -filter Folder -sort "Date Modified" -sort-descending'
+        Run this.exe ' -filter Folder -sort "Date Modified" -sort-descending'
     }
 
     ; Open file in vim, dir in terminal

@@ -14,7 +14,6 @@ import pyperclip
 
 from typing import Optional
 
-
 # fmt:off
 if ON_LINUX:
     aliases |= {
@@ -345,10 +344,17 @@ def __vimv(args):
             if s == d:
                 continue
             Path(d).parent.mkdir(exist_ok=True, parents=True)
-            mv @(s) @(d)
+            os.rename(s, d)
             count += 1
         print(f"{count} files renamed.")
     except:
         pass
     finally:
         os.unlink(fname)
+
+@aliases.register('open-video-url')
+def __open_video_url(args):
+    # For ytdl videos
+    url = $(ffprobe @(args[0]) 2>&1 | rg comment| awk '{print $3}')
+    print(url)
+    webbrowser.open(url)
