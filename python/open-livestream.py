@@ -85,7 +85,7 @@ async def is_online(url: str) -> bool:
             # TODO
             return False
             resp = await client.get(
-                f"https://api.live.bilibili.com/room/v1/Room/room_init?id={room_id}"
+                f"https://api.live.bilibili.com/xlive/web-room/v2/index/getRoomPlayInfo?room_id={room_id}"
             )
             return resp.json()["data"]["live_status"] == 1
         elif "huya.com" in url:
@@ -196,7 +196,12 @@ async def main():
             ]
 
         else:
-            player_args = ["--player", "mpv"]
+            player_args = [
+                "--player",
+                "mpv",
+                "--title",
+                "{author} - {title}",
+            ]
 
         streamlink_cmd.extend(player_args)
 
@@ -209,6 +214,10 @@ async def main():
             streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:
             streamlink_cmd.extend(["--twitch-disable-ads"])
+
+        if "bilibili" in url:
+            streamlink_cmd = ["mpv", "--no-resume-playback", url]
+            args.no_danmu = True
 
         if is_termux:
             subprocess.call(streamlink_cmd)

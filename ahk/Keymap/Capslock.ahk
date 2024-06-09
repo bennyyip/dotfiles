@@ -82,3 +82,5 @@ CapsLock & F4:: ShowDir HOME_DIR
 ; App
 CapsLock & F5:: Launch (HOME_DIR . '\AppData\Local\Programs\Anki\anki.exe')
 CapsLock & F6:: Launch ('C:\Program Files (x86)\GoldenDict\GoldenDict.exe')
+
+; CapsLock & F10:: WinMove(0, 0, 2560, 1440, "ahk_exe PlantsVsZombies.exe")
