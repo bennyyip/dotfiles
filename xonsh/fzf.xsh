@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 from xonsh.history.main import history_main
-from xonsh import platform
+from xonsh import platform, dirstack
 from xonsh.completers.path import complete_path
 from prompt_toolkit.keys import Keys
 
@@ -51,9 +51,14 @@ def __vfr():
 def __scd(args):
     p = $(fd -E .git -E __pycache__ -E .vscode -H -t d @(args) | @(fzf_cmd) --prompt "cd> ").strip()
     if p != '':
-        cd @(p)
+        dirstack.cd([p])
 
-aliases['cd.'] = 'scd -d 1'
+@aliases.register("cd")
+def __cd(args):
+    if len(args)>0 and args[0].strip() != '':
+        dirstack.cd(args)
+    else:
+        scd -d 1
 
 @aliases.register('glook')
 def __glook():

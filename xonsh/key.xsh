@@ -14,18 +14,18 @@ def custom_keybindings(bindings, **kw):
     handle = bindings.add
 
     # Emacs
-    handle("c-a")(get_by_name("beginning-of-line"))
-    handle("c-b")(get_by_name("backward-char"))
+    handle("c-a", filter=vi_insert_mode)(get_by_name("beginning-of-line"))
+    handle("c-b", filter=vi_insert_mode)(get_by_name("backward-char"))
     # c-e c-f breaks auto suggestion
-    handle("c-e")(get_by_name("end-of-line"))
+    handle("c-e", filter=vi_insert_mode)(get_by_name("end-of-line"))
     # handle("c-f")(get_by_name("forward-char"))
-    handle("c-left")(get_by_name("backward-word"))
-    handle("c-right")(get_by_name("forward-word"))
+    handle("c-left", filter=vi_insert_mode)(get_by_name("backward-word"))
+    handle("c-right", filter=vi_insert_mode)(get_by_name("forward-word"))
 
     handle("escape", "d", filter=vi_insert_mode)(get_by_name("kill-word"))
 
-    handle("escape", "b")(get_by_name("backward-word"))
-    handle("escape", "f")(get_by_name("forward-word"))
+    handle("escape", "b", filter=vi_insert_mode)(get_by_name("backward-word"))
+    handle("escape", "f", filter=vi_insert_mode)(get_by_name("forward-word"))
 
     handle("escape", "backspace", filter=vi_insert_mode)(get_by_name("backward-kill-word"))
 
@@ -39,15 +39,15 @@ def custom_keybindings(bindings, **kw):
         "Previous line."
         event.current_buffer.auto_up(count=event.arg)
 
-    @handle("c-v")
+    @handle("c-v", filter=vi_insert_mode)
     def _paste(event):
         raw = event.app.clipboard.get_data()
         text: str = raw.text
         # remove CR
         text = text.replace('\r', '')
-        if re.match(r"^\s*(https?://|ftp://|magnet:?)", text):
+        if re.match(r"^\s*(https?://|ftp://|magnet:?|C:\\)", text):
             text = text.strip()
-            text = f'"{text}"'
+            text = f'r"{text}"'
         d = ClipboardData(text, raw.type)
         event.current_buffer.paste_clipboard_data(
             d, count=event.arg, paste_mode=PasteMode.EMACS
@@ -64,5 +64,6 @@ def custom_keybindings(bindings, **kw):
                 event.current_buffer.cursor_position += len(prefix) + 1
         return handler
 
-    handle('escape', 'escape')(handle_prefix('sudo'))
-    handle('c-x', 'c-p')(handle_prefix('proxychains -q'))
+    handle('escape', 'escape', filter=vi_insert_mode)(handle_prefix('sudo'))
+    handle('c-x', 'c-p', filter=vi_insert_mode)(handle_prefix('proxychains -q'))
+

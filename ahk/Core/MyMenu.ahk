@@ -5,6 +5,7 @@ MyMenu.Add "Translate with &DeepL", MyMenuItems.DeepL
 MyMenu.Add "Translate with &Google Translate", MyMenuItems.GoogleTranslate
 MyMenu.Add "Open win MP&V", MyMenuItems.MPV
 MyMenu.Add "&Paste to Vim", MyMenuItems.PasteToVim
+MyMenu.Add "&Fix keyboard layout", MyMenuItems.FixKeyboardLayout
 
 killMenu := Menu()
 killMenu.Add "&All explorers", MyMenuItems.KillAllExplorers
@@ -58,7 +59,11 @@ class MyMenuItems {
     }
 
     static PasteToVim(*) {
-        RunWait "gvim --remote-send :Capture<CR>"
+        Run "gvim --remote-send :Capture<CR>"
+    }
+
+    static FixKeyboardLayout(*) {
+        Run "pwsh -noProfile -NoLogo " .  "C:\Users\" . A_UserName . "/dotfiles/pwsh/fix-keyboard-layout.ps1"
     }
 
 }
