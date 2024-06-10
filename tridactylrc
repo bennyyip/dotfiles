@@ -11,17 +11,20 @@ set escapehatchsidebarhack false
 
 
 " Search engines
-set searchengine gg
+set searchengine duck
 set searchurls.gg https://www.google.com/search?hl=en&q=
 set searchurls.gh https://github.com/search?utf8=✓&q=
 set searchurls.douban https://www.douban.com/search?q=
 set searchurls.disc https://www.discogs.com/search/?type=all&q=
-set searchurls.duck https://duckduckgo/q=
+set searchurls.duck https://duckduckgo/?q=
 set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
 set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
 set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
 set searchurls.twitter https://twitter.com/search?q=
+set searchurls.subhd https://subhd.tv/search/
 set smoothscroll true
+
+unbind <C-b>
 
 " Comment toggler for Reddit, Hacker News and Lobste.rs
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
@@ -35,11 +38,12 @@ bind / fillcmdline find
 bind <Backspace> nohlsearch
 unbind <C-f>
 unbind <F1>
-bind ? fillcmdline find -?
-bind ? fillcmdline find -?
-bind N findnext -1
-bind n findnext 1
-
+bind / fillcmdline find
+bind ? fillcmdline find --reverse
+bind n findnext --search-from-view
+bind N findnext --search-from-view --reverse
+bind gN composite findnext --search-from-view --reverse; findselect
+bind gn findselect
 
 " Tab
 bind J tabnext
@@ -57,6 +61,8 @@ bind gs fillcmdline tabopen search
 bind gm composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
 bind ;m hint -JFc a e => {const murl = "mpv://play/"+btoa(e.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, ""); console.log(murl); tri.excmds.open_quiet(murl);}
 composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
+
+bind ;l hint -Jyc a[href^=magnet]
 
 " TODO: c-w
 " bind --mode=insert <c-w> backward_kill_word
@@ -89,6 +95,9 @@ set hintnames short
 " Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
 set hintdelay 100
 
+" Make `gi` on GitHub take you to the search box
+bindurl ^https://github.com gi hint -Vc .AppHeader-searchButton
+
 " I like wikiwand but I don't like the way it changes URLs
 bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.com/en","wikipedia.org/wiki") | clipboard yank
 
@@ -98,18 +107,21 @@ bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.co
 bindurl reddit.com gu urlparent 4
 
 " Only hint search results on Google and DDG
-bindurl www.google.com f hint -Jc #search div:not(.action-menu) > a
-bindurl www.google.com F hint -Jbc #search div:not(.action-menu) > a
+bindurl www.google.com f hint -Jc #search a
+bindurl www.google.com F hint -Jbc #search a
 
-bindurl nyaa.si f hint -Jbqc tr > td:nth-child(2) > a:last-child
-bindurl nyaa.si <c-a> hint -Jc .pagination  li:last-child
-bindurl nyaa.si <c-x> hint -Jc .pagination  li:first-child
+seturl www.google.com followpagepatterns.next Next
+seturl www.google.com followpagepatterns.prev Previous
 
-bind ;l hint -Jyc a[href^=magnet]
 
 " Broken as of 2023-07-18
 " bindurl ^https://duckduckgo.com f hint -Jc [data-testid="result-title-a"]
 " bindurl ^https://duckduckgo.com F hint -Jbc [data-testid="result-title-a"]
+
+bindurl nyaa.si f hint -Jbqc tr > td:nth-child(2) > a:last-child
+" bindurl nyaa.si <c-a> hint -Jc .pagination  li:last-child
+" bindurl nyaa.si <c-x> hint -Jc .pagination  li:first-child
+
 
 " Suspend / "discard" all tabs - handy for stretching out battery life
 command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.map(t=>t.id)))
@@ -117,16 +129,25 @@ command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts
 " go current tab
 " gn new tab
 " gw new windows
+quickmark b https://miniflux.dllmpkw.xyz/
+quickmark b https://t.bilibili.com/
+quickmark d https://www.douyu.com/directory/watchHistory
+quickmark l https://liquipedia.net/dota2/Main_Page
 quickmark r https://miniflux.dllmpkw.xyz/
 
 " Avoid misclick in tenhou
 autocmd DocStart tenhou.net mode ignore
 
 " New reddit is bad
-autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
-autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
-autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
+" autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+" autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
+" autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
 
+" stratz and d2pt
+" bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
+bindurl ^https://stratz.com/matches/.+ ;q hint -c button.sc-2c0cc0dc-0:nth-child(3)
+bindurl ^https://d2pt.gg/hero/.+ ;q hint -c [class*="svelte-g4fxhj"]
+bindurl ^https://d2pt.gg/player/.+ ;q hint -c .copy-icon
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
