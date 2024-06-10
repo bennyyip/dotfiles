@@ -358,3 +358,14 @@ def __open_video_url(args):
     url = $(ffprobe @(args[0]) 2>&1 | rg comment| awk '{print $3}')
     print(url)
     webbrowser.open(url)
+
+@aliases.register('clp')
+def __clp(args, stdin, stdout):
+    if stdin is None:
+        print('No input. Example: `echo hello | clp`')
+        return -1
+    txt = ''
+    for line in stdin.readlines():
+        txt += line
+    pyperclip.copy(txt)
+    return 0
