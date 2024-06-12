@@ -291,6 +291,8 @@ if ON_WINDOWS:
         explorer @(Path(args[0]).absolute())
 
     aliases['powershell'] = 'pwsh'
+    aliases['Syu'] = 'winget upgrade --all --proxy=$MY_PROXY --verbose'
+    aliases['sudo'] = 'gsudo'
 
 @aliases.register("ssh")
 def __ssh(args):

@@ -1,6 +1,7 @@
 import re
 
 from xonsh import platform
+from xonsh.built_ins import XSH
 from prompt_toolkit.clipboard import ClipboardData
 from prompt_toolkit.filters.app import vi_insert_mode
 from prompt_toolkit.key_binding.bindings.named_commands import get_by_name
@@ -57,13 +58,14 @@ def custom_keybindings(bindings, **kw):
         def handler(event):
             text = event.current_buffer.text
             if text.strip() == '':
+                # use last cmd if line is empty
                 event.current_buffer.auto_up()
                 text = event.current_buffer.text
             if not text.strip().startswith(prefix):
-                event.current_buffer.transform_current_line(lambda x: f'{prefix} {x}')
-                event.current_buffer.cursor_position += len(prefix) + 1
+                expanded_text = XSH.aliases.expand_alias(text, len(text) + 1)
+                event.current_buffer.transform_current_line(lambda x: f'{prefix} {expanded_text}')
+                event.current_buffer.cursor_position += len(expanded_text) - len(text) + len(prefix) + 1
         return handler
 
     handle('escape', 'escape', filter=vi_insert_mode)(handle_prefix('sudo'))
     handle('c-x', 'c-p', filter=vi_insert_mode)(handle_prefix('proxychains -q'))
-
