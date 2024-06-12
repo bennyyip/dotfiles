@@ -369,3 +369,10 @@ def __clp(args, stdin, stdout):
         txt += line
     pyperclip.copy(txt)
     return 0
+
+@unthreadable
+@aliases.register('set-brightness')
+def __set_brightness(args):
+    monitorcontrol --set-luminance @(args)
+
+aliases['turn-off-monitors'] = 'monitorcontrol --set-power-mode off_hard'
