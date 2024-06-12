@@ -6,7 +6,6 @@ import subprocess
 import webbrowser
 
 import httpx
-
 from fzf import FZF
 
 """
@@ -148,8 +147,6 @@ def run_detached_process(args, **kwargs):
     else:
         pkwargs = {}
 
-    print(" ".join(args))
-
     subprocess.Popen(args, **pkwargs, **kwargs)
 
 
@@ -222,7 +219,11 @@ async def main():
         if is_termux:
             subprocess.call(streamlink_cmd)
         else:
-            run_detached_process(streamlink_cmd)
+            subprocess.Popen(
+                streamlink_cmd,
+                stdout=subprocess.DEVNULL,
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+            )
 
             if not args.no_danmu:
                 danmu_cmd = ["danmu.CMD", url]

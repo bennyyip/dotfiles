@@ -16,7 +16,7 @@ set searchurls.gg https://www.google.com/search?hl=en&q=
 set searchurls.gh https://github.com/search?utf8=✓&q=
 set searchurls.douban https://www.douban.com/search?q=
 set searchurls.disc https://www.discogs.com/search/?type=all&q=
-set searchurls.duck https://duckduckgo/?q=
+set searchurls.duck https://duckduckgo.com/?q=
 set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
 set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
 set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
@@ -42,8 +42,9 @@ bind / fillcmdline find
 bind ? fillcmdline find --reverse
 bind n findnext --search-from-view
 bind N findnext --search-from-view --reverse
-bind gN composite findnext --search-from-view --reverse; findselect
-bind gn findselect
+" bind gN composite findnext --search-from-view --reverse; findselect
+" bind gn findselect
+bind gN findselect
 
 " Tab
 bind J tabnext
