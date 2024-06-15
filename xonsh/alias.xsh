@@ -8,6 +8,7 @@ import tempfile
 import httpx
 
 from xonsh.tools import unthreadable
+from xonsh import dirstack
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 from xonsh.cli_utils import Annotated, Arg, ArgParserAlias
 import pyperclip
@@ -266,6 +267,10 @@ aliases["zf"] = "zi"
 
 aliases[".."] = "cd .."
 
+@aliases.register("cdp")
+def __cdp(args):
+    dirstack.cd([Path(args[0]).parent])
+
 @aliases.register('update')
 def __update():
     source ~/.xonshrc
@@ -291,8 +296,10 @@ if ON_WINDOWS:
         explorer @(Path(args[0]).absolute())
 
     aliases['powershell'] = 'pwsh'
-    aliases['Syu'] = 'winget upgrade --all --proxy=$MY_PROXY --verbose'
+    aliases['Syu'] = 'gsudo winget upgrade --all --verbose'
     aliases['sudo'] = 'gsudo'
+    aliases['vimdiff'] = ['vim', '-O', '+windo diffthis']
+    aliases['gvimdiff'] = ['gvim', '-O', '+windo diffthis']
 
 @aliases.register("ssh")
 def __ssh(args):
@@ -328,11 +335,10 @@ aliases["extract-subtitle"] = ArgParserAlias(func=__extract_subtitle, has_args=T
 @aliases.register("vimv")
 def __vimv(args):
     try:
-        fp = tempfile.NamedTemporaryFile('w', delete=False)
-        fname = fp.name
+        fd, fname = tempfile.mkstemp(prefix='vimv', text=True)
         src = $(ls @(args))
-        fp.write(src)
-        fp.close()
+        with os.fdopen(fd, 'w') as f:
+            f.write(src)
         rtn = !(vim @(fname)).rtn
         if rtn != 0:
             print(f"WARN: Vim exit code {rtn}. Aborting..")
@@ -378,3 +384,40 @@ def __set_brightness(args):
     monitorcontrol --set-luminance @(args)
 
 aliases['turn-off-monitors'] = 'monitorcontrol --set-power-mode off_hard'
+
+
+@unthreadable
+@aliases.register('sync-subs')
+def __sync_subs(args):
+    if (len(args) == 0):
+        videos = pg`*.mkv`
+    else:
+        videos = [Path(x) for x in args]
+        assert all((x.is_file() for x in videos))
+    for v in videos:
+        for s in p`.+.(ass|srt)`:
+            if v.stem in s.stem:
+                ffsubsync -i @(s) --overwrite-input @(v)
+
+
+@aliases.register('backup-files')
+def __sync_subs(args):
+    os.makedirs('bak', exist_ok=True)
+    files = [Path(x) for x in args]
+    assert all((x.is_file() for x in files))
+    for x in files:
+        shutil.copy2(x, 'bak')
+
+
+@unthreadable
+@aliases.register('yy')
+def __yazi_cd(args):
+    try:
+        fd, tmp = tempfile.mkstemp(prefix='yazi-cwd', text=True)
+        yazi @(args) --cwd-file=@(tmp)
+        with os.fdopen(fd, 'r') as f:
+            cwd = f.read().strip()
+        if cwd != '' and Path(cwd).exists() and cwd != $PWD:
+                dirstack.cd([cwd])
+    finally:
+        os.remove(tmp)

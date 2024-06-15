@@ -182,6 +182,12 @@ async def main():
     else:
         streamlink_cmd = [
             "streamlink",
+            "--retry-streams",
+            "3",
+            "--retry-max",
+            "3",
+            "--retry-open",
+            "3",
             url,
             "best",
         ]
@@ -219,15 +225,16 @@ async def main():
         if is_termux:
             subprocess.call(streamlink_cmd)
         else:
+            if not args.no_danmu:
+                danmu_cmd = ["danmu.CMD", url]
+                run_detached_process(danmu_cmd)
+
+            print(" ".join(streamlink_cmd))
             subprocess.Popen(
                 streamlink_cmd,
                 stdout=subprocess.DEVNULL,
                 creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
             )
-
-            if not args.no_danmu:
-                danmu_cmd = ["danmu.CMD", url]
-                run_detached_process(danmu_cmd)
 
 
 if __name__ == "__main__":

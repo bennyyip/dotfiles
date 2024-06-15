@@ -32,8 +32,9 @@
       create: true
       path: alacritty-windows.yml
     ~/.xonshrc: xonsh/xonshrc
+    ~/AppData/Roaming/yazi/config: yazi
 
-- shell:
-    - [git submodule update --init --remote --recursive vim, Installing submodules]
-    - [git submodule update --init --recursive, Installing submodules]
-    - [powershell -NoProfile ./ahk/install.ps1, Installing ahkrc]
+# - shell:
+#     - [git submodule update --init --remote --recursive vim, Installing submodules]
+#     - [git submodule update --init --recursive, Installing submodules]
+#     - [powershell -NoProfile ./ahk/install.ps1, Installing ahkrc]

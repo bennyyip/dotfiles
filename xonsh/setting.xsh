@@ -8,6 +8,7 @@ $AUTO_CD = True
 # workaround to get C-x C-e works on windows
 # https://github.com/xonsh/xonsh/issues/4619
 os.environ["EDITOR"] = "vim"
+$EDITOR = "vim"
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')
 $XONSH_HISTORY_BACKEND = 'sqlite'

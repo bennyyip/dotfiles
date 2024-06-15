@@ -5,6 +5,7 @@ from os import path
 
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 
+$XONSH_SHOW_TRACEBACK = True
 if ON_WINDOWS:
     $HOME = $USERPROFILE
 
@@ -45,6 +46,9 @@ source f'{$HOME}/dotfiles/xonsh/alias.xsh'
 source f'{$HOME}/dotfiles/xonsh/fzf.xsh'
 
 source f'{$HOME}/dotfiles/xonsh/dota2.xsh'
+
+# os.environ['STARSHIP_CONFIG'] = '~/.config/starship_xonsh.toml'
+# source f'{$HOME}/dotfiles/xonsh/starship.xsh'
 
 # abbrevs
 abbrevs['!$'] = lambda buffer, word: _.args[-1]
