@@ -1,0 +1,10 @@
+[opener]
+edit = [
+  { run = '${EDITOR:=vim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+  { run = 'vim "%*"', desc = "$EDITOR", block = true, for = "windows" },
+  { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gvim remtoe", for = "windows" },
+]
+extract = [
+  { run = 'unar "$1"', desc = "Extract here", for = "unix" },
+  { run = '7z x "%1"', desc = "Extract here", for = "windows" },
+]

@@ -60,7 +60,7 @@
     default = current
 
 [init]
-    defaultBranch = master
+    defaultBranch = main
 [diff]
     algorithm = patience
     # https://blog.github.com/2018-04-05-git-217-released/

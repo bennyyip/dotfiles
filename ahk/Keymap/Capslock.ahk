@@ -14,6 +14,18 @@ CapsWithMod(action, initmod := "") {
     SetCapsLockState "AlwaysOff"
 }
 
+
+HideShowTaskbar() {
+    static ABM_SETSTATE := 0xA, ABS_AUTOHIDE := 0x1, ABS_ALWAYSONTOP := 0x2
+    static hide := 0
+    hide := !hide
+    APPBARDATA := Buffer(size := 2*A_PtrSize + 2*4 + 16 + A_PtrSize, 0)
+    NumPut("UInt", size, APPBARDATA), NumPut("Ptr", WinExist("ahk_class Shell_TrayWnd"), APPBARDATA, A_PtrSize)
+    NumPut("UInt", hide ? ABS_AUTOHIDE : ABS_ALWAYSONTOP, APPBARDATA, size - A_PtrSize)
+    DllCall("Shell32\SHAppBarMessage", "UInt", ABM_SETSTATE, "Ptr", APPBARDATA)
+}
+
+
 ; Ctrl
 CapsLock & ,:: CapsWithMod(",", "^")
 CapsLock & -:: CapsWithMod("=", "^")
@@ -62,6 +74,7 @@ CapsLock & 3:: CapsWithMod("6", "#")
 
 ; Other
 CapsLock & LButton:: Send "^{LButton}"
+CapsLock & F10::HideShowTaskbar()
 CapsLock & F11:: Run "C:\Program Files\AutoHotkey\v2\AutoHotkey.chm"
 CapsLock & F12:: Reload
 

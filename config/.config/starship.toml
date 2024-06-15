@@ -89,4 +89,3 @@ format = '[$symbol]($style)'
 [python]
 symbol = 'PY '
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-

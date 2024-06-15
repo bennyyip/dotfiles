@@ -48,8 +48,10 @@ bind gN findselect
 
 " Tab
 bind J tabnext
+bind <A-j> tabnext 2
 " bind <ArrowDown> tabnext
 bind K tabprev
+bind <A-k> tabprev 2
 " bind <ArrowUp> tabprev
 bind x composite tabprev; tabclose #
 bind X undo tab
@@ -143,6 +145,10 @@ autocmd DocStart tenhou.net mode ignore
 " autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
 " autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
 " autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
+
+autocmd DocLoad ^http(s?)://imgstar.eu/ hint -f Continue\ to\ image
+autocmd DocLoad ^http(s?)://imgsto.com/ hint -f Continue\ to\ image
+autocmd DocLoad ^http(s?)://silverpic.com/ hint -f Continue\ to\ image
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
