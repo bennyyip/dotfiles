@@ -28,13 +28,21 @@ if ON_LINUX:
         "Si": ["pacman", "-Si"],
         "Ss": ["pacman", "-Ss"],
         "pain": ["sudo", "pacman", "-S", "--needed"],
-        "painn": ["sudo", "pacman", "-S"],
+        "paiN": ["sudo", "pacman", "-S"],
     }
 
     @aliases.register("Syu")
     def __Syu(args):
         sudo pacman -Syu
         pacman -Qtdq | ifne sudo pacman -Rcs -
+elif ON_WINDOWS:
+    aliases |= {
+      'Syu': 'gsudo winget upgrade --all --verbose',
+      "Ss": ['winget', 'search'],
+      "pain": ['winget', 'install'],
+      "paiN": ['winget', 'install', '--force'],
+    }
+
 
 aliases |= {
     "scp-resume": ["rsync", "--partial", "-h", "--progress", "--rsh=ssh"],
@@ -44,7 +52,6 @@ aliases |= {
     "fgrep": ["fgrep", "--color=auto"],
     "l": "ls -lah --color=auto",
     "ls": ["ls", "--color=auto", "-v"],
-    "vr": ["gvim", "--remote-silent-tab"],
     "gget": ["ghq", "get", "--no-recursive", "--shallow"],
     "update": ["source", "~/.xonshrc"],
     "7tar": ["7z", "a", "-mmt"],
@@ -186,8 +193,6 @@ aliases |= {
     "md": ["mkdir"],
     "npm": ["pnpm"],
     "nv": ["nvim"],
-    "pain": ["sudo", "pacman", "-S", "--needed"],
-    "painn": ["sudo", "pacman", "-S"],
     "pfc": ["curl", "-F", "c=@-", "http://fars.ee/"],
     "pvim": ["curl", "-F", "vimcn=<-", "https://cfp.vim-cn.com/"],
     "pxy": ["proxychains", "-q"],
@@ -217,6 +222,14 @@ if shutil.which("diff-so-fancy") is not None:
 else:
     aliases["dsf"] = "git diff"
 
+
+if shutil.which("eza") is not None:
+    aliases |= {
+      'l': 'eza',
+      'la': ['eza', '--all'],
+      'll': ['eza', '--long'],
+      'laht': ['eza', '--all', '--long', '--sort=modified'],
+    }
 
 def __add_magnet(
     # fmt:off
@@ -296,7 +309,6 @@ if ON_WINDOWS:
         explorer @(Path(args[0]).absolute())
 
     aliases['powershell'] = 'pwsh'
-    aliases['Syu'] = 'gsudo winget upgrade --all --verbose'
     aliases['sudo'] = 'gsudo'
     aliases['vimdiff'] = ['vim', '-O', '+windo diffthis']
     aliases['gvimdiff'] = ['gvim', '-O', '+windo diffthis']
@@ -318,8 +330,8 @@ def __clp(args, stdin, stdout):
     return 0
 
 def __extract_subtitle(
-        input_file:str,
-        output_file:str,
+        input_file: str,
+        output_file: str,
         lang: Annotated[Optional[str], Arg(nargs='?')] = 'eng',
         interative: Annotated[Optional[bool], Arg('--interative', '-i')] = False):
     if interative:
@@ -408,6 +420,37 @@ def __sync_subs(args):
     for x in files:
         shutil.copy2(x, 'bak')
 
+try:
+    import pysubs2
+
+    def __align_sub(
+        i: str,
+        r: Annotated[str, Arg(help="reference subtitle")],
+        inidx: Annotated[Optional[int], Arg("--inidx", type=int)] = 0,
+        refidx: Annotated[Optional[int], Arg("--refidx", type=int)] = 0,
+        o: Annotated[Optional[str], Arg("-o", "--output", nargs="?")] = None,
+        dryrun: Annotated[Optional[bool], Arg("--dry-run", "-d")] = False,
+    ):
+        insub = pysubs2.load(i)
+        refsub = pysubs2.load(r)
+        offset = refsub[refidx].start - insub[inidx].start
+        insub.shift(ms=offset)
+        if inidx != 0 or refidx !=0:
+            print(f'in[{inidx}]: {insub[inidx].text}')
+            print(f'ref[{refidx}]: {refsub[refidx].text}')
+        print('offset in ms:', offset)
+        if dryrun:
+            return
+        if o is not None:
+            insub.save(o)
+        else:
+            insub.save(i)
+
+
+    aliases["align-sub"] = ArgParserAlias(func=__align_sub, has_args=True, threadable=False)
+except ImportError:
+    pass
+
 
 @unthreadable
 @aliases.register('yy')
@@ -421,3 +464,8 @@ def __yazi_cd(args):
                 dirstack.cd([cwd])
     finally:
         os.remove(tmp)
+
+@unthreadable
+@aliases.register('vr')
+def __gvim_remote(args):
+    gvim --remote-silent-tab @(args)

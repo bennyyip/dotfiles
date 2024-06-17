@@ -5,7 +5,7 @@ from os import path
 
 from xonsh.platform import ON_WINDOWS, ON_LINUX
 
-$XONSH_SHOW_TRACEBACK = True
+$XONSH_SHOW_TRACEBACK = False
 if ON_WINDOWS:
     $HOME = $USERPROFILE
 

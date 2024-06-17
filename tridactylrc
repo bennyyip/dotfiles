@@ -149,6 +149,7 @@ autocmd DocStart tenhou.net mode ignore
 autocmd DocLoad ^http(s?)://imgstar.eu/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://imgsto.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://silverpic.com/ hint -f Continue\ to\ image
+autocmd DocLoad ^http(s?):/imgbaron.com/ hint -f Continue\ to\ image
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
