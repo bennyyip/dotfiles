@@ -6,7 +6,6 @@ from xonsh.tools import unthreadable
 from xonsh.platform import ON_WINDOWS
 
 
-
 def get_replay_path(match_id):
     dem_file = Path(f'C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/replays/{match_id}.dem')
     return dem_file
@@ -109,5 +108,4 @@ if ON_WINDOWS:
         ocr_result = pytesseract.image_to_string(img)
         try:
             __stratz([re.search(r"\d\d\d\d\d+", ocr_result)[0]])
-        except:
-            print('No valid player id.')
+        except: print('No valid player id.')

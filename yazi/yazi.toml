@@ -8,3 +8,8 @@ extract = [
   { run = 'unar "$1"', desc = "Extract here", for = "unix" },
   { run = '7z x "%1"', desc = "Extract here", for = "windows" },
 ]
+play = [
+  { run = 'mpv "$@"', orphan = true, for = "unix" },
+  { run = 'mpv --force-window=immediate "%1"', orphan = true, for = "windows" },
+  { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+]

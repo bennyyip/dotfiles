@@ -13,7 +13,8 @@ end
 config.color_scheme = 'GruvboxDark'
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-    config.default_prog = { 'pwsh', '--nologo', '-Command', 'ssh arch' }
+    -- config.default_prog = { 'pwsh', '--nologo', '-Command', 'ssh arch' }
+    config.default_prog = { 'xonsh' }
     config.font_size = 14.0
 else
     config.font_size = 18.0
