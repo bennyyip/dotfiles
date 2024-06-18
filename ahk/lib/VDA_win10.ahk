@@ -1,7 +1,5 @@
-; AutoHotkey v2 script
-SetWorkingDir(A_ScriptDir)
-
 ; Path to the DLL, relative to the script
+; https://github.com/Ciantic/VirtualDesktopAccessor 5bc1bba
 VDA_PATH := A_ScriptDir . "\lib\VirtualDesktopAccessor.dll"
 hVirtualDesktopAccessor := DllCall("LoadLibrary", "Str", VDA_PATH, "Ptr")
 
@@ -12,8 +10,6 @@ IsWindowOnCurrentVirtualDesktopProc := DllCall("GetProcAddress", "Ptr", hVirtual
 IsWindowOnDesktopNumberProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "IsWindowOnDesktopNumber", "Ptr")
 MoveWindowToDesktopNumberProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "MoveWindowToDesktopNumber", "Ptr")
 IsPinnedWindowProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "IsPinnedWindow", "Ptr")
-GetDesktopNameProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "GetDesktopName", "Ptr")
-SetDesktopNameProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "SetDesktopName", "Ptr")
 CreateDesktopProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "CreateDesktop", "Ptr")
 RemoveDesktopProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "RemoveDesktop", "Ptr")
 
@@ -30,10 +26,10 @@ GetDesktopCount() {
 }
 
 MoveCurrentWindowToDesktop(number) {
-    global MoveWindowToDesktopNumberProc, GoToDesktopNumberProc
+    global MoveWindowToDesktopNumberProc
     activeHwnd := WinGetID("A")
     DllCall(MoveWindowToDesktopNumberProc, "Ptr", activeHwnd, "Int", number, "Int")
-    DllCall(GoToDesktopNumberProc, "Int", number, "Int")
+    GoToDesktopNumber(number)
 }
 
 GoToPrevDesktop() {
@@ -63,33 +59,28 @@ GoToNextDesktop() {
 }
 
 GoToDesktopNumber(num) {
+    ; Workaround: fix flashing after switch virtual desktop
+    ; https://github.com/FuPeiJiang/VD.ahk/blob/273edefde9b790ddeee7c0a306af65fdc93fb5b5/README.md?plain=1#L89
+    WinActivate "ahk_class Shell_TrayWnd"
+    WinWaitActive "ahk_class Shell_TrayWnd"
+
     global GoToDesktopNumberProc
     DllCall(GoToDesktopNumberProc, "Int", num, "Int")
+
+    ; Workaround: fix flashing after switch virtual desktop
+    WinMinimize "ahk_class Shell_TrayWnd"
     return
 }
 MoveOrGotoDesktopNumber(num) {
-    ; If user is holding down Mouse left button, move the current window also
-    if (GetKeyState("LButton")) {
+    ; If user is holding down Mouse side button, move the current window also
+    if (GetKeyState("XButton1") || GetKeyState("XButton2")) {
         MoveCurrentWindowToDesktop(num)
     } else {
         GoToDesktopNumber(num)
     }
+
+
     return
-}
-GetDesktopName(num) {
-    global GetDesktopNameProc
-    utf8_buffer := Buffer(1024, 0)
-    ran := DllCall(GetDesktopNameProc, "Int", num, "Ptr", utf8_buffer, "Ptr", utf8_buffer.Size, "Int")
-    name := StrGet(utf8_buffer, 1024, "UTF-8")
-    return name
-}
-SetDesktopName(num, name) {
-    global SetDesktopNameProc
-    OutputDebug(name)
-    name_utf8 := Buffer(1024, 0)
-    StrPut(name, name_utf8, "UTF-8")
-    ran := DllCall(SetDesktopNameProc, "Int", num, "Ptr", name_utf8, "Int")
-    return ran
 }
 CreateDesktop() {
     global CreateDesktopProc
@@ -107,6 +98,7 @@ MoveOrGoToLastOpenedDesktop() {
     MoveOrGotoDesktopNumber(LastOpenedDesktop)
 }
 
+
 DllCall(RegisterPostMessageHookProc, "Ptr", A_ScriptHwnd, "Int", 0x1400 + 30, "Int")
 OnMessage(0x1400 + 30, OnChangeDesktop)
 OnChangeDesktop(wParam, lParam, msg, hwnd) {
@@ -118,6 +110,6 @@ OnChangeDesktop(wParam, lParam, msg, hwnd) {
     LastOpenedDesktop := OldDesktop
 
     ; Use Dbgview.exe to checkout the output debug logs
-    ; OutputDebug("Desktop changed from " OldDesktop " to " NewDesktop)
+    OutputDebug("Desktop changed from " OldDesktop " to " NewDesktop)
     ; TraySetIcon(".\Icons\icon" NewDesktop ".ico")
 }

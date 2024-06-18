@@ -6,6 +6,7 @@ edit = [
 ]
 extract = [
   { run = 'unar "$1"', desc = "Extract here", for = "unix" },
+  { run = '7zfm "%1"', desc = "Open in 7zfm", orphan = true, for = "windows" },
   { run = '7z x "%1"', desc = "Extract here", for = "windows" },
 ]
 play = [

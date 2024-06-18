@@ -1,6 +1,6 @@
 #Include "%A_ScriptDir%\Keymap\Capslock.ahk"
 ; TODO VDA win 11
-; #Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
+#Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
 
 ; menu
@@ -22,3 +22,4 @@
 >#K:: Send "{PgUp}"
 
 #n:: Send "#+^n"
+

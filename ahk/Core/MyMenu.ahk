@@ -63,7 +63,7 @@ class MyMenuItems {
     }
 
     static FixKeyboardLayout(*) {
-        Run "pwsh -noProfile -NoLogo " .  "C:\Users\" . A_UserName . "/dotfiles/pwsh/fix-keyboard-layout.ps1"
+        Run "pwsh -noProfile -NoLogo " .  "C:\Users\" . A_UserName . "/dotfiles/pwsh/fix-keyboard-layout.ps1", "", "Hide"
     }
 
 }

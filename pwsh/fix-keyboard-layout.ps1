@@ -1,5 +1,6 @@
 $langlist = Get-WinUserLanguageList
 
+$WarningPreference = 'SilentlyContinue'
 for ($i = 0; $i -le $langlist.count; $i++) {
     if ($langlist[$i].LanguageTag -eq "en-US") {
         $langList[0].InputMethodTips.Clear()
