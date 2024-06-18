@@ -21,13 +21,20 @@
     excludesfile = ~/.gitignore_global
 [color]
     ui = true
+# [merge]
+#     tool = vimdiff
+# [mergetool]
+#     keeptemporaries = false
+#     keepbackups = false
+#     prompt = false
+#     trustexitcode = false
 [merge]
-    tool = vimdiff
-[mergetool]
-    keeptemporaries = false
-    keepbackups = false
-    prompt = false
-    trustexitcode = false
+tool = splice
+
+[mergetool "splice"]
+cmd = "gvim -f $BASE $LOCAL $REMOTE $MERGED -c 'Splice9Init'"
+trustExitCode = true
+
 [alias]
     amm = commit -a --amend --no-edit
     clone-fast = clone --depth=1

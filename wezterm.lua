@@ -11,6 +11,8 @@ if wezterm.config_builder then
 end
 
 config.color_scheme = 'GruvboxDark'
+-- config.color_scheme = 'Gruvbox Dark (Gogh)'
+-- config.color_scheme = 'flexoki-dark'
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     -- config.default_prog = { 'pwsh', '--nologo', '-Command', 'ssh arch' }

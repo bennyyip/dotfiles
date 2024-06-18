@@ -71,7 +71,7 @@ def __cd(args):
     else:
         scd -d 1
 
-@aliases.register("cdb")
+@aliases.register("zp")
 def __cd_bookmark(args):
     cmd = [fzf_cmd, '--tiebreak=end', '--prompt', 'cd> ']
     if len(args) > 0 and args[0].strip() != '':

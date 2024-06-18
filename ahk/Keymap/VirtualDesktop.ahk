@@ -8,6 +8,8 @@
 #+F3:: MoveCurrentWindowToDesktop(2)
 #+F4:: MoveCurrentWindowToDesktop(3)
 #+F5:: MoveCurrentWindowToDesktop(4)
+#+tab:: MoveOrGoToLastOpenedDesktop()
+
 #Q:: GoToPrevDesktop()
 #W:: GoToNextDesktop()
-#+tab:: MoveOrGoToLastOpenedDesktop()
+

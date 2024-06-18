@@ -17,6 +17,7 @@ $HISTCONTROL = {'erasedups', 'ignorespace', 'ignoreerr'}
 $XONSH_AUTOPAIR = True
 
 # https://wiki.archlinux.org/title/Color_output_in_console#Using_less
+$INTENSIFY_COLORS_ON_WIN = False
 $MANPAGER="less -R --use-color -Dd+r -Du+b"
 $MANROFFOPT="-P -c"
 $LESS="-FRXM"
