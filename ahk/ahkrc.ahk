@@ -15,7 +15,3 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 
 TrayTip "ahkrc started!"
 
-
-; #Include "komorebic\komorebi.ahk"
-
-; XButton2::LButton

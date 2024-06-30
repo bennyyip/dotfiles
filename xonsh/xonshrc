@@ -13,7 +13,7 @@ source f'{$HOME}/dotfiles/xonsh/setting.xsh'
 
 source f'{$HOME}/dotfiles/xonsh/lib.py'
 
-source f'{$HOME}/dotfiles/xonsh/key.xsh'
+source f'{$HOME}/dotfiles/xonsh/key.py'
 
 imp = type('ImpCl', (object,), {'__getattr__':lambda self, name: __import__(name) })()
 

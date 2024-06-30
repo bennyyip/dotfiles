@@ -48,8 +48,7 @@ class Everything {
 +Enter:: Everything.OpenInVimOrTerminal
 +^Enter:: Everything.OpenParentInTerminal
 
-CapsLock & C::
-^C:: Everything.CopyParentPath
+CapsLock & C:: Everything.CopyParentPath
 
 ; Run
 !R:: Everything.searchExecutabe

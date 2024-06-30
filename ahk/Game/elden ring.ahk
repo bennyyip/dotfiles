@@ -14,6 +14,7 @@ farm() {
 }
 
 #MaxThreadsPerHotkey 3
+#HotIf WinActive(GAME_TITLE)
 F1::
 {
     static KeepRunning := false
@@ -24,11 +25,6 @@ F1::
     }
     KeepRunning := true
 
-    if not WinExist(GAME_TITLE) {
-        MsgBox("lauch game first")
-        return
-    }
-    WinActivate
     Sleep 1000
 
     loop {
@@ -39,27 +35,20 @@ F1::
     }
     KeepRunning := false
 }
+#HotIf
 #MaxThreadsPerHotkey 1
 
-^+F1::
+; zip
+F7::
 {
-    ExitApp
+    Send "{RButton down}"
+    Send "{LAlt Down}"
+    AccurateSleep 2195
+    Send "{w down}"
+    AccurateSleep 116
+    Send "{w up}"
+    AccurateSleep 300
+    Send "{LAlt Up}"
+    Send "{RButton up}"
 }
 
-F2::
-{
-    if not WinExist(GAME_TITLE) {
-        MsgBox("lauch game first")
-        return
-    }
-    WinKill GAME_TITLE
-    sleep 1000
-    ProcessClose "eldenring.exe"
-    sleep 1000
-    Run "C:\Program Files\PowerShell\7\pwsh.exe -NoLogo -NoProfile -File C:\Users\bennyyip\Desktop\er.ps1"
-}
-
-F3:: {
-    Run "C:\Program Files\PowerShell\7\pwsh.exe -NoLogo -NoProfile -File C:\Users\bennyyip\Desktop\er.ps1"
-
-}

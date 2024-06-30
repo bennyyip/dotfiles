@@ -8,8 +8,6 @@ from prompt_toolkit.key_binding.bindings.named_commands import get_by_name
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.selection import PasteMode
 
-$VI_MODE = True
-
 @events.on_ptk_create
 def custom_keybindings(bindings, **kw):
     handle = bindings.add
