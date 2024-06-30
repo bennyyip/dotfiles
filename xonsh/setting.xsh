@@ -9,12 +9,14 @@ $AUTO_CD = True
 # https://github.com/xonsh/xonsh/issues/4619
 os.environ["EDITOR"] = "vim"
 $EDITOR = "vim"
+$VI_MODE = True
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 $XONSH_HISTORY_SIZE = (2**20, 'commands')
 $XONSH_HISTORY_BACKEND = 'sqlite'
 $HISTCONTROL = {'erasedups', 'ignorespace', 'ignoreerr'}
 
 $XONSH_AUTOPAIR = True
+
 
 # https://wiki.archlinux.org/title/Color_output_in_console#Using_less
 $INTENSIFY_COLORS_ON_WIN = False

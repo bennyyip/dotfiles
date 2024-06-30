@@ -208,6 +208,8 @@ aliases |= {
     "ydcvd": ["ydcv", "-x", "-n", "-t", "2", ">/dev/null"],
     # "ytdl": ["yt-dlp", "--downloader", "aria2c"],
     "ytdl": ["yt-dlp"],
+    'ytdl-sub': ["ytdl", "--write-sub", "--write-auto-sub", "--skip-download", "--no-write-thumbnai", "--no-embed-thumbnail", '--convert-subs', 'vtt', "-P", "subtitle:subs", "-o", "subtitle:%(extractor)s-%(id)s.%(ext)s"],
+    'strip-vtt': ['rg', '-v', r'^((WEBVTT)|((\d\d:){1,2}\d\d.\d+ --> (\d\d:){1,2}\d\d.\d+))?$'],
 }
 # fmt:on
 
@@ -309,6 +311,7 @@ if ON_WINDOWS:
         explorer @(Path(args[0]).absolute())
 
     aliases['powershell'] = 'pwsh'
+    aliases['pwshn'] = ['pwsh', '-NoProfile', '-NoLogo']
     aliases['sudo'] = 'gsudo'
     aliases['vimdiff'] = ['vim', '-O', '+windo diffthis']
     aliases['gvimdiff'] = ['gvim', '-O', '+windo diffthis']
@@ -466,6 +469,25 @@ def __yazi_cd(args):
         os.remove(tmp)
 
 @unthreadable
+@aliases.register('yz')
+def __yazi_z(args):
+    yy @$(zoxide query @(args))
+
+@unthreadable
+@aliases.register('yzi')
+@aliases.register('yzf')
+def __yazi_zi(args):
+    yy @$(zoxide query -i @(args))
+
+
+@unthreadable
 @aliases.register('vr')
 def __gvim_remote(args):
     gvim --remote-silent-tab @(args)
+
+
+@unthreadable
+@aliases.register('view-sub')
+def __view_sub(args):
+    x = $(ytdl-sub @(args))
+    strip-vtt @(x.split('\n')[-2].split('"')[-2]) | bat

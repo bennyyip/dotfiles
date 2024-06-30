@@ -21,6 +21,7 @@ set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
 set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
 set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
 set searchurls.twitter https://twitter.com/search?q=
+set searchurls.bili https://search.bilibili.com/all?keyword=
 set searchurls.subhd https://subhd.tv/search/
 set smoothscroll true
 
