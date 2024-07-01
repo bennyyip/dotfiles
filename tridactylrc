@@ -60,12 +60,9 @@ bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
+bind gm composite js document.location.href | mpvsafe
 
-" https://github.com/akiirui/mpv-handler
-bind gm composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
-bind ;m hint -JFc a e => {const murl = "mpv://play/"+btoa(e.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, ""); console.log(murl); tri.excmds.open_quiet(murl);}
-composite js "mpv://play/"+btoa(document.location.href).replace(/\//g, "_").replace(/\+/g, "-").replace(/\=/g, "")  | open_quiet
-
+bind ;L composite js Array.from(document.querySelectorAll('a[href^=magnet]')).map(x=>x.href).join('\n') | clipboard yank
 bind ;l hint -Jyc a[href^=magnet]
 
 " TODO: c-w
@@ -151,6 +148,7 @@ autocmd DocLoad ^http(s?)://imgstar.eu/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://imgsto.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://silverpic.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?):/imgbaron.com/ hint -f Continue\ to\ image
+autocmd DocLoad ^https://www.ptt.cc/ hint -c div.over18-button-container:nth-child(2) > button:nth-child(1)
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank

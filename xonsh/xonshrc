@@ -1,4 +1,6 @@
-# PYTHON_VER=3.11 XONTRIBS='xontrib-zoxide xontrib-sh xontrib-prompt-starship xontrib-free-cwd xontrib-abbrevs rich httpx' /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
+# PYTHON_VER=3.11 XONTRIBS='xontrib-zoxide xontrib-sh xontrib-prompt-starship xontrib-free-cwd xontrib-abbrevs xontrib-spec-mod[dict,yaml] xontrib-bash-completions-dirs rich httpx' /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
+
+
 
 import os.path
 from os import path
@@ -27,6 +29,8 @@ def __install_xtrib():
         'xontrib-prompt-starship',
         'xontrib-free-cwd',
         'xontrib-abbrevs',
+        'xontrib-spec-mod[dict,yaml]'
+        'xontrib-bash-completions-dirs'
         'httpx',
         'rich'
     ]:
@@ -39,6 +43,11 @@ xontrib load sh
 xontrib load prompt_starship
 xontrib load free_cwd
 xontrib load abbrevs
+xontrib load spec_mod
+
+if ON_WINDOWS:
+    $BASH_COMPLETIONS_DIRS = ['~/dotfiles/xonsh/completions']
+    xontrib load bash_completions_dirs
 
 # aliases [[[1
 source f'{$HOME}/dotfiles/xonsh/alias.xsh'

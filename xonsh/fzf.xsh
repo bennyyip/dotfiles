@@ -83,8 +83,12 @@ def __cd_bookmark(args):
 
 
 @aliases.register('glook')
-def __glook():
-    p = $(ghq list -p | @(fzf_cmd)).strip()
+def __glook(args):
+    if args != []:
+        cmd = [fzf_cmd, "-e", "-1", "-q", args[0]]
+    else:
+        cmd = [fzf_cmd]
+    p = $(ghq list -p | @(cmd)).strip()
     if p != '':
         cd @(p)
 

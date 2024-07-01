@@ -255,7 +255,6 @@ def __add_magnet(
 aliases["add-magnet"] = ArgParserAlias(func=__add_magnet, has_args=True, threadable=False)
 
 
-
 def find_vcs_root(path=".", *args):
     p = Path(path).absolute()
     markers = [".git", ".svn", ".hg", ".root"]
@@ -471,13 +470,21 @@ def __yazi_cd(args):
 @unthreadable
 @aliases.register('yz')
 def __yazi_z(args):
-    yy @$(zoxide query @(args))
+    if args == []:
+        p = $(zoxide query -i)
+    else:
+        p = $(zoxide query @(args))
+    if p != '':
+        yazi @(p)
 
 @unthreadable
 @aliases.register('yzi')
 @aliases.register('yzf')
 def __yazi_zi(args):
-    yy @$(zoxide query -i @(args))
+    p = $(zoxide query -i @(args))
+    if p != '':
+        yazi @(p)
+
 
 
 @unthreadable
