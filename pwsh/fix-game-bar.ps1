@@ -8,3 +8,7 @@ reg add HKCR\ms-gamebarservices /f /ve /d URL:ms-gamebarservices
 reg add HKCR\ms-gamebarservices /f /v "URL Protocol" /d ""
 reg add HKCR\ms-gamebarservices /f /v "NoOpenWith" /d ""
 reg add HKCR\ms-gamebarservices\shell\open\command /f /ve /d "\`"$env:SystemRoot\System32\systray.exe\`""
+reg add HKCR\ms-gamingoverlay /f /ve /d URL:ms-gamingoverlay
+reg add HKCR\ms-gamingoverlay /f /v "URL Protocol" /d ""
+reg add HKCR\ms-gamingoverlay /f /v "NoOpenWith" /d ""
+reg add HKCR\ms-gamingoverlay\shell\open\command /f /ve /d "\`"$env:SystemRoot\System32\systray.exe\`""

@@ -82,10 +82,32 @@ def to_dota_id(steam_id):
     return steam_id - 76561197960265728
 
 
+
+
+def heidai(player_id):
+    try:
+        matches = httpx.get(f"https://api.stratz.com/api/v1/Player/{player_id}/summary?isParty=false&lobbyType=7", headers={'Authorization': f'Bearer {$STRATZ_TOKEN}'}).json()["oneMonth"]["matches"]
+        return matches
+    except:
+        return None
+
 @aliases.register("st")
 def __stratz(args):
+    open_in_browser = '-b' in args
     for player_id in args:
-        webbrowser.open(f'https://stratz.com/players/{player_id}')
+        if not player_id.isdigit():
+            continue
+        m = heidai(player_id)
+        if m is not None:
+            if m['matchCount'] > 0:
+                winrate = m['win'] / m['matchCount']
+            else:
+                winrate = 0
+            imp = m.get('imp')
+
+            print(f"{player_id} {m['matchCount']} {winrate:0.1%} {imp}")
+        if open_in_browser:
+            webbrowser.open(f'https://stratz.com/players/{player_id}')
 
 if ON_WINDOWS:
     import pytesseract
@@ -107,5 +129,5 @@ if ON_WINDOWS:
         img = ImageGrab.grab(bbox)
         ocr_result = pytesseract.image_to_string(img)
         try:
-            __stratz([re.search(r"\d\d\d\d\d+", ocr_result)[0]])
+            __stratz([re.search(r"\d\d\d\d\d+", ocr_result)[0]] + args)
         except: print('No valid player id.')
