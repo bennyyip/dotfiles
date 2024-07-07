@@ -335,12 +335,19 @@ def __extract_subtitle(
         input_file: str,
         output_file: str,
         lang: Annotated[Optional[str], Arg(nargs='?')] = 'eng',
+        dryrun: Annotated[Optional[bool], Arg("--dry-run", "-d")] = False,
         interative: Annotated[Optional[bool], Arg('--interative', '-i')] = False):
     if interative:
         s = $(ffprobe -hide_banner -i @(input_file)  2>&1 | grep Stream | grep Subtitle | fzf)
         s = re.search(r'#(\d:\d+)', s)[1]
+        if dryrun:
+            echo ffmpeg -hide_banner -i @(input_file)  -map  @(s) -vn -an @(output_file)
+            return
         ffmpeg -hide_banner -i @(input_file)  -map  @(s) -vn -an @(output_file)
     else:
+        if dryrun:
+            echo ffmpeg -hide_banner -i @(input_file)  -map  @(s) -vn -an @(output_file)
+            return
         ffmpeg -hide_banner -i @(input_file)  -map  f'0:m:language:{lang}' -vn -an @(output_file)
 
 aliases["extract-subtitle"] = ArgParserAlias(func=__extract_subtitle, has_args=True, threadable=False)

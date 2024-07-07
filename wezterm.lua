@@ -53,5 +53,10 @@ config.keys = {
 config.initial_cols = 130
 config.initial_rows = 40
 
+config.default_cursor_style = 'BlinkingBar'
+config.animation_fps = 60
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
+
 return config
 
