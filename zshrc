@@ -415,11 +415,11 @@ if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
 else
     source ~/.zsh/prompt.zsh
 fi
-# ensure blinking cursor
+# ensure cursor shape
 _fix_cursor() {
-   echo -ne '\e[5 q'
+   echo -ne '\e[6 q'
 }
-# precmd_functions+=(_fix_cursor)
+precmd_functions+=(_fix_cursor)
 # Plugin {{{1
 source ~/.zsh/plugins/git.zsh
 if [ $commands[fzf] ]; then
