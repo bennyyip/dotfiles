@@ -1,4 +1,6 @@
-# Functi ons
+# Functions
+# zmodload zsh/zprof
+
 source ~/.shell/functions.sh
 
 # Bootstrap
@@ -413,6 +415,11 @@ if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
 else
     source ~/.zsh/prompt.zsh
 fi
+# ensure blinking cursor
+_fix_cursor() {
+   echo -ne '\e[5 q'
+}
+# precmd_functions+=(_fix_cursor)
 # Plugin {{{1
 source ~/.zsh/plugins/git.zsh
 if [ $commands[fzf] ]; then
@@ -468,4 +475,6 @@ fi
 if [ -f ~/.shell_private ]; then
   source ~/.shell_private
 fi
+
+# zprof
 # vim:fdm=marker
