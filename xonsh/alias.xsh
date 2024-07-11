@@ -73,7 +73,7 @@ aliases |= {
     "btar": ["tar", "-Ilbzip3", "cjfv"],
     "clip": ["xsel", "-i", "-b"],
     "cower": ["cower", "--domain", "aur.tuna.tsinghua.edu.cn"],
-    "cp": ["cp", "-i", "--reflink=auto"],
+    "cp": ["cp", "--reflink=auto"],
     "diff-so-fancy": ["diff-so-fancy", "|", "less"],
     "e": ["emacsclient", "-nw"],
     "ec": ["emacsclient", "-c", "-n"],

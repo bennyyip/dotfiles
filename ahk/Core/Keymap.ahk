@@ -1,6 +1,7 @@
 #Include "%A_ScriptDir%\Keymap\Capslock.ahk"
 #Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
 #Include "%A_ScriptDir%\Keymap\Media.ahk"
+#Include "%A_ScriptDir%\Keymap\Vim.ahk"
 
 ; menu
 #z:: MyMenu.Show

@@ -9,6 +9,10 @@ set editorcmd gvim
 set theme quakelight
 set escapehatchsidebarhack false
 
+" set hintchars hjklasdfgyuiopqwertnmzxcvb
+" rihgt hand only
+set hintchars hjklyuiopnmgtb;[/
+
 
 " Search engines
 set searchengine duck
@@ -60,6 +64,7 @@ bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
+bind ;m hint -W mpvsafe
 bind gm composite js document.location.href | mpvsafe
 
 bind ;L composite js Array.from(document.querySelectorAll('a[href^=magnet]')).map(x=>x.href).join('\n') | clipboard yank
