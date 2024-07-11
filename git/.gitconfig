@@ -29,11 +29,12 @@
 #     prompt = false
 #     trustexitcode = false
 [merge]
-tool = splice
+    tool = splice
+    conflictstyle = diff3
 
 [mergetool "splice"]
-cmd = "gvim -f $BASE $LOCAL $REMOTE $MERGED -c 'Splice9Init'"
-trustExitCode = true
+    cmd = "gvim -f $BASE $LOCAL $REMOTE $MERGED -c 'Splice9Init'"
+    trustExitCode = true
 
 [alias]
     amm = commit -a --amend --no-edit
@@ -58,6 +59,7 @@ trustExitCode = true
     zip = ! "zip() { git archive --format zip --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; zip"
     tgz-submodule = ! "tgz() { git ls-files --recurse-submodules | tar caf ${1} --xform s:^:prog/: --verbatim-files-from -T-; }; tgz"
     root = rev-parse --show-toplevel
+    dft = difftool
 [pull]
     rebase = true
 [help]
@@ -72,7 +74,17 @@ trustExitCode = true
     algorithm = patience
     # https://blog.github.com/2018-04-05-git-217-released/
     colorMoved = plain
+    tool = difftastic
 
+
+[difftool]
+        prompt = false
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+        difftool = true
 
 [pager]
     # or not... # insanely beautiful diffs ==> npm install -g diff-so-fancy
@@ -93,9 +105,6 @@ trustExitCode = true
     file-style = bold yellow ul
     hunk-header-decoration-style = none
     commit-decoration-style = bold yellow box ul
-
-[merge]
-    conflictstyle = diff3
 
 [interactive]
     diffFilter = delta --color-only

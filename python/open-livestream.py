@@ -217,6 +217,7 @@ async def main():
             streamlink_cmd.extend(["--http-proxy", http_proxy])
         if "twitch" in url:
             streamlink_cmd.extend(["--twitch-disable-ads"])
+            args.no_danmu = True
 
         if "bilibili" in url:
             streamlink_cmd = ["mpv", "--no-resume-playback", url]
