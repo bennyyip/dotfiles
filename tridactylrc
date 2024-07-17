@@ -13,6 +13,9 @@ set escapehatchsidebarhack false
 " rihgt hand only
 set hintchars hjklyuiopnmgtb;[/
 
+set followpagepatterns.next ^(next|newer|prochain|下一頁|下一页)\b|»|>>
+set followpagepatterns.prev ^(prev(ious)?|older|précédent|上一頁|上一页)\b|«|<<
+
 
 " Search engines
 set searchengine duck
@@ -152,7 +155,8 @@ autocmd DocStart tenhou.net mode ignore
 autocmd DocLoad ^http(s?)://imgstar.eu/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://imgsto.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://silverpic.com/ hint -f Continue\ to\ image
-autocmd DocLoad ^http(s?):/imgbaron.com/ hint -f Continue\ to\ image
+autocmd DocLoad ^http(s?)://imgbaron.com/ hint -f Continue\ to\ image
+autocmd DocLoad ^http(s?)://pics4you.net/ hint -f Continue\ to\ image
 autocmd DocLoad ^https://www.ptt.cc/ hint -c div.over18-button-container:nth-child(2) > button:nth-child(1)
 
 " stratz and d2pt
