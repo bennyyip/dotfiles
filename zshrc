@@ -459,7 +459,6 @@ zbi() {
 
 source ~/.zsh/plugins/docker-alias.zsh
 
-path_append ~/.zsh/plugins/git-fuzzy/bin
 # Modeline {{{1
 # Allow local customizations in the ~/.shell.local_after file
 if [ -f ~/.shell.local_after ]; then
