@@ -13,8 +13,8 @@ set escapehatchsidebarhack false
 " rihgt hand only
 set hintchars hjklyuiopnmgtb;[/
 
-set followpagepatterns.next ^(next|newer|prochain|下一頁|下一页)\b|»|>>
-set followpagepatterns.prev ^(prev(ious)?|older|précédent|上一頁|上一页)\b|«|<<
+set followpagepatterns.next ^(next|newer|prochain)\b|»|>>|下一頁|下一页|后页
+set followpagepatterns.prev ^(prev(ious)?|older|précédent)\b|«|<<|上一頁|上一页|前页
 
 
 " Search engines
@@ -132,6 +132,8 @@ bindurl nyaa.si f hint -Jbqc tr > td:nth-child(2) > a:last-child
 " bindurl nyaa.si <c-x> hint -Jc .pagination  li:first-child
 
 
+bindurl https://nga.178.com/thread.php f hint -bc td.c2 > a.topic
+
 " Suspend / "discard" all tabs - handy for stretching out battery life
 command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.map(t=>t.id)))
 
@@ -143,6 +145,9 @@ quickmark b https://t.bilibili.com/
 quickmark d https://www.douyu.com/directory/watchHistory
 quickmark l https://liquipedia.net/dota2/Main_Page
 quickmark r https://miniflux.dllmpkw.xyz/
+
+unbindurl https://miniflux.dllmpkw.top/unread(\?offset=\d+)?$ j
+unbindurl https://miniflux.dllmpkw.top/unread(\?offset=\d+)?$ k
 
 " Avoid misclick in tenhou
 autocmd DocStart tenhou.net mode ignore

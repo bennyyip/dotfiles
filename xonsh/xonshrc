@@ -29,10 +29,10 @@ def __install_xtrib():
         'xontrib-prompt-starship',
         'xontrib-free-cwd',
         'xontrib-abbrevs',
-        'xontrib-spec-mod[dict,yaml]'
-        'xontrib-bash-completions-dirs'
+        'xontrib-spec-mod[dict,yaml]',
+        'xontrib-bash-completions-dirs',
         'httpx',
-        'rich'
+        'rich',
     ]:
         xpip install -U @(pkg)
 
