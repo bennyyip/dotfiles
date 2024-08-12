@@ -845,7 +845,7 @@ end
 function Menu:search_backspace(event, word_mode)
 	local pos, old_query = #self.current.search.query, self.current.search.query
 	local is_palette = self.current.search_style == 'palette'
-	if word_mode then
+	if word_mode and #old_query > 1 then
 		local word_pat, other_pat = '[^%c%s%p]+$', '[%c%s%p]+$'
 		local init_pat = old_query:sub(#old_query):match(word_pat) and word_pat or other_pat
 		-- First we match all same type consecutive chars at the end
@@ -1221,6 +1221,15 @@ function Menu:render()
 					opacity = highlight_opacity * menu_opacity,
 					clip = item_clip,
 				})
+
+				-- Selected item indicator line
+				if is_selected then
+					local size = round(2 * state.scale)
+					local v_padding = math.min(state.radius, math.ceil(self.item_height / 3))
+					ass:rect(ax + self.padding - size - 1, item_ay + v_padding, ax + self.padding - 1, item_by - v_padding, {
+						radius = 1, color = fg, opacity = menu_opacity, clip = item_clip,
+					})
+				end
 			end
 
 			-- Icon

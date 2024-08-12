@@ -7,13 +7,13 @@ local options = require 'mp.options'
 
 local o = {
 	--弹幕字体
-	fontname = mp.get_property('sub-font'),
+	fontname = "sans-serif",
 	--弹幕字体大小 
 	fontsize = "50",
 	--弹幕不透明度(0-1)
 	opacity = "0.95",
 	--滚动弹幕显示的持续时间 (秒)
-	duration_marquee = "10",
+	duration_marquee = "15",
 	--静止弹幕显示的持续时间 (秒)
 	duration_still = "5",
 	--保留底部多少高度的空白区域 (取值0.0-1.0)
@@ -103,10 +103,11 @@ local function assprocess()
 	end
 	if cid == nil then return end
 
-	-- get script directory 
+	-- get danmaku directory
+	local danmaku_dir = os.getenv("TEMP") or "/tmp/"
+	-- get script directory
 	local directory = mp.get_script_directory()
-	local danmaku_dir = utils.split_path(os.tmpname())
-	local py_path = ''..directory..'/Danmu2Ass.py'
+	local py_path = utils.join_path(directory, 'Danmu2Ass.py')
 
 	-- under windows platform, convert path format
 	if string.find(directory, "\\")
@@ -135,7 +136,6 @@ local function assprocess()
 	'-r',
 	cid,
 	}
-	-- local arg = { ''..directory..'\\Danmu2Ass.exe', '-d', directory, cid}
 	log('弹幕正在上膛')
 	-- run python to get comments
 	mp.command_native_async({
@@ -146,7 +146,7 @@ local function assprocess()
 	},function(res, val, err)
 		if err == nil
 		then
-			danmu_file = ''..danmaku_dir..'/bilibili.ass'
+			danmu_file = utils.join_path(danmaku_dir, 'bilibili.ass')
 			load_danmu(danmu_file)
 		else
 			log(err)

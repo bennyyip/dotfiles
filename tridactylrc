@@ -13,8 +13,8 @@ set escapehatchsidebarhack false
 " rihgt hand only
 set hintchars hjklyuiopnmgtb;[/
 
-set followpagepatterns.next ^(next|newer|prochain)\b|»|>>|下一頁|下一页|后页
-set followpagepatterns.prev ^(prev(ious)?|older|précédent)\b|«|<<|上一頁|上一页|前页
+set followpagepatterns.next ^(next|newer)\\b|»|>>|more|下一頁|下一页|后页
+set followpagepatterns.prev ^(prev(ious)?|older)\\b|«|<<|上一頁|上一页|前页
 
 
 " Search engines
