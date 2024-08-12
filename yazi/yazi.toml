@@ -2,15 +2,34 @@
 edit = [
   { run = '${EDITOR:=vim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
   { run = 'vim "%*"', desc = "$EDITOR", block = true, for = "windows" },
-  { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gvim remtoe", for = "windows" },
+  { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gVim Remote", for = "windows" },
 ]
 extract = [
-  { run = 'unar "$1"', desc = "Extract here", for = "unix" },
   { run = '7zfm "%1"', desc = "Open in 7zfm", orphan = true, for = "windows" },
-  { run = '7z x "%1"', desc = "Extract here", for = "windows" },
+  { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
+  { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
 ]
-play = [
-  { run = 'mpv "$@"', orphan = true, for = "unix" },
-  { run = 'mpv --force-window=immediate "%1"', orphan = true, for = "windows" },
-  { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+
+[open]
+rules = [
+  # M3U
+  { name = "*.m3u", use = ['play', 'edit', 'reveal'] },
+  # Folder
+  { name = "*/", use = ["edit", "open", "reveal"] },
+  # Text
+  { mime = "text/*", use = ["edit", "reveal"] },
+  # Image
+  { mime = "image/*", use = ["open", "reveal"] },
+  # Media
+  { mime = "{audio,video}/*", use = ["play", "reveal"] },
+  # Archive
+  { mime = "application/{,g}zip", use = ["extract", "reveal"] },
+  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = ["extract", "reveal"] },
+  # JSON
+  { mime = "application/{json,x-ndjson}", use = ["edit", "reveal"] },
+  { mime = "*/javascript", use = ["edit", "reveal"] },
+  # Empty file
+  { mime = "inode/x-empty", use = ["edit", "reveal"] },
+  # Fallback
+  { name = "*", use = ["open", "reveal"] },
 ]
