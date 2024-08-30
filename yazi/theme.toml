@@ -1,2 +1,10 @@
 [flavor]
-use = "catppuccin-mocha"
+# use = "catppuccin-mocha"
+use = "gruvbox-dark"
+
+# PDF codepoint from nerd font
+# [[icon.exts]]
+# name = "pdf"
+# text = ""
+# fg_dark = "#b30b00"
+# fg_light = "#b30b00"
