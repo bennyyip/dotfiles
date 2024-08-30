@@ -48,7 +48,7 @@ on = ["9"]
 run = "plugin relative-motions --args=9"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
-on = "l"
-run = "plugin --sync smart-enter"
-desc = "Enter the child directory, or open the file"
+# [[manager.prepend_keymap]]
+# on = "l"
+# run = "plugin --sync smart-enter"
+# desc = "Enter the child directory, or open the file"
