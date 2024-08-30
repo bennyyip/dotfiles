@@ -38,6 +38,7 @@
     ~/.tmux.conf:
     ~/.vim: vim
     ~/.xprofile: X/.xprofile
+    ~/.config/yazi: yazi
     ~/.zsh:
     ~/.zshrc:
     ~/.xonshrc: xonsh/xonshrc
