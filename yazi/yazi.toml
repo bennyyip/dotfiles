@@ -33,3 +33,8 @@ rules = [
   # Fallback
   { name = "*", use = ["open", "reveal"] },
 ]
+
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = "glow" },
+]

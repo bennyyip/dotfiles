@@ -1,4 +1,5 @@
 *~
+*.bak
 bin/
 /pwsh/Modules/
 pwsh/local_profile.psm1
@@ -6,3 +7,5 @@ ahk/ahkrc.exe
 doom/private/
 emacs/
 __pycache__
+yazi/flavors
+yazi/plugins
