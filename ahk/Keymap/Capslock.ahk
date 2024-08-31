@@ -37,6 +37,7 @@ CapsLock & [:: CapsWithMod("[", "^")
 CapsLock & ]:: CapsWithMod("]", "^")
 CapsLock & `:: CapsWithMod("``", "^")
 CapsLock & enter:: CapsWithMod("enter", "^")
+CapsLock & \:: LButton
 
 CapsLock & a:: CapsWithMod("a", "^")
 CapsLock & b:: CapsWithMod("b", "^")

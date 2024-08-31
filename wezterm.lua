@@ -27,7 +27,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- AlwaysPrompt|NeverPrompt
 config.window_close_confirmation = 'NeverPrompt'
 
-config.font = wezterm.font 'Sarasa Term CL Nerd'
+config.font = wezterm.font 'Sarasa Term CL Nerd Font'
 -- config.freetype_load_target = "Light"
 -- config.freetype_render_target = "HorizontalLcd"
 

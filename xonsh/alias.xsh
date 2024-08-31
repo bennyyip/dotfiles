@@ -505,3 +505,10 @@ def __gvim_remote(args):
 def __view_sub(args):
     x = $(ytdl-sub @(args))
     strip-vtt @(x.split('\n')[-2].split('"')[-2]) | bat
+
+@unthreadable
+@aliases.register('gbrowse')
+def __gbrowse(args):
+    remote = $(git remote get-url origin)
+    url = 'https://' + remote.split('@')[1].replace(':', '/')
+    webbrowser.open(url)
