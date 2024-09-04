@@ -19,6 +19,8 @@
     safecrlf = true
     quotepath = false
     excludesfile = ~/.gitignore_global
+    protectNTFS = false
+    longpaths = true
 [color]
     ui = true
 # [merge]

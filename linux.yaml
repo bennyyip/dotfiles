@@ -37,7 +37,7 @@
     ~/.ssh/config: ssh/config
     ~/.tmux.conf:
     ~/.vim: vim
-    ~/.xprofile: X/.xprofile
+    ~/.xprofile: xprofile
     ~/.config/yazi: yazi
     ~/.zsh:
     ~/.zshrc:

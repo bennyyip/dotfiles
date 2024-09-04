@@ -1,9 +1,13 @@
 [plugin]
 deps = [
-  { use = "yazi-rs/plugins:smart-filter", rev = "b659791" },
-  { use = "dedukun/relative-motions", rev = "73f5542" },
+  { use = "yazi-rs/plugins:smart-filter", rev = "0b9f325" },
+  { use = "dedukun/relative-motions", rev = "89d0cb9" },
   { use = "Reledia/glow", rev = "4e016fa" },
+  { use = "h-hg/yamb", rev = "0598b8d" },
 ]
 
 [flavor]
-deps = [{ use = "yazi-rs/flavors:catppuccin-mocha", rev = "2a95af8" }, { use = "dangooddd/kanagawa", rev = "b32f205" }, { use = "bennyyip/gruvbox-dark", rev = "0df4294" }]
+deps = [
+  { use = "bennyyip/gruvbox-dark", rev = "c204853" },
+]
+

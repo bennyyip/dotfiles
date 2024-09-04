@@ -9,3 +9,4 @@ emacs/
 __pycache__
 yazi/flavors
 yazi/plugins
+yazi/bookmark
