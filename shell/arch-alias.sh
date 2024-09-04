@@ -24,6 +24,10 @@ paclist() {
     awk 'BEGIN {FS=":"} /^Name/{printf("\033[1;36m%s\033[1;37m", $2)} /^Description/{print $2}'
 }
 
+G() {
+  git clone https://gitlab.archlinux.org/archlinux/packaging/packages/$1.git
+}
+
 # alias Ge="G packages core/extra"
 # alias Gc="G community community"
 #

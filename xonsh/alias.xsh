@@ -1,4 +1,5 @@
 import os
+import base64
 import time
 import shutil
 from pathlib import Path
@@ -29,6 +30,7 @@ if ON_LINUX:
         "Ss": ["pacman", "-Ss"],
         "pain": ["sudo", "pacman", "-S", "--needed"],
         "paiN": ["sudo", "pacman", "-S"],
+        "clip": ["xsel", "-i", "-b"],
     }
 
     @aliases.register("Syu")
@@ -71,7 +73,6 @@ aliases |= {
     "bc": ["bc", "-l"],
     "bpy": ["bpython"],
     "btar": ["tar", "-Ilbzip3", "cjfv"],
-    "clip": ["xsel", "-i", "-b"],
     "cower": ["cower", "--domain", "aur.tuna.tsinghua.edu.cn"],
     "cp": ["cp", "--reflink=auto"],
     "diff-so-fancy": ["diff-so-fancy", "|", "less"],
@@ -213,8 +214,9 @@ aliases |= {
 }
 # fmt:on
 
-aliases['rgg'] = f'bash {$HOME}/dotfiles/bin/rgg'
-aliases['agv'] = f'python {$HOME}/dotfiles/bin/agv'
+aliases['rgg'] = f'python {$HOME}/dotfiles/bin/rgg'
+aliases['agv'] = f'python {$HOME}/dotfiles/bin/rgv'
+aliases['rgv'] = f'python {$HOME}/dotfiles/bin/rgv'
 aliases['to-utf8'] = ["vim", "--clean", '+set nobomb | set fenc=utf8 | x']
 
 if shutil.which("diff-so-fancy") is not None:
@@ -227,7 +229,7 @@ else:
 
 if shutil.which("eza") is not None:
     aliases |= {
-      'l': 'eza',
+      'l': ['eza', '-al'],
       'la': ['eza', '--all'],
       'll': ['eza', '--long'],
       'laht': ['eza', '--all', '--long', '--sort=modified'],
@@ -512,3 +514,16 @@ def __gbrowse(args):
     remote = $(git remote get-url origin)
     url = 'https://' + remote.split('@')[1].replace(':', '/')
     webbrowser.open(url)
+
+if ON_WINDOWS:
+    @aliases.register('realpath')
+    def __realpath(args):
+        for p in args:
+            print(os.path.realpath(Path(p)))
+    @aliases.register('pwd')
+    def __pwd(args):
+        print(os.getcwd())
+
+@aliases.register('b64d')
+def __b64d(args):
+    print(base64.b64decode(args[0]).decode())

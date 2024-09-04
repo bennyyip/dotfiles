@@ -19,7 +19,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     config.default_prog = { 'xonsh' }
     config.font_size = 14.0
 else
-    config.font_size = 18.0
+    config.font_size = 24.0
 end
 
 config.hide_tab_bar_if_only_one_tab = true

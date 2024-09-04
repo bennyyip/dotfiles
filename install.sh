@@ -2,7 +2,11 @@
 
 set -e
 
-CONFIG="linux.yaml"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  CONFIG="linux.yaml"
+else
+  CONFIG="windows.yaml"
+fi
 DOTBOT_DIR="dotbot"
 
 DOTBOT_BIN="bin/dotbot"

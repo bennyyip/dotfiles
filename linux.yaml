@@ -12,14 +12,11 @@
 - link:
     ~/.config/:
       glob: true
-      path: config/.config/*
+      path: config/*
     ~/.bash:
     ~/.bashrc:
     ~/.bin:
     ~/.config/emacs: ~/.config/doomemacs
-    ~/.config/doom: doom
-    ~/.config/starship.toml: config/.config/starship.toml
-    ~/.config/starship_xonsh.toml: config/.config/starship_xonsh.toml
     # ~/.config/emacs: ~/emacs-next
     ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
     ~/.editrc:
@@ -37,8 +34,7 @@
     ~/.ssh/config: ssh/config
     ~/.tmux.conf:
     ~/.vim: vim
-    ~/.xprofile: X/.xprofile
-    ~/.config/yazi: yazi
+    ~/.xprofile: xprofile
     ~/.zsh:
     ~/.zshrc:
     ~/.xonshrc: xonsh/xonshrc

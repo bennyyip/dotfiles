@@ -1,0 +1,8 @@
+#tridactyl-reader > main {
+  font-family: 'Karmina', 'Valkyrie A', 'Chiron Sung HK';
+  font-size: 1.25rem;
+  max-width: min(90vw, 50rem);
+  width: 100% !important;
+  text-align: start;
+}
+

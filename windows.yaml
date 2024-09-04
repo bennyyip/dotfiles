@@ -2,7 +2,7 @@
     link:
       relink: true
 
-- clean: ['~']
+- clean: ['~', '~/.config']
 
 - create:
     - ~/bin
@@ -11,8 +11,8 @@
 
 - link:
     ~/.ssh/config: ssh/config
-    ~/.config/starship.toml: config/.config/starship.toml
-    ~/.config/starship_xonsh.toml: config/.config/starship_xonsh.toml
+    ~/.config/starship.toml: config/starship.toml
+    ~/.config/starship_xonsh.toml: config/starship_xonsh.toml
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global
     ~/.ipython/profile_default/ipython_config.py: ipython/ipython_config.py
@@ -32,8 +32,7 @@
       create: true
       path: alacritty-windows.yml
     ~/.xonshrc: xonsh/xonshrc
-    ~/AppData/Roaming/yazi/config: yazi
-
+    ~/AppData/Roaming/yazi/config: config/yazi
 # - shell:
 #     - [git submodule update --init --remote --recursive vim, Installing submodules]
 #     - [git submodule update --init --recursive, Installing submodules]

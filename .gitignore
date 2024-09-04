@@ -4,8 +4,11 @@ bin/
 /pwsh/Modules/
 pwsh/local_profile.psm1
 ahk/ahkrc.exe
-doom/private/
+ahk/local.ahk
 emacs/
 __pycache__
-yazi/flavors
-yazi/plugins
+
+config/doom/private/
+config/yazi/flavors
+config/yazi/plugins
+config/yazi/bookmark
