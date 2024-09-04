@@ -1,9 +1,0 @@
-[plugin]
-deps = [
-  { use = "yazi-rs/plugins:smart-filter", rev = "b659791" },
-  { use = "dedukun/relative-motions", rev = "73f5542" },
-  { use = "Reledia/glow", rev = "4e016fa" },
-]
-
-[flavor]
-deps = [{ use = "yazi-rs/flavors:catppuccin-mocha", rev = "2a95af8" }, { use = "dangooddd/kanagawa", rev = "b32f205" }, { use = "bennyyip/gruvbox-dark", rev = "0df4294" }]

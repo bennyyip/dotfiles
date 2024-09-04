@@ -182,6 +182,7 @@ async def main():
     else:
         streamlink_cmd = [
             "streamlink",
+            "--http-no-ssl-verify",
             "--retry-streams",
             "3",
             "--retry-max",

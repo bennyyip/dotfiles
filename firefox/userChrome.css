@@ -1,0 +1,28 @@
+/* Modified from https://github.com/christorange/VerticalFox/blob/9a63d489e864c65fcdc1b833831c78e0c2dfb2ae/windows/userChrome.css */
+
+/* Suppress Connecting/Waiting/Reading/Transerring */
+#statuspanel[type='status'] {
+  display: none !important;
+}
+
+/* Suppress Link Destination Overlay */
+/* #statuspanel[type='overLink'] { */
+/*   display: none !important; */
+/* } */
+
+/* require sidebar.verticalTabs */
+#sidebar-main {
+  display: none !important;
+}
+
+.titlebar-spacer {
+  display: none !important;
+}
+
+#sidebar-box {
+  padding: 0 !important;
+}
+
+#sidebar-button {
+  display: none;
+}

@@ -16,29 +16,13 @@ $git_status\
 $hg_branch\
 $docker_context\
 $package\
-$dotnet\
-$elixir\
-$elm\
-$erlang\
-$golang\
-$haskell\
-$java\
-$julia\
-$nodejs\
-$ocaml\
-$php\
-$purescript\
 $python\
-$ruby\
-$rust\
 $terraform\
-$zig\
 $nix_shell\
 $conda\
 $memory_usage\
 $aws\
 $env_var\
-$crystal\
 $cmd_duration\
 $line_break\
 $battery\
@@ -76,6 +60,9 @@ style = "fg:74"
 disabled = false
 format = '[$time]($style)'
 
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+
 [git_status]
 disabled = true
 
@@ -84,7 +71,8 @@ format = "[$duration]($style) "
 style = "yellow"
 
 [nodejs]
-format = '[$symbol]($style)'
+symbol = 'JS '
+format = '[$symbol($version )]($style)'
 
 [python]
 symbol = 'PY '

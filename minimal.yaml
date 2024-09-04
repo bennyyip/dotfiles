@@ -9,6 +9,7 @@
     - ~/.ipython/profile_default/startup
 
 - link:
+    ~/.config/starship.toml: config/.config/starship.toml
     ~/.bash:
     ~/.bashrc:
     ~/.bin:

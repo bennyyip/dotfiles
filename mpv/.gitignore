@@ -3,3 +3,4 @@ cache/
 watch_later
 mpvHistory.log
 scripts/test.lua
+script-opts/jellyfin.conf

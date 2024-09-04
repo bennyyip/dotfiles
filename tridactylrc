@@ -33,6 +33,7 @@ set searchurls.subhd https://subhd.tv/search/
 set smoothscroll true
 
 unbind <C-b>
+unbind gf
 
 " Comment toggler for Reddit, Hacker News and Lobste.rs
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
@@ -53,6 +54,7 @@ bind N findnext --search-from-view --reverse
 " bind gN composite findnext --search-from-view --reverse; findselect
 " bind gn findselect
 bind gN findselect
+bind I composite get_current_url | fillcmdline_notrail open
 
 " Tab
 bind J tabnext
@@ -67,7 +69,7 @@ bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
-bind ;m hint -W mpvsafe
+bind ;m hint -JW mpvsafe
 bind gm composite js document.location.href | mpvsafe
 
 bind ;L composite js Array.from(document.querySelectorAll('a[href^=magnet]')).map(x=>x.href).join('\n') | clipboard yank
@@ -80,7 +82,9 @@ bind ;l hint -Jyc a[href^=magnet]
 bind B fillcmdline bmarks -t
 
 " make t open the selection with tabopen
-bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen
+bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen; text.beginning_of_line; text.forward_word; ex.insert_space
+
+bind --mode=ex <C-a> text.beginning_of_line
 
 " Scroll
 bind d scrollpage 0.9
@@ -136,6 +140,8 @@ bindurl https://nga.178.com/thread.php f hint -bc td.c2 > a.topic
 
 " Suspend / "discard" all tabs - handy for stretching out battery life
 command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.map(t=>t.id)))
+command IDM js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('"C:\\Program Files (x86)\\Internet Download Manager\\IDMan.exe" /d ' + url))
+
 
 " go current tab
 " gn new tab

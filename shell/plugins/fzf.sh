@@ -54,13 +54,9 @@ fzf-vim-mru() {
   local file cmd mru_file
   cmd=${1:-vim}
 
-  if [ -f ~/.LfCache/python3/mru/mruCache ]; then
-    mru_file=~/.LfCache/python3/mru/mruCache
-  else
-    mru_file=~/.LfCache/python2/mru/mruCache
-  fi
+  mru_file=~/.cache/LeaderF/python3/mru/frecency
 
-  file=$(cat ${mru_file} | __fzf_run --prompt "$cmd> ")
+  file=$(cat ${mru_file} | awk '$1=""; $2=""; gsub (" ", "", $0);' | __fzf_run --tiebreak=end --prompt "$cmd> ")
   if [[ -n $file ]]; then
     ${cmd} $file
   else

@@ -40,7 +40,7 @@ $RIPGREP_CONFIG_PATH = f'{$HOME}/.ripgreprc'
 if ON_WINDOWS:
     $XONTRIB_SH_SHELLS = ['pwsh']
     $FORCE_POSIX_PATHS = True
-    $AGV_EDITOR='gvim --remote-silent-tab'
+    $RGV_EDITOR='gvim --remote-silent-tab "+call cursor($line, $col)" $file'
     $LANG = 'en_US.UTF-8'
     aliases['tldr'] = 'tealdeer-windows-x86_64-msvc'
     $null = "NUL"

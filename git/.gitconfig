@@ -19,6 +19,8 @@
     safecrlf = true
     quotepath = false
     excludesfile = ~/.gitignore_global
+    protectNTFS = false
+    longpaths = true
 [color]
     ui = true
 # [merge]
@@ -89,8 +91,8 @@
 [pager]
     # or not... # insanely beautiful diffs ==> npm install -g diff-so-fancy
     # https://github.com/dandavison/delta
-    diff = delta # diff-so-fancy | less --tabs=4 -RFX
-    show = delta # diff-so-fancy | less --tabs=4 -RFX
+    # diff = delta # diff-so-fancy | less --tabs=4 -RFX
+    # show = delta # diff-so-fancy | less --tabs=4 -RFX
 
 [delta]
     syntax-theme = gruvbox-dark
