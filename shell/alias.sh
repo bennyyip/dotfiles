@@ -66,10 +66,14 @@ imgvim() {
   curl -F "name=@$1" https://img.vim-cn.com/
 }
 
+if exists diff-so-fancy; then
 dsf() {
   # depends on diff-so-fancy
   git diff --patience --color=always $@ | diff-so-fancy | less --tab=4 -RFX
 }
+else
+  alias dsf='git diff'
+fi
 alias diff-so-fancy='diff-so-fancy | less'
 
 if exists ghq; then
