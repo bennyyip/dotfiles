@@ -8,6 +8,8 @@
     - ~/.ipython/profile_default/
     - ~/.ipython/profile_default/startup
     - ~/.local/share/fonts
+    - ~/.ssh
+    - ~/.config
 
 - link:
     ~/.config/:
