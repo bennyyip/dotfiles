@@ -1,8 +1,8 @@
 [plugin]
 deps = [
-  { use = "yazi-rs/plugins:smart-filter", rev = "0b9f325" },
-  { use = "dedukun/relative-motions", rev = "89d0cb9" },
-  { use = "Reledia/glow", rev = "4e016fa" },
+  { use = "yazi-rs/plugins:smart-filter", rev = "62f0789" },
+  { use = "dedukun/relative-motions", rev = "df97039" },
+  { use = "Reledia/glow", rev = "c2ed51e" },
   { use = "h-hg/yamb", rev = "108347b" },
 ]
 
