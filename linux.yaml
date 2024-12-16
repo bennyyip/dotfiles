@@ -16,9 +16,9 @@
     ~/.bash:
     ~/.bashrc:
     ~/.bin:
-    ~/.config/emacs: ~/.config/doomemacs
+    # ~/.config/emacs: ~/.config/doomemacs
     # ~/.config/emacs: ~/emacs-next
-    ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
+    # ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
     ~/.editrc:
     ~/.gitconfig: git/.gitconfig
     ~/.gitignore_global: git/.gitignore_global
