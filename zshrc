@@ -444,8 +444,6 @@ if [ $commands[zoxide] ]; then
   eval "$(zoxide init zsh)"
   export _ZO_RESOLVE_SYMLINKS=1
   alias zf=zi
-else
-  source ~/.zsh/plugins/z.lua.plugin.zsh
 fi
 
 zb() {
