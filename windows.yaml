@@ -28,9 +28,9 @@
     ~/Documents/WindowsPowerShell: pwsh
     ~/vimfiles: vim
     ~/mpv/portable_config: mpv
-    ~/AppData/Roaming/alacritty/alacritty.yml:
+    ~/AppData/Roaming/alacritty/alacritty.toml:
       create: true
-      path: alacritty-windows.yml
+      path: alacritty-windows.toml
     ~/.xonshrc: xonsh/xonshrc
     ~/AppData/Roaming/yazi/config: config/yazi
 # - shell:

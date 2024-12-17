@@ -1,6 +1,6 @@
 [flavor]
-use = "gruvbox-dark"
-# use = "kanagawa"
+# dark = "gruvbox-dark"
+dark = "kanagawa"
 
 # PDF codepoint from nerd font
 # [[icon.exts]]
