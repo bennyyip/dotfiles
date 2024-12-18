@@ -4,6 +4,7 @@ AUTOPAIR_INHIBIT_INIT=${AUTOPAIR_INHIBIT_INIT:-}
 AUTOPAIR_BETWEEN_WHITESPACE=${AUTOPAIR_BETWEEN_WHITESPACE:-}
 AUTOPAIR_SPC_WIDGET=${AUTOPAIR_SPC_WIDGET:-"$(bindkey " " | cut -c5-)"}
 AUTOPAIR_BKSPC_WIDGET=${AUTOPAIR_BKSPC_WIDGET:-"$(bindkey "^?" | cut -c6-)"}
+AUTOPAIR_DELWORD_WIDGET=${AUTOPAIR_DELWORD_WIDGET:-"$(bindkey "^w" | cut -c6-)"}
 
 typeset -gA AUTOPAIR_PAIRS
 AUTOPAIR_PAIRS=('`' '`' "'" "'" '"' '"' '{' '}' '[' ']' '(' ')' ' ' ' ')
@@ -29,11 +30,11 @@ AUTOPAIR_RBOUNDS+=(braces '')
 # Returns the other pair for $1 (a char), blank otherwise
 _ap-get-pair() {
     if [[ -n $1 ]]; then
-        echo $AUTOPAIR_PAIRS[$1]
+        echo ${AUTOPAIR_PAIRS[$1]}
     elif [[ -n $2 ]]; then
         local i
         for i in ${(@k)AUTOPAIR_PAIRS}; do
-            [[ $2 == $AUTOPAIR_PAIRS[$i] ]] && echo $i && break
+            [[ $2 == ${AUTOPAIR_PAIRS[$i]} ]] && echo $i && break
         done
     fi
 }
@@ -55,7 +56,7 @@ _ap-next-to-boundary-p() {
     groups+=$1
     local group
     for group in $groups; do
-        _ap-boundary-p $AUTOPAIR_LBOUNDS[$group] $AUTOPAIR_RBOUNDS[$group] && return 0
+        _ap-boundary-p ${AUTOPAIR_LBOUNDS[$group]} ${AUTOPAIR_RBOUNDS[$group]} && return 0
     done
     return 1
 }
@@ -133,7 +134,7 @@ _ap-can-skip-p() {
             return 1
         fi
     fi
-    if ! [[ -n $2 && $RBUFFER[1] == $2 && $LBUFFER[-1] != '\' ]]; then
+    if ! [[ -n $2 && ${RBUFFER[1]} == $2 && ${LBUFFER[-1]} != '\' ]]; then
         return 1
     fi
     return 0
@@ -141,9 +142,9 @@ _ap-can-skip-p() {
 
 # Return 0 if the adjacent character (on the right) can be safely deleted.
 _ap-can-delete-p() {
-    local lchar="$LBUFFER[-1]"
+    local lchar="${LBUFFER[-1]}"
     local rchar="$(_ap-get-pair $lchar)"
-    ! [[ -n $rchar && $RBUFFER[1] == $rchar ]] && return 1
+    ! [[ -n $rchar && ${RBUFFER[1]} == $rchar ]] && return 1
     if [[ $lchar == $rchar ]]; then
         if [[ $lchar == ' ' && ( $LBUFFER =~ "[^{([] +$" || $RBUFFER =~ "^ +[^]})]" ) ]]; then
             # Don't collapse spaces unless in delimiters
@@ -190,6 +191,11 @@ autopair-delete() {
     zle ${AUTOPAIR_BKSPC_WIDGET:-backward-delete-char}
 }
 
+autopair-delete-word() {
+    _ap-can-delete-p && RBUFFER=${RBUFFER:1}
+    zle ${AUTOPAIR_DELWORD_WIDGET:-backward-delete-word}
+}
+
 
 ### Initialization #####################
 
@@ -197,6 +203,7 @@ autopair-init() {
     zle -N autopair-insert
     zle -N autopair-close
     zle -N autopair-delete
+    zle -N autopair-delete-word
 
     local p
     for p in ${(@k)AUTOPAIR_PAIRS}; do
@@ -212,7 +219,9 @@ autopair-init() {
 
     bindkey "^?" autopair-delete
     bindkey "^h" autopair-delete
+    bindkey "^w" autopair-delete-word
     bindkey -M isearch "^?" backward-delete-char
     bindkey -M isearch "^h" backward-delete-char
+    bindkey -M isearch "^w" backward-delete-word
 }
 [[ -n $AUTOPAIR_INHIBIT_INIT ]] || autopair-init
