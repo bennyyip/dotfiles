@@ -18,8 +18,10 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     -- config.default_prog = { 'pwsh', '--nologo', '-Command', 'ssh arch' }
     config.default_prog = { 'xonsh' }
     config.font_size = 14.0
+    config.font = wezterm.font 'Sarasa Term CL Nerd Font'
 else
     config.font_size = 24.0
+    config.font = wezterm.font 'Source Code Pro'
 end
 
 config.hide_tab_bar_if_only_one_tab = true
@@ -27,7 +29,6 @@ config.hide_tab_bar_if_only_one_tab = true
 -- AlwaysPrompt|NeverPrompt
 config.window_close_confirmation = 'NeverPrompt'
 
-config.font = wezterm.font 'Sarasa Term CL Nerd Font'
 -- config.freetype_load_target = "Light"
 -- config.freetype_render_target = "HorizontalLcd"
 
