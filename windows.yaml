@@ -28,10 +28,9 @@
     ~/Documents/WindowsPowerShell: pwsh
     ~/vimfiles: vim
     ~/mpv/portable_config: mpv
-    ~/AppData/Roaming/alacritty/alacritty.toml:
-      create: true
-      path: alacritty-windows.toml
     ~/.xonshrc: xonsh/xonshrc
+
+    ~/AppData/Roaming/alacritty/: config/alacritty
     ~/AppData/Roaming/yazi/config: config/yazi
 # - shell:
 #     - [git submodule update --init --remote --recursive vim, Installing submodules]
