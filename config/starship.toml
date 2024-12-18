@@ -33,7 +33,8 @@ format = ' [$user]($style)'
 
 [localip]
 ssh_only = true
-format = '@[$localipv4](bold red)'
+format = '@[$localipv4]($style)'
+style = 'bold cyan'
 disabled = false
 
 # [hostname]
