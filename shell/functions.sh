@@ -8,7 +8,7 @@ path_append() {
 }
 
 path_prepend() {
-  path_remove "$1"
+  # path_remove "$1"
   PATH="$1${PATH:+":$PATH"}"
 }
 

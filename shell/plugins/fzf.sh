@@ -5,7 +5,8 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 __fzf_run() {
   if [[ $TERM_PROGRAM =~ 'tmux' ]]; then
-    fzf-tmux -p $*
+    # fzf-tmux -p $*
+    fzf --height $(__calc_height) $*
   elif [[ $0 =~ 'bash' ]]; then
     fzf --height 50 $*
   else
