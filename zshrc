@@ -50,6 +50,7 @@ fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
 autoload -Uz compinit
 compinit
 # 變量設置 {{{1
+export -U PATH
 # 图形终端下(包括ssh登录时)的设置{{{2
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
   export BROWSER=firefox
@@ -425,7 +426,8 @@ source ~/.zsh/plugins/git.zsh
 if [ $commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
     zle -N fzf-search-history
-    bindkey "\esr" fzf-search-history
+    bindkey "\esa" fzf-search-history
+    bindkey "\es\ea" fzf-search-history
     export _ZL_FZF=fzf
 fi
 source ~/.shell/plugins/commacd.sh
@@ -435,15 +437,34 @@ source ~/.zsh/plugins/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/plugins/autopair.zsh && autopair-init
 
-if [[ $IS_ARCH == 1 ]]; then
-    ZSH_AUTOSUGGEST_USE_ASYNC=1
-    FAST_HIGHLIGHT[use_async]=1
+# https://github.com/lilydjwg/atuin
+# https://blog.lilydjwg.me/2024/1/13/atuin.216770.html
+_plugin=${_zdir}/.zsh/plugins/atuin.zsh
+if (( $+commands[atuin] )) && [[ -f $_plugin ]]; then
+  . $_plugin
 fi
 
-if [ $commands[zoxide] ]; then
+# if [[ $IS_ARCH == 1 ]]; then
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+FAST_HIGHLIGHT[use_async]=1
+# fi
+
+if (( $+commands[zoxide] )) && [[ ! -f ~/.local/share/zoxide/db.zo || $(zstat +uid ~/.local/share/zoxide/db.zo) == $UID ]]; then
   eval "$(zoxide init zsh)"
+  function z () {
+    if [[ "$#" -eq 0 ]]; then
+      __zoxide_z ''
+    else
+      __zoxide_z "$@"
+    fi
+  }
   export _ZO_RESOLVE_SYMLINKS=1
   alias zf=zi
+fi
+# if zoxide loads but the directory is readonly, remove the chpwd hook
+if [[ ${chpwd_functions[(i)__zoxide_hook]} -le ${#chpwd_functions} && \
+  -d ~/.local/share/zoxide && ! -w ~/.local/share/zoxide ]]; then
+  chpwd_functions[(i)__zoxide_hook]=()
 fi
 
 zb() {
