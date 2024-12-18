@@ -89,6 +89,16 @@ shutdown() {
   fi
 }
 
+alias cmakeG='cmake -Bbuild -GNinja -DCMAKE_LINKER_TYPE=MOLD'
+cclsG() {
+  (
+    zb
+    cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+    ln -sf Debug/compile_commands.json .
+  )
+}
+alias ctestR='ctest --rerun-failed --output-on-failure'
+
 if exists pacman; then
   source ~/.shell/arch-alias.sh
 elif exists apt; then

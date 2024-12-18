@@ -423,6 +423,7 @@ _fix_cursor() {
 precmd_functions+=(_fix_cursor)
 # Plugin {{{1
 source ~/.zsh/plugins/git.zsh
+alias glg=glods
 if [ $commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
     zle -N fzf-search-history
