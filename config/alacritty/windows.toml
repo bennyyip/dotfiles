@@ -1,0 +1,6 @@
+[terminal.shell]
+args = ["--nologo"]
+program = "pwsh"
+
+[general]
+working_directory = '''C:\Users\bennyyip'''
