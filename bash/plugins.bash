@@ -1,3 +1,4 @@
+# shellcheck disable=SC1090
 if exists dircolors; then
   eval "$(dircolors ~/.shell/dir_colors)"
 fi

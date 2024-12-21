@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# osc52 - copy stdin or files to tmux using OSC 52
+#
+# This utility copies up to 74,994 bytes, from stdin or from files
+# specified on the command line, to the controlling tty using OSC 52
+# escape codes and base64 encoding. This allows terminals that support
+# OSC 52 to copy the data into the system clipboard.  The supporting
+# terminal must obviously (a) support OSC 52 and (b) have permission
+# to access the clipboard.
+#
+# This works under Mac OS X iTerm2 when you enable "Applications in
+# terminal may access clipboard."  It ought to work under Linux with
+# xterm, or with urxvt using an extension with support such as
+# https://github.com/parantapa/dotfiles/blob/master/urxvt-perl/52-osc.
+#
+# For the specification see the section Operating System Controls,
+# code 52, Manipulate Selection Data, in Xterm Control Sequences
+# (https://www.xfree86.org/current/ctlseqs.html).
+#
+# "Ps = 52 -> Manipulate Selection Data.  These controls may be
+# disabled using the allowWindowOps resource.  The parameter Pt is
+# parsed as [Pc ; Pd]. The first, Pc, may contain any character from
+# the set [c p s 0 1 2 3 4 5 6 7]. It is used to construct a list of
+# selection parameters for clipboard, primary, select, or cut buffers
+# 0 through 7 respectively, in the order given.  If the parameter is
+# empty, xterm uses s0 to specify the configurable primary/clipboard
+# selection and cut buffer 0.  The second parameter, Pd, gives the
+# selection data.  Normally this is a string encoded in base64.  The
+# data becomes the new selection, which is then available for pasting
+# by other applications.  If the second parameter is a ?, xterm
+# replies to the host with the selection data encoded using the same
+# protocol."
+
+# exit if any command fails
+set -e
+
+# complain about unset variables
+set -u
+
+# The maximum length of an OSC 52 escape sequence is 100,000 bytes,
+# including the 7-byte header "\033]52;c;", the 1-byte footer "\007",
+# and then the base64 encoded contents. Since base64 consumes 4 bytes
+# for every 3 bytes of input, we have a limit of 74,994 bytes for the
+# unencoded data.
+limit=74994 
+
+# tmux active pane tty
+TMUX_TTY=$(tmux list-panes -F "#{pane_active} #{pane_tty}" | awk '$1 == "1" { print $2; exit; }');
+
+# ssh tty or tmux active pane tty
+tty=${SSH_TTY:-$TMUX_TTY};
+
+# send stdin or file arguments via OSC 52 escape codes
+# (we use tr(1) to strip \r\n since Mac OS X base64(1)
+# doesn't support the -w0 parameter)
+printf "\033Ptmux;\033" > "${tty}";
+printf "\033]52;c;" > "${tty}";
+cat "$@" | dd bs=1 "count=$limit" if=/dev/stdin of=/dev/stdout 2>/dev/null | base64 | tr -d '\r\n' > "${tty}";
+printf "\a" > "${tty}";
+printf "\033\\" > "${tty}";

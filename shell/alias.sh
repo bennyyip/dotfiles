@@ -1,3 +1,4 @@
+# shellcheck disable=SC1090
 alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
 alias vi=vim
@@ -75,14 +76,14 @@ fi
 
 sshpath() {
   ipL=$(ip -o -4 addr | awk -F "inet |/" '!/127.0.0.1/ {print $2}' | sort -n | head -n 1)
-  echo "root@${ipL}:$(realpath -e $1)"
+  printf '"%s"\n' "$(whoami)@${ipL}:$(realpath -e "$1")"
 }
 
 alias cdtmp='cd `mktemp -d /tmp/benyip-XXXXXX`'
 
 shutdown() {
   echo -n 你确定要关机吗？
-  read i
+  read -r i
   if [[ $i == [Yy] ]]; then
     systemctl poweroff
     # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
@@ -104,3 +105,13 @@ if exists pacman; then
 elif exists apt; then
   source ~/.shell/debian-alias.sh
 fi
+
+# shellcheck disable=all
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
