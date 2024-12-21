@@ -1,0 +1,18 @@
+# vim:se ft=zsh:
+prefix-proxy() {
+    [[ -z $BUFFER ]] && zle up-history
+    [[ $BUFFER != proxychains\ * && $UID -ne 0 ]] && {
+      typeset -a bufs
+      bufs=(${(z)BUFFER})
+      while (( $+aliases[$bufs[1]] )); do
+        local expanded=(${(z)aliases[$bufs[1]]})
+        bufs[1,1]=($expanded)
+        if [[ $bufs[1] == $expanded[1] ]]; then
+          break
+        fi
+      done
+      bufs=(proxychains -q $bufs)
+      BUFFER=$bufs
+    }
+    zle end-of-line
+}
