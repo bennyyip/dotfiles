@@ -29,6 +29,8 @@
     ~/vimfiles: vim
     ~/mpv/portable_config: mpv
     ~/.xonshrc: xonsh/xonshrc
+    ~/bin/agv: bin/rgg
+    ~/bin/rgg: bin/rgg
 
     ~/AppData/Roaming/alacritty/: config/alacritty
     ~/AppData/Roaming/yazi/config: config/yazi

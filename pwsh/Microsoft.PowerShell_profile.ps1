@@ -1,14 +1,12 @@
 $scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
-$env:PAGER = 'less.exe'
+$env:PAGER = 'less.exe -RFXM'
 
 $env:EDITOR = "vim"
-$env:PATH = "$env:PYENV\shims" + "$env:PYENV\bin" + $env:PATH + ";C:\Program Files\starship\bin;$HOME/bin"
+$env:PATH =  $env:PATH + ";$HOME/bin"
 
 $env:AGV_EDITOR = 'gvim --remote-silent-tab'
 
 $proxy = "http://127.0.0.1:10809"
-
-$emacs_dir = "$env:APPDATA\.emacs.d"
 
 ###############################################################################
 
@@ -187,7 +185,6 @@ function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  
 
 # function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
 Set-Alias vr "gvim-remote.exe"
-function e { emacsclient -n ($args | foreach { (Convert-Path $_) -replace '\\', '/' }) }
 # function vr { gvim --remote-silent-tab ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
 
 function rmrf { Remove-Item -Recurse -Force $args }
@@ -226,11 +223,11 @@ function Open-Livestream {
 }
 
 function rgg {
-  bash $env:USERPROFILE\dotfiles\bin\rgg $args
+  python $env:USERPROFILE\bin\rgg $args
 }
 
 function agv {
-  python $env:USERPROFILE\dotfiles\bin\agv $args
+  python $env:USERPROFILE\bin\agv $args
 }
 
 function cdtmp {
@@ -238,4 +235,14 @@ function cdtmp {
     $name = 'benyip-' + $([System.IO.Path]::GetRandomFileName()).Split(".")[0]
     New-Item -ItemType Directory -Path (Join-Path $parent $name)
     cd (Join-Path $parent $name)
+}
+
+function y {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath $cwd
+    }
+    Remove-Item -Path $tmp
 }
