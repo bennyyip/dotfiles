@@ -1,4 +1,5 @@
 # Functions
+# shellcheck disable=SC1090
 source ~/.shell/functions.sh
 
 # Allow local customizations in the ~/.shell_local_before file
@@ -14,14 +15,20 @@ fi
 # Settings
 source ~/.bash/settings.bash
 
+# External settings
+source ~/.shell/external.sh
+
 # Bootstrap
 source ~/.shell/bootstrap.sh
 
+# If not running interactively, don't do anything
+case $- in
+*i*) ;;
+*) return ;;
+esac
+
 # Aliases
 source ~/.shell/alias.sh
-
-# External settings
-source ~/.shell/external.sh
 
 # Bash Functions
 source ~/.bash/functions.bash

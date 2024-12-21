@@ -4,3 +4,22 @@ program = "pwsh"
 
 [general]
 working_directory = '''C:\Users\bennyyip'''
+
+[font]
+size = 18
+
+[font.bold]
+family = "Sarasa Term CL Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "Sarasa Term CL Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "Sarasa Term CL Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "Sarasa Term CL Nerd Font"
+style = "Regular"
