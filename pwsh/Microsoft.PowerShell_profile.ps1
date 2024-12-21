@@ -12,32 +12,28 @@ $emacs_dir = "$env:APPDATA\.emacs.d"
 
 ###############################################################################
 
-if (Get-Command "starship.exe" -ErrorAction SilentlyContinue) {
+$use_starship = Get-Command "starship.exe" -ErrorAction SilentlyContinue
+$use_starship = $false
+if ($use_starship) {
   $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
+  function Invoke-Starship-TransientFunction {
+    &starship module character
+  }
+
   Invoke-Expression (&starship init powershell)
-  if (Get-Command "zoxide.exe" -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& { (zoxide init powershell | % {$_.replace("Set-Location", "Set-LocationEx")} | Out-String) })
-  }
-  else {
-    Invoke-Expression (& { (luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n" })
-    function zz { z -i $args }
-    function zc { z -c $args }
-    function zf { z -I $args }
-    function zbi { z -b -i $args }
-    function zbf { z -b -I $args }
-    function zh { z -I -t . $args }
-    function zzc { zz -c $args }
-  }
+
+  Enable-TransientPrompt
 }
 else {
   import-module $scriptDir\prompt.psm1
 
-  Invoke-Expression ($(luajit $scriptDir\Contrib\z.lua --init powershell) -join "`n")
-
   function prompt {
     gitFancyPrompt
-    _zlua --update
   }
+}
+
+if (Get-Command "zoxide.exe" -ErrorAction SilentlyContinue) {
+  Invoke-Expression (& { (zoxide init powershell | % {$_.replace("Set-Location", "Set-LocationEx")} | Out-String) })
 }
 
 function zb {
@@ -189,7 +185,8 @@ function gget { ghq get --no-recursive --shallow $args }
 function gget-full { ghq get $args }
 function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
 
-function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
+# function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
+Set-Alias vr "gvim-remote.exe"
 function e { emacsclient -n ($args | foreach { (Convert-Path $_) -replace '\\', '/' }) }
 # function vr { gvim --remote-silent-tab ($args | foreach  { (Convert-Path $_) -replace '\\', '/' }) }
 
@@ -207,42 +204,6 @@ function Enable-Proxy {
 function Disable-Proxy {
   $env:HTTP_PROXY = ""
   $env:HTTPS_PROXY = ""
-}
-
-function vimv {
-  $tempfile = New-TemporaryFile
-
-  $src = Get-ChildItem -name $args
-  Write-Output $src > $tempfile
-
-  vim $tempfile
-  if ($LASTEXITCODE -ne 0) {
-    Write-Output "WARN: Vim exit code $LASTEXITCODE. Aborting.."
-    return
-  }
-
-  $dst = Get-Content $tempfile
-  if ($src.Length -ne $dst.Length) {
-    Write-Output "WARN: Number of files changed. Did you delete a line by accident? Aborting.."
-    return
-  }
-
-  $count = 0
-  for ($i = 0; $i -lt $src.Length; $i++) {
-    if ($src[$i] -eq $dst[$i]) {
-      continue
-    }
-    $count ++
-    $p = Split-Path -Parent $dst[$i]
-    if ($p -ne "" ) {
-      Mkdir -Force $p | Out-Null
-    }
-    Move-Item $src[$i] $dst[$i]
-  }
-
-  Remove-Item $tempfile
-
-  Write-Output "$count files renamed."
 }
 
 function New-Symlink() {
@@ -264,43 +225,12 @@ function Open-Livestream {
   python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
 }
 
-function Torrent-MPV {
-  param(
-    [Parameter(Position = 0, Mandatory = $true)] [String] $uri
-  )
-  webtorrent.ps1 download --mpv $uri
-}
-
 function rgg {
   bash $env:USERPROFILE\dotfiles\bin\rgg $args
 }
 
-
 function agv {
   python $env:USERPROFILE\dotfiles\bin\agv $args
-}
-
-function doom {
-  Enable-Proxy
-
-  $doom_dir = "$env:APPDATA\.doom.d"
-  $env:__DOOMSTEP = 0
-
-  $rest = $args[1..$args.length]
-
-  if ($args[0] -eq 'run') {
-    $p = Get-Process -Name emacs -ErrorAction SilentlyContinue
-    if ($p) {
-      $wshell = New-Object -ComObject wscript.shell
-      $wshell.AppActivate($p.MainWindowTitle) | Out-Null
-    }
-    else {
-      runemacs
-    }
-  }
-  else {
-    emacs --quick --script "$emacs_dir\bin\doom" -- $args
-  }
 }
 
 function cdtmp {
@@ -309,4 +239,3 @@ function cdtmp {
     New-Item -ItemType Directory -Path (Join-Path $parent $name)
     cd (Join-Path $parent $name)
 }
-
