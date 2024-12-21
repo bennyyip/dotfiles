@@ -2,10 +2,9 @@
 import = [
   "windows.toml",
   # "kanagawa.toml"
-  "gruvbox.toml"
+  "gruvbox.toml",
 ]
 live_config_reload = true
-
 
 [cursor.style]
 shape = "Beam"
@@ -16,5 +15,11 @@ history = 100000
 [window]
 startup_mode = "Maximized"
 # opacity = 0.1
+
+[mouse]
+bindings = [
+  # { mouse = "Back", chars = "H" },
+  # { mouse = "Forward", chars = "L"},
+]
 
 [terminal]
