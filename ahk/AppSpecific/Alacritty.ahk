@@ -8,4 +8,7 @@
     Sleep 1000
     A_Clipboard := ClipboardBackup
 }
+
+XButton1::Send "{H}"
+XButton2::Send "{L}"
 #HotIf

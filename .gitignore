@@ -3,6 +3,7 @@
 bin/
 /pwsh/Modules/
 pwsh/local_profile.psm1
+pwsh/Help
 ahk/ahkrc.exe
 ahk/local.ahk
 emacs/
