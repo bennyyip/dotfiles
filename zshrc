@@ -225,7 +225,10 @@ zstyle ':completion:*:*:timidity:*' file-patterns '*.mid'
 # 命令行编辑{{{1
 bindkey -e
 
-# ^Xe 用$EDITOR编辑命令
+# maybe autoload zkbd
+bindkey  "^[[3~"  delete-char
+
+# ^X^e 用$EDITOR编辑命令
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
@@ -233,27 +236,30 @@ bindkey '^X^E' edit-command-line
 zle -C complete-file menu-expand-or-complete _generic
 zstyle ':completion:complete-file:*' completer _files
 
-# https://zhimingwang.org/blog/2015-09-21-zsh-51-and-bracketed-paste.html
+# https://archive.zhimingwang.org/blog/2015-09-21-zsh-51-and-bracketed-paste.html
 autoload -Uz bracketed-paste-url-magic
 zle -N bracketed-paste bracketed-paste-url-magic
 
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
-toggle-uqm () {
-if zle -l self-insert; then
-  zle -A .self-insert self-insert && zle -M "switched to self-insert"
-else
-  zle -N self-insert url-quote-magic && zle -M "switched to url-quote-magic"
+# zsh 5.1+ uses bracketed-paste-url-magic
+if [[ $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-9]' ]]; then
+  autoload -Uz url-quote-magic
+  zle -N self-insert url-quote-magic
+  toggle-uqm () {
+    if zle -l self-insert; then
+      zle -A .self-insert self-insert && zle -M "switched to self-insert"
+    else
+      zle -N self-insert url-quote-magic && zle -M "switched to url-quote-magic"
+    fi
+  }
+  zle -N toggle-uqm
+  bindkey '^X$' toggle-uqm
 fi
-}
-zle -N toggle-uqm
-bindkey '^X$' toggle-uqm
 
 # better than copy-prev-word
 bindkey "^[^_" copy-prev-shell-word
 
 insert-last-word-r () {
-zle insert-last-word -- 1
+  zle insert-last-word -- 1
 }
 zle -N insert-last-word-r
 bindkey "\e_" insert-last-word-r
@@ -264,8 +270,14 @@ autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 bindkey '\e=' copy-earlier-word
 
+# C-x p 在当前/上一条命令前插入 proxychains -q
+autoload -Uz prefix-proxy
+zle -N prefix-proxy
+bindkey "^Xp" prefix-proxy
+
 zmodload zsh/complist
 bindkey -M menuselect '^O' accept-and-infer-next-history
+bindkey "^Xo" accept-and-infer-next-history
 
 bindkey "^X^I" complete-file
 bindkey "^X^f" complete-file
@@ -275,34 +287,41 @@ bindkey "\e]" vi-find-prev-char
 bindkey "\eq" push-line-or-edit
 bindkey -s "\e[Z" "^P"
 bindkey '^Xa' _expand_alias
-bindkey '^[/' _history-complete-older
+# bindkey '^[/' _history-complete-older
 bindkey '\e ' set-mark-command
+bindkey '^[w' kill-region
 # 用单引号引起最后一个单词
 bindkey -s "^['" "^[] ^f^@^e^[\""
-
+# 打开 zsh 的PDF格式文档
+# bindkey -s "^X^D" "evince /usr/share/doc/zsh/zsh.pdf &^M"
 bindkey -s "^Xc" "tmux attach -d^M"
 
 bindkey '^[p' up-line-or-search
 bindkey '^[n' down-line-or-search
+# jump to a position in a command line {{{2
+# https://github.com/scfrazer/zsh-jump-target
+autoload -Uz jump-target
+zle -N jump-target
+bindkey "\ej" jump-target
 
 # restoring an aborted command-line {{{2
 # unsupported with 4.3.17
 if zle -la split-undo; then
   zle-line-init () {
-  if [[ -n $ZLE_LINE_ABORTED ]]; then
-    _last_aborted_line=$ZLE_LINE_ABORTED
-  fi
-  if [[ -n $_last_aborted_line ]]; then
-    local savebuf="$BUFFER" savecur="$CURSOR"
-    BUFFER="$_last_aborted_line"
-    CURSOR="$#BUFFER"
-    zle split-undo
-    BUFFER="$savebuf" CURSOR="$savecur"
-  fi
-}
-zle -N zle-line-init
-zle-line-finish() {
-unset _last_aborted_line
+    if [[ -n $ZLE_LINE_ABORTED ]]; then
+      _last_aborted_line=$ZLE_LINE_ABORTED
+    fi
+    if [[ -n $_last_aborted_line ]]; then
+      local savebuf="$BUFFER" savecur="$CURSOR"
+      BUFFER="$_last_aborted_line"
+      CURSOR="$#BUFFER"
+      zle split-undo
+      BUFFER="$savebuf" CURSOR="$savecur"
+    fi
+  }
+  zle -N zle-line-init
+  zle-line-finish() {
+    unset _last_aborted_line
   }
   zle -N zle-line-finish
 fi
@@ -315,9 +334,9 @@ zsh-word-movement () {
   local f
 
   word_functions=(backward-kill-word backward-word
-  capitalize-word down-case-word
-  forward-word kill-word
-  transpose-words up-case-word)
+    capitalize-word down-case-word
+    forward-word kill-word
+    transpose-words up-case-word)
 
   if ! zle -l $word_functions[1]; then
     for f in $word_functions; do
@@ -333,28 +352,7 @@ unfunction zsh-word-movement
 bindkey "\eB" zsh-backward-word
 bindkey "\eF" zsh-forward-word
 bindkey "\eW" zsh-backward-kill-word
-
-# C-x p 在当前/上一条命令前插入 proxychains -q {{{2
-prefix-proxy() {
-    [[ -z $BUFFER ]] && zle up-history
-    [[ $BUFFER != proxychains\ * && $UID -ne 0 ]] && {
-      typeset -a bufs
-      bufs=(${(z)BUFFER})
-      while (( $+aliases[$bufs[1]] )); do
-        local expanded=(${(z)aliases[$bufs[1]]})
-        bufs[1,1]=($expanded)
-        if [[ $bufs[1] == $expanded[1] ]]; then
-          break
-        fi
-      done
-      bufs=(proxychains -q $bufs)
-      BUFFER=$bufs
-    }
-    zle end-of-line
-}
-zle -N prefix-proxy
-bindkey "^Xp" prefix-proxy
-
+bindkey "\eD" zsh-kill-word
 # Esc-Esc 在当前/上一条命令前插入 sudo {{{2
 sudo-command-line() {
     [[ -z $BUFFER ]] && zle up-history
@@ -375,6 +373,13 @@ sudo-command-line() {
 }
 zle -N sudo-command-line
 bindkey "\e\e" sudo-command-line
+# 插入当前的所有补全 https://www.zsh.org/mla/workers/2020/msg01232.html {{{2
+zstyle ':completion:all-matches::::' completer _all_matches _complete
+zstyle ':completion:all-matches:*' old-matches true
+zstyle ':completion:all-matches:*' insert true
+zstyle ':completion:all-matches:*' file-patterns '%p:globbed-files' '*(-/):directories' '*:all-files'
+zle -C all-matches complete-word _generic
+bindkey '^Xi' all-matches
 # 函數 {{{1
 autoload zargs
 autoload zmv
