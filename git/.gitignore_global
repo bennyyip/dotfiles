@@ -33,3 +33,13 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+.ccls-cache/
+.ccls
+compile_commands.json
+
+tags
+tags.lock
+tags.temp
+
+.project.vim

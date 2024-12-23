@@ -18,6 +18,7 @@
     ~/.bash:
     ~/.bashrc:
     ~/.bin:
+    ~/.bin/agv: bin/rgg
     # ~/.config/emacs: ~/.config/doomemacs
     # ~/.config/emacs: ~/emacs-next
     # ~/.config/systemd/user/emacs.service.d/override.conf: emacs.service.conf
