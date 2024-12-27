@@ -24,7 +24,6 @@ if ($use_starship) {
 }
 else {
   import-module $scriptDir\prompt.psm1
-
   function prompt {
     gitFancyPrompt
   }
@@ -56,10 +55,10 @@ function zbi {
 Import-Module PSReadLine
 Set-PSReadLineOption -EditMode vi
 
-Set-PSReadLineOption -HistoryNoDuplicates
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
 Set-PSReadLineOption -MaximumHistoryCount 4000
+Set-PSReadLineOption -HistoryNoDuplicates
 # history substring search
 Set-PSReadlineKeyHandler -Key   UpArrow         -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key   DownArrow       -Function HistorySearchForward
@@ -85,10 +84,11 @@ Set-PSReadLineKeyHandler -Key   Ctrl+w          -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Chord 'Ctrl+x,Ctrl+e' -Function ViEditVisually
 Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 
-Set-PSReadlineKeyHandler -Chord 'Ctrl+V' -ScriptBlock {
+Set-PSReadlineKeyHandler -Chord 'Ctrl+v' -ScriptBlock {
   $clipboard = Get-Clipboard -Raw
   if ($clipboard -match '^\s*(http|ftp|magnet)' -or `
-    (Test-Path $clipboard.Trim()) ) {
+    ($clipboard.trim().StartsWith("C:\"))) {
+    echo 1
     $clipboard = $clipboard.Trim()
     $clipboard = "`"${clipboard}`""
   }
@@ -132,7 +132,13 @@ if (Get-Command "fzf.exe" -ErrorAction SilentlyContinue) {
 
 ###############################################################################
 
-If (-Not (Test-Path Variable:PSise)) {
+If (Get-Command "eza.exe" -ErrorAction SilentlyContinue) {
+  function ls { eza }
+  function l { eza -al $args }
+  function la { eza --all $args }
+  function ll { eza --long $args }
+  function laht { eza --all --long --sort=modified $args }
+} ElseIf (-Not (Test-Path Variable:PSise)) {
   # Only run this in the console and not in the ISE
   Import-Module Get-ChildItemColor
 
@@ -156,7 +162,10 @@ remove-item Alias:gp -force -ErrorAction SilentlyContinue
 remove-item Alias:gcm -force -ErrorAction SilentlyContinue
 remove-item Alias:diff -force -ErrorAction SilentlyContinue
 
-Set-Alias which Get-Command
+
+function which($name) {
+    Get-Command $name | Select-Object -ExpandProperty Definition
+}
 Set-Alias realpath Convert-Path
 
 
@@ -218,9 +227,11 @@ function sshcopyid {
   Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | ssh $remote "cat >> .ssh/authorized_keys"
 }
 
+
 function Open-Livestream {
   python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
 }
+Set-Alias ols Open-Livestream
 
 function rgg {
   python $env:USERPROFILE\bin\rgg $args
@@ -246,3 +257,33 @@ function y {
     }
     Remove-Item -Path $tmp
 }
+
+function Remove-HistoryDuplicates {
+  $HASH = @{}
+  $newhistory = ""
+  Get-Content (Get-PSReadlineOption).HistorySavePath | ` 
+    ForEach-Object {
+      if ( $HASH.$_ -eq $null ) { $newhistory+=$_ }
+      $HASH.$_ = 1 } > $env:TMP\PowerShell-History
+  Copy-Item $env:TMP\PowerShell-History (Get-PSReadlineOption).HistorySavePath
+}
+
+function Set-Brightness {
+    param (
+        [Parameter(Position = 0, Mandatory = $false)] [int] $n
+    )
+    # https://github.com/newAM/monitorcontrol/
+    monitorcontrol --set-luminance $n
+}
+
+
+function Syu {
+  gsudo winget upgrade --all --verbose
+}
+
+function Start-Shizuku {
+  adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
+}
+
+Set-Alias ytdl yt-dlp.exe
+

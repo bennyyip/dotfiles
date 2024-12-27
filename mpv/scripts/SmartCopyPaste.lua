@@ -484,6 +484,7 @@ function copy_specific(action)
 		end
 		if action == 'path&timestamp' then
 			local pre_attribute, after_attribute = get_specific_attribute(filePath)
+                        -- if videio is in obsidian vault, strip the root path
                         filePath = filePath:gsub("C:\\Users\\bennyyip\\Obsidian%-Vault/", '')
 			local video_time = mp.get_property_number('time-pos')
 			if o.osd_messages == true then

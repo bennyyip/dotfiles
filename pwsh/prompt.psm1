@@ -83,7 +83,7 @@ function local:moveCursor {
 
 function local:reservePromptSpace {
     $startposx = $Host.UI.RawUI.CursorPosition.X
-    Write-Host "`n"
+    # Write-Host "`n"
     $startposy = $Host.UI.RawUI.CursorPosition.Y
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates $startposx, ($startposy - 1)
 }
@@ -264,6 +264,8 @@ function local:pathPrompt {
 }
 
 function gitFancyPrompt {
+    # HACK: reset cursor shape
+    Write-Host "`e[5 q"
 
     $realCommandStatus = $?
     $realLASTEXITCODE = $LASTEXITCODE
@@ -303,7 +305,7 @@ function gitFancyPrompt {
     rightPrompt
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates $startposx, $startposy
-   	if ((get-host).Name -eq "ConsoleHost") {
+    if ((get-host).Name -eq "ConsoleHost") {
         if ($realCommandStatus) {
           Write-Host "$Purple$promptLeader$ResetColor" -NoNewLine
         }
