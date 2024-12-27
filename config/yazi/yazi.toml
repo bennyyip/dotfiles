@@ -1,79 +1,80 @@
-# [manager]
+[manager]
+linemode = "size_and_mtime"
 # show_hidden = true
 
-# [opener]
-# edit = [
-  # { run = '${EDITOR:=vim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
-  # { run = 'vim "%*"', desc = "$EDITOR", block = true, for = "windows" },
-  # { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gVim Remote", for = "windows" },
-# ]
-# extract = [
-  # { run = '7zfm "%1"', desc = "Open in 7zfm", orphan = true, for = "windows" },
-  # { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
-  # { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
-# ]
+[opener]
+edit = [
+  { run = '${EDITOR:=vim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+  { run = 'vim "%*"', desc = "$EDITOR", block = true, for = "windows" },
+  { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gVim Remote", for = "windows" },
+]
+extract = [
+  { run = '7zfm "%1"', desc = "Open in 7zfm", orphan = true, for = "windows" },
+  { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
+  { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
+]
 
-# [open]
-# rules = [
-  # # M3U
-  # { name = "*.m3u", use = ['play', 'edit', 'reveal'] },
-  # # Folder
-  # { name = "*/", use = ["edit", "open", "reveal"] },
-  # # Text
-  # { mime = "text/*", use = ["edit", "reveal"] },
-  # # Image
-  # { mime = "image/*", use = ["open", "reveal"] },
-  # # Media
-  # { mime = "{audio,video}/*", use = ["play", "reveal"] },
-  # # Archive
-  # { mime = "application/{,g}zip", use = ["extract", "reveal"] },
-  # { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = ["extract", "reveal"] },
-  # # JSON
-  # { mime = "application/{json,x-ndjson}", use = ["edit", "reveal"] },
-  # { mime = "*/javascript", use = ["edit", "reveal"] },
-  # # Empty file
-  # { mime = "inode/x-empty", use = ["edit", "reveal"] },
-  # # Fallback
-  # { name = "*", use = ["open", "reveal"] },
-# ]
+[open]
+rules = [
+  # M3U
+  { name = "*.m3u", use = ['play', 'edit', 'reveal'] },
+  # Folder
+  { name = "*/", use = ["edit", "open", "reveal"] },
+  # Text
+  { mime = "text/*", use = ["edit", "reveal"] },
+  # Image
+  { mime = "image/*", use = ["open", "reveal"] },
+  # Media
+  { mime = "{audio,video}/*", use = ["play", "reveal"] },
+  # Archive
+  { mime = "application/{,g}zip", use = ["extract", "reveal"] },
+  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = ["extract", "reveal"] },
+  # JSON
+  { mime = "application/{json,x-ndjson}", use = ["edit", "reveal"] },
+  { mime = "*/javascript", use = ["edit", "reveal"] },
+  # Empty file
+  { mime = "inode/x-empty", use = ["edit", "reveal"] },
+  # Fallback
+  { name = "*", use = ["open", "reveal"] },
+]
 
-# [plugin]
-# prepend_previewers = [
-  # { name = "*.md", run = "glow" },
-# ]
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = "glow" },
+]
 
-# preloaders = [
-	# # Image
-	# # { mime = "image/{heic,jxl,svg+xml}", run = "magick" },
-	# # { mime = "image/*", run = "image" },
-	# # Video
-	# # { mime = "video/*", run = "video" },
-	# # PDF
-	# { mime = "application/pdf", run = "pdf" },
-	# # Font
-	# { mime = "font/*", run = "font" },
-	# { mime = "application/vnd.ms-opentype", run = "font" },
-# ]
-# previewers = [
-	# { name = "*/", run = "folder", sync = true },
-	# # Code
-	# { mime = "text/*", run = "code" },
-	# { mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
-	# # JSON
-	# { mime = "application/json", run = "json" },
-	# # Image
-	# # { mime = "image/{heic,jxl,svg+xml}", run = "magick" },
-	# # { mime = "image/*", run = "image" },
-	# # Video
-	# # { mime = "video/*", run = "video" },
-	# # PDF
-	# { mime = "application/pdf", run = "pdf" },
-	# # Archive
-	# { mime = "application/{,g}zip", run = "archive" },
-	# { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
-	# # Font
-	# { mime = "font/*", run = "font" },
-	# { mime = "application/vnd.ms-opentype", run = "font" },
-	# # Fallback
-	# { name = "*", run = "file" },
-# ]
+preloaders = [
+	# Image
+	# { mime = "image/{heic,jxl,svg+xml}", run = "magick" },
+	# { mime = "image/*", run = "image" },
+	# Video
+	# { mime = "video/*", run = "video" },
+	# PDF
+	{ mime = "application/pdf", run = "pdf" },
+	# Font
+	{ mime = "font/*", run = "font" },
+	{ mime = "application/vnd.ms-opentype", run = "font" },
+]
+previewers = [
+	{ name = "*/", run = "folder", sync = true },
+	# Code
+	{ mime = "text/*", run = "code" },
+	{ mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
+	# JSON
+	{ mime = "application/json", run = "json" },
+	# Image
+	# { mime = "image/{heic,jxl,svg+xml}", run = "magick" },
+	# { mime = "image/*", run = "image" },
+	# Video
+	# { mime = "video/*", run = "video" },
+	# PDF
+	{ mime = "application/pdf", run = "pdf" },
+	# Archive
+	{ mime = "application/{,g}zip", run = "archive" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
+	# Font
+	{ mime = "font/*", run = "font" },
+	{ mime = "application/vnd.ms-opentype", run = "font" },
+	# Fallback
+	{ name = "*", run = "file" },
+]
