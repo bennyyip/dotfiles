@@ -18,8 +18,16 @@ startup_mode = "Maximized"
 
 [mouse]
 bindings = [
+
+
   # { mouse = "Back", chars = "H" },
   # { mouse = "Forward", chars = "L"},
+]
+
+[keyboard]
+bindings = [
+  # { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+  { key = "T", mods = "Control|Shift", action = "CreateNewTab" },
 ]
 
 [terminal]

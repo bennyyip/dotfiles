@@ -8,7 +8,6 @@ from pathlib import Path
 
 audio_suffices = [".mp3", ".flac", ".m4a", ".aac"]
 
-
 @dataclass
 class Track:
     artist: str
@@ -27,7 +26,7 @@ def ffmpeg_escape(s):
 
 
 def format_time(t: float):
-    return f"{int(t/60):02d}:{int(t%60):02d}"
+    return f"{int(t / 60):02d}:{int(t % 60):02d}"
 
 
 def probe(fname: Path):

@@ -4,7 +4,7 @@ $env:PAGER = 'less.exe -RFXM'
 $env:EDITOR = "vim"
 $env:PATH =  $env:PATH + ";$HOME/bin"
 
-$env:AGV_EDITOR = 'gvim --remote-silent-tab'
+$env:AGV_EDITOR = 'gvim --remote-silent-tab +$line $file'
 
 $proxy = "http://127.0.0.1:10809"
 
@@ -87,8 +87,8 @@ Set-PSReadlineKeyHandler -Key   Ctrl+Backspace  -Function UnixWordRubout
 Set-PSReadlineKeyHandler -Chord 'Ctrl+v' -ScriptBlock {
   $clipboard = Get-Clipboard -Raw
   if ($clipboard -match '^\s*(http|ftp|magnet)' -or `
-    ($clipboard.trim().StartsWith("C:\"))) {
-    echo 1
+    ($clipboard.trim().StartsWith("C:\")) -or `
+    ($clipboard.trim().StartsWith("C:/"))) {
     $clipboard = $clipboard.Trim()
     $clipboard = "`"${clipboard}`""
   }
@@ -241,6 +241,11 @@ function agv {
   python $env:USERPROFILE\bin\agv $args
 }
 
+function vv {
+  python $env:USERPROFILE\dotfiles\bin\vv $args
+}
+
+
 function cdtmp {
     $parent = [System.IO.Path]::GetTempPath()
     $name = 'benyip-' + $([System.IO.Path]::GetRandomFileName()).Split(".")[0]
@@ -285,5 +290,10 @@ function Start-Shizuku {
   adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 }
 
+function m {
+  fd -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Prompt 'mpv>' | % { start-process $_ }
+}
+
 Set-Alias ytdl yt-dlp.exe
+
 
