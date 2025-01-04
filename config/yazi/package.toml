@@ -1,12 +1,12 @@
 [plugin]
 deps = [
-  { use = "yazi-rs/plugins:smart-filter", rev = "7afba3a" },
+  { use = "yazi-rs/plugins:smart-filter", rev = "600614a" },
   { use = "dedukun/relative-motions", rev = "df97039" },
-  { use = "Reledia/glow", rev = "c2ed51e" },
+  { use = "Reledia/glow", rev = "5ce76dc" },
   { use = "h-hg/yamb", rev = "108347b" },
 ]
 
 [flavor]
 deps = [
-  { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }, { use = "dangooddd/kanagawa", rev = "b32f205" },
+  { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }, { use = "dangooddd/kanagawa", rev = "240194c" },
 ]

@@ -43,3 +43,4 @@ tags.lock
 tags.temp
 
 .project.vim
+.exrc

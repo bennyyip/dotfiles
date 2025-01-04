@@ -42,5 +42,5 @@
     ~/.zshrc:
     ~/.xonshrc: xonsh/xonshrc
 
-- shell:
-    - [git submodule update --init --recursive, Installing submodules]
+# - shell:
+#     - [git submodule update --init --recursive, Installing submodules]
