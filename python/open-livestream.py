@@ -23,7 +23,6 @@ if is_termux:
 else:
     http_proxy = "http://127.0.0.1:10809"
 
-
 class TwitchAPI:
     CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 

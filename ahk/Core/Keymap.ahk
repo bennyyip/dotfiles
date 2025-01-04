@@ -22,3 +22,5 @@
 >#K:: Send "{PgUp}"
 
 #n:: Send "#+^n"
+
+#e:: ShowDir ""

@@ -297,6 +297,7 @@ def edit(data):
     )
     print("File: %(file)s, Line %(line)s, Col %(col)s." % info)
     cmd = get_editor().substitute(info)
+    print(cmd)
     os.system(cmd)
 
 

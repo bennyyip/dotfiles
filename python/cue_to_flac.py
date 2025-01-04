@@ -4,6 +4,9 @@ import subprocess
 import unicodedata
 from pathlib import Path
 
+"""
+fd -a -e cue . -x python cue_to_flac -d
+"""
 
 def sanitize_filename(filename: str):
     blacklist = ["\\", "/", "?", '"', "<", ">", "|", "\0", "*", ":"]

@@ -30,6 +30,7 @@
     ~/mpv/portable_config: mpv
     ~/.xonshrc: xonsh/xonshrc
     ~/bin/agv: bin/rgg
+    ~/bin/vv: bin/vv
     ~/bin/rgg: bin/rgg
 
     ~/AppData/Roaming/alacritty/: config/alacritty

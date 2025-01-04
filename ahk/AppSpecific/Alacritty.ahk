@@ -9,6 +9,12 @@
     A_Clipboard := ClipboardBackup
 }
 
+; unmap arrow keys
+CapsLock & h:: CapsWithMod("h", "^")
+CapsLock & j:: CapsWithMod("j", "^")
+CapsLock & k:: CapsWithMod("k", "^")
+CapsLock & l:: CapsWithMod("l", "^")
+
 XButton1::Send "{H}"
 XButton2::Send "{L}"
 #HotIf
