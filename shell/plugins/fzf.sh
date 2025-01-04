@@ -5,8 +5,8 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 __fzf_run() {
   if [[ $TERM_PROGRAM =~ 'tmux' ]]; then
-    # fzf-tmux -p $*
-    fzf --height $(__calc_height) $*
+    fzf-tmux -p $*
+    # fzf --height $(__calc_height) $*
   elif [[ $0 =~ 'bash' ]]; then
     fzf --height 50 $*
   else
@@ -106,7 +106,7 @@ fzf-kill() {
 }
 
 scd() {
-  local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d | __fzf_run --no-sort --prompt 'cd> ')"
+  local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d  $@ | __fzf_run --no-sort --prompt 'cd> ')"
   [ "${_path}" == "" ] || cd $_path
 }
 

@@ -395,6 +395,16 @@ fi
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 vman () { vim +"set ft=man" +"Man $*" }
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
+
+cmakeG() {
+  read -rA args <<<"$CMAKE_FLAGS"
+  # shellcheck disable=SC2068
+  cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ${args[@]} "$@" . \
+    && ln -sf build/compile_commands.json .
+}
+
+alias CMAKE-CLEAN='rm -rf .ccls-cache build compile_commands.json'
+alias ctestR='ctest -j$(nproc) --rerun-failed --output-on-failure'
 # 別名 {{{1
 source ~/.shell/alias.sh
 
