@@ -5,7 +5,7 @@
 	shallow = true
 [submodule "vim"]
 	path = vim
-	url = https://github.com/bennyyip/dotfiles
+	url = https://github.com/bennyyip/dot-vim
 	update = rebase
 	ignore = dirty
 	shallow = true
