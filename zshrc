@@ -441,10 +441,6 @@ source ~/.zsh/plugins/git.zsh
 alias glg=glods
 if [ $commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
-    zle -N fzf-search-history
-    bindkey "\esa" fzf-search-history
-    bindkey "\es\ea" fzf-search-history
-    export _ZL_FZF=fzf
 fi
 source ~/.shell/plugins/commacd.sh
 
