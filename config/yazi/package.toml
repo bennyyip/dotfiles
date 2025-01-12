@@ -8,5 +8,5 @@ deps = [
 
 [flavor]
 deps = [
-  { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }, { use = "dangooddd/kanagawa", rev = "240194c" },
+  { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }, { use = "dangooddd/kanagawa", rev = "d98f0c3" },
 ]

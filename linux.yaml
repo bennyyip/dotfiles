@@ -41,6 +41,7 @@
     ~/.zsh:
     ~/.zshrc:
     ~/.xonshrc: xonsh/xonshrc
+    ~/.gdbinit:
 
 # - shell:
 #     - [git submodule update --init --recursive, Installing submodules]
