@@ -1,0 +1,12 @@
+bashrc|symlink|
+editrc|symlink|
+bash|symlink|
+git/gitconfig|symlink|.gitconfig
+git/gitignore_global|symlink|.gitignore_global
+inputrc|symlink|
+tmux.conf|symlink|
+ripgreprc|symlink|
+vim|symlink|
+shell|symlink|
+zshrc|symlink|
+zsh|symlink|
