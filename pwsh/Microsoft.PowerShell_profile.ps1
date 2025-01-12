@@ -291,9 +291,9 @@ function Start-Shizuku {
 }
 
 function m {
-  fd -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Prompt 'mpv>' | % { start-process $_ }
+  fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Prompt 'mpv>' | % { start-process $_ }
 }
 
-Set-Alias ytdl yt-dlp.exe
-
-
+function ytdl {
+  yt-dlp -N 4 $args
+}

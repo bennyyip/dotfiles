@@ -252,4 +252,20 @@ user_pref("extensions.pocket.enabled", true);
 /****************************************************************************
  * END: BETTERFOX                                                           *
 ****************************************************************************/
+user_pref("font.name.monospace.x-western", "Sarasa Mono CL");
 
+user_pref("font.name.monospace.zh-CN", "Sarasa Mono CL");
+user_pref("font.name.sans-serif.zh-CN", "Chiron Hei HK");
+user_pref("font.name.serif.zh-CN", "Chiron Sung HK");
+
+user_pref("font.name.monospace.zh-TW", "Sarasa Mono CL");
+user_pref("font.name.sans-serif.zh-TW", "Chiron Hei HK");
+user_pref("font.name.serif.zh-TW", "Chiron Sung HK");
+
+user_pref("font.name.monospace.zh-HK", "Sarasa Mono CL");
+user_pref("font.name.sans-serif.zh-HK", "Chiron Hei HK");
+user_pref("font.name.serif.zh-HK", "Chiron Sung HK");
+
+user_pref("font.name.monospace.ja", "Sarasa Mono CL");
+user_pref("font.name.sans-serif.ja", "Chiron Hei HK");
+user_pref("font.name.serif.ja", "Chiron Sung HK");
