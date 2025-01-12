@@ -20,3 +20,4 @@ u::
 g:: Send "{Home}"
 +g:: Send "{End}"
 #HotIf
+

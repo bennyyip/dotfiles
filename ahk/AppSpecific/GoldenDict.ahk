@@ -1,6 +1,7 @@
-#HotIf WinActive("ahk_exe obsidian.exe")
-; XButton2::Send "{right}"
-; XButton1:: Send "{left}"
+#HotIf (WinActive("ahk_exe obsidian.exe")
+OR WinActive("ahk_exe firefox.exe")
+OR WinActive("ahk_exe zotero.exe")
+)
 
 XButton1:: {
   saved_clipboard := A_Clipboard
@@ -10,4 +11,3 @@ XButton1:: {
   A_Clipboard := saved_clipboard
 }
 #HotIf
-
