@@ -27,8 +27,7 @@ symlinkFile() {
 }
 
 deployManifest() {
-  while read row; do 
-  # for row in $(cat $SCRIPT_DIR/$1); do
+  while read row; do
     if [[ $row =~ ^#.*  ]] || [[ -z $row ]]; then
       continue
     fi
