@@ -5,6 +5,7 @@ gdbinit|symlink|
 git/gitconfig|symlink|.gitconfig
 git/gitignore_global|symlink|.gitignore_global
 inputrc|symlink|
+ocamlinit|symlink|
 prettierrc|symlink|
 pythonrc|symlink|
 ripgreprc|symlink|

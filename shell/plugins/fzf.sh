@@ -63,9 +63,10 @@ fzf-vim-mru() {
   local file cmd mru_file
   cmd=${1:-vim}
 
-  mru_file=~/.cache/LeaderF/python3/mru/frecency
+  file=$(cat $HOME/.vim_mru_files | grep -v '^#' | $(__fzfcmd) --no-sort --tiebreak=end --prompt "$cmd> ")
 
-  file=$(cat ${mru_file} | awk '$1=""; $2=""; gsub (" ", "", $0);' | $(__fzfcmd) --tiebreak=end --prompt "$cmd> ")
+  # mru_file=~/.cache/LeaderF/python3/mru/frecency
+  # file=$(cat ${mru_file} | awk '$1=""; $2=""; gsub (" ", "", $0);' | $(__fzfcmd) --tiebreak=end --prompt "$cmd> ")
   if [[ -n $file ]]; then
     ${cmd} $file
   else
@@ -102,7 +103,7 @@ fzf-kill() {
       --layout=reverse --height=80% | awk '{print $2}' | xargs kill -9
 }
 scd() {
-  local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d $@ | $(__fzfcmd) --no-sort --prompt 'cd> ')"
+  local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d $@ | $(__fzfcmd) -1 --no-sort --prompt 'cd> ')"
   [ "${_path}" == "" ] || cd $_path
 }
 

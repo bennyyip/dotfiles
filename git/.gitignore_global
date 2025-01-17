@@ -6,6 +6,7 @@
 *.o
 *.so
 *.pyc
+a.out
 
 # Editing tools and IDEs #
 ##########################
@@ -44,3 +45,6 @@ tags.temp
 
 .project.vim
 .exrc
+
+*.cmi
+*.cmx

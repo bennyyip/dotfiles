@@ -399,8 +399,8 @@ nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 cmakeG() {
   read -rA args <<<"$CMAKE_FLAGS"
   # shellcheck disable=SC2068
-  cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ${args[@]} "$@" . \
-    && ln -sf build/compile_commands.json .
+  cmake -B.build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ${args[@]} "$@" . \
+    && ln -sf .build/compile_commands.json .
 }
 
 alias CMAKE-CLEAN='rm -rf .ccls-cache build compile_commands.json'
@@ -490,7 +490,7 @@ zbi() {
 
 source ~/.zsh/plugins/docker-alias.zsh
 
-# Modeline {{{1
+# Local config {{{1
 # Allow local customizations in the ~/.shell.local_after file
 if [ -f ~/.shell.local_after ]; then
   source ~/.shell.local_after
@@ -505,6 +505,6 @@ fi
 if [ -f ~/.shell_private ]; then
   source ~/.shell_private
 fi
-
 # zprof
+# Modeline {{{1
 # vim:fdm=marker
