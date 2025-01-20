@@ -2,10 +2,9 @@ bashrc|symlink|
 bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
-git/gitconfig|symlink|.gitconfig
-git/gitignore_global|symlink|.gitignore_global
+git/.gitconfig|symlink|.gitconfig
+git/.gitignore_global|symlink|.gitignore_global
 inputrc|symlink|
-ocamlinit|symlink|
 prettierrc|symlink|
 pythonrc|symlink|
 ripgreprc|symlink|
@@ -27,11 +26,21 @@ config/compton.conf|symlink|
 config/doom|symlink|
 config/dunst|symlink|
 config/fontconfig|symlink|
-config/i3|symlink|
 config/i3status|symlink|
+config/i3|symlink|
 config/rofi|symlink|
 config/starship.toml|symlink|
+config/utop|symlink|
 config/yazi|symlink|
 config/zathura|symlink|
 config/zellij|symlink|
+config/fd|symlink|
+
+bin/osc52|symlink|bin/osc52
+bin/preview.sh|symlink|bin/preview.sh
+bin/rgg|symlink|bin/agv
+bin/rgg|symlink|bin/rgg
+bin/vimv|symlink|bin/vimv
+bin/vv|symlink|bin/vv
+
 # vim:ft=conf

@@ -28,5 +28,6 @@ bin/vv|symlink|bin/vv
 config/starship.toml|symlink|
 config/alacritty|symlink|AppData/Roaming/alacritty
 config/yazi|symlink|AppData/Roaming/yazi/config
+config/fd|symlink|AppData/Roaming/fd
 
 # vim:ft=conf
