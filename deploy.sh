@@ -7,13 +7,23 @@ export MSYS=winsymlinks:nativestrict
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+gitClone() {
+url="$1"
+destination="$HOME/$2"
+  if [ -e "$destination" ]; then
+    echo "[WARNING] $destination exists."
+    return
+  fi
+  git clone "$url" "$destination"
+}
+
 symlinkFile() {
   filename="$SCRIPT_DIR/$1"
   destination="$HOME/$2"
 
   if [[ ! -e $filename ]]; then
-    echo "[WARNING] $filename doesn't exists."
-    return
+    echo "[ERROR] $filename doesn't exists."
+    exit 1
   fi
 
   if [ -L "$destination" ]; then
@@ -25,7 +35,7 @@ symlinkFile() {
   fi
 
   if [ -e "$destination" ]; then
-    echo "[ERROR] $destination exists but it's not a symlink. Please fix that manually"
+    echo "[ERROR] $destination exists but it's not a symlink. Please fix that manually."
     exit 1
   fi
 
@@ -51,6 +61,9 @@ deployManifest() {
     case $operation in
       symlink)
         symlinkFile "$filename" "$destination"
+        ;;
+      git)
+        gitClone "$filename" "$destination"
         ;;
 
       *)
