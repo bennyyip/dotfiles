@@ -106,3 +106,5 @@ function y() {
   fi
   rm -f -- "$tmp"
 }
+
+alias dtop='dune utop'

@@ -227,6 +227,7 @@ bindkey -e
 
 # maybe autoload zkbd
 bindkey  "^[[3~"  delete-char
+bindkey  '^[[3;3~' backward-delete-word # alt+delete
 
 # ^X^e 用$EDITOR编辑命令
 autoload -Uz edit-command-line
@@ -508,3 +509,4 @@ fi
 # zprof
 # Modeline {{{1
 # vim:fdm=marker
+

@@ -1,0 +1,8 @@
+#require "lambda-term"
+
+let () =
+  let xdg_fn =
+    LTerm_resources.xdgbd_file ~loc:LTerm_resources.Config "utop/init.ml"
+  in
+  if Sys.file_exists xdg_fn then
+    ignore(UTop_compat.toploop_use_silently Format.err_formatter xdg_fn)

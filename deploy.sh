@@ -2,18 +2,25 @@
 
 set -e
 
+# Native symlink on Windows
 export MSYS=winsymlinks:nativestrict
 
-SCRIPT_DIR="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 symlinkFile() {
   filename="$SCRIPT_DIR/$1"
   destination="$HOME/$2"
 
-  mkdir -p $(dirname "$destination")
+  if [[ ! -e $filename ]]; then
+    echo "[WARNING] $filename doesn't exists."
+    return
+  fi
 
   if [ -L "$destination" ]; then
-    echo "[WARNING] $filename already symlinked to $destination"
+    actual=$(realpath "$destination")
+    if [[ $actual != "$filename" ]]; then
+      echo "[WARNING] $destination already symlinked to $actual"
+    fi
     return
   fi
 
@@ -22,19 +29,20 @@ symlinkFile() {
     exit 1
   fi
 
+  mkdir -p "$(dirname "$destination")"
   ln -s "$filename" "$destination"
   echo "[OK] $filename -> $destination"
 }
 
 deployManifest() {
-  while read row; do
-    if [[ $row =~ ^#.*  ]] || [[ -z $row ]]; then
+  while read -r row; do
+    if [[ $row =~ ^#.* ]] || [[ -z $row ]]; then
       continue
     fi
 
-    filename=$(echo $row | cut -d \| -f 1)
-    operation=$(echo $row | cut -d \| -f 2)
-    destination=$(echo $row | cut -d \| -f 3)
+    filename=$(echo "$row" | cut -d \| -f 1)
+    operation=$(echo "$row" | cut -d \| -f 2)
+    destination=$(echo "$row" | cut -d \| -f 3)
 
     if [[ -z $destination ]]; then
       destination=".${filename}"
@@ -42,7 +50,7 @@ deployManifest() {
 
     case $operation in
       symlink)
-        symlinkFile $filename $destination
+        symlinkFile "$filename" "$destination"
         ;;
 
       *)
@@ -52,10 +60,10 @@ deployManifest() {
   done < "$SCRIPT_DIR/$1"
 }
 
-if [ -z "$@" ]; then
+if [[ $# -eq 0 ]]; then
   echo "Usage: $0 <MANIFEST>"
   echo "ERROR: no MANIFEST file is provided"
   exit 1
 fi
 
-deployManifest $1
+deployManifest "$1"

@@ -16,6 +16,7 @@ $git_status\
 $hg_branch\
 $docker_context\
 $package\
+$ocaml\
 $python\
 $terraform\
 $nix_shell\
@@ -78,3 +79,7 @@ format = '[$symbol($version )]($style)'
 [python]
 symbol = 'PY '
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+# ~/.config/starship.toml
+
+[ocaml]
+format = 'via [\(@$switch_name\) ]($style)'
