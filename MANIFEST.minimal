@@ -3,11 +3,13 @@ https://github.com/bennyyip/dot-vim.git|git|.vim
 bashrc|symlink|
 editrc|symlink|
 bash|symlink|
-git/gitconfig|symlink|.gitconfig
-git/gitignore_global|symlink|.gitignore_global
+# git/.gitconfig|symlink|.gitconfig
+# git/.gitignore_global|symlink|.gitignore_global
 inputrc|symlink|
 tmux.conf|symlink|
 ripgreprc|symlink|
 shell|symlink|
 zshrc|symlink|
 zsh|symlink|
+
+# vim:ft=conf

@@ -6,7 +6,7 @@ program = "pwsh"
 working_directory = '''C:\Users\bennyyip'''
 
 [font]
-size = 18
+size = 16
 
 [font.bold]
 family = "Sarasa Term CL Nerd Font"

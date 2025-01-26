@@ -1,13 +1,31 @@
-# set editing-mode vi
-#
-# $if mode=vi
-#
-# set keymap vi-command
-# Control-l: clear-screen
-#
-# set keymap vi-insert
-# Control-l: clear-screen
-#
-# $endif
-
+# Make Tab autocomplete regardless of filename case
 set completion-ignore-case on
+
+# Mark symlinked directories (symlink@)
+set mark-symlinked-directories On
+
+# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
+set match-hidden-files off
+
+# faster completion
+set show-all-if-unmodified on
+set show-all-if-ambiguous on
+
+# Show all autocomplete results at once
+set page-completions off
+
+# If there are more than 200 possible completions for a word, ask to show them all
+set completion-query-items 200
+
+# Show extra file information when completing, like `ls -F` does
+set visible-stats on
+
+# Color the common prefix
+set colored-completion-prefix On
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix On
+# colorized completion
+set colored-stats On
+
+# alt+delete
+"\e[3;3~": backward-kill-word
