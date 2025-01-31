@@ -2,7 +2,6 @@
 alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
 alias vi=vim
-alias nv=nvim
 alias pxy='proxychains -q'
 alias :q="exit"
 alias :qa="tmux detach"
@@ -80,6 +79,7 @@ sshpath() {
 }
 
 alias cdtmp='cd `mktemp -d /tmp/benyip-XXXXXX`'
+alias cd-='cd -'
 
 shutdown() {
   echo -n 你确定要关机吗？
