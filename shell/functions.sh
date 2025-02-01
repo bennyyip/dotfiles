@@ -17,7 +17,7 @@ exists() {
 }
 
 # print the 16 terminal colors
-colors() {
+base16_colors() {
   for i in {0..15}; do
     printf "\e[48;5;${i}m  \e[0m"
     if [ $((($i + 1) % 8)) -eq 0 ]; then

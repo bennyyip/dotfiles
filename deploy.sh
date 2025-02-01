@@ -14,7 +14,7 @@ destination="$HOME/$2"
     echo "[WARNING] $destination exists."
     return
   fi
-  git clone "$url" "$destination"
+  git clone --depth=1 "$url" "$destination"
 }
 
 symlinkFile() {

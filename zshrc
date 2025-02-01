@@ -18,7 +18,6 @@ fi
 if [ -f ~/.zshrc.local_before ]; then
   source ~/.zshrc.local_before
 fi
-
 # 确定环境 {{{1
 OS=${$(uname)%_*}
 if [[ $OS == "CYGWIN" || $OS == "MSYS" ]]; then
@@ -304,7 +303,6 @@ bindkey '^[n' down-line-or-search
 autoload -Uz jump-target
 zle -N jump-target
 bindkey "\ej" jump-target
-
 # restoring an aborted command-line {{{2
 # unsupported with 4.3.17
 if zle -la split-undo; then
@@ -408,7 +406,6 @@ alias CMAKE-CLEAN='rm -rf .ccls-cache build compile_commands.json'
 alias ctestR='ctest -j$(nproc) --rerun-failed --output-on-failure'
 # 別名 {{{1
 source ~/.shell/alias.sh
-
 # 後綴別名 {{{2
 alias -s pdf=zathura
 alias -s {jpg,png,gif}=feh
@@ -417,7 +414,6 @@ alias -s {tgz,gz}="tar -xvzf"
 alias -s bz2="tar -xvjf"
 alias -s 7z="7zr x"
 alias -s zip=unzip
-
 # 全局别名 {{{2
 # 当前目录下最后修改的文件
 # 来自 http://roylez.heroku.com/2010/03/06/zsh-recent-file-alias.html
@@ -507,6 +503,5 @@ if [ -f ~/.shell_private ]; then
   source ~/.shell_private
 fi
 # zprof
-# Modeline {{{1
+# }}}
 # vim:fdm=marker
-

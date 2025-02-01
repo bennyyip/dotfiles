@@ -65,7 +65,7 @@
 [pull]
     rebase = true
 [help]
-    autocorrect = 1
+    autocorrect = 5
 
 [push]
     default = current
@@ -80,13 +80,13 @@
 
 
 [difftool]
-        prompt = false
+    prompt = false
 
 [difftool "difftastic"]
-        cmd = difft "$LOCAL" "$REMOTE"
+    cmd = difft "$LOCAL" "$REMOTE"
 
 [pager]
-        difftool = true
+    difftool = true
 
 [pager]
     # or not... # insanely beautiful diffs ==> npm install -g diff-so-fancy
@@ -112,9 +112,10 @@
 [interactive]
     diffFilter = delta --color-only
 
-[include]
-    path = .gitconfig.local
 [url "git@github.com:"]
     insteadOf = https://github.com/
 [url "git@github.com:"]
     insteadOf = git://github.com/
+
+[include]
+    path = .gitconfig.local
