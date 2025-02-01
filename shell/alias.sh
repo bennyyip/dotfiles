@@ -108,3 +108,4 @@ function y() {
 }
 
 alias dtop='dune utop'
+alias fdall='fd -I -H'
