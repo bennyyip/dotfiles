@@ -11,3 +11,20 @@ export SUDO_EDITOR=vim
 
 # https://emacs.stackexchange.com/questions/77082/how-to-enable-24-bit-color-emacs-on-terminal-when-opening-it-from-a-remote-machi
 export COLORTERM=truecolor
+
+export LESS="-FRXM"
+# default has -S
+export SYSTEMD_LESS="${LESS#-}K"
+
+if exists bat; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANROFFOPT='-c'
+fi
+
+if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
+  export BROWSER=firefox
+  export AGV_EDITOR='vv ''$file:$line:$col'''
+else
+  export BROWSER=echo
+  export AGV_EDITOR='vim +"call setpos(\".\", [0, $line, $col, 0])" ''$file'''
+fi

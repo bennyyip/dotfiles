@@ -191,6 +191,7 @@ function gfk {
 function gget { ghq get --no-recursive --shallow $args }
 function gget-full { ghq get $args }
 function glook { cd $(Get-ChildItem ~/ghq/github.com/*/* | % { $_.ToString() }  | fzf) }
+function gop { bash "~/dotfiles/bin/git-open" $args }
 
 # function vr { gvim --remote-silent-tab ($args | foreach { $_ -replace '\\', '/' }) }
 Set-Alias vr "gvim-remote.exe"

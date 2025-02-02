@@ -8,11 +8,11 @@ Include config.local
 #     PubkeyAuthentication no
 #     IdentitiesOnly yes
 
-Host github.com
-    HostName ssh.github.com
-    User git
-    PubkeyAuthentication yes
-    IdentityFile ~/.ssh/id_ed25519
-    Port 443
+# Host github.com
+#     HostName ssh.github.com
+#     User git
+#     PubkeyAuthentication yes
+#     IdentityFile ~/.ssh/id_ed25519
+#     Port 443
 
 # vim:ft=sshconfig

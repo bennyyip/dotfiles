@@ -106,6 +106,11 @@ scd() {
   local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d $@ | $(__fzfcmd) -1 --no-sort --prompt 'cd> ')"
   [ "${_path}" == "" ] || cd $_path
 }
+zbi() {
+  zb
+  scd
+}
+
 
 v() {
   fzf-vim-mru

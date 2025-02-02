@@ -36,6 +36,7 @@ config/yazi|symlink|
 config/zathura|symlink|
 config/zellij|symlink|
 config/fd|symlink|
+config/bat|symlink|
 
 bin/osc52|symlink|bin/osc52
 bin/preview.sh|symlink|bin/preview.sh
@@ -46,5 +47,6 @@ bin/vv|symlink|bin/vv
 bin/archpkg|symlink|bin/archpkg
 bin/timein|symlink|bin/timein
 bin/vimtrace|symlink|bin/vimtrace
+bin/git-open|symlink|bin/git-open
 
 # vim:ft=conf

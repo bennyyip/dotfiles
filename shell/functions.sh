@@ -16,12 +16,10 @@ exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# print the 16 terminal colors
-base16_colors() {
-  for i in {0..15}; do
-    printf "\e[48;5;${i}m  \e[0m"
-    if [ $((($i + 1) % 8)) -eq 0 ]; then
-      printf "\n"
-    fi
-  done
+zb() {
+  gitroot=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -n $gitroot && "$PWD" != "$gitroot" ]]; then
+    builtin cd "${gitroot}"
+    pwd
+  fi
 }

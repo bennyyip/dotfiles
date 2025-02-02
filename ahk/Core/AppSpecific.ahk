@@ -8,3 +8,4 @@
 #Include "%A_ScriptDir%\AppSpecific\GoldenDict.ahk"
 #Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Firefox.ahk"
+#Include "%A_ScriptDir%\AppSpecific\WindowsTerminal.ahk"

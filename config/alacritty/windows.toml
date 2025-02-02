@@ -9,17 +9,17 @@ working_directory = '''C:\Users\bennyyip'''
 size = 16
 
 [font.bold]
-family = "Sarasa Term CL Nerd Font"
+family = "Iosevka Fixed Curly"
 style = "Bold"
 
 [font.bold_italic]
-family = "Sarasa Term CL Nerd Font"
+family = "Iosevka Fixed Curly"
 style = "Bold Italic"
 
 [font.italic]
-family = "Sarasa Term CL Nerd Font"
+family = "Iosevka Fixed Curly"
 style = "Italic"
 
 [font.normal]
-family = "Sarasa Term CL Nerd Font"
+family = "Iosevka Fixed Curly"
 style = "Regular"

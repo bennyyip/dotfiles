@@ -46,8 +46,9 @@ disabled = false
 # disabled = false
 
 [directory]
-truncation_length = 999
+truncation_length = 0
 truncate_to_repo = false
+use_os_path_sep = false
 # fish_style_pwd_dir_length = 2
 format = ' [ω $path]($style)[$read_only]($read_only_style) '
 style = "fg:142"
@@ -79,7 +80,6 @@ format = '[$symbol($version )]($style)'
 [python]
 symbol = 'PY '
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-# ~/.config/starship.toml
 
 [ocaml]
-format = 'via [\(@$switch_name\) ]($style)'
+format = '[\(@$switch_name\) ]($style)'

@@ -1,13 +1,8 @@
-# Functions
 # zmodload zsh/zprof
 
 source ~/.shell/functions.sh
-
-# Bootstrap
-source ~/.shell/bootstrap.sh
-
-# External settings
-source ~/.shell/external.sh
+source ~/.shell/bootstrap.sh # Bootstrap
+source ~/.shell/external.sh # External settings
 
 # Allow local customizations in the ~/.shell.local_before file
 if [ -f ~/.shell.local_before ]; then
@@ -18,148 +13,98 @@ fi
 if [ -f ~/.zshrc.local_before ]; then
   source ~/.zshrc.local_before
 fi
-# 确定环境 {{{1
-OS=${$(uname)%_*}
-if [[ $OS == "CYGWIN" || $OS == "MSYS" ]]; then
-  OS=Linux
-elif [[ $OS == "Darwin" ]]; then
-  OS=FreeBSD
-fi
-if [ -f /etc/issue ] && grep -qis 'Arch Linux' /etc/issue; then
-  IS_ARCH=1
-else
-  IS_ARCH=0
-fi
-# check first, or the script will end wherever it fails
-zmodload zsh/regex 2>/dev/null && _has_re=1 || _has_re=0
-unsetopt nomatch
-zmodload zsh/subreap 2>/dev/null && subreap
+
 _zdir=${ZDOTDIR:-$HOME}
-HISTFILE=${_zdir}/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
 
 ZSH_CACHE_DIR=$_zdir/.ZSH_CACHE_DIR
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
 
+export -U PATH
+# SETOPT {{{1
+unsetopt BEEP               # Hush now, quiet now.
+setopt rm_star_silent       # rm * 时不要提示
+setopt interactive_comments # 允许在交互模式中使用注释
+setopt auto_continue        # disown 后自动继续进程
+setopt transient_rprompt    # 为方便复制，右边的提示符只在最新的提示符上显示
+setopt promptsubst          # setopt 的输出显示选项的开关状态
+setopt ksh_option_print
+stty -ixon                  # 上一行在 tmux 中不起作用
+
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' # stop at /
+setopt rc_quotes # 单引号中的 '' 表示一个 ' （如同 Vimscript 中者）
+unsetopt nomatch
+
+## Jobs
+setopt LONG_LIST_JOBS     # List jobs in the long format by default.
+setopt AUTO_RESUME        # Attempt to resume existing job before creating a new process.
+setopt NOTIFY             # Report status of background jobs immediately.
+unsetopt BG_NICE          # Don't run all background jobs at a lower priority.
+unsetopt HUP              # Don't kill jobs on shell exit.
+unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
+# History
+HISTFILE=${_zdir}/.histfile
+HISTSIZE=100000   # Max events to store in internal history.
+SAVEHIST=100000   # Max events to store in history file.
+setopt BANG_HIST                 # History expansions on '!'
+setopt EXTENDED_HISTORY          # Include start time in history records
+setopt APPEND_HISTORY            # Appends history to history file on exit
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Remove old events if new event is a duplicate
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_REDUCE_BLANKS        # Minimize unnecessary whitespace
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing non-existent history.
+setopt hist_fcntl_lock 2>/dev/null
+## Directories
+DIRSTACKSIZE=9
+unsetopt AUTO_CD            # Implicit CD slows down plugins
+setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+unsetopt PUSHD_TO_HOME      # Don't push to $HOME when no argument is given.
+setopt CDABLE_VARS          # Change directory to a path stored in a variable.
+setopt MULTIOS              # Write to multiple descriptors.
+unsetopt GLOB_DOTS
+unsetopt AUTO_NAME_DIRS     # Don't add variable-stored paths to ~ list
+# Completion {{{1
 zstyle :compinstall filename "$_zdir/.zshrc"
 fpath=($_zdir/.zsh/Completion $_zdir/.zsh/functions $fpath)
-autoload -Uz compinit
-compinit
-# 變量設置 {{{1
-export -U PATH
-# 图形终端下(包括ssh登录时)的设置{{{2
-if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
-  export BROWSER=firefox
-  export wiki_browser=firefox
-  export AGV_EDITOR='vv ''$file:$line:$col'''
-else
-  export AGV_EDITOR='vim +"call setpos(\".\", [0, $line, $col, 0])" ''$file'''
-fi
-if [[ -n $DISPLAY || -n $SSH_CONNECTION ]]; then
-  # 让 less 将粗体/下划线等显示为彩色
-  export LESS_TERMCAP_mb=$'\x1b[01;31m'
-  export LESS_TERMCAP_md=$'\x1b[01;38;5;74m'
-  export LESS_TERMCAP_me=$'\x1b[0m'
-  export LESS_TERMCAP_se=$'\x1b[0m'
-  export LESS_TERMCAP_so=$'\x1b[7m'
-  export LESS_TERMCAP_ue=$'\x1b[0m'
-  export LESS_TERMCAP_us=$'\x1b[04;38;5;146m'
 
-  if [[ $TERM == linux ]]; then
-    _256colors=0
-  else
-    [[ $TERM != *color* ]] && [[ $TERM != dumb ]] && export TERM=${TERM%%[.-]*}-256color
-    _256colors=1
-  fi
-else
-  # tty 下光标显示为块状
-  echo -ne "\e[?6c"
-  zshexit () {
-    [[ $SHLVL -eq 1 ]] && echo -ne "\e[?0c"
-  }
-  [[ $TERM == *color* ]] && _256colors=1
-fi
-
-if [[ $OS = Linux ]]; then
-  # under fbterm
-  # can't see parent on some restricted systems
-  if [[ $_has_re -eq 1 &&
-    $(</proc/$PPID/cmdline) =~ '(^|/)fbterm' ]] 2>/dev/null; then
-  export TERM=fbterm
-  export LANG=zh_CN.UTF-8
-  # This term is quirk. ls doesn't like it.
-  # _256colors=1
-fi
-eval $(dircolors ~/.shell/dir_colors)
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-fi
-unset _256colors
-unset _has_re
-
-export LESS="-FRXM"
-# default has -S
-export SYSTEMD_LESS="${LESS#-}K"
-# 选项设置{{{1
-unsetopt beep
-# 不需要打 cd，直接进入目录
-setopt autocd
-# 自动记住已访问目录栈
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushd_minus
-# rm * 时不要提示
-setopt rm_star_silent
-# 允许在交互模式中使用注释
-setopt interactive_comments
-# disown 后自动继续进程
-setopt auto_continue
-# 单引号中的 '' 表示一个 ' （如同 Vimscript 中者）
-setopt rc_quotes
-# 补全列表不同列可以使用不同的列宽
-setopt listpacked
-# 补全 identifier=path 形式的参数
-setopt magic_equal_subst
-# 为方便复制，右边的提示符只在最新的提示符上显示
-setopt transient_rprompt
-# setopt promptsubst
-setopt promptsubst
-# setopt 的输出显示选项的开关状态
-setopt ksh_option_print
-setopt no_bg_nice
-setopt noflowcontrol
-stty -ixon # 上一行在 tmux 中不起作用
-# 历史记录{{{2
-# 不保存重复的历史记录项
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-# setopt hist_ignore_all_dups
-# 在命令前添加空格，不将此命令添加到记录文件中
-setopt hist_ignore_space
-# zsh 4.3.6 doesn't have this option
-setopt hist_fcntl_lock 2>/dev/null
-if [[ $_has_re -eq 1 &&
-  ! ( $ZSH_VERSION =~ '^[0-4]\.' || $ZSH_VERSION =~ '^5\.0\.[0-4]' ) ]]; then
-    setopt hist_reduce_blanks
-else
-  # This may cause the command messed up due to a memcpy bug
-fi
-# Completion {{{1
-setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
-setopt EXTENDED_GLOB       # Use extended globbing syntax.
-setopt PATH_DIRS           # Perform path search even on command names with slashes.
-setopt AUTO_MENU           # Show completion menu on a successive tab press.
-setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
-# setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
+setopt listpacked         # 补全列表不同列可以使用不同的列宽
+setopt magic_equal_subst  # 补全 identifier=path 形式的参数
+setopt COMPLETE_IN_WORD   # Complete from both ends of a word.
+setopt EXTENDED_GLOB      # Use extended globbing syntax.
+setopt PATH_DIRS          # Perform path search even on command names with slashes.
+setopt AUTO_MENU          # Show completion menu on a successive tab press.
+setopt AUTO_LIST          # Automatically list choices on ambiguous completion.
+# setopt AUTO_PARAM_SLASH # If completed parameter is a directory, add a trailing slash.
 # setopt AUTO_PARAM_KEYS
-unsetopt FLOW_CONTROL        # Redundant with tmux
-unsetopt MENU_COMPLETE     # Do not autoselect the first completion entry.
-unsetopt COMPLETE_ALIASES  # Disabling this enables completion for aliases
-# unsetopt ALWAYS_TO_END     # Move cursor to the end of a completed word.
+unsetopt FLOW_CONTROL     # Redundant with tmux
+# unsetopt MENU_COMPLETE  # Do not autoselect the first completion entry.
+unsetopt COMPLETE_ALIASES # Disabling this enables completion for aliases
+# unsetopt ALWAYS_TO_END  # Move cursor to the end of a completed word.
 unsetopt CASE_GLOB
+unsetopt CORRECT_ALL
 
+# Completion is slow. Use a cache! For the love of god, use a cache...
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
+
+# Expand partial paths, e.g. cd f/b/z == cd foo/bar/baz (assuming no ambiguity)
+zstyle ':completion:*:paths' path-completion yes
+
+# Fix slow one-by-one character pasting when bracketed-paste-magic is on. See
+# zsh-users/zsh-syntax-highlighting#295
+zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+
+eval $(dircolors ~/.shell/dir_colors)
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # Fuzzy match mistyped completions.
@@ -189,10 +134,10 @@ zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-va
 # Sory array completion candidates
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 # Complete hostnames from ssh files too
-# zstyle -e ':completion:*:hosts' hosts 'reply=(
-#   ${=${=${=${${(f)"$(cat {/etc/ssh_,~/.{config/,}ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
-#   ${=${${${${(@M)${(f)"$(cat ~/.{config/,}ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
-# )'
+zstyle -e ':completion:*:hosts' hosts 'reply=(
+  ${=${=${=${${(f)"$(cat {/etc/ssh_,~/.{config/,}ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
+  ${=${${${${(@M)${(f)"$(cat ~/.{config/,}ssh/config{,.local} 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
+)'
 # Don't complete uninteresting users
 zstyle ':completion:*:users' ignored-patterns \
   adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
@@ -219,21 +164,10 @@ zstyle ':completion:*:manuals'    separate-sections true
 zstyle ':completion:*:manuals.*'  insert-sections   true
 
 zstyle ':completion:*' menu select
-# 分组显示
-# 歧义字符加粗（使用「true」来加下划线）；会导致原本的高亮失效
-# http://www.thregr.org/~wavexx/rnd/20141010-zsh_show_ambiguity/
-# zstyle ':completion:*' show-ambiguity '1;37'
 # 在最后尝试使用文件名
 zstyle ':completion:*' completer _complete _match _approximate _expand_alias _ignored _files
-# 修正大小写
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 zstyle -e ':completion:*' special-dirs \
   '[[ $PREFIX == (../)#(|.|..) ]] && reply=(..)'
-# 使用缓存。某些命令的补全很耗时的（如 aptitude）
-zstyle ':completion:*' use-cache on
-_cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
-zstyle ':completion:*' cache-path $_cache_dir
-unset _cache_dir
 
 # complete user-commands for git-*
 # https://pbrisbin.com/posts/deleting_git_tags_with_style/
@@ -242,15 +176,19 @@ zstyle ':completion:*:*:git:*' user-commands ${${(M)${(k)commands}:#git-*}/git-/
 # SSH/SCP/RSYNC
 zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
 zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
-# zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
-# zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
-# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
-# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
-# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+
+autoload -Uz compinit
+compinit
 
 compdef pkill=killall
 compdef pgrep=killall
 
+compdef g=git
 compdef mkcd=mkdir
 compdef proxychains=command
 compdef watch=command
@@ -260,8 +198,7 @@ compdef grc=command
 compdef agg=ag 2>/dev/null
 compdef rgg=rg 2>/dev/null
 compdef downgrade=pactree 2>/dev/null
-
-# 命令行编辑{{{1
+# bindkey and zle{{{1
 bindkey -e
 
 # maybe autoload zkbd
@@ -365,8 +302,6 @@ if zle -la split-undo; then
   zle -N zle-line-finish
 fi
 # move by shell word {{{2
-# stop at /
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 zsh-word-movement () {
   # see select-word-style for more
   local -a word_functions
@@ -419,7 +354,7 @@ zstyle ':completion:all-matches:*' insert true
 zstyle ':completion:all-matches:*' file-patterns '%p:globbed-files' '*(-/):directories' '*:all-files'
 zle -C all-matches complete-word _generic
 bindkey '^Xi' all-matches
-# 函數 {{{1
+# Functions {{{1
 autoload -U zargs
 autoload -U zmv
 TRAPTERM () { exit }
@@ -437,7 +372,7 @@ cmakeG() {
 
 alias CMAKE-CLEAN='rm -rf .ccls-cache build compile_commands.json'
 alias ctestR='ctest -j$(nproc) --rerun-failed --output-on-failure'
-# 別名 {{{1
+# Aliases {{{1
 source ~/.shell/alias.sh
 # 後綴別名 {{{2
 alias -s pdf=zathura
@@ -457,6 +392,7 @@ alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
 # Prompt {{{1
 if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
+    # PROMPT=$'%F{cyan}%B%n %F{white}@ %F{magenta}%m %F{white}>>= %F{green}%~ %1(j,%F{red}:%j,)%b%F{white}\n%F{blue}%B%(?..[%?] )%{%F{red}%}%# %F{white}%b'
     eval "$(starship init zsh)"
 else
     source ~/.zsh/prompt.zsh
@@ -466,14 +402,10 @@ _fix_cursor() {
    echo -ne '\e[6 q'
 }
 precmd_functions+=(_fix_cursor)
-# Plugin {{{1
-source ~/.zsh/plugins/git.zsh
-alias glg=glods
-if [ $commands[fzf] ]; then
+# Plugins {{{1
+if [ $+commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
 fi
-source ~/.shell/plugins/commacd.sh
-
 source ~/.zsh/plugins/zsh-autosuggestions.zsh
 
 source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
@@ -486,10 +418,8 @@ if (( $+commands[atuin] )) && [[ -f $_plugin ]]; then
   . $_plugin
 fi
 
-# if [[ $IS_ARCH == 1 ]]; then
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 FAST_HIGHLIGHT[use_async]=1
-# fi
 
 if (( $+commands[zoxide] )) && [[ ! -f ~/.local/share/zoxide/db.zo || $(zstat +uid ~/.local/share/zoxide/db.zo) == $UID ]]; then
   eval "$(zoxide init zsh)"
@@ -509,17 +439,7 @@ if [[ ${chpwd_functions[(i)__zoxide_hook]} -le ${#chpwd_functions} && \
   chpwd_functions[(i)__zoxide_hook]=()
 fi
 
-zb() {
-  _commacd_backward >/dev/null 2>&1
-}
-
-zbi() {
-  zb
-  scd
-}
-
 source ~/.zsh/plugins/docker-alias.zsh
-
 # Local config {{{1
 # Allow local customizations in the ~/.shell.local_after file
 if [ -f ~/.shell.local_after ]; then
@@ -535,6 +455,6 @@ fi
 if [ -f ~/.shell_private ]; then
   source ~/.shell_private
 fi
-# zprof
+# zprof | head -n 10
 # }}}
 # vim:fdm=marker
