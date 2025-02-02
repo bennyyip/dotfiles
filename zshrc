@@ -116,7 +116,6 @@ setopt rm_star_silent
 setopt interactive_comments
 # disown 后自动继续进程
 setopt auto_continue
-setopt extended_glob
 # 单引号中的 '' 表示一个 ' （如同 Vimscript 中者）
 setopt rc_quotes
 # 补全列表不同列可以使用不同的列宽
@@ -147,24 +146,73 @@ if [[ $_has_re -eq 1 &&
 else
   # This may cause the command messed up due to a memcpy bug
 fi
-# 补全与 zstyle {{{1
-# 自动补全 {{{2
-# 用本用户的所有进程补全
-zstyle ':completion:*:processes' command 'ps -afu$USER'
-zstyle ':completion:*:*:*:*:processes' force-list always
-# 进程名补全
-zstyle ':completion:*:processes-names' command  'ps c -u ${USER} -o command | uniq'
+# Completion {{{1
+setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
+setopt EXTENDED_GLOB       # Use extended globbing syntax.
+setopt PATH_DIRS           # Perform path search even on command names with slashes.
+setopt AUTO_MENU           # Show completion menu on a successive tab press.
+setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
+# setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
+# setopt AUTO_PARAM_KEYS
+unsetopt FLOW_CONTROL        # Redundant with tmux
+unsetopt MENU_COMPLETE     # Do not autoselect the first completion entry.
+unsetopt COMPLETE_ALIASES  # Disabling this enables completion for aliases
+# unsetopt ALWAYS_TO_END     # Move cursor to the end of a completed word.
+unsetopt CASE_GLOB
 
-# 警告显示为红色
-zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
-# 描述显示为淡色
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Fuzzy match mistyped completions.
+zstyle ':completion:*' completer _complete _match _approximate _list
+zstyle ':completion:*' matcher-list 'm:{[:lower:]-}={[:upper:]_}' 'r:[[:ascii:]]||[[:ascii:]]=** r:|?=**'
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+# Increase the number of errors based on the length of the typed word.
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+# Don't complete unavailable commands.
+zstyle ':completion:*:(functions|parameters)' ignored-patterns '(_*|.*|-*|+*|autosuggest-*|pre(cmd|exec))'
+# Group matches and describe.
+zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format $'\e[2m -- %d --\e[0m'
 zstyle ':completion:*:corrections' format $'\e[01;33m -- %d (errors: %e) --\e[0m'
-
-# cd 补全顺序
-zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
-# 在 .. 后不要回到当前目录
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
+zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
+zstyle ':completion:*:errors' format '%B%F{red}No such %d%f%b'
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+# Omit parent and current directories from completion results when they are
+# already named in the input.
+zstyle ':completion:*:*:cd:*' ignore-parents parent pwd
+# Merge multiple, consecutive slashes in paths
+zstyle ':completion:*' squeeze-slashes true
+# Exclude internal/fake envvars
+zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
+# Sory array completion candidates
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+# Complete hostnames from ssh files too
+# zstyle -e ':completion:*:hosts' hosts 'reply=(
+#   ${=${=${=${${(f)"$(cat {/etc/ssh_,~/.{config/,}ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
+#   ${=${${${${(@M)${(f)"$(cat ~/.{config/,}ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
+# )'
+# Don't complete uninteresting users
+zstyle ':completion:*:users' ignored-patterns \
+  adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
+  dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
+  hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
+  mailman mailnull mldonkey mysql nagios \
+  named netdump news nfsnobody nobody 'nixbld*' nscd ntp nut nx openvpn \
+  operator pcap postfix postgres privoxy pulse pvm quagga radvd \
+  rpc rpcuser rpm shutdown squid sshd sync 'systemd-*' uucp vcsa xfs '_*'
+# ... unless we really want to.
+zstyle '*' single-ignored show
+# Ignore multiple entries.
+zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
+zstyle ':completion:*:rm:*' file-patterns '*:all-files'
+# PID completion for kill
+zstyle ':completion:*:*:*:*:processes' command 'ps -u $LOGNAME -o pid,user,command -w'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*' insert-ids single
 
 # complete manual by their section, from grml
 zstyle ':completion:*:manuals'    separate-sections true
@@ -172,7 +220,6 @@ zstyle ':completion:*:manuals.*'  insert-sections   true
 
 zstyle ':completion:*' menu select
 # 分组显示
-zstyle ':completion:*' group-name ''
 # 歧义字符加粗（使用「true」来加下划线）；会导致原本的高亮失效
 # http://www.thregr.org/~wavexx/rnd/20141010-zsh_show_ambiguity/
 # zstyle ':completion:*' show-ambiguity '1;37'
@@ -192,9 +239,19 @@ unset _cache_dir
 # https://pbrisbin.com/posts/deleting_git_tags_with_style/
 zstyle ':completion:*:*:git:*' user-commands ${${(M)${(k)commands}:#git-*}/git-/}
 
+# SSH/SCP/RSYNC
+zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+# zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+# zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+# zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+
 compdef pkill=killall
 compdef pgrep=killall
-compdef vman=man
+
+compdef mkcd=mkdir
 compdef proxychains=command
 compdef watch=command
 compdef rlwrap=command
@@ -203,24 +260,7 @@ compdef grc=command
 compdef agg=ag 2>/dev/null
 compdef rgg=rg 2>/dev/null
 compdef downgrade=pactree 2>/dev/null
-# not only pdf files
-compdef -d zathura
-compdef _gnu_generic exa pamixer
-compdef whoneeds=pactree 2>/dev/null
 
-# 我的自动补全 {{{2
-zstyle ':completion:*:*:pdf2png:*' file-patterns \
-  '*.pdf:pdf-files:pdf\ files *(-/):directories:directories'
-zstyle ':completion:*:*:x:*' file-patterns \
-  '*.{7z,bz2,gz,rar,tar,tbz,tgz,zip,chm,xz,exe,xpi,apk,maff,crx}:compressed-files:compressed\ files *(-/):directories:directories'
-zstyle ':completion:*:*:zathura:*' file-patterns \
-  '*.{pdf,ps,eps,dvi,djvu,pdf.gz,ps.gz,dvi.gz}:documents:documents *(-/):directories:directories'
-zstyle ':completion:*:*:gbkunzip:*' file-patterns '*.zip:zip-files:zip\ files *(-/):directories:directories'
-zstyle ':completion:*:*:flashplayer:*' file-patterns '*.swf'
-zstyle ':completion:*:*:hp2ps:*' file-patterns '*.hp'
-zstyle ':completion:*:*:feh:*' file-patterns '*.{png,gif,jpg,svg}:images:images *(-/):directories:directories'
-zstyle ':completion:*:*:sxiv:*' file-patterns '*.{png,gif,jpg}:images:images *(-/):directories:directories'
-zstyle ':completion:*:*:timidity:*' file-patterns '*.mid'
 # 命令行编辑{{{1
 bindkey -e
 
@@ -380,19 +420,12 @@ zstyle ':completion:all-matches:*' file-patterns '%p:globbed-files' '*(-/):direc
 zle -C all-matches complete-word _generic
 bindkey '^Xi' all-matches
 # 函數 {{{1
-autoload zargs
-autoload zmv
+autoload -U zargs
+autoload -U zmv
 TRAPTERM () { exit }
 update () { . $_zdir/.zshrc }
-if (( $+commands[vimtrace] )); then
-  (( $+commands[strace] )) && alias strace='vimtrace strace'
-  (( $+commands[ltrace] )) && alias ltrace='vimtrace ltrace'
-else
-  (( $+commands[strace] )) && strace () { (command strace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-  (( $+commands[ltrace] )) && ltrace () { (command ltrace "$@" 3>&1 1>&2 2>&3) | vim -R - }
-fi
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
-vman () { vim +"set ft=man" +"Man $*" }
+vman () { vim +"set ft=man" +"Man $*" }; compdef vman=man
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
 
 cmakeG() {
