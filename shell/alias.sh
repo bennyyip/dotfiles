@@ -19,15 +19,24 @@ alias la='ls -la'
 alias lh='ls -lh'
 alias grep='grep --color'
 
-alias start="sudo systemctl start"
-alias status="sudo systemctl status"
-alias stop="sudo systemctl stop"
-alias restart="sudo systemctl restart"
+alias jc='journalctl -xe'
+alias jcu='journalctl -xe -u'
+alias sc=systemctl
+alias scs='systemctl status'
+alias scu='systemctl --user'
+alias scur='systemctl --user restart'
+alias scus='systemctl --user status'
+alias ssc='sudo systemctl'
+alias sscr='sudo systemctl restart'
+alias sscs='sudo systemctl status'
+alias rctl='sudo resolvectl'
+alias nctl='sudo networkctl'
+alias bctl='bluetoothctl'
+
 alias .="source"
 alias cp="cp -i --reflink=auto"
 alias ssh="TERM=xterm-256color ssh"
 alias bc="bc -l"
-alias cower="cower --domain aur.tuna.tsinghua.edu.cn"
 alias ydcvd="ydcv -x -n -t 2 >/dev/null"
 alias clip="xsel -i -b"
 
@@ -43,7 +52,6 @@ alias with-github-name='GIT_COMMITTER_NAME=BennyYip GIT_COMMITTER_EMAIL=yebenmy@
 alias pvim="curl -F 'vimcn=<-' https://cfp.vim-cn.com/"
 alias pfc="curl -F c=@- http://fars.ee/"
 
-alias md=mkdir
 alias vi=vim
 
 alias py=python
@@ -53,11 +61,17 @@ alias bpy=bpython
 alias jl=julia
 alias jl.="julia --project=."
 
-if exists exa; then
-  alias l='exa -al'
+if exists eza; then
   xtree() {
-    exa -Tl "$@"
+    eza -Tl "$@"
   }
+
+  alias exa="eza --group-directories-first --git";
+  alias l="eza -blF --icons=auto";
+  alias ll="eza -abghilmu";
+  alias llm='ll --sort=modified'
+  alias la="LC_COLLATE=C eza -ablF";
+  alias tree='eza --tree'
 else
   alias l='ls -lah --color=auto'
 fi
@@ -80,6 +94,13 @@ sshpath() {
 
 alias cdtmp='cd `mktemp -d /tmp/benyip-XXXXXX`'
 alias cd-='cd -'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias -- -='cd -'
+
+alias mkdir="mkdir -pv"
+function mkcd { mkdir "$1" && cd "$1"; }
 
 shutdown() {
   echo -n 你确定要关机吗？
