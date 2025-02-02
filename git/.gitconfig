@@ -52,7 +52,7 @@
     br = branch -vv
     bra = branch -vv --all
     dc = diff --cached
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
+    lg = log --graph --pretty='format:%C(red)%h%Creset %C(yellow)%G?%Creset%C(auto)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%aN>%Creset' --date=short
     update-submodules = submodule update --init --recursive
     upgrade-submodules = submodule update --init --remote
     p1 = diff HEAD~1 --diff-algorithm=minimal --output=1.patch

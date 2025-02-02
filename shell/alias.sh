@@ -130,3 +130,5 @@ function y() {
 
 alias dtop='dune utop'
 alias fdall='fd -I -H'
+
+source ~/.shell/git-alias.sh

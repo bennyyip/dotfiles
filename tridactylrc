@@ -8,6 +8,7 @@
 set editorcmd gvim
 set theme quakelight
 set escapehatchsidebarhack false
+set completions.Tab.statusstylepretty true
 
 " set hintchars hjklasdfgyuiopqwertnmzxcvb
 " rihgt hand only
@@ -15,7 +16,6 @@ set hintchars hjklyuiopnmgtb;[/
 
 set followpagepatterns.next ^(next|newer)\\b|»|>>|more|下一頁|下一页|后页
 set followpagepatterns.prev ^(prev(ious)?|older)\\b|«|<<|上一頁|上一页|前页
-
 
 " Search engines
 set searchengine duck
@@ -31,6 +31,9 @@ set searchurls.twitter https://twitter.com/search?q=
 set searchurls.bili https://search.bilibili.com/all?keyword=
 set searchurls.subhd https://subhd.tv/search/
 set smoothscroll true
+
+# fix for duckduckgo
+bind gi focusinput
 
 unbind <C-b>
 unbind gf

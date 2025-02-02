@@ -1,6 +1,5 @@
 *~
 *.bak
-bin/
 /pwsh/Modules/
 pwsh/local_profile.psm1
 pwsh/Help
@@ -8,6 +7,7 @@ ahk/ahkrc.exe
 ahk/local.ahk
 emacs/
 __pycache__
+mpv/scripts/uosc/bin/
 
 config/doom/private/
 config/yazi/flavors
