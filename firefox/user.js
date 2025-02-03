@@ -251,7 +251,11 @@ user_pref("extensions.pocket.enabled", true);
 
 /****************************************************************************
  * END: BETTERFOX                                                           *
-****************************************************************************/
+ ****************************************************************************/
+user_pref("browser.autofocus", false);
+user_pref("browser.tabs.loadDivertedInBackground", true);
+
+// fonts
 user_pref("font.name.monospace.x-western", "Sarasa Mono CL");
 
 user_pref("font.name.monospace.zh-CN", "Sarasa Mono CL");

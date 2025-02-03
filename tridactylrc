@@ -85,7 +85,7 @@ bind ;l hint -Jyc a[href^=magnet]
 bind B fillcmdline bmarks -t
 
 " make t open the selection with tabopen
-bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen; text.beginning_of_line; text.forward_word; ex.insert_space
+" bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen; text.beginning_of_line; text.forward_word; ex.insert_space
 
 bind --mode=ex <C-a> text.beginning_of_line
 
