@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -eux
 cd scripts
 
 # curl -fLOJSs https://raw.githubusercontent.com/mpv-player/mpv/master/TOOLS/lua/autoload.lua

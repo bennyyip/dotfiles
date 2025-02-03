@@ -26,3 +26,16 @@
 #sidebar-button {
   display: none;
 }
+
+/* Reduce minimum window width for Fx74 */
+:root:not([chromehidden~='toolbar']) {
+  /* Fx74 default is 450px on Windows */
+  min-width: 250px !important;
+}
+
+/* hide top bar in vertical monitor */
+@media screen and (max-width: 600px) {
+  #navigator-toolbox {
+    display: none;
+  }
+}
