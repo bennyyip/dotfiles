@@ -1,3 +1,4 @@
+# zmodload zsh/zprof
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -6,7 +7,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
-# zmodload zsh/zprof
+autoload -Uz compinit
+compinit
+
 
 source ~/.shell/functions.sh
 source ~/.shell/bootstrap.sh # Bootstrap
@@ -70,7 +73,7 @@ setopt hist_fcntl_lock 2>/dev/null
 ## Directories
 DIRSTACKSIZE=9
 unsetopt AUTO_CD            # Implicit CD slows down plugins
-setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
+setopt AUTO_PUSHD           # cd -<tab>
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 unsetopt PUSHD_TO_HOME      # Don't push to $HOME when no argument is given.
@@ -169,10 +172,11 @@ zstyle ':completion:*:manuals'    separate-sections true
 zstyle ':completion:*:manuals.*'  insert-sections   true
 
 zstyle ':completion:*' menu select
-# 在最后尝试使用文件名
-zstyle ':completion:*' completer _complete _match _approximate _expand_alias _ignored _files
-zstyle -e ':completion:*' special-dirs \
-  '[[ $PREFIX == (../)#(|.|..) ]] && reply=(..)'
+
+# # 在最后尝试使用文件名
+# zstyle ':completion:*' completer _complete _match _approximate _expand_alias _ignored _files
+# zstyle -e ':completion:*' special-dirs \
+#   '[[ $PREFIX == (../)#(|.|..) ]] && reply=(..)'
 
 # complete user-commands for git-*
 # https://pbrisbin.com/posts/deleting_git_tags_with_style/
@@ -187,8 +191,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' l
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
-autoload -Uz compinit
-compinit
 
 compdef pkill=killall
 compdef pgrep=killall
@@ -351,7 +353,7 @@ sudo-command-line() {
     zle end-of-line
 }
 zle -N sudo-command-line
-bindkey "\e\e" sudo-command-line
+bindkey "^y" sudo-command-line
 # 插入当前的所有补全 https://www.zsh.org/mla/workers/2020/msg01232.html {{{2
 zstyle ':completion:all-matches::::' completer _all_matches _complete
 zstyle ':completion:all-matches:*' old-matches true
@@ -363,7 +365,7 @@ bindkey '^Xi' all-matches
 autoload -U zargs
 autoload -U zmv
 TRAPTERM () { exit }
-update () { . $_zdir/.zshrc }
+alias update='exec zsh'
 mvpc () { mv $1 "`echo $1|ascii2uni -a J`" } # 将以 %HH 表示的文件名改正常
 vman () { vim +"set ft=man" +"Man $*" }; compdef vman=man
 nocolor () { sed -r "s:\x1b\[[0-9;]*[mK]::g" }
@@ -377,8 +379,88 @@ cmakeG() {
 
 alias CMAKE-CLEAN='rm -rf .ccls-cache build compile_commands.json'
 alias ctestR='ctest -j$(nproc) --rerun-failed --output-on-failure'
+
+calc() {
+    zmodload zsh/mathfunc
+    echo $(($*))
+}
+# 進制轉換
+0x() {
+    echo $((16#$1))
+}
+
+0o() {
+    echo $((8#$1))
+}
+
+0b() {
+    echo $((2#$1))
+}
+
+p16() {
+    echo $(([#16] $1))
+}
+
+p8() {
+    echo $(([#8] $1))
+}
+
+p2() {
+    echo $(([#2] $1))
+}
+# 併發
+rr() {
+    (($+max_process)) || typeset -gi max_process=10
+    (($+running_process)) || typeset -gA running_process=()
+
+    while {getopts j:h arg} {
+        case $arg {
+            (j)
+            ((OPTARG > 0)) && max_process=$OPTARG
+            ;;
+
+            (h)
+            echo "Usage: $0 [-j max_process] [cmd] [args]"
+            return
+            ;;
+        }
+    }
+
+    shift $((OPTIND - 1))
+
+    (($# == 0)) && {
+        for i (${(k)running_process}) {
+            [[ -e $i ]] || unset "running_process[$i]"
+        }
+
+        echo "running/max: $#running_process/$max_process"
+        (($#running_process > 0)) && echo "pids:" ${${(k)running_process/\/proc\/}/\/exe}
+        return 0
+    }
+
+    while ((1)) {
+        local running_process_num=$#running_process
+
+        if (($running_process_num < max_process)) {
+            $* &
+            running_process[/proc/$!/exe]=1
+            return
+        }
+
+        for i (${(k)running_process}) {
+            [[ -e $i ]] || unset "running_process[$i]"
+        }
+
+        (($#running_process == $running_process_num)) && {
+            echo "wait $running_process_num pids:" ${${(k)running_process/\/proc\/}/\/exe}
+            inotifywait -q ${(k)running_process}
+        }
+    }
+}
 # Aliases {{{1
 source ~/.shell/alias.sh
+alias pl='print -l'
+alias ca='noglob calc'
 # 後綴別名 {{{2
 alias -s pdf=zathura
 alias -s {jpg,png,gif}=feh
@@ -399,9 +481,7 @@ alias -g ANYF='**/*[^~](.)'
 if [ $+commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
 fi
-source ~/.zsh/plugins/zsh-autosuggestions.zsh
 
-source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/plugins/autopair.zsh && autopair-init
 
 # https://github.com/lilydjwg/atuin
@@ -411,8 +491,21 @@ if (( $+commands[atuin] )) && [[ -f $_plugin ]]; then
   . $_plugin
 fi
 
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 FAST_HIGHLIGHT[use_async]=1
+
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
+# Up arrow:
+bindkey '\e[A' history-substring-search-up
+bindkey '\eOA' history-substring-search-up
+# Down arrow:
+bindkey '\e[B' history-substring-search-down
+bindkey '\eOB' history-substring-search-down
 
 if (( $+commands[zoxide] )) && [[ ! -f ~/.local/share/zoxide/db.zo || $(zstat +uid ~/.local/share/zoxide/db.zo) == $UID ]]; then
   eval "$(zoxide init zsh)"
