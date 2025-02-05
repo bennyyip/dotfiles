@@ -374,22 +374,16 @@
       return
     fi
 
-    if (( $1 )); then
-      # Styling for up-to-date Git status.
-      local       meta='%f'     # default foreground
-      # local      clean='%76F'   # green foreground
-      local      clean='%13F%B'   # purple foreground
-      local   modified='%178F'  # yellow foreground
-      local  untracked='%39F'   # blue foreground
-      local conflicted='%196F'  # red foreground
-    else
-      # Styling for incomplete and stale Git status.
-      local       meta='%244F'  # grey foreground
-      local      clean='%244F'  # grey foreground
-      local   modified='%244F'  # grey foreground
-      local  untracked='%244F'  # grey foreground
-      local conflicted='%244F'  # grey foreground
-    fi
+    local       meta='%f'     # default foreground
+    local      clean='%13F%B' # purple foreground
+    local   modified='%178F'  # yellow foreground
+    local  untracked='%39F'   # blue foreground
+    local conflicted='%196F'  # red foreground
+    # if (( $1 )); then
+    #   # Styling for up-to-date Git status.
+    # else
+    #   # Styling for incomplete and stale Git status.
+    # fi
 
     local res
 
