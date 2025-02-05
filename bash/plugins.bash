@@ -8,4 +8,3 @@ if exists zoxide; then
 fi
 
 source ~/.shell/plugins/fzf.sh
-source ~/.shell/plugins/git.sh

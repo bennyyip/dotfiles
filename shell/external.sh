@@ -16,10 +16,22 @@ export LESS="-FRXM"
 # default has -S
 export SYSTEMD_LESS="${LESS#-}K"
 
-if exists bat; then
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-  export MANROFFOPT='-c'
-fi
+# if exists bat; then
+#   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+#   export MANROFFOPT='-c'
+# fi
+
+# 让 less 将粗体/下划线等显示为彩色
+export LESS_TERMCAP_mb=$'\x1b[91m'
+export LESS_TERMCAP_md=$'\x1b[38;5;74m'
+export LESS_TERMCAP_me=$'\x1b[0m'
+export LESS_TERMCAP_se=$'\x1b[0m'
+export LESS_TERMCAP_so=$'\x1b[7m'
+export LESS_TERMCAP_ue=$'\x1b[0m'
+export LESS_TERMCAP_us=$'\x1b[04;38;5;146m'
+# man 手册支持彩色
+export GROFF_NO_SGR=1
+
 
 if [[ -n $DISPLAY && -z $SSH_CONNECTION ]]; then
   export BROWSER=firefox
