@@ -1,3 +1,11 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+
 # zmodload zsh/zprof
 
 source ~/.shell/functions.sh
@@ -27,10 +35,7 @@ unsetopt BEEP               # Hush now, quiet now.
 setopt rm_star_silent       # rm * 时不要提示
 setopt interactive_comments # 允许在交互模式中使用注释
 setopt auto_continue        # disown 后自动继续进程
-setopt transient_rprompt    # 为方便复制，右边的提示符只在最新的提示符上显示
-setopt promptsubst          # setopt 的输出显示选项的开关状态
 setopt ksh_option_print
-stty -ixon                  # 上一行在 tmux 中不起作用
 
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' # stop at /
 setopt rc_quotes # 单引号中的 '' 表示一个 ' （如同 Vimscript 中者）
@@ -390,18 +395,6 @@ alias -g NNF="*(oc[1].)"
 alias -g NUL="/dev/null"
 alias -g XS='"$(xclip)"'
 alias -g ANYF='**/*[^~](.)'
-# Prompt {{{1
-if [[ $TERM != dumb && -f $(which starship 2>/dev/null) ]]; then
-    # PROMPT=$'%F{cyan}%B%n %F{white}@ %F{magenta}%m %F{white}>>= %F{green}%~ %1(j,%F{red}:%j,)%b%F{white}\n%F{blue}%B%(?..[%?] )%{%F{red}%}%# %F{white}%b'
-    eval "$(starship init zsh)"
-else
-    source ~/.zsh/prompt.zsh
-fi
-# ensure cursor shape
-_fix_cursor() {
-   echo -ne '\e[6 q'
-}
-precmd_functions+=(_fix_cursor)
 # Plugins {{{1
 if [ $+commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh
@@ -457,4 +450,13 @@ if [ -f ~/.shell_private ]; then
 fi
 # zprof | head -n 10
 # }}}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
+# ensure cursor shape
+_fix_cursor() {
+   echo -ne '\e[6 q'
+}
+precmd_functions+=(_fix_cursor)
+
 # vim:fdm=marker

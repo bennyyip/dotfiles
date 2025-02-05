@@ -10,23 +10,9 @@ $proxy = "http://127.0.0.1:10809"
 
 ###############################################################################
 
-$use_starship = Get-Command "starship.exe" -ErrorAction SilentlyContinue
-$use_starship = $false
-if ($use_starship) {
-  $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
-  function Invoke-Starship-TransientFunction {
-    &starship module character
-  }
-
-  Invoke-Expression (&starship init powershell)
-
-  Enable-TransientPrompt
-}
-else {
-  import-module $scriptDir\prompt.psm1
-  function prompt {
-    gitFancyPrompt
-  }
+import-module $scriptDir\prompt.psm1
+function prompt {
+  gitFancyPrompt
 }
 
 if (Get-Command "zoxide.exe" -ErrorAction SilentlyContinue) {

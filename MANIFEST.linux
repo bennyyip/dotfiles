@@ -30,7 +30,6 @@ config/fontconfig|symlink|
 config/i3status|symlink|
 config/i3|symlink|
 config/rofi|symlink|
-config/starship.toml|symlink|
 config/utop|symlink|
 config/yazi|symlink|
 config/zathura|symlink|
