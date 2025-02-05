@@ -39,8 +39,6 @@
 	trustExitCode = true
 
 [alias]
-	amm = commit -a --amend --no-edit
-	clone-fast = clone --depth=1
 	last = log -1 --stat
 	cp = cherry-pick
 	co = checkout

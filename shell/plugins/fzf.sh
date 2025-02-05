@@ -49,11 +49,9 @@ __calc_height() {
 
 fzf-vim-files() {
   local file cmd
-  cmd=${1:-vim}
-
-  file=$($(__fzfcmd) --prompt "$cmd> ")
+  file=$(FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND $*" $(__fzfcmd) -1 --prompt "$EDITOR> ")
   if [[ -n $file ]]; then
-    ${cmd} $file
+    $EDITOR $file
   else
     return 130
   fi
@@ -61,14 +59,12 @@ fzf-vim-files() {
 
 fzf-vim-mru() {
   local file cmd mru_file
-  cmd=${1:-vim}
 
-  file=$(cat $HOME/.vim_mru_files | grep -v '^#' | $(__fzfcmd) --no-sort --tiebreak=end --prompt "$cmd> ")
+  mru_file=$HOME/.vim_mru_files
+  file=$(cat "${mru_file}" | grep -v '^#' | $(__fzfcmd) -q "$*" -1 --no-sort --tiebreak=end --prompt "$EDITOR> ")
 
-  # mru_file=~/.cache/LeaderF/python3/mru/frecency
-  # file=$(cat ${mru_file} | awk '$1=""; $2=""; gsub (" ", "", $0);' | $(__fzfcmd) --tiebreak=end --prompt "$cmd> ")
   if [[ -n $file ]]; then
-    ${cmd} $file
+    $EDITOR $file
   else
     return 130
   fi
@@ -106,28 +102,14 @@ scd() {
   local _path="$(fd -H -L -E .git -E .vscode -E __pycache__ -t d $@ | $(__fzfcmd) -1 --no-sort --prompt 'cd> ')"
   [ "${_path}" == "" ] || cd $_path
 }
-zbi() {
-  zb
-  scd
-}
+alias zbi='zb && scd'
 
-
-v() {
-  fzf-vim-mru
-}
-vfr() {
-  fzf-vim-mru
-}
-vff() {
-  fzf-vim-files
-}
+alias v=fzf-vim-mru
+alias vfr=fzf-vim-mru
+alias vff=fzf-vim-files
 if [[ -n vv ]]; then
-  vvff() {
-    fzf-vim-files vv
-  }
-  vvfr() {
-    fzf-vim-mru vv
-  }
+  alias vvff='EDITOR=vv fzf-vim-files'
+  alias vvfr='EDITOR=vv fzf-vim-mru'
 fi
 
 # tmux
