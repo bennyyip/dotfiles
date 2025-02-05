@@ -1,6 +1,3 @@
-# shellcheck disable=SC1090
-alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
-
 alias vi=vim
 alias pxy='proxychains -q'
 alias :q="exit"
