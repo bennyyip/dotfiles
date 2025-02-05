@@ -13,3 +13,7 @@ config/doom/private/
 config/yazi/flavors
 config/yazi/plugins
 config/yazi/bookmark
+
+zsh/.histfile
+zsh/.zcompdump
+zsh/.ZSH_CACHE_DIR

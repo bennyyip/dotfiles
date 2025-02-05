@@ -1,4 +1,5 @@
 https://github.com/bennyyip/dot-vim.git|git|.vim
+https://github.com/tmux-plugins/tpm|git|.tmux/plugins/tpm
 
 bashrc|symlink|
 bash|symlink|
@@ -14,8 +15,8 @@ shell|symlink|
 ssh/config|symlink|
 tmux.conf|symlink|
 xprofile|symlink|
-zshrc|symlink|
 zsh|symlink|
+zshenv|symlink|
 
 ipython/ipython_config.py|symlink|.ipython/profile_default/ipython_config.py
 ipython/ipython_kernel_config.py|symlink|.ipython/profile_default/ipython_kernel_config.py
