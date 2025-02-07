@@ -1,6 +1,24 @@
 pane_frames false
 default_layout "compact"
-// default_mode "locked"
+simplified_ui true
+
+// themes {
+//     // gruvbox-dark
+//     default {
+//         fg 213 196 161
+//         bg 40 40 40
+//         black 60 56 54
+//         red 204 36 29
+//         green 152 151 26
+//         yellow 215 153 33
+//         blue 69 133 136
+//         magenta 177 98 134
+//         cyan 104 157 106
+//         white 251 241 199
+//         orange 214 93 14
+//     }
+// }
+
 
 // https://github.com/merikan/.dotfiles/blob/52c663bdb4a88966f2b94633f0e074a11a74d85f/config/zellij/config.kdl
 keybinds {
@@ -13,18 +31,14 @@ keybinds {
     unbind "Ctrl l"
 
     normal clear-defaults=true {
-      // add back some bindings
-      bind "Ctrl s" { SwitchToMode "Tmux"; }
+        // add back some bindings
+        bind "Ctrl s" { SwitchToMode "Tmux"; }
 
-//    bind "Ctrl h" { MoveFocus "Left"; }
-//    bind "Ctrl l" { MoveFocus "Right"; }
-//    bind "Ctrl j" { MoveFocus "Down"; }
-//    bind "Ctrl k" { MoveFocus "Up"; }
-
-      bind "Alt h" { MoveFocus "Left"; }
-      bind "Alt j" { MoveFocus "Down"; }
-      bind "Alt k" { MoveFocus "Up"; }
-      bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt m" { ToggleFloatingPanes; }
+        bind "Ctrl h" { MoveFocus "Left"; }
+        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
     }
     tmux clear-defaults=true {
         // add my preferred tmux bindings
@@ -36,13 +50,12 @@ keybinds {
         bind "s"  "|" "\\" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "h" { MoveFocus "Left"; }
-        bind "j" { MoveFocus "Down"; }
-        bind "k" { MoveFocus "Up"; }
-        bind "l" { MoveFocus "Right"; }
+        bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
         bind "o" { FocusNextPane; }
         // tab
-        // bind "c" { NewTab; SwitchToMode "Normal"; SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "c" { NewTab; SwitchToMode "Normal"; }
         bind "r" { SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "X" { CloseTab; SwitchToMode "Normal"; }
@@ -74,13 +87,16 @@ keybinds {
         bind "Space" { NextSwapLayout; }
         // switch to other modes
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
-        bind "Ctrl p" { SwitchToMode "Pane"; }
-        bind "Ctrl t" { SwitchToMode "Tab"; }
-        bind "Ctrl n" { SwitchToMode "Resize"; }
+        // bind "Ctrl t" { SwitchToMode "Tab"; }
         // bind "Ctrl s" { SwitchToMode "Scroll"; }
-        bind "Ctrl o" { SwitchToMode "Session"; }
-        bind "Ctrl m" { SwitchToMode "Move"; }
-        bind "Ctrl g" { SwitchToMode "Locked"; }
+        // bind "Ctrl o" { SwitchToMode "Session"; }
+        // bind "Ctrl g" { SwitchToMode "Locked"; }
+        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl n" { SwitchToMode "Resize"; }
+        bind "Ctrl g" { SwitchToMode "Move"; }
+
+        // ctrl + l = 12
+        bind "Ctrl l" { Write 12; SwitchToMode "Normal"; }
     }
     shared_except "tmux" {
         bind "Ctrl s" { SwitchToMode "Tmux"; }
@@ -88,23 +104,35 @@ keybinds {
     shared_except "locked" {
         // Put keybindings here if they conflict with Vim or others.
 
-//        bind "Alt z" { SwitchToMode "Locked"; }
-//
+        //        bind "Alt z" { SwitchToMode "Locked"; }
+        //
         bind "Alt m" { ToggleFloatingPanes; }
-//        bind "Alt t" { NewPane "Down"; }
-//        bind "Alt v" { NewPane "Right"; }
+        //        bind "Alt t" { NewPane "Down"; }
+        //        bind "Alt v" { NewPane "Right"; }
 
-        bind "Ctrl h" { MoveFocus "Left"; }
-        bind "Ctrl j" { MoveFocus "Down"; }
-        bind "Ctrl k" { MoveFocus "Up"; }
-        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+    }
 
-//        bind "Ctrl d" { HalfPageScrollDown; }
-//        bind "Ctrl u" { HalfPageScrollUp; }
-//
-//        bind "Ctrl f" { PageScrollDown; }
-//        bind "Ctrl b" { PageScrollUp; }
+    scroll {
+        bind "Ctrl d" { HalfPageScrollDown; }
+        bind "Ctrl u" { HalfPageScrollUp; }
 
+        bind "q" { SwitchToMode "Normal"; }
+
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
+
+        // bind "/" { SwitchMode "Search"; }
+    }
+    search {
+        bind "Ctrl d" { HalfPageScrollDown; }
+        bind "Ctrl u" { HalfPageScrollUp; }
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
+        bind "N" { Search "up"; }
     }
 
 }
@@ -120,10 +148,20 @@ plugins {
     strider location="zellij:strider"
     compact-bar location="zellij:compact-bar"
     session-manager location="zellij:session-manager"
-    welcome-screen location="zellij:session-manager" {
-        welcome_screen true
+    autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+        // Enabled at start?
+        is_enabled true
+        // Lock when any open these programs open.
+        triggers "nvim|vim|git|fzf|zoxide|atuin"
+        // Reaction to input occurs after this many seconds. (default=0.3)
+        // (An existing scheduled reaction prevents additional reactions.)
+        reaction_seconds "0.3"
+        // Print to Zellij log? (default=false)
+        print_to_log true
     }
-    filepicker location="zellij:strider" {
-        cwd "/"
-    }
+    switch location="https://github.com/mostafaqanbaryan/zellij-switch/releases/latest/download/zellij-switch.wasm"
+}
+
+load_plugins {
+    autolock
 }

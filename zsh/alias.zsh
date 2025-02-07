@@ -123,5 +123,7 @@ rr() {
 (( ${+aliases[pain]} )) && unalias pain
 pain() {
   sudo pacman -S --needed $*
+  ZCOMPCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump.$ZSH_VERSION"
+  rm -f $ZCOMPCACHE
   rehash
 }
