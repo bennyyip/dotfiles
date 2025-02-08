@@ -11,6 +11,7 @@ keybinds clear-defaults=true {
     normal {
 
         bind "Ctrl s" { SwitchToMode "Locked"; }
+        // bind "Ctrl s" { Write 19; }
         bind "[" { SwitchToMode "Scroll"; }
         bind "]" { EditScrollback; SwitchToMode "Locked"; }
         bind "Space" { NextSwapLayout; SwitchToMode "Normal"; }

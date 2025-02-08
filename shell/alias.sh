@@ -58,6 +58,8 @@ alias bpy=bpython
 alias jl=julia
 alias jl.="julia --project=."
 
+alias zj='zellij'
+
 if exists eza; then
   xtree() {
     eza -Tl "$@"

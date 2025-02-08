@@ -38,15 +38,6 @@ config/zellij|symlink|
 config/fd|symlink|
 config/bat|symlink|
 
-bin/osc52|symlink|bin/osc52
-bin/preview.sh|symlink|bin/preview.sh
-bin/rgg|symlink|bin/agv
-bin/rgg|symlink|bin/rgg
-bin/vimv|symlink|bin/vimv
-bin/vv|symlink|bin/vv
-bin/archpkg|symlink|bin/archpkg
-bin/timein|symlink|bin/timein
-bin/vimtrace|symlink|bin/vimtrace
-bin/git-open|symlink|bin/git-open
+bin|symlink|bin
 
 # vim:ft=conf
