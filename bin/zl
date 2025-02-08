@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+
+set -e
+
+(( ${+commands[zellij]} )) || {
+  echo zellij not exists
+  exit 1
+}
+
+_zellij_attch_or_switch() {
+  [[ -z $ZELLIJ ]] && zellij attach -c $1 || zellij pipe -p switch -- "-s $1"
+}
+
+(( $# >= 1 )) && {
+  _zellij_attch_or_switch $1
+  return
+}
+
+local sessions=(${(f)"$(zellij list-sessions -n | grep -v EXITED | cut -d" " -f 1 2>/dev/null)"})
+if [[ ! -z $sessions ]]; then
+  local selected=$(print -l $sessions | fzf)
+  [[ ! -z $selected ]] && {
+    _zellij_attch_or_switch $selected
+  }
+else
+  _zellij_attch_or_switch main
+fi

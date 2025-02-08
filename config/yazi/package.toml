@@ -1,12 +1,24 @@
-[plugin]
-deps = [
-  { use = "yazi-rs/plugins:smart-filter", rev = "600614a" },
-  { use = "dedukun/relative-motions", rev = "df97039" },
-  { use = "Reledia/glow", rev = "5ce76dc" },
-  { use = "h-hg/yamb", rev = "108347b" },
-]
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "d9fb215"
+hash = "b482f4f2d3c4e0aa3f8db89a95699439"
 
-[flavor]
-deps = [
-  { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }, { use = "dangooddd/kanagawa", rev = "d98f0c3" },
-]
+[[plugin.deps]]
+use = "dedukun/relative-motions"
+rev = "0d9c8cf"
+hash = "561ad872c77b95360c2657c5e8d395ed"
+
+[[plugin.deps]]
+use = "Reledia/glow"
+rev = "5ce76dc"
+hash = "52e5f5c602962e7cbf874da28f52ba45"
+
+[[plugin.deps]]
+use = "h-hg/yamb"
+rev = "3f7c51f"
+hash = "e11b980e5635f0fbabd80931b1a1347e"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "d98f0c3"
+hash = "cada780385f75abbcfbf5343256b441"
