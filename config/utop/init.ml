@@ -1,8 +1,8 @@
 #use "topfind"
 
-(* #require "core.top";; *)
-(* #require "ppx_jane";; *)
-(* open Base;; *)
+#require "core.top";;
+#require "ppx_jane";;
+open Base;;
 #require "lambda-term"
 
 #edit_mode_vi;;

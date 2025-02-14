@@ -51,7 +51,7 @@ setopt BANG_HIST                 # History expansions on '!'
 setopt EXTENDED_HISTORY          # Include start time in history records
 setopt APPEND_HISTORY            # Appends history to history file on exit
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-setopt SHARE_HISTORY             # Share history between all sessions.
+unsetopt SHARE_HISTORY             # Share history between all sessions.
 setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
 setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
 setopt HIST_IGNORE_ALL_DUPS      # Remove old events if new event is a duplicate
@@ -64,7 +64,7 @@ setopt HIST_BEEP                 # Beep when accessing non-existent history.
 setopt hist_fcntl_lock 2>/dev/null
 ## Directories
 DIRSTACKSIZE=9
-unsetopt AUTO_CD            # Implicit CD slows down plugins
+setopt AUTO_CD            # Implicit CD slows down plugins
 setopt AUTO_PUSHD           # cd -<tab>
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.

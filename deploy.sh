@@ -62,6 +62,10 @@ deployManifest() {
       symlink)
         symlinkFile "$filename" "$destination"
         ;;
+      cp)
+        mkdir -p "$(dirname "$destination")"
+        cp "$filename" "$destination"
+        ;;
       git)
         gitClone "$filename" "$destination"
         ;;
