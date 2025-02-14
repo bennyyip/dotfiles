@@ -5,6 +5,8 @@ default_layout "compact"
 pane_frames false
 session_name "main"
 attach_to_session true
+mouse_mode true
+copy_on_select true
 
 // Keybinds {{{1
 keybinds clear-defaults=true {
@@ -75,40 +77,6 @@ keybinds clear-defaults=true {
     }
     locked {
         bind "Ctrl s" { SwitchToMode "normal"; }
-
-        bind "Ctrl h" {
-            MessagePlugin "vim-navigator" {
-                name "move_focus";
-                payload "left";
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl j" {
-            MessagePlugin "vim-navigator" {
-                name "move_focus";
-                payload "down";
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl k" {
-            MessagePlugin "vim-navigator" {
-                name "move_focus";
-                payload "up";
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl l" {
-            MessagePlugin "vim-navigator" {
-                name "move_focus";
-                payload "right";
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Alt m" { ToggleFloatingPanes; }
     }
     // pane {
     //     bind "left" { MoveFocus "left"; }
@@ -245,6 +213,38 @@ keybinds clear-defaults=true {
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
+        bind "Alt m" { ToggleFloatingPanes; }
+        bind "Ctrl h" {
+            MessagePlugin "vim-navigator" {
+                name "move_focus";
+                payload "left";
+                move_mod "ctrl";
+            };
+        }
+
+        bind "Ctrl j" {
+            MessagePlugin "vim-navigator" {
+                name "move_focus";
+                payload "down";
+                move_mod "ctrl";
+            };
+        }
+
+        bind "Ctrl k" {
+            MessagePlugin "vim-navigator" {
+                name "move_focus";
+                payload "up";
+                move_mod "ctrl";
+            };
+        }
+
+        bind "Ctrl l" {
+            MessagePlugin "vim-navigator" {
+                name "move_focus";
+                payload "right";
+                move_mod "ctrl";
+            };
+        }
     }
     shared_except "locked" "renametab" "renamepane" {
         bind "Ctrl s" { SwitchToMode "locked"; }
@@ -365,15 +365,6 @@ load_plugins {
 //
 // theme_dir "/tmp"
 
-// Toggle enabling the mouse mode.
-// On certain configurations, or terminals this could
-// potentially interfere with copying text.
-// Options:
-//   - true (default)
-//   - false
-//
-// mouse_mode false
-
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
 // or should each user have their own cursor (false)
@@ -420,11 +411,6 @@ load_plugins {
 //   - primary
 //
 // copy_clipboard "primary"
-
-// Enable automatic copying (and clearing) of selection when releasing mouse
-// Default: true
-//
-// copy_on_select true
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:

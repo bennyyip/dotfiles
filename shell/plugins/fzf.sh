@@ -9,7 +9,7 @@ if [[ $0 =~ 'bash' ]]; then
   bind -m emacs-standard -x '"\es": __fzf_history__'
 
   __fzfcmd() {
-    echo fzf --height -40% $*
+    echo fzf
   }
 else
   source ~/.shell/plugins/fzf-key-bindings.zsh
