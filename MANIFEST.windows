@@ -4,8 +4,6 @@ bashrc|symlink
 bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
-git/.gitconfig|symlink|.gitconfig
-git/.gitignore_global|symlink|.gitignore_global
 inputrc|symlink|
 prettierrc|symlink|
 pythonrc|symlink|
@@ -29,5 +27,6 @@ bin/vv|symlink|bin/vv
 config/alacritty|symlink|AppData/Roaming/alacritty
 config/yazi|symlink|AppData/Roaming/yazi/config
 config/fd|symlink|AppData/Roaming/fd
+config/git|symlink|
 
 # vim:ft=conf

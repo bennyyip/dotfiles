@@ -48,3 +48,4 @@ tags.temp
 
 *.cmi
 *.cmx
+# vim:ft=gitignore

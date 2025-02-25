@@ -5,8 +5,6 @@ bashrc|symlink|
 bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
-git/.gitconfig|symlink|.gitconfig
-git/.gitignore_global|symlink|.gitignore_global
 inputrc|symlink|
 prettierrc|symlink|
 pythonrc|symlink|
@@ -38,6 +36,7 @@ config/zellij|symlink|
 config/zellij/permissons.kdl|cp|.cache/zellij/permissions.kdl
 config/fd|symlink|
 config/bat|symlink|
+config/git|symlink|
 
 bin|symlink|bin
 

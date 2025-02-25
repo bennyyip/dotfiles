@@ -284,3 +284,7 @@ function m {
 function ytdl {
   yt-dlp -N 4 $args
 }
+
+function rand-music {
+  fd -t d --exact-depth 2 . $HOME/Music | shuf -n1
+}

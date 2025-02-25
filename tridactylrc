@@ -9,6 +9,7 @@ set editorcmd gvim
 set theme quakelight
 set escapehatchsidebarhack false
 set completions.Tab.statusstylepretty true
+set smoothscroll true
 
 " set hintchars hjklasdfgyuiopqwertnmzxcvb
 " rihgt hand only
@@ -17,20 +18,20 @@ set hintchars hjklyuiopnmgtb;[/
 set followpagepatterns.next ^(next|newer)\\b|»|>>|more|下一頁|下一页|后页
 set followpagepatterns.prev ^(prev(ious)?|older)\\b|«|<<|上一頁|上一页|前页
 
-" Search engines
-set searchengine duck
-set searchurls.gg https://www.google.com/search?hl=en&q=
-set searchurls.gh https://github.com/search?utf8=✓&q=
-set searchurls.douban https://www.douban.com/search?q=
-set searchurls.disc https://www.discogs.com/search/?type=all&q=
-set searchurls.duck https://duckduckgo.com/?q=
-set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
-set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
-set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
+" search engines
+set searchengine       duck
+set searchurls.gg      https://www.google.com/search?hl=en&q=
+set searchurls.gh      https://github.com/search?utf8=✓&q=
+set searchurls.douban  https://www.douban.com/search?q=
+set searchurls.disc    https://www.discogs.com/search/?type=all&q=
+set searchurls.duck    https://duckduckgo.com/?q=
+set searchurls.ru      https://rutracker.org/forum/tracker.php?nm=
+set searchurls.wiki    https://zh.wikipedia.org/wiki/Special:Search/
+set searchurls.wikien  https://en.wikipedia.org/wiki/Special:Search/
 set searchurls.twitter https://twitter.com/search?q=
-set searchurls.bili https://search.bilibili.com/all?keyword=
-set searchurls.subhd https://subhd.tv/search/
-set smoothscroll true
+set searchurls.bili    https://search.bilibili.com/all?keyword=
+set searchurls.subhd   https://subhd.tv/search/
+set searchurls.yt      https://www.youtube.com/results?search_query=
 
 # fix for duckduckgo
 bind gi focusinput
