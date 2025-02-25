@@ -1,0 +1,132 @@
+[github]
+	user = bennyyip
+[user]
+	name = bennyyip
+	email = yebenmy@gmail.com
+
+[alias]
+	last = log -1 --stat
+	cp = cherry-pick
+	co = checkout
+	cl = clone
+	ci = commit -v
+	ca = commit --amend -v
+	unstage = reset HEAD --
+	st = status -sb
+	br = branch -vv
+	bra = branch -vv --all
+	dc = diff --cached
+	lg = log --graph --pretty='format:%C(red)%h%Creset %C(yellow)%G?%Creset%C(auto)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%aN>%Creset' --date=short
+	update-submodules = submodule update --init --recursive
+	upgrade-submodules = submodule update --init --remote
+	p1 = diff HEAD~1 --diff-algorithm=minimal --output=1.patch
+	root = rev-parse --show-toplevel
+	dft = difftool
+	unadd = reset HEAD
+	# data analysis
+	ranked-authors = !git authors | sort | uniq -c | sort -n
+	emails = !git log --format="%aE" | sort -u
+	email-domains = !git log --format="%aE" | awk -F'@' '{print $2}' | sort -u
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+	process = git-lfs filter-process
+[core]
+	autocrlf = false
+	trustctime = false
+	editor = vim
+	filemode = false
+	eol = lf
+	safecrlf = true
+	quotepath = false
+	protectNTFS = false
+	longpaths = true
+[column]
+	ui = auto
+[color]
+	ui = true
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[init]
+	defaultBranch = main
+[diff]
+	algorithm = histogram
+	mnemonicPrefix = true
+	renames = true
+	colorMoved = plain
+	colorMovedWS = allow-indentation-change
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
+	; all = true
+[pull]
+	rebase = true
+
+[help]
+	autocorrect = 10
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
+[merge]
+	conflictstyle = zdiff3
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "git@github.com:"]
+	insteadOf = git://github.com/
+
+[advice]
+	detachedHead = false
+
+[apply]
+	# Remove trailing whitespaces
+	whitespace = fix
+[color "diff"]
+	whitespace = red reverse
+[format]
+	pretty = fuller
+[log]
+	date = iso
+; [pull]
+; 	ff = only
+
+[core]
+	pager = delta
+
+[delta]
+	syntax-theme = gruvbox-dark
+	navigate = true    # use n and N to move between diff sections
+	light = false
+	side-by-side = false
+	line-numbers = true
+	features = decorations
+
+[delta "decorations"]
+	file-decoration-style = yellow ol ul
+	file-style = bold yellow ul
+	hunk-header-decoration-style = none
+	commit-decoration-style = bold yellow box ul
+
+[interactive]
+	diffFilter = delta --color-only
+
+
+[include]
+	path = .gitconfig.local
+	autostash = true
+; vim:ft=gitconfig

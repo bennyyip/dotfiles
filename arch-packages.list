@@ -22,6 +22,7 @@ devtools
 dhcpcd
 docker-compose
 dos2unix
+emacs-nox
 extra-cmake-modules
 eza
 fastfetch
@@ -34,7 +35,6 @@ ghq
 git-delta
 git-extras
 git-lfs
-github-cli
 grub
 htop
 hyperfine
@@ -73,6 +73,7 @@ pacman-contrib
 pandoc-cli
 paru
 patchelf
+perf
 plocate
 pnpm
 podman-docker
@@ -82,7 +83,6 @@ pyenv
 pypinyin
 pyright
 python-fonttools
-python-isort
 python-jmespath
 python-lsp-server
 python-pip
@@ -142,3 +142,4 @@ zsh-lovers
 zsh-theme-powerlevel10k-git
 
 # foreign
+flamegraph
