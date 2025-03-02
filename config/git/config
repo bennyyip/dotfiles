@@ -105,8 +105,8 @@
 ; [pull]
 ; 	ff = only
 
-[core]
-	pager = delta
+; [core]
+; 	pager = delta
 
 [delta]
 	syntax-theme = gruvbox-dark
@@ -127,6 +127,7 @@
 
 
 [include]
-	path = .gitconfig.local
+	path = ~/.gitconfig.local
 	autostash = true
+
 ; vim:ft=gitconfig
