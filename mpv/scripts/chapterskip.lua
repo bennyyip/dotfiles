@@ -5,7 +5,7 @@
 -- This script skips chapters based on their title.
 
 local categories = {
-    prologue = "^Prologue/^Intro",
+    -- prologue = "^Prologue/^Intro",
     opening = "^OP/ OP$/^Opening",
     ending = "^ED/ ED$/^Ending",
     preview = "Preview$"

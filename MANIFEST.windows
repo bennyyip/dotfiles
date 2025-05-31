@@ -10,6 +10,7 @@ pythonrc|symlink|
 ripgreprc|symlink|
 shell|symlink|
 ssh/config|symlink|
+tridactylrc|symlink|
 python|symlink|python
 
 ipython/ipython_config.py|symlink|.ipython/profile_default/ipython_config.py

@@ -2,7 +2,7 @@ $scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
 $env:PAGER = 'less.exe -RFXM'
 
 $env:EDITOR = "vim"
-$env:PATH =  $env:PATH + ";$HOME/bin"
+$env:PATH =  $env:PATH + ";$HOME/bin" + ";C:\Program Files\Tesseract-OCR"
 
 $env:AGV_EDITOR = 'gvim --remote-silent-tab +$line $file'
 
@@ -253,7 +253,7 @@ function y {
 function Remove-HistoryDuplicates {
   $HASH = @{}
   $newhistory = ""
-  Get-Content (Get-PSReadlineOption).HistorySavePath | ` 
+  Get-Content (Get-PSReadlineOption).HistorySavePath | `
     ForEach-Object {
       if ( $HASH.$_ -eq $null ) { $newhistory+=$_ }
       $HASH.$_ = 1 } > $env:TMP\PowerShell-History
@@ -287,4 +287,8 @@ function ytdl {
 
 function rand-music {
   fd -t d --exact-depth 2 . $HOME/Music | shuf -n1
+}
+
+function download-replay {
+  python $HOME/dotfiles/bin/dota2.py $args
 }

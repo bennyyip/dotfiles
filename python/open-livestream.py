@@ -21,7 +21,7 @@ client = httpx.AsyncClient()
 if is_termux:
     http_proxy = ""
 else:
-    http_proxy = "http://127.0.0.1:10809"
+    http_proxy = "socks5h://127.0.0.1:10808"
 
 class TwitchAPI:
     CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"

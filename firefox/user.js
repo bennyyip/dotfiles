@@ -257,6 +257,8 @@ user_pref("browser.tabs.loadDivertedInBackground", true);
 
 // fonts
 user_pref("font.name.monospace.x-western", "Sarasa Mono CL");
+user_pref("font.name.sans-serif.x-western", "Chiron Hei HK");
+user_pref("font.name.serif.x-western", "Chiron Sung HK");
 
 user_pref("font.name.monospace.zh-CN", "Sarasa Mono CL");
 user_pref("font.name.sans-serif.zh-CN", "Chiron Hei HK");
@@ -273,3 +275,6 @@ user_pref("font.name.serif.zh-HK", "Chiron Sung HK");
 user_pref("font.name.monospace.ja", "Sarasa Mono CL");
 user_pref("font.name.sans-serif.ja", "Chiron Hei HK");
 user_pref("font.name.serif.ja", "Chiron Sung HK");
+
+// scale
+user_pref("layout.css.devPixelsPerPx", 2.0);

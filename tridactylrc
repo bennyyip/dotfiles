@@ -32,6 +32,7 @@ set searchurls.twitter https://twitter.com/search?q=
 set searchurls.bili    https://search.bilibili.com/all?keyword=
 set searchurls.subhd   https://subhd.tv/search/
 set searchurls.yt      https://www.youtube.com/results?search_query=
+set searchurls.nyaa    https://nyaa.si/?f=0&c=0_0&q=
 
 # fix for duckduckgo
 bind gi focusinput
@@ -150,14 +151,14 @@ command IDM js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_
 " go current tab
 " gn new tab
 " gw new windows
-quickmark b https://miniflux.dllmpkw.xyz/
 quickmark b https://t.bilibili.com/
 quickmark d https://www.douyu.com/directory/watchHistory
 quickmark l https://liquipedia.net/dota2/Main_Page
-quickmark r https://miniflux.dllmpkw.xyz/
+quickmark r https://miniflux.abitw.top/
+" bind gnJ winopen -private
 
-unbindurl https://miniflux.dllmpkw.top/unread(\?offset=\d+)?$ j
-unbindurl https://miniflux.dllmpkw.top/unread(\?offset=\d+)?$ k
+unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ j
+unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ k
 
 " Avoid misclick in tenhou
 autocmd DocStart tenhou.net mode ignore
@@ -173,6 +174,7 @@ autocmd DocLoad ^http(s?)://silverpic.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://imgbaron.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://pics4you.net/ hint -f Continue\ to\ image
 autocmd DocLoad ^https://www.ptt.cc/ hint -c div.over18-button-container:nth-child(2) > button:nth-child(1)
+autocmd DocLoad ^https://www.douyu.com/directory/watchHistory js setTimeout(()=>tri.excmds.hint('-Jf', '直播中'), 2000)
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
