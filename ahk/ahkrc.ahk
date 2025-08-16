@@ -8,10 +8,56 @@ EDITOR := VIM
 A_HotkeyInterval := 999999999  ; This is the default value (2000 milliseconds).
 A_MaxHotkeysPerInterval := 99999999999 ; default 200
 
-#Include "Core/Functions.ahk"
-#Include "Core/AppSpecific.ahk"
-#Include "Core/MyMenu.ahk"
-#Include "Core/Keymap.ahk"
+; INCLUDE Common FIRST
+#Include "%A_ScriptDir%\lib\Common.ahk"
+
+#Include "%A_ScriptDir%\lib\KDEConnect.ahk"
+#Include "%A_ScriptDir%\lib\VDA.ahk"
+#Include "%A_ScriptDir%\lib\Pomodoro.ahk"
+
+; Apps
+#Include "%A_ScriptDir%\AppSpecific\Anki.ahk"
+#Include "%A_ScriptDir%\AppSpecific\DOOMEternal.ahk"
+#Include "%A_ScriptDir%\AppSpecific\DOTA2.ahk"
+#Include "%A_ScriptDir%\AppSpecific\SumatraPDF.ahk"
+#Include "%A_ScriptDir%\AppSpecific\Everything.ahk"
+#Include "%A_ScriptDir%\AppSpecific\gvim.ahk"
+#Include "%A_ScriptDir%\AppSpecific\Alacritty.ahk"
+#Include "%A_ScriptDir%\AppSpecific\GoldenDict.ahk"
+#Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
+#Include "%A_ScriptDir%\AppSpecific\Firefox.ahk"
+#Include "%A_ScriptDir%\AppSpecific\WindowsTerminal.ahk"
+#Include "%A_ScriptDir%\AppSpecific\sf6.ahk"
+
+; Keymap
+#Include "%A_ScriptDir%\MyMenu.ahk"
+#Include "%A_ScriptDir%\Keymap\Capslock.ahk"
+#Include "%A_ScriptDir%\Keymap\VirtualDesktop.ahk"
+#Include "%A_ScriptDir%\Keymap\Media.ahk"
+#Include "%A_ScriptDir%\Keymap\Vim.ahk"
+
+; menu
+#z:: MyMenu.Show
+
+; Pomodoro
+; >^Enter:: Pomodoro
+; +>^Enter:: Pomodoro(true)
+
+; others
+#+Q:: WinClose WinGetID("A")
+
+#/:: Run "https://duckduckgo.com/?t=ffab&q=" . A_Clipboard
+
+; #c:: Launch "C:\Program Files (x86)\GoldenDict\GoldenDict.exe"
+#c:: Run "goldendict://" . A_Clipboard
+
+>#J:: Send "{PgDn}"
+>#K:: Send "{PgUp}"
+
+#n:: Send "#+^n"
+
+#e:: ShowDir ""
+
 
 #Include "local.ahk"
 

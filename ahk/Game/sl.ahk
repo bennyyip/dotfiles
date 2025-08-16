@@ -43,3 +43,27 @@ F5:: {
     Sleep 3000
     SendStrokes 800, "{right}", "F"
 }
+
+PgDn:: {
+    ControlSend "{PgDn}", "SUMATRA_PDF_CANVAS1", "ahk_exe SumatraPDF.exe"
+}
+
+PgUp:: {
+    ControlSend "{PgUp}", "SUMATRA_PDF_CANVAS1", "ahk_exe SumatraPDF.exe"
+}
+
+F2:: {
+    static transparent := false
+    if (!transparent) {
+        WinSetTransparent 0, "DARK SOULS III"
+    } else {
+        WinSetTransparent 255, "DARK SOULS III"
+    }
+    transparent := !transparent
+}
+
+F3:: {
+    Send "{W down}{K down}"
+    Send "{K up}"
+    Send "{W up}"
+}
