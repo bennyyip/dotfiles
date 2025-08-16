@@ -33,6 +33,7 @@ set searchurls.bili    https://search.bilibili.com/all?keyword=
 set searchurls.subhd   https://subhd.tv/search/
 set searchurls.yt      https://www.youtube.com/results?search_query=
 set searchurls.nyaa    https://nyaa.si/?f=0&c=0_0&q=
+set searchurls.lb      https://letterboxd.com/search/
 
 # fix for duckduckgo
 bind gi focusinput

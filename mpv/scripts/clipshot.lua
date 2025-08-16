@@ -46,19 +46,6 @@ else
     end
 end
 
-local function set_clipboard(text)
-    local res = utils.subprocess({ args = {
-        'powershell', '-NoProfile', '-Command', string.format([[& {
-            Trap {
-                Write-Error -ErrorRecord $_
-                Exit 1
-            }
-            Add-Type -AssemblyName PresentationCore
-            [System.Windows.Clipboard]::SetText('%s')
-        }]], text)
-    } })
-end
-
 local function copyTime()
     local function divmod (a, b)
         return math.floor(a / b), a % b
@@ -70,7 +57,8 @@ local function copyTime()
     -- local milliseconds = math.floor((remainder - seconds) * 1000)
     -- local time = string.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds)
     local time = string.format("%02d:%02d:%02d", hours, minutes, seconds)
-    set_clipboard(time)
+    mp.set_property('clipboard/text', time)
+    mp.osd_message(time)
 end
 
 ---@param arg string
@@ -90,3 +78,4 @@ end
 -- mp.add_key_binding('Alt+c', 'clipshot-window', clipshot('window'))
 
 mp.add_key_binding('Y',     'clipshot-video',  clipshot('video'))
+mp.add_key_binding('p',     'clipshot-time',  copyTime)

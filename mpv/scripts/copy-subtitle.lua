@@ -4,10 +4,7 @@ local function copy_subtitle(prop)
 
     if result ~= '' and result ~= nil then
         result = result:gsub("\n", " ")
-        mp.commandv(
-        'run', 'python', '-m', 'pyperclip', '-c',
-        result
-        )
+        mp.set_property('clipboard/text', result)
         if translate then
             mp.osd_message('translate')
             mp.commandv(

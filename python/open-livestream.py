@@ -9,7 +9,7 @@ import httpx
 from fzf import FZF
 
 """
-~/streamers.csv
+~/streamers.txt
 https://www.twitch.tv/xqc,xqc
 https://www.douyu.com/9999,yyf
 """
@@ -109,7 +109,7 @@ async def is_online(url: str) -> bool:
 
 async def get_streamer_urls(filter_online):
     streamer_urls: dict[str, str] = {}
-    with open(os.path.expanduser("~/streamers.csv")) as fp:
+    with open(os.path.expanduser("~/streamers.txt")) as fp:
         for line in fp:
             line = line.strip()
             if line == "":
