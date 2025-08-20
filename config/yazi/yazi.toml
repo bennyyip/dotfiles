@@ -6,7 +6,7 @@ linemode = "size_and_mtime"
 edit = [
   { run = '${EDITOR:=vim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
   { run = 'vim "%*"', desc = "$EDITOR", block = true, for = "windows" },
-  { run = 'gvim  --remote-silent-tab "%*"', orphan = true, desc = "gVim Remote", for = "windows" },
+  { run = 'gvim --remote-silent-tab "%*"', orphan = true, desc = "gVim Remote", for = "windows" },
 ]
 extract = [
   { run = '7zfm "%1"', desc = "Open in 7zfm", orphan = true, for = "windows" },
@@ -36,9 +36,7 @@ rules = [
 ]
 
 [plugin]
-prepend_previewers = [
-  { name = "*.md", run = "glow" },
-]
+
 
 preloaders = [
   # # Image
@@ -82,3 +80,7 @@ previewers = [
   # Fallback
   { name = "*", run = "file" },
 ]
+
+[[plugin.prepend_previewers]]
+name = "*.md"
+run  = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'
