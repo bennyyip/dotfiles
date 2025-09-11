@@ -49,4 +49,11 @@ on = [ "9" ]
 run = "plugin relative-motions 9"
 desc = "Move in relative steps"
 # ]]]
+
+
+[[mgr.prepend_keymap]]
+on = "d"
+run = "remove --permanently"
+desc = "Permanently delete selected files"
+
 # vim:fdm=marker:fmr=[[[,]]]

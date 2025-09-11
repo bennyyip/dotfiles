@@ -183,5 +183,12 @@ bindurl ^https://stratz.com/matches/.+ ;q hint -c button.sc-2c0cc0dc-0:nth-child
 bindurl ^https://d2pt.gg/hero/.+ ;q hint -c [class*="svelte-g4fxhj"]
 bindurl ^https://d2pt.gg/player/.+ ;q hint -c .copy-icon
 
+blacklistadd aistudio.google.com
+
+proxyadd gfw socks5://127.0.0.1:10808
+set proxy gfw
+" set noproxy true
+" set noproxy false
+
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl

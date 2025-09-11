@@ -12,7 +12,7 @@ local categories = {
 }
 
 local options = {
-    enabled = true,
+    enabled = false,
     skip_once = true,
     categories = "",
     skip = ""

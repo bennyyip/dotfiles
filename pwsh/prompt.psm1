@@ -255,9 +255,13 @@ function local:pathPrompt {
     $quailifier = Split-Path -Path $pwd -Qualifier
     Write-Host $currentTime -NoNewline -ForegroundColor "Blue"
     Write-Host $promptLeaderUpper -NoNewline -ForegroundColor $leaderColor
-    Write-Host $quailifier -NoNewline -ForegroundColor $locationIconColor
-    if (hasPrefix $pwd.Path $quailifier) {
-        Write-Host ($pwd.Path.Substring($quailifier.Length)) -NoNewline -ForegroundColor Green
+    if ($pwd.Path.StartsWith($HOME)) {
+        Write-Host (("~" + $pwd.Path.Substring($HOME.Length)).Replace('\', '/')) -NoNewline -ForegroundColor Green
+    } else {
+      Write-Host $quailifier -NoNewline -ForegroundColor $locationIconColor
+        if (hasPrefix $pwd.Path $quailifier) {
+          Write-Host ($pwd.Path.Substring($quailifier.Length)) -NoNewline -ForegroundColor Green
+        }
     }
 
     Write-Host " " -NoNewLine
@@ -295,7 +299,7 @@ function gitFancyPrompt {
     # }
 
     # Write-Host $locationIcon -NoNewLine -ForegroundColor $locationIconColor
-    # moveCursor 0 (-1)
+    # moveCursor) 0 (-1)
     # hGutterPrompt
 
     $startposx = $Host.UI.RawUI.CursorPosition.X;

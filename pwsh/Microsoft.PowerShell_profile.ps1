@@ -111,16 +111,16 @@ if (Get-Command "fzf.exe" -ErrorAction SilentlyContinue) {
   Set-Alias fkill Invoke-FuzzyKillProcess
   Set-Alias fgs Invoke-FuzzyGitStatus
   Set-PsFzfOption -PSReadlineChordReverseHistory 'Alt+s' -PSReadlineChordProvider 'Ctrl+t'
-  function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d $args | Invoke-Fzf -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
-  function vff { Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote-silent-tab $_ } }
-  function vfr { Get-Content $env:APPDATA\LeaderF\python3\mru\mruCache | Invoke-Fzf -Prompt 'gvim>' | % { gvim --remote-silent-tab $_ } }
+  function scd { $result = $null; fd -E .git -E __pycache__ -E .vscode -H -t d $args | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'cd>' | ForEach-Object { $result = $_ }; if ($null -ne $result) { Set-LocationEx $result } }
+  function vff { Invoke-Fzf -Query $args[0] -Select1 -Prompt 'gvim>' | % { gvim --remote-silent-tab $_ } }
+  function vfr { Get-Content $env:APPDATA\LeaderF\python3\mru\mruCache | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'gvim>' | % { gvim --remote-silent-tab $_ } }
 }
 
 ###############################################################################
 
 If (Get-Command "eza.exe" -ErrorAction SilentlyContinue) {
   function ls { eza }
-  function l { eza -al $args }
+  function l { eza --group-directories-first -blF --icons=auto $args }
   function la { eza --all $args }
   function ll { eza --long $args }
   function laht { eza --all --long --sort=modified $args }
@@ -278,7 +278,7 @@ function Start-Shizuku {
 }
 
 function m {
-  fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Prompt 'mpv>' | % { start-process $_ }
+  fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'mpv>' | % { start-process $_ }
 }
 
 function ytdl {
@@ -291,4 +291,8 @@ function rand-music {
 
 function download-replay {
   python $HOME/dotfiles/bin/dota2.py $args
+}
+
+function b {
+  Get-Content $HOME/.bookmarks | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'cd>' | % { Set-LocationEx $_ }
 }

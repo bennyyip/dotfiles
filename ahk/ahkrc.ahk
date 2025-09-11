@@ -27,7 +27,6 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 #Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
 #Include "%A_ScriptDir%\AppSpecific\Firefox.ahk"
 #Include "%A_ScriptDir%\AppSpecific\WindowsTerminal.ahk"
-#Include "%A_ScriptDir%\AppSpecific\sf6.ahk"
 
 ; Keymap
 #Include "%A_ScriptDir%\MyMenu.ahk"
