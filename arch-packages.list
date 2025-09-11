@@ -12,6 +12,7 @@ base
 base-devel
 bash-completion
 bat
+bear
 boost
 btop
 ccls
@@ -20,6 +21,7 @@ ctags
 debuginfod
 devtools
 dhcpcd
+difftastic
 docker-compose
 dos2unix
 emacs-nox
@@ -30,7 +32,6 @@ fcitx5-gtk
 fd
 fzf
 gdu
-ghc
 ghq
 git-delta
 git-extras
@@ -41,7 +42,9 @@ hyperfine
 i3blocks
 inotify-tools
 ipython
+janet-lang-git
 john
+ldns
 linux-firmware
 linux-lts
 linux-lts-headers
@@ -64,13 +67,15 @@ nasm
 ncdu
 ninja
 npm
+nushell
 nvchecker
 opam
+opencc
 openresolv
 opensc
 ouch
 pacman-contrib
-pandoc-cli
+pandoc-bin
 paru
 patchelf
 perf
@@ -91,9 +96,9 @@ python-requests
 python-ruff
 python-virtualenv
 raylib
-redis
+rcs
 reflector
-ripgrep-skylake-git
+ripgrep-all
 rlwrap
 rng-tools
 ruby-bundler
@@ -104,7 +109,7 @@ rust-wasm
 samba
 sccache
 sd
-shellcheck
+shellcheck-static
 shfmt
 speedtest-cli
 stdoutisatty
@@ -114,6 +119,7 @@ tcl
 tealdeer
 time
 tmux
+tokei
 tree
 ttyper
 typescript-language-server
@@ -142,4 +148,3 @@ zsh-lovers
 zsh-theme-powerlevel10k-git
 
 # foreign
-flamegraph

@@ -3,16 +3,16 @@
 ################################################################################
 
 # With:       reflector --age 12 --latest 8 --sort rate --country China -p https --save /etc/pacman.d/mirrorlist --save pacman.d/mirrorlist -x neusoft -x qlu
-# When:       2025-02-27 12:14:42 UTC
+# When:       2025-08-31 18:17:09 UTC
 # From:       https://archlinux.org/mirrors/status/json/
-# Retrieved:  2025-02-27 12:14:32 UTC
-# Last Check: 2025-02-27 12:04:17 UTC
+# Retrieved:  2025-08-31 18:17:03 UTC
+# Last Check: 2025-08-31 17:57:32 UTC
 
-Server = https://mirrors.xjtu.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.nju.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.shanghaitech.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.jlu.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
-Server = https://mirrors.jcut.edu.cn/archlinux/$repo/os/$arch
 Server = https://mirror.nyist.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.cqu.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
+Server = https://mirrors.jlu.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.hit.edu.cn/archlinux/$repo/os/$arch

@@ -1,12 +1,14 @@
 simplified_ui false
+default_shell "zsh"
 theme "night-owl"
 default_mode "locked"
 default_layout "compact"
 pane_frames false
 session_name "main"
 attach_to_session true
-mouse_mode true
-copy_on_select true
+mouse_mode false
+copy_on_select false
+show_startup_tips false
 
 // Keybinds {{{1
 keybinds clear-defaults=true {
@@ -336,11 +338,12 @@ plugins {
         welcome_screen true
     }
 
-    switch location="https://github.com/mostafaqanbaryan/zellij-switch/releases/latest/download/zellij-switch.wasm"
+    switch location="https://github.com/mostafaqanbaryan/zellij-switch/releases/download/0.2.1/zellij-switch.wasm"
     vim-navigator location="https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm"
 
     // compact-bar location="zellij:compact-bar"
-    compact-bar location="https://github.com/bennyyip/zellij-compact-bar/releases/latest/download/compact-bar.wasm"
+    // compact-bar location="https://github.com/bennyyip/zellij-compact-bar/releases/download/0.3.0/compact-bar.wasm"
+    compact-bar location="file:~/ghq/github.com/bennyyip/compact-bar/target/wasm32-wasip1/release/compact-bar.wasm"
 }
 
 // Plugins to load in the background when a new session starts
@@ -350,11 +353,6 @@ load_plugins {
     compact-bar
 }
 // Unset Options {{{1
-// Choose the path to the default shell that zellij will use for opening new panes
-// Default: $SHELL
-//
-// default_shell "fish"
-
 // The folder in which Zellij will look for layouts
 // (Requires restart)
 //

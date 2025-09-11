@@ -33,7 +33,6 @@ config/utop|symlink|
 config/yazi|symlink|
 config/zathura|symlink|
 config/zellij|symlink|
-config/zellij/permissons.kdl|cp|.cache/zellij/permissions.kdl
 config/fd|symlink|
 config/bat|symlink|
 config/git|symlink|

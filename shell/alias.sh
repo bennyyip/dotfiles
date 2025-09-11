@@ -66,7 +66,7 @@ if exists eza; then
   }
 
   alias exa="eza --group-directories-first --git";
-  alias l="eza -blF --icons=auto";
+  alias l="eza --group-directories-first -blF --icons=auto";
   alias ll="eza -abghilmu";
   alias llm='ll --sort=modified'
   alias la="LC_COLLATE=C eza -ablF";

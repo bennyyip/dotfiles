@@ -8,7 +8,9 @@ set -e
 }
 
 _zellij_attch_or_switch() {
-  [[ -z $ZELLIJ ]] && zellij attach -c $1 || zellij pipe -p switch -- "-s $1"
+  # [[ -z $ZELLIJ ]] && zellij attach -c $1 || zellij pipe -p switch -- "-s $1"
+  [[ -v ZELLIJ ]] && zellij pipe -p switch -- "-s $1" || zellij attach -c $1
+  # zellij attach -c $1
 }
 
 (( $# >= 1 )) && {
