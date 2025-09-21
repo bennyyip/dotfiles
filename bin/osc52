@@ -43,10 +43,13 @@ set -u
 # and then the base64 encoded contents. Since base64 consumes 4 bytes
 # for every 3 bytes of input, we have a limit of 74,994 bytes for the
 # unencoded data.
-limit=74994 
+limit=74994
 
 # tmux active pane tty
-TMUX_TTY=$(tmux list-panes -F "#{pane_active} #{pane_tty}" | awk '$1 == "1" { print $2; exit; }');
+
+if [[ -n ${TMUX+x} ]]; then
+  TMUX_TTY=$(tmux list-panes -F "#{pane_active} #{pane_tty}" | awk '$1 == "1" { print $2; exit; }')
+fi
 
 # ssh tty or tmux active pane tty
 tty=${SSH_TTY:-$TMUX_TTY};
@@ -54,7 +57,9 @@ tty=${SSH_TTY:-$TMUX_TTY};
 # send stdin or file arguments via OSC 52 escape codes
 # (we use tr(1) to strip \r\n since Mac OS X base64(1)
 # doesn't support the -w0 parameter)
-printf "\033Ptmux;\033" > "${tty}";
+if [[ -n ${TMUX+x} ]]; then
+  printf "\033Ptmux;\033" > "${tty}";
+fi
 printf "\033]52;c;" > "${tty}";
 cat "$@" | dd bs=1 "count=$limit" if=/dev/stdin of=/dev/stdout 2>/dev/null | base64 | tr -d '\r\n' > "${tty}";
 printf "\a" > "${tty}";

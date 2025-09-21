@@ -15,6 +15,7 @@ bat
 bear
 boost
 btop
+cargo-fuzz
 ccls
 cgdb
 ctags
@@ -44,6 +45,7 @@ inotify-tools
 ipython
 janet-lang-git
 john
+jre-openjdk
 ldns
 linux-firmware
 linux-lts
@@ -68,18 +70,17 @@ ncdu
 ninja
 npm
 nushell
-nvchecker
 opam
 opencc
 openresolv
 opensc
 ouch
+pacfiles
 pacman-contrib
 pandoc-bin
 paru
 patchelf
 perf
-plocate
 pnpm
 podman-docker
 postgresql
@@ -101,11 +102,10 @@ reflector
 ripgrep-all
 rlwrap
 rng-tools
-ruby-bundler
-ruby-faraday
-ruby-parallel
+rr-git
 rust-analyzer
 rust-wasm
+rustfmt-nightly
 samba
 sccache
 sd
@@ -114,6 +114,7 @@ shfmt
 speedtest-cli
 stdoutisatty
 strace
+stylua
 syncthing
 tcl
 tealdeer

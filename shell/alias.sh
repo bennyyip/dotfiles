@@ -1,3 +1,5 @@
+alias c='stdoutisatty'
+
 alias vi=vim
 alias pxy='proxychains -q'
 alias :q="exit"

@@ -1,11 +1,12 @@
 simplified_ui false
 default_shell "zsh"
-theme "night-owl"
+theme "kanagawa"
 default_mode "locked"
 default_layout "compact"
 pane_frames false
 session_name "main"
 attach_to_session true
+session_serialization false
 mouse_mode false
 copy_on_select false
 show_startup_tips false
@@ -339,11 +340,12 @@ plugins {
     }
 
     switch location="https://github.com/mostafaqanbaryan/zellij-switch/releases/download/0.2.1/zellij-switch.wasm"
-    vim-navigator location="https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm"
+    vim-navigator location="https://github.com/hiasr/vim-zellij-navigator/releases/download/0.3.0/vim-zellij-navigator.wasm"
 
     // compact-bar location="zellij:compact-bar"
-    // compact-bar location="https://github.com/bennyyip/zellij-compact-bar/releases/download/0.3.0/compact-bar.wasm"
-    compact-bar location="file:~/ghq/github.com/bennyyip/compact-bar/target/wasm32-wasip1/release/compact-bar.wasm"
+    compact-bar location="https://github.com/bennyyip/zellij-compact-bar/releases/download/v0.4.0/compact-bar.wasm"
+    // compact-bar location="file:~/ghq/github.com/bennyyip/compact-bar/target/wasm32-wasip1/release/compact-bar.wasm"
+
 }
 
 // Plugins to load in the background when a new session starts
@@ -416,13 +418,6 @@ load_plugins {
 //   - false
 //
 // auto_layout false
-
-// Whether sessions should be serialized to the cache folder (including their tabs/panes, cwds and running commands) so that they can later be resurrected
-// Options:
-//   - true (default)
-//   - false
-//
-// session_serialization false
 
 // Whether pane viewports are serialized along with the session, default is false
 // Options:
