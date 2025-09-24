@@ -3,37 +3,62 @@
 " Install in either way:
 " :nativeinstall :source
 " :source --url https://github.com/bennyyip/dotfiles/raw/master/tridactylrc
+" Or:
+" :source --clipboard
 
 " Basic settings
 set editorcmd gvim
 set theme quakelight
 set escapehatchsidebarhack false
 set completions.Tab.statusstylepretty true
-set smoothscroll true
+set completions.Tab.autoselect true
+set completions.Goto.autoselect true
+set completions.TabAll.autoselect true
+set completions.Rss.autoselect true
+set completions.Bmark.autoselect true
+set completions.Sessions.autoselect true
 
-" set hintchars hjklasdfgyuiopqwertnmzxcvb
-" rihgt hand only
 set hintchars hjklyuiopnmgtb;[/
-
 set followpagepatterns.next ^(next|newer)\\b|»|>>|more|下一頁|下一页|后页
 set followpagepatterns.prev ^(prev(ious)?|older)\\b|«|<<|上一頁|上一页|前页
 
 " search engines
-set searchengine       duck
-set searchurls.gg      https://www.google.com/search?hl=en&q=
-set searchurls.gh      https://github.com/search?utf8=✓&q=
-set searchurls.douban  https://www.douban.com/search?q=
-set searchurls.disc    https://www.discogs.com/search/?type=all&q=
-set searchurls.duck    https://duckduckgo.com/?q=
-set searchurls.ru      https://rutracker.org/forum/tracker.php?nm=
-set searchurls.wiki    https://zh.wikipedia.org/wiki/Special:Search/
-set searchurls.wikien  https://en.wikipedia.org/wiki/Special:Search/
+set searchengine duck
+set searchurls.gg https://www.google.com/search?hl=en&q=
+set searchurls.gh https://github.com/search?utf8=✓&q=
+set searchurls.douban https://www.douban.com/search?q=
+set searchurls.disc https://www.discogs.com/search/?type=all&q=
+set searchurls.duck https://duckduckgo.com/?q=
+set searchurls.ru https://rutracker.org/forum/tracker.php?nm=
+set searchurls.wiki https://zh.wikipedia.org/wiki/Special:Search/
+set searchurls.wikien https://en.wikipedia.org/wiki/Special:Search/
 set searchurls.twitter https://twitter.com/search?q=
-set searchurls.bili    https://search.bilibili.com/all?keyword=
-set searchurls.subhd   https://subhd.tv/search/
-set searchurls.yt      https://www.youtube.com/results?search_query=
-set searchurls.nyaa    https://nyaa.si/?f=0&c=0_0&q=
-set searchurls.lb      https://letterboxd.com/search/
+set searchurls.bili https://search.bilibili.com/all?keyword=
+set searchurls.subhd https://subhd.tv/search/
+set searchurls.yt https://www.youtube.com/results?search_query=
+set searchurls.google https://www.google.com/search?q=
+set searchurls.scholar https://scholar.google.com/scholar?q=
+set searchurls.bing https://www.bing.com/search?q=
+set searchurls.duckduckgo https://duckduckgo.com/?q=
+set searchurls.youtube https://www.youtube.com/results?search_query=
+set searchurls.nyaa https://nyaa.si/?f=0&c=0_0&q=
+set searchurls.lb https://letterboxd.com/search/
+
+" Search
+set incsearch true
+
+" Sane hinting mode
+set hintfiltermode vimperator-reflow
+set hintnames short
+
+" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
+set hintdelay 100
+set smoothscroll true
+" PROXY
+set proxies.gfw socks5://127.0.0.1:10808
+set proxy gfw
+" set noproxy true
+" set noproxy false
 
 # fix for duckduckgo
 bind gi focusinput
@@ -45,15 +70,12 @@ unbind gf
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
 
 " Git{Hub,Lab} git clone via SSH yank
-bind yg composite js "ghq get " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+bind yg composite js document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
 
-" Search
-set incsearch true
 bind / fillcmdline find
 bind <Backspace> nohlsearch
 unbind <C-f>
 unbind <F1>
-bind / fillcmdline find
 bind ? fillcmdline find --reverse
 bind n findnext --search-from-view
 bind N findnext --search-from-view --reverse
@@ -107,12 +129,6 @@ bind e nmode ignore 2 mode normal
 bind gr reader
 bind gR reader --tab
 
-" Sane hinting mode
-set hintfiltermode vimperator-reflow
-set hintnames short
-
-" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
-set hintdelay 100
 
 " Make `gi` on GitHub take you to the search box
 bindurl ^https://github.com gi hint -Vc .AppHeader-searchButton
@@ -185,10 +201,6 @@ bindurl ^https://d2pt.gg/player/.+ ;q hint -c .copy-icon
 
 blacklistadd aistudio.google.com
 
-proxyadd gfw socks5://127.0.0.1:10808
-set proxy gfw
-" set noproxy true
-" set noproxy false
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl

@@ -33,7 +33,7 @@ $ResetColor = "`e[0m"
 
 ##########################################################################
 
-Import-Module posh-git
+# Import-Module posh-git
 
 function local:hasIdentifierFile {
     param ([string] $detector);
@@ -228,9 +228,9 @@ function local:rightPromptSpace {
 
 function local:rightPrompt {
     $c1 = rightPromptUser  0   $false
-    $c2 = rightPromptGit   $c1 $true
-    $c3 = rightPromptLastCommandTime $c2 $true
-    rightPromptSpace $c3 $true | Out-Null
+    # $c2 = rightPromptGit   $c1 $true
+    # $c3 = rightPromptLastCommandTime $c2 $true
+    rightPromptSpace $c1 $true | Out-Null
 }
 
 function local:hasPrefix {

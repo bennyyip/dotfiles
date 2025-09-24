@@ -1,4 +1,5 @@
 local translate = true
+
 local function copy_subtitle(prop)
     local result = mp.get_property(prop)
 
@@ -7,9 +8,9 @@ local function copy_subtitle(prop)
         mp.set_property('clipboard/text', result)
         if translate then
             mp.osd_message('translate')
-            mp.commandv(
-            'run', 'python', '-m', 'webbrowser', '-n', string.format("goldendict://%s", result)
-            )
+            mp.command_native_async({
+                'run', 'cmd.exe', '/c', 'start', '', '/b', string.format("goldendict://%s", result)
+            })
         end
     else
         mp.osd_message('No `' .. prop  .. '` to copy')
