@@ -15,8 +15,8 @@ show_startup_tips false
 keybinds clear-defaults=true {
     normal {
 
-        bind "Ctrl s" { SwitchToMode "Locked"; }
-        // bind "Ctrl s" { Write 19; }
+        // bind "Ctrl s" { SwitchToMode "Locked"; }
+        bind "Ctrl s" { Write 19; }
         bind "[" { SwitchToMode "Scroll"; }
         bind "]" { EditScrollback; SwitchToMode "Locked"; }
         bind "Space" { NextSwapLayout; SwitchToMode "Normal"; }
@@ -255,6 +255,7 @@ keybinds clear-defaults=true {
     }
     shared_except "locked" "entersearch" {
         bind "enter" { SwitchToMode "locked"; }
+        bind "Ctrl g" { SwitchToMode "locked"; }
     }
     // shared_except "locked" "entersearch" "renametab" "renamepane" {
     //     bind "esc" { SwitchToMode "locked"; }

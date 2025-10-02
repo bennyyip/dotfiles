@@ -40,3 +40,18 @@ else
   export BROWSER=echo
   export AGV_EDITOR='vim +"call setpos(\".\", [0, $line, $col, 0])" ''$file'''
 fi
+
+sanenv() {
+    local common=abort_on_error=1:halt_on_error=1:allocator_may_return_null=1
+    ASAN_OPTIONS=$common
+    ASAN_OPTIONS+=:print_legend=0
+    ASAN_OPTIONS+=:detect_leaks=0
+    ASAN_OPTIONS+=:detect_stack_use_after_return=1
+    ASAN_OPTIONS+=:max_malloc_fill_size=$((1<<30))
+    UBSAN_OPTIONS=$common
+    TSAN_OPTIONS=$common
+    export ASAN_OPTIONS UBSAN_OPTIONS TSAN_OPTIONS
+}
+
+sanenv
+# vim:ft=bash

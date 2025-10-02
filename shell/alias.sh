@@ -132,4 +132,15 @@ function y() {
 alias dtop='dune utop'
 alias fdall='fd -I -H'
 
+afl-fuzz() {
+    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-fuzz "$@"
+}
+afl-tmin() {
+    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-tmin "$@"
+}
+afl-cmin() {
+    AFL_ALLOW_TMP=1 \
+    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-cmin "$@"
+}
+
 source ~/.shell/git-alias.sh

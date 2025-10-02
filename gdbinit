@@ -1,12 +1,15 @@
+# Options {{{1
 set breakpoint pending on
 set disassembly-flavor intel
-
-# Options {{{1
+set debuginfod enabled on
 # set debug-file-directory /usr/lib/debug
 set $ASM = 0
 
 set confirm off
 set verbose off
+set pagination off
+# set prompt \001\033[1;93m\002(gdb) \001\033[0m\002
+
 
 set history save on
 set history size 100000
@@ -95,7 +98,7 @@ end
 # C++ related beautifiers (optional)
 #
 
-#set print pretty on
+set print pretty on
 #set print object on
 set print static-members off
 #set print vtbl on
@@ -109,5 +112,15 @@ skip -rfu ^std::
 #import pretty_printers
 #pretty_printers.register_pretty_printer_commands()
 #end
+
+# https://nullprogram.com/blog/2022/06/26/
+## Skip over the implementation's stack frames on abort/etc.
+if !$_isvoid($_any_caller_matches)
+    define hook-stop
+        while $_thread && $_any_caller_matches("^__|abort|raise")
+            up-silently
+        end
+    end
+end
 
 # -*- vim: set sts=2 sw=2 et fdm=marker: -*-

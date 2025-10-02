@@ -133,3 +133,5 @@
 	autostash = true
 
 ; vim:ft=gitconfig
+[gpg]
+	program = passphrase2pgp
