@@ -217,7 +217,7 @@ function sshcopyid {
 
 
 function Open-Livestream {
-  python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
+  python $env:USERPROFILE\dotfiles\bin\open-livestream.py $args
   sleep 2
   clear
 }
@@ -298,4 +298,19 @@ function download-replay {
 
 function b {
   Get-Content $HOME/.bookmarks | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'cd>' | % { Set-LocationEx $_ }
+}
+
+function doc {
+    param($arg)
+
+    switch -Wildcard ($arg) {
+        "c*" { Start-Process "$HOME/cppreference/en/index.html" }
+        "p*" { Start-Process "$HOME/python/Doc/index.html" }
+        "j*" { Start-Process "$HOME/jdk/docs/index.html" }
+        "w*" { Start-Process "$HOME/win32.chm" }
+        default {
+            Write-Host "doc: what is $arg?"
+            return 1
+        }
+    }
 }

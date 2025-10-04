@@ -1,3 +1,4 @@
+alias b="make -kj$NUMBER_OF_PROCESSORS"
 alias c='stdoutisatty'
 
 alias vi=vim
@@ -99,7 +100,6 @@ alias cd-='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias -- -='cd -'
 
 alias mkdir="mkdir -pv"
 mkcd() {

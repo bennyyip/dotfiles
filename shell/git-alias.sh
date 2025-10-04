@@ -1,12 +1,4 @@
-g() {
-  if [ $# = 0 ]; then
-    git status -sb .
-  else
-    # shellcheck disable=all
-    git $*
-  fi
-}
-
+alias g='git'
 alias gst='git status -sb'
 alias gss='git stash'
 
