@@ -1,4 +1,4 @@
-alias b="make -kj$NUMBER_OF_PROCESSORS"
+alias b="make -kj$(nproc)"
 alias c='stdoutisatty'
 
 alias vi=vim

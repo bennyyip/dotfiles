@@ -1,0 +1,47 @@
+[general]
+# List of accounts to be synced, separated by a comma.
+accounts = gmail
+maxsyncaccounts = 1
+pythonfile = ~/bin/gmail-pass.py
+
+[Account gmail]
+# Identifier for the local repository; e.g. the maildir to be synced via IMAP.
+localrepository = gmail-local
+# Identifier for the remote repository; i.e. the actual IMAP, usually non-local.
+remoterepository = gmail-remote
+# Minutes between syncs
+autorefresh = 0.5
+quick = 10
+
+
+[Repository gmail-local]
+type = Maildir
+localfolders = ~/Maildir
+nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
+                            'sent':    '[Gmail]/Sent Mail',
+                            'flagged': '[Gmail]/Starred',
+                            'important':   '[Gmail]/Important',
+                            'spam':   '[Gmail]/Spam',
+                            'trash':   '[Gmail]/Trash',
+                            'archive': '[Gmail]/All Mail',
+                            }.get(folder, folder)
+
+[Repository gmail-remote]
+type = Gmail
+remoteuser = yebenmy@gmail.com
+remotepasseval = get_pass()
+nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
+                            '[Gmail]/Sent Mail': 'sent',
+                            '[Gmail]/Starred':   'flagged',
+                            '[Gmail]/Trash':     'trash',
+                            '[Gmail]/All Mail':  'archive',
+                            '[Gmail]/Important': 'important',
+                            '[Gmail]/Spam': 'spam',
+                            }.get(folder, folder)
+
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# Necessary to work around https://github.com/OfflineIMAP/offlineimap/issues/573 (versions 7.0.12, 7.2.1)
+ssl_version = tls1_2
+
+keepalive = 60
+holdconnectionopen = yes

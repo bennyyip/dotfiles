@@ -1,0 +1,17 @@
+--exclude=.git
+--exclude=node_modules
+--exclude=target/release
+--exclude=target/debug
+--exclude=.ccls-cache
+--exclude=_build
+--exclude=.build
+--exclude=vendor
+--exclude=minpac
+--exclude=*.js
+--exclude=*.json
+--exclude=*.css
+--exclude=*.html
+--exclude=*.diff
+--exclude=*.1
+--exclude=*.rst
+--exclude=*.md

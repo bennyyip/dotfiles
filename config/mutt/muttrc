@@ -68,6 +68,7 @@ set certificate_file  = ~/.mutt/certificates
 
 
 # Sidebar {{{1
+# set sidebar_divider_char = '│'
 # set sidebar_width = 20
 # set sidebar_visible
 # set sidebar_format = "%B%* %?N?%N?"
@@ -76,6 +77,7 @@ set certificate_file  = ~/.mutt/certificates
 macro index,pager ";z" "<shell-escape>offlineimap -q -o<return>" "sync IMAP"
 macro index,pager ";R" "<tag-pattern>all<return><tag-prefix><clear-flag>N<untag-pattern>all<return>" "mark all as read"
 bind index,pager B sidebar-toggle-visible
+bind index,pager g noop
 
 # Index interface
 set mail_check=5

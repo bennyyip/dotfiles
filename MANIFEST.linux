@@ -6,6 +6,7 @@ bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
 inputrc|symlink|
+mailcap|symlink|
 prettierrc|symlink|
 pythonrc|symlink|
 ripgreprc|symlink|
@@ -13,8 +14,8 @@ shell|symlink|
 ssh/config|symlink|
 tmux.conf|symlink|
 xprofile|symlink|
-zsh|symlink|
 zshenv|symlink|
+zsh|symlink|
 
 ipython/ipython_config.py|symlink|.ipython/profile_default/ipython_config.py
 ipython/ipython_kernel_config.py|symlink|.ipython/profile_default/ipython_kernel_config.py
@@ -22,22 +23,24 @@ ipython/disable_warnings.py|symlink|.ipython/profile_default/startup/disable_war
 
 config/alacritty|symlink|
 config/atuin|symlink|
+config/bat|symlink|
 config/compton.conf|symlink|
+config/ctags|symlink|
 config/doom|symlink|
 config/dunst|symlink|
+config/fd|symlink|
 config/fontconfig|symlink|
+config/git|symlink|
 config/i3status|symlink|
 config/i3|symlink|
+config/mutt|symlink|
+config/offlineimap|symlink|
 config/rofi|symlink|
+config/tokei.toml|symlink|
 config/utop|symlink|
 config/yazi|symlink|
 config/zathura|symlink|
 config/zellij|symlink|
-config/fd|symlink|
-config/bat|symlink|
-config/git|symlink|
-config/tokei.toml|symlink|
-config/mutt|symlink|
 
 bin|symlink|bin
 
