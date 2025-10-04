@@ -4,6 +4,7 @@ alias vi=vim
 alias pxy='proxychains -q'
 alias :q="exit"
 alias :qa="tmux detach"
+alias :e="vim"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
 alias e="emacsclient -nw"
@@ -67,11 +68,11 @@ if exists eza; then
     eza -Tl "$@"
   }
 
-  alias exa="eza --group-directories-first --git";
-  alias l="eza --group-directories-first -blF --icons=auto";
-  alias ll="eza -abghilmu";
+  alias exa="eza --group-directories-first --git"
+  alias l="eza --group-directories-first -blF --icons=auto"
+  alias ll="eza -abghilmu"
   alias llm='ll --sort=modified'
-  alias la="LC_COLLATE=C eza -ablF";
+  alias la="LC_COLLATE=C eza -ablF"
   alias tree='eza --tree'
 else
   alias l='ls -lah --color=auto'
@@ -101,30 +102,35 @@ alias ....='cd ../../..'
 alias -- -='cd -'
 
 alias mkdir="mkdir -pv"
-function mkcd { mkdir "$1" && cd "$1"; }
+mkcd() {
+  mkdir "$1" && cd "$1" || true
+}
 
 shutdown() {
   echo -n 你确定要关机吗？
   read -r i
-  if [[ $i == [Yy] ]]; then
-    systemctl poweroff
-    # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
-  fi
+  case "$i" in
+    [Yy])
+      systemctl poweroff
+      ;;
+      # dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
+  esac
 }
 
-
 if exists pacman; then
+  # shellcheck disable=all
   source ~/.shell/arch-alias.sh
 elif exists apt; then
+  # shellcheck disable=all
   source ~/.shell/debian-alias.sh
 fi
 
-# shellcheck disable=all
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+y() {
+  local tmp
+  tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
   yazi "$@" --cwd-file="$tmp"
   if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    builtin cd -- "$cwd"
+    builtin cd -- "$cwd" || true
   fi
   rm -f -- "$tmp"
 }
@@ -132,15 +138,16 @@ function y() {
 alias dtop='dune utop'
 alias fdall='fd -I -H'
 
-afl-fuzz() {
-    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-fuzz "$@"
+aflfuzz() {
+  ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command aflfuzz "$@"
 }
-afl-tmin() {
-    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-tmin "$@"
+afltmin() {
+  ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afltmin "$@"
 }
-afl-cmin() {
-    AFL_ALLOW_TMP=1 \
-    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command afl-cmin "$@"
+aflcmin() {
+  AFL_ALLOW_TMP=1 \
+    ASAN_OPTIONS="$ASAN_OPTIONS:symbolize=0" command aflcmin "$@"
 }
 
+# shellcheck disable=all
 source ~/.shell/git-alias.sh

@@ -1,4 +1,11 @@
-g() { [[ $# = 0 ]] && git status -sb . || git $*; }
+g() {
+  if [ $# = 0 ]; then
+    git status -sb .
+  else
+    # shellcheck disable=all
+    git $*
+  fi
+}
 
 alias gst='git status -sb'
 alias gss='git stash'
@@ -21,6 +28,7 @@ alias gL='gl --stat'
 alias glg=gl
 
 gfk() {
-    local fork_url=$(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
-    git remote add fork $fork_url
+  local fork_url
+  fork_url=$(git remote get-url origin | awk -F '/' '{printf "git@github.com:bennyyip/%s", $NF}')
+  git remote add fork "$fork_url"
 }

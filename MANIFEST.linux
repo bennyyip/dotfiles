@@ -37,6 +37,7 @@ config/fd|symlink|
 config/bat|symlink|
 config/git|symlink|
 config/tokei.toml|symlink|
+config/mutt|symlink|
 
 bin|symlink|bin
 

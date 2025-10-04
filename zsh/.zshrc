@@ -7,9 +7,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
-source ~/.shell/functions.sh
-source ~/.shell/bootstrap.sh # Bootstrap
-source ~/.shell/external.sh # External settings
+source ~/.shell/bootstrap.sh
 
 # Don't call compinit too early. I'll do it myself, at the right time.
 export ZGEN_AUTOLOAD_COMPINIT=0
@@ -44,7 +42,7 @@ unsetopt BG_NICE          # Don't run all background jobs at a lower priority.
 unsetopt HUP              # Don't kill jobs on shell exit.
 unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 # History
-HISTFILE=$ZDOTDIR/.histfile
+HISTFILE=$HOME/.histfile
 HISTSIZE=100000   # Max events to store in internal history.
 SAVEHIST=100000   # Max events to store in history file.
 setopt BANG_HIST                 # History expansions on '!'
@@ -78,6 +76,12 @@ fpath+=($ZDOTDIR/functions)
 source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/keymap.zsh
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+fi
+if [ ! -f "$SSH_AUTH_SOCK" ]; then
+    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+fi
 # Plugins {{{1
 if [ $+commands[fzf] ]; then
     source ~/.shell/plugins/fzf.sh

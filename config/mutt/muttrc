@@ -1,0 +1,164 @@
+# Headers {{{1
+ignore *
+unignore from to cc bcc date organization
+unhdr_order *
+hdr_order From: To: Cc: Subject: Date:
+
+# Settings {{{1
+unset abort_unmodified
+set assumed_charset="utf-8:gbk"
+set attach_charset="utf-8:gbk"
+set beep_new
+set charset="utf-8"
+set edit_headers
+set fast_reply
+set forward_format = "Fwd: %s"
+set forward_quote
+set include
+set ispell = "aspell -e -c"
+set mail_check=120
+set menu_scroll
+set pager_context = 5
+set pager_index_lines = 5
+set pager_stop
+set pipe_decode
+set quit
+set read_inc=100
+set realname="Ben Yip"
+set reply_to=yes
+set resolve
+set reverse_alias
+set reverse_name
+set rfc2047_parameters=yes
+set search_context=3
+set sendmail="msmtp"
+set sort=threads
+set sort_aux=reverse-last-date-received
+set ssl_force_tls = yes
+set text_flowed
+set timeout = 3
+unset mark_old
+unset markers
+unset sort_re
+unset wait_key
+
+
+# Formats {{{1
+set attribution='On %{%F}, %n wrote:'
+# set alias_format = "%4n %t %-20a %r"
+set compose_format = "-- Compose %h [Approx. msg size: %l   Atts: %a]%>-"
+set date_format = "%Y-%m-%d at %I:%M%P"
+set index_format = "%3C %Z %[!%y-%m-%d] %-17.17L %s"
+set pager_format = "%S [%C/%T] %n %s %> %P  "
+set status_format = "-%r- %f (%s) [%M/%m] [NEW=%n] %?V?[%V]?"
+set status_format = "-%r- [%?M?%M/?%m msgs%?n?, %n new?%?d?, %d del?%?F?, %F flag?%?t?, %t tag?%?p?, %p postp?%?b?, %b inc?%?l?, %l?]--(%f)--%s-%>-%P-"
+
+# Files {{{1
+set folder="~/Maildir"
+set spoolfile="+INBOX"
+set mbox_type=Maildir
+set postponed="=drafts"
+set record="=sent"
+set alias_file = ~/.mutt/aliases
+set header_cache = ~/.mutt/cache/
+#set maildir_header_cache_verify = no
+set message_cachedir = ~/.mutt/cache/
+set signature = ~/.mutt/signature
+set certificate_file  = ~/.mutt/certificates
+
+
+# Sidebar {{{1
+# set sidebar_width = 20
+# set sidebar_visible
+# set sidebar_format = "%B%* %?N?%N?"
+
+# Bindings {{{1
+macro index,pager ";z" "<shell-escape>offlineimap -q -o<return>" "sync IMAP"
+macro index,pager ";R" "<tag-pattern>all<return><tag-prefix><clear-flag>N<untag-pattern>all<return>" "mark all as read"
+bind index,pager B sidebar-toggle-visible
+
+# Index interface
+set mail_check=5
+set timeout=10
+unset mark_old
+set thorough_search
+set quit
+set menu_scroll
+set include
+set fast_reply
+bind index G last-entry
+bind index gg first-entry
+bind index R group-reply
+bind index <space> collapse-thread
+bind index V collapse-all
+bind index \cU half-up
+bind index \cD half-down
+bind index \cB previous-page
+bind index \cF next-page
+bind index l display-message
+bind index / limit
+bind index ? search
+macro index d "<save-message>=trash<enter>"
+macro index a "<limit>all\n" "show all messages (undo limit)"
+macro index i "<limit>~U | ~F<enter>"
+macro index I "<limit>~U<enter>"
+
+set sort="threads"
+set sort_aux="reverse-last-date-received"
+set strict_threads
+set narrow_tree
+unset confirmappend
+unset collapse_unread
+unset help
+set delete="yes"
+
+# mu search
+unset wait_key
+macro index S "<save-message>"
+macro index s "<shell-escape>mufind "
+macro index gs "<change-folder-readonly>~/.search<enter>"
+
+# Pager interface
+set pager_stop
+unset markers
+bind pager gg top
+bind pager G bottom
+bind pager R group-reply
+bind pager h exit
+bind pager H display-toggle-weed
+bind pager j next-line
+bind pager k previous-line
+bind pager \Cu half-up
+bind pager \Cd half-down
+bind pager \Cf next-page
+bind pager \Cb previous-page
+bind pager <space> next-page
+bind pager <backspace> previous-page
+macro pager d "<save-message>=trash<enter>"
+macro pager ";l" "|urlscan --run 'osc52' --pipe\n"
+macro attach \cu "|w3m -T text/html\n"
+
+# Editor interface
+bind editor <space> noop
+
+# Help
+macro generic,pager <F2> "<shell-escape> less /usr/share/doc/mutt/manual.txt<Enter>" "show Mutt documentation"
+bind generic,pager <F1> help
+
+# Misc {{{1
+set editor='vim +/^$ "+setlocal fo+=w spell" -c "startinsert"'
+alternative_order text/plain text/html
+auto_view text/html
+mime_lookup application/octet-stream
+
+charset-hook gb2312 gbk
+
+message-hook . "set mime_forward=ask-no"
+message-hook "~h multipart" "set mime_forward=ask-yes"
+# Includes {{{1
+source $alias_file
+source ~/.config/mutt/theme
+# Load local config file for local overrides
+source `x=~/.muttrc.local; if [ -e "$x" ]; then echo "$x"; fi; echo /dev/null`
+# }}}
+# vim: fdm=marker:
