@@ -34,7 +34,7 @@
 	required = true
 	process = git-lfs filter-process
 [core]
-	autocrlf = false
+	autocrlf = input
 	trustctime = false
 	editor = vim
 	filemode = false

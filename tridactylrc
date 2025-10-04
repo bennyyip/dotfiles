@@ -93,11 +93,13 @@ bind <A-k> tabprev 2
 " bind <ArrowUp> tabprev
 bind x composite tabprev; tabclose #
 bind X undo tab
-bind gd tabdetach
+" bind gd tabdetach
 bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
+bind ;y hint -Jy
 bind ;m hint -JW mpvsafe
+bindurl ^https://(www.)?bilibili.com ;m hint -Jc a[href^="https://www.bilibili.com/video"] -W mpvsafe
 bind gm composite js document.location.href | mpvsafe
 
 bind ;L composite js Array.from(document.querySelectorAll('a[href^=magnet]')).map(x=>x.href).join('\n') | clipboard yank

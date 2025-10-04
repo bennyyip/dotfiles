@@ -1,5 +1,6 @@
 $scriptDir = Split-Path -PaTh $MyInvocation.MyCommand.Definition -Parent
 $env:PAGER = 'less.exe -RFXM'
+$env:LESS = '-FRXM'
 
 $env:EDITOR = "vim"
 $env:PATH =  $env:PATH + ";$HOME/bin" + ";C:\Program Files\Tesseract-OCR"
@@ -217,6 +218,8 @@ function sshcopyid {
 
 function Open-Livestream {
   python $env:USERPROFILE\dotfiles\python\open-livestream.py $args
+  sleep 2
+  clear
 }
 Set-Alias ols Open-Livestream
 
