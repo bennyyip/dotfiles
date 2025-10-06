@@ -41,8 +41,6 @@ unset mark_old
 unset markers
 unset sort_re
 unset wait_key
-
-
 # Formats {{{1
 set attribution='On %{%F}, %n wrote:'
 # set alias_format = "%4n %t %-20a %r"
@@ -52,13 +50,15 @@ set index_format = "%3C %Z %[!%y-%m-%d] %-17.17L %s"
 set pager_format = "%S [%C/%T] %n %s %> %P  "
 set status_format = "-%r- %f (%s) [%M/%m] [NEW=%n] %?V?[%V]?"
 set status_format = "-%r- [%?M?%M/?%m msgs%?n?, %n new?%?d?, %d del?%?F?, %F flag?%?t?, %t tag?%?p?, %p postp?%?b?, %b inc?%?l?, %l?]--(%f)--%s-%>-%P-"
-
 # Files {{{1
 set folder="~/Maildir"
-set spoolfile="+INBOX"
 set mbox_type=Maildir
+set spoolfile="=INBOX"
 set postponed="=drafts"
 set record="=sent"
+unmailboxes *
+mailboxes =INBOX =drafts =sent =spam =archive
+
 set alias_file = ~/.mutt/aliases
 set header_cache = ~/.mutt/cache/
 #set maildir_header_cache_verify = no
@@ -66,23 +66,24 @@ set message_cachedir = ~/.mutt/cache/
 set signature = ~/.mutt/signature
 set certificate_file  = ~/.mutt/certificates
 
-
 # Sidebar {{{1
 # set sidebar_divider_char = '│'
-# set sidebar_width = 20
+set sidebar_width = 20
 # set sidebar_visible
-# set sidebar_format = "%B%* %?N?%N?"
-
+set sidebar_format = "%B%* %?N?%N?"
+# }}}
 # Bindings {{{1
 macro index,pager ";z" "<shell-escape>offlineimap -q -o<return>" "sync IMAP"
 macro index,pager ";R" "<tag-pattern>all<return><tag-prefix><clear-flag>N<untag-pattern>all<return>" "mark all as read"
 bind index,pager B sidebar-toggle-visible
 bind index,pager g noop
+bind index,pager <esc>k sidebar-prev
+bind index,pager <esc>j sidebar-next
+bind index,pager <esc>o sidebar-open
 
 # Index interface
 set mail_check=5
 set timeout=10
-unset mark_old
 set thorough_search
 set quit
 set menu_scroll
@@ -90,6 +91,8 @@ set include
 set fast_reply
 bind index G last-entry
 bind index gg first-entry
+bind index h previous-page
+bind index l next-page
 bind index R group-reply
 bind index <space> collapse-thread
 bind index V collapse-all
@@ -97,13 +100,18 @@ bind index \cU half-up
 bind index \cD half-down
 bind index \cB previous-page
 bind index \cF next-page
-bind index l display-message
 bind index / limit
 bind index ? search
 macro index d "<save-message>=trash<enter>"
 macro index a "<limit>all\n" "show all messages (undo limit)"
 macro index i "<limit>~U | ~F<enter>"
 macro index I "<limit>~U<enter>"
+bind index z noop
+macro index za "<collapse-thread>" "(un)collapse thread"
+bind index zt current-top
+bind index zz current-middle
+bind index zb current-bottom
+
 
 set sort="threads"
 set sort_aux="reverse-last-date-received"
@@ -126,7 +134,8 @@ unset markers
 bind pager gg top
 bind pager G bottom
 bind pager R group-reply
-bind pager h exit
+bind pager h previous-line
+bind pager l next-line
 bind pager H display-toggle-weed
 bind pager j next-line
 bind pager k previous-line

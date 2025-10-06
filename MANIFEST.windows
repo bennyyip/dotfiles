@@ -27,8 +27,9 @@ bin/rgg|symlink|bin/agv
 bin/vv|symlink|bin/vv
 
 config/alacritty|symlink|AppData/Roaming/alacritty
-config/yazi|symlink|AppData/Roaming/yazi/config
+config/ctags|symlink|
 config/fd|symlink|AppData/Roaming/fd
 config/git|symlink|
+config/yazi|symlink|AppData/Roaming/yazi/config
 
 # vim:ft=conf
