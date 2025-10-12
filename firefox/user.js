@@ -259,7 +259,7 @@ user_pref("extensions.pocket.enabled", true);
  * END: BETTERFOX                                                           *
  ****************************************************************************/
 user_pref("browser.autofocus", false);
-user_pref("browser.tabs.loadDivertedInBackground", true);
+user_pref("browser.tabs.loadDivertedInBackground", false);
 
 // fonts
 user_pref("font.name.monospace.x-western", "Sarasa Fixed CL");
@@ -284,3 +284,14 @@ user_pref("font.name.serif.ja", "Chiron Sung HK");
 
 // scale
 user_pref("layout.css.devPixelsPerPx", 2.0);
+
+// 關掉硬解
+user_pref("media.hardware-video-encoding.enabled", false)
+user_pref("media.hardware-video-decoding.enabled", false)
+
+// no reader mode
+user_pref("reader.parse-on-load.enabled", false)
+
+// tab task bar
+user_pref("browser.taskbarTabs.enabled", false)
+

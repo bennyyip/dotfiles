@@ -1,7 +1,7 @@
 # Options {{{1
 set breakpoint pending on
 set disassembly-flavor intel
-set debuginfod enabled on
+# set debuginfod enabled on
 # set debug-file-directory /usr/lib/debug
 set $ASM = 0
 

@@ -148,6 +148,9 @@ remove-item Alias:gci -force -ErrorAction SilentlyContinue
 remove-item Alias:gp -force -ErrorAction SilentlyContinue
 remove-item Alias:gcm -force -ErrorAction SilentlyContinue
 remove-item Alias:diff -force -ErrorAction SilentlyContinue
+remove-item Alias:cp -force -ErrorAction SilentlyContinue
+remove-item Alias:rm -force -ErrorAction SilentlyContinue
+remove-item Alias:mv -force -ErrorAction SilentlyContinue
 
 
 function which($name) {
@@ -305,12 +308,16 @@ function doc {
 
     switch -Wildcard ($arg) {
         "c*" { Start-Process "$HOME/cppreference/en/index.html" }
-        "p*" { Start-Process "$HOME/python/Doc/index.html" }
+        "p*" { Start-Process "$HOME/python/Doc/html/index.html" }
         "j*" { Start-Process "$HOME/jdk/docs/index.html" }
         "w*" { Start-Process "$HOME/win32.chm" }
         default {
-            Write-Host "doc: what is $arg?"
-            return 1
+            Write-Host "doc: what is $arg ?"
         }
     }
+}
+
+function arch-wiki {
+  $basedir = "$HOME/arch-wiki/html/en"
+  fd --base-directory $basedir --format '{.}' -e html | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'wiki>' | % { start-process "$basedir/$_.html" }
 }

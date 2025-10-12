@@ -1,7 +1,6 @@
 https://github.com/bennyyip/dot-vim.git|git|vimfiles
 
 bashrc|symlink
-bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
 inputrc|symlink|
@@ -11,8 +10,6 @@ ripgreprc|symlink|
 shell|symlink|
 ssh/config|symlink|
 tridactylrc|symlink|
-zshrc|symlink|
-zsh|symlink|
 
 ipython/ipython_config.py|symlink|.ipython/profile_default/ipython_config.py
 ipython/ipython_kernel_config.py|symlink|.ipython/profile_default/ipython_kernel_config.py
@@ -27,7 +24,7 @@ bin/rgg|symlink|bin/agv
 bin/vv|symlink|bin/vv
 
 config/alacritty|symlink|AppData/Roaming/alacritty
-config/ctags|symlink|
+config/ctags|symlink|ctags.d
 config/fd|symlink|AppData/Roaming/fd
 config/git|symlink|
 config/yazi|symlink|AppData/Roaming/yazi/config
