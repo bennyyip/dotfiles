@@ -10,7 +10,6 @@ cd scripts
 
 curl -fLOJSs https://github.com/Seme4eg/mpv-scripts/raw/master/M-x.lua
 curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/SimpleHistory.lua
-curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/SmartCopyPaste.lua
 curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/UndoRedo.lua
 curl -fLOJSs https://github.com/tsl0922/mpv-menu-plugin/raw/main/src/lua/dialog.lua
 curl -fLOJSs https://github.com/tsl0922/mpv-menu-plugin/raw/main/src/lua/dyn_menu.lua
@@ -18,6 +17,9 @@ curl -fLOJSs https://github.com/occivink/mpv-scripts/raw/master/scripts/seek-to.
 curl -fLOJSs https://github.com/fbriere/mpv-scripts/raw/master/scripts/sub-fonts-dir-auto.lua
 curl -fLOJSs https://github.com/po5/thumbfast/raw/master/thumbfast.lua
 curl -fLOJSs https://github.com/dyphire/mpv-config/raw/master/scripts/auto-save-state.lua
+
+# https://github.com/brian6932/mpv-scripts/tree/SmartCopyPaste/make-native
+# curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/SmartCopyPaste.lua
 
 # curl -fLOJSs --output-dir bilibiliAssert https://github.com/itKelis/MPV-Play-BiliBili-Comments/raw/main/scripts/bilibiliAssert/Danmu2Ass.py
 # curl -fLOJSs --output-dir bilibiliAssert https://github.com/itKelis/MPV-Play-BiliBili-Comments/raw/main/scripts/bilibiliAssert/main.lua
