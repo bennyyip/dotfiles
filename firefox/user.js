@@ -259,7 +259,7 @@ user_pref("extensions.pocket.enabled", true);
  * END: BETTERFOX                                                           *
  ****************************************************************************/
 user_pref("browser.autofocus", false);
-user_pref("browser.tabs.loadDivertedInBackground", false);
+user_pref("browser.tabs.loadDivertedInBackground", true);
 
 // fonts
 user_pref("font.name.monospace.x-western", "Sarasa Fixed CL");
@@ -294,4 +294,3 @@ user_pref("reader.parse-on-load.enabled", false)
 
 // tab task bar
 user_pref("browser.taskbarTabs.enabled", false)
-

@@ -105,6 +105,7 @@ def get_cut_cmds(cue_file):
 
         cmd = [
             "ffmpeg",
+            "-hide_banner",
             "-y",
             "-i",
             track["file"],

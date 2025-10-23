@@ -10,23 +10,11 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 
 ; INCLUDE Common FIRST
 #Include "%A_ScriptDir%\lib\Common.ahk"
-
-#Include "%A_ScriptDir%\lib\KDEConnect.ahk"
 #Include "%A_ScriptDir%\lib\VDA.ahk"
-#Include "%A_ScriptDir%\lib\Pomodoro.ahk"
 
 ; Apps
-#Include "%A_ScriptDir%\AppSpecific\Anki.ahk"
-#Include "%A_ScriptDir%\AppSpecific\DOOMEternal.ahk"
-#Include "%A_ScriptDir%\AppSpecific\DOTA2.ahk"
-#Include "%A_ScriptDir%\AppSpecific\SumatraPDF.ahk"
-#Include "%A_ScriptDir%\AppSpecific\Everything.ahk"
-#Include "%A_ScriptDir%\AppSpecific\gvim.ahk"
-#Include "%A_ScriptDir%\AppSpecific\Alacritty.ahk"
-#Include "%A_ScriptDir%\AppSpecific\GoldenDict.ahk"
-#Include "%A_ScriptDir%\AppSpecific\BG3.ahk"
-#Include "%A_ScriptDir%\AppSpecific\Firefox.ahk"
-#Include "%A_ScriptDir%\AppSpecific\WindowsTerminal.ahk"
+#Include "%A_ScriptDir%\Apps.ahk"
+#Include "%A_ScriptDir%\Everything.ahk"
 
 ; Keymap
 #Include "%A_ScriptDir%\MyMenu.ahk"
@@ -37,10 +25,6 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 
 ; menu
 #z:: MyMenu.Show
-
-; Pomodoro
-; >^Enter:: Pomodoro
-; +>^Enter:: Pomodoro(true)
 
 ; others
 #+Q:: WinClose WinGetID("A")
@@ -56,7 +40,6 @@ A_MaxHotkeysPerInterval := 99999999999 ; default 200
 #n:: Send "#+^n"
 
 #e:: ShowDir ""
-
 
 #Include "local.ahk"
 

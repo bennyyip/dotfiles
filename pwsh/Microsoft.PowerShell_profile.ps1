@@ -3,7 +3,7 @@ $env:PAGER = 'less.exe -RFXM'
 $env:LESS = '-FRXM'
 
 $env:EDITOR = "vim"
-$env:PATH =  $env:PATH + ";$HOME/bin" + ";C:\Program Files\Tesseract-OCR"
+$env:PATH =  $env:PATH + ";$HOME/bin" + ";C:\Program Files\Tesseract-OCR" + ";$HOME/.bun/bin"
 
 $env:AGV_EDITOR = 'gvim --remote-silent-tab +$line $file'
 
@@ -284,7 +284,9 @@ function Start-Shizuku {
 }
 
 function m {
-  fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'mpv>' | % { start-process $_ }
+  # https://github.com/hooke007/mpv_PlayKit/blob/main/rumpv/src/main.rs
+  # https://github.com/hooke007/dotfiles/releases/tag/mpv_addones
+  fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | Invoke-Fzf -Query $args[0] -Select1 -Prompt 'mpv>' | % { umpv $_ }
 }
 
 function ytdl {

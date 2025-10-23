@@ -179,6 +179,9 @@ class Display:
         self.pager.stdin.close()
       except BrokenPipeError:
         pass
+      except:
+        # workaround on windows
+        pass
       self.pager.wait()
 
   def feed(self, line: str) -> bool:

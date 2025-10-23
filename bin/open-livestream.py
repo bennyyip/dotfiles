@@ -227,7 +227,7 @@ async def main():
             subprocess.call(streamlink_cmd)
         else:
             if not args.no_danmu:
-                danmu_cmd = ["danmu.CMD", url]
+                danmu_cmd = ["danmu.exe", url]
                 run_detached_process(danmu_cmd)
 
             print(" ".join(streamlink_cmd))
