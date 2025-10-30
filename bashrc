@@ -17,20 +17,25 @@ HISTCONTROL=ignoreboth
 HISTSIZE=1048576
 HISTFILE="$HOME/.bash_history"
 SAVEHIST=$HISTSIZE
-shopt -s histappend         # append instead of overwrite history
-shopt -s autocd             # auto cd when entering a path
-shopt -s globstar           # enable "**" wildcard for more subdir
-shopt -s checkwinsize       # check window size after each command
+if [ -n "$BASH_VERSION" ]; then
+  shopt -s histappend         # append instead of overwrite history
+  shopt -s autocd             # auto cd when entering a path
+  shopt -s globstar           # enable "**" wildcard for more subdir
+  shopt -s checkwinsize       # check window size after each command
+fi
 
 
 # If not running interactively, don't do anything
 case $- in
-*i*) ;;
-*) return ;;
+  *i*) ;;
+  *) return ;;
 esac
 
 # Aliases
 source ~/.shell/alias.sh
+
+if [ -n "$BASH_VERSION" ]; then
+
 alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
 # Bash Functions
@@ -51,11 +56,11 @@ COLOR_CYAN='\[\e[36m\]'
 COLOR_WHITE='\[\e[37m\]'
 
 machine_name() {
-    if [[ -f $HOME/.name ]]; then
-        cat $HOME/.name
-    else
-        cat /etc/hostname
-    fi
+  if [[ -f $HOME/.name ]]; then
+    cat $HOME/.name
+  else
+    cat /etc/hostname
+  fi
 }
 
 PROMPT_DIRTRIM=3
@@ -65,9 +70,9 @@ PS2="${COLOR_BLUE}>${COLOR_DEFAULT} "
 COLOR_GRAY='\e[38;5;246m'
 
 demoprompt() {
-    PROMPT_DIRTRIM=1
-    PS1="${COLOR_GRAY}\w ${COLOR_BLUE}\$ "
-    trap '[[ -t 1 ]] && tput sgr0' DEBUG
+  PROMPT_DIRTRIM=1
+  PS1="${COLOR_GRAY}\w ${COLOR_BLUE}\$ "
+  trap '[[ -t 1 ]] && tput sgr0' DEBUG
 }
 
 # Plugins
@@ -78,8 +83,9 @@ fi
 if exists zoxide; then
   eval "$(zoxide init bash)"
 fi
-
 source ~/.shell/plugins/fzf.sh
+
+fi
 
 # Allow local customizations in the ~/.shell_local_after file
 if [ -f ~/.shell_local_after ]; then

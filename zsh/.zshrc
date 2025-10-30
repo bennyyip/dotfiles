@@ -139,10 +139,7 @@ source $ZDOTDIR/plugins/docker-alias.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 # ensure cursor shape
-_fix_cursor() {
-   echo -ne '\e[6 q'
-}
-precmd_functions+=(_fix_cursor)
+precmd_functions+=(fix_cursor)
 # Local config {{{1
 # Allow local customizations in the ~/.shell.local_after file
 if [ -f ~/.shell.local_after ]; then

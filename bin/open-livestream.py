@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import asyncio
 import os
@@ -234,6 +236,7 @@ async def main():
             subprocess.Popen(
                 streamlink_cmd,
                 stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
                 creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
             )
 

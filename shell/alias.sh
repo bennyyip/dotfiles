@@ -8,9 +8,7 @@ alias :qa="tmux detach"
 alias :e="vim"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
-alias e="emacsclient -nw"
-alias er="emacsclient -n"
-alias ec="emacsclient -c -n"
+alias m='umpv "$(fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | fzf)"'
 
 alias k="kubectl"
 

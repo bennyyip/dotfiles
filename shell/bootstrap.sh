@@ -19,9 +19,13 @@ exists() {
 zb() {
   gitroot=$(git rev-parse --show-toplevel 2>/dev/null)
   if [ -n "$gitroot" ] && [ "$PWD" != "$gitroot" ]; then
-    builtin cd "${gitroot}" || return
+    cd "${gitroot}" || return
     pwd
   fi
+}
+
+fix_cursor() {
+   echo -ne '\e[6 q'
 }
 
 path_prepend "$HOME/.local/bin"

@@ -28,9 +28,9 @@ HideShowTaskbar() {
 
 ; Ctrl
 CapsLock & ,:: CapsWithMod(",", "^")
-CapsLock & -:: CapsWithMod("=", "^")
+CapsLock & -:: CapsWithMod("-", "^")
 CapsLock & /:: CapsWithMod("/", "^")
-CapsLock & =:: CapsWithMod("-", "^")
+CapsLock & =:: CapsWithMod("=", "^")
 CapsLock & BackSpace:: CapsWithMod("backspace", "^")
 CapsLock & Tab:: CapsWithMod("tab", "^")
 CapsLock & [:: CapsWithMod("[", "^")

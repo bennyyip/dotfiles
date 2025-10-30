@@ -26,7 +26,7 @@ local function save()
     if not can_save then return end
     local watch_later_list = mp.get_property("watch-later-options", {})
     if mp.get_property_bool("save-position-on-quit") then
-        msg.debug("saving state")
+        -- msg.debug("saving state")
         if not watch_later_list:find("start") then
             mp.commandv("change-list", "watch-later-options", "append", "start")
         end
