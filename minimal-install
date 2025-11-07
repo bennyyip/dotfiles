@@ -1,4 +1,3 @@
 #!/bin/bash -e
 cd "$(dirname "${BASH_SOURCE[0]}")"
 ./deploy.sh MANIFEST.minimal
-grep -qxF 'let g:minimal_plugins = v:true' $HOME/local.vim >/dev/null 2>&1|| echo 'let g:minimal_plugins = v:true' > $HOME/local.vim

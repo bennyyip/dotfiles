@@ -1,3 +1,5 @@
+; vim:ft=gitconfig
+
 [github]
 	user = bennyyip
 [user]
@@ -132,6 +134,5 @@
 	path = ~/.gitconfig.local
 	autostash = true
 
-; vim:ft=gitconfig
 [gpg]
 	program = passphrase2pgp

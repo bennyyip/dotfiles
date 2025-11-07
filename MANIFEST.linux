@@ -2,7 +2,6 @@ https://github.com/bennyyip/dot-vim.git|git|.vim
 https://github.com/tmux-plugins/tpm|git|.tmux/plugins/tpm
 
 bashrc|symlink|
-bash|symlink|
 editrc|symlink|
 gdbinit|symlink|
 inputrc|symlink|

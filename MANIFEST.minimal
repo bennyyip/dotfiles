@@ -2,12 +2,10 @@ https://github.com/bennyyip/dot-vim.git|git|.vim
 
 bashrc|symlink|
 editrc|symlink|
-bash|symlink|
 inputrc|symlink|
 tmux.conf|symlink|
 ripgreprc|symlink|
 shell|symlink|
-zshrc|symlink|
 zsh|symlink|
 
 config/git|symlink|
