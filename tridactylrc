@@ -183,7 +183,7 @@ unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ k
 autocmd DocStart tenhou.net mode ignore
 
 " New reddit is bad
-" autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
 " autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
 " autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
 

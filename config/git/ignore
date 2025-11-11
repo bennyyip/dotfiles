@@ -6,6 +6,7 @@
 *.o
 *.so
 *.pyc
+*.pdb
 a.out
 
 # Editing tools and IDEs #

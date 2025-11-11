@@ -574,10 +574,12 @@ try {
     Upgrade-Mpv
     Upgrade-Ytplugin
     Upgrade-FFmpeg
+    rm.exe -f ((Get-Location).Path + "\mpv.com")
     Write-Host "Operation completed" -ForegroundColor Magenta
 }
 catch [System.Exception] {
     Write-Host $_.Exception.Message -ForegroundColor Red
     exit 1
 }
+
 

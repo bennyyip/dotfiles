@@ -157,6 +157,7 @@ async def main():
     parser.add_argument("-b", "--open-in-browser", action="store_true")
     parser.add_argument("-r", "--record", action="store_true")
     parser.add_argument("-q", "--no-danmu", action="store_true")
+    parser.add_argument("-d", "--danmu", action="store_true")
     parser.add_argument("url", nargs="?")
     args = parser.parse_args()
 
@@ -180,6 +181,9 @@ async def main():
 
     if args.open_in_browser:
         webbrowser.open(url)
+    elif args.danmu:
+        danmu_cmd = ["danmu.exe", url]
+        subprocess.call(danmu_cmd)
     else:
         streamlink_cmd = [
             "streamlink",
@@ -203,7 +207,7 @@ async def main():
         else:
             player_args = [
                 "--player",
-                "mpv",
+                "mpv.exe",
                 "--title",
                 "{author} - {title}",
             ]
@@ -222,7 +226,7 @@ async def main():
             args.no_danmu = True
 
         if "bilibili" in url:
-            streamlink_cmd = ["mpv", "--no-resume-playback", url]
+            streamlink_cmd = ["mpv.exe", "--no-resume-playback", url]
             args.no_danmu = True
 
         if is_termux:

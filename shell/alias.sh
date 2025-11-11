@@ -9,6 +9,7 @@ alias :e="vim"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
 alias m='umpv "$(fd -I -t f -S +10M -e mkv -e mp4 -e webm --relative-path . | fzf)"'
+alias ytdl=yt-dlp
 
 alias k="kubectl"
 
@@ -33,11 +34,11 @@ alias nctl='sudo networkctl'
 alias bctl='bluetoothctl'
 
 alias .="source"
-alias cp="cp -i --reflink=auto"
+# alias cp="cp -i --reflink=auto"
 alias ssh="TERM=xterm-256color ssh"
 alias bc="bc -l"
 alias ydcvd="ydcv -x -n -t 2 >/dev/null"
-alias clip="xsel -i -b"
+# alias clip="xsel -i -b"
 
 alias gtar="tar -Ipigz czfv"
 alias btar="tar -Ilbzip3 cjfv"
@@ -84,7 +85,7 @@ imgvim() {
 alias dsf='git diff'
 
 if exists ghq; then
-  alias glook='cd $(ghq list -p | fzf)'
+  alias glook='cd ~/ghq/$(ghq list | fzf)'
   alias gget='ghq get --no-recursive --shallow'
 fi
 
@@ -124,12 +125,10 @@ elif exists apt; then
 fi
 
 y() {
-  local tmp
-  tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
   yazi "$@" --cwd-file="$tmp"
-  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    builtin cd -- "$cwd" || true
-  fi
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && cd -- "$cwd"
   rm -f -- "$tmp"
 }
 

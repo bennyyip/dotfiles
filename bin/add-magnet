@@ -1,0 +1,21 @@
+#!/bin/sh
+
+QB_API="http://127.0.0.1:8964/api/v2"
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <category> [magnet]"
+  exit 1
+else
+  category=$1
+fi
+
+shift
+
+if [ -z "$1" ]; then
+  magnet=$(get-clipboard)
+else
+  magnet=$1
+fi
+
+curl "${QB_API}/torrents/add" -d "urls=${magnet}&category=${category}&autoTMM=true&rateLimit=1.0"
+echo
