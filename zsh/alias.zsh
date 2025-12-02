@@ -128,20 +128,36 @@ pain() {
   rehash
 }
 
-zellij_tab_name_update() {
-  if [[ -n $ZELLIJ ]]; then
-    local current_dir=$PWD
-    if [[ $current_dir == $HOME ]]; then
-      current_dir="~"
-    else
-      current_dir=${current_dir##*/}
-    fi
-    command nohup zellij action rename-tab $current_dir > /dev/null 2>&1
-  fi
-}
 
-zellij_tab_name_update
-chpwd_functions+=(zellij_tab_name_update)
+# zellij_tab_name_update() {
+#   if [[ -n $ZELLIJ ]]; then
+#     local current_dir=$PWD
+#     if [[ $current_dir == $HOME ]]; then
+#       current_dir="~"
+#     else
+#       current_dir=${current_dir##*/}
+#     fi
+#     command nohup zellij action rename-tab $current_dir > /dev/null 2>&1
+#   fi
+# }
+
+# zellij_tab_name_update
+# chpwd_functions+=(zellij_tab_name_update)
+
+# _zellij_tab_name_preexec() {
+#     local full_command="$1"
+#     local -a parts=("${(@s: :)full_command}")
+#     local command_name="${parts[1]}"
+#     [[ $command_name == (ls|l|cd) ]] || \
+#       command nohup zellij action rename-tab $command_name > /dev/null 2>&1
+# }
+# _zellij_tab_name_precmd() {
+#     command nohup zellij action rename-tab zsh > /dev/null 2>&1
+# }
+# autoload -U add-zsh-hook
+# add-zsh-hook preexec _zellij_tab_name_preexec
+# add-zsh-hook precmd _zellij_tab_name_precmd
+
 zl-clean() {
   zellij kill-all-sessions -y
   zellij delete-all-sessions -fy

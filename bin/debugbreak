@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+for pid in $(find /proc -maxdepth 1 -printf '%f\n' | grep '^[0-9]\+$'); do
+    grep -q '^TracerPid:\s[^0]' /proc/$pid/status 2>/dev/null &&
+        kill -TRAP $pid
+done
+

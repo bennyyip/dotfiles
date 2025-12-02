@@ -2,7 +2,7 @@
 set breakpoint pending on
 set disassembly-flavor intel
 # set debuginfod enabled on
-# set debug-file-directory /usr/lib/debug
+# set debug-file-directory /home/benyip/.cache/debuginfod_client
 set $ASM = 0
 
 set confirm off
@@ -115,12 +115,13 @@ skip -rfu ^std::
 
 # https://nullprogram.com/blog/2022/06/26/
 ## Skip over the implementation's stack frames on abort/etc.
-if !$_isvoid($_any_caller_matches)
-    define hook-stop
-        while $_thread && $_any_caller_matches("^__|abort|raise")
-            up-silently
-        end
-    end
-end
+
+# if !$_isvoid($_any_caller_matches)
+#     define hook-stop
+#         while $_thread && $_any_caller_matches("^__|abort|raise")
+#             up-silently
+#         end
+#     end
+# end
 
 # -*- vim: set sts=2 sw=2 et fdm=marker: -*-
