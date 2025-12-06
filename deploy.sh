@@ -21,14 +21,14 @@ symlinkFile() {
   filename="$SCRIPT_DIR/$1"
   destination="$HOME/$2"
 
-  if [[ ! -e "$filename" ]]; then
-    echo "[ERROR] $filename doesn't exists."
+  if [ ! -e "$filename" ]; then
+    echo "[ERROR] $filename doesn't exist."
     exit 1
   fi
 
   if [ -L "$destination" ]; then
     actual=$(readlink "$destination")
-    if [[ "$actual" != "$filename" ]]; then
+    if [ "$actual" != "$filename" ]; then
       echo "[WARNING] $destination already symlinked to $actual"
     fi
     return
@@ -55,7 +55,7 @@ deployManifest() {
     operation=$(echo "$row" | cut -d \| -f 2)
     destination=$(echo "$row" | cut -d \| -f 3)
 
-    if [[ -z "$destination" ]]; then
+    if [ -z "$destination" ]; then
       destination=".${filename}"
     fi
 
@@ -77,7 +77,7 @@ deployManifest() {
   done < "$SCRIPT_DIR/$1"
 }
 
-if [[ $# -eq 0 ]]; then
+if [ "$#" -eq 0 ]; then
   echo "Usage: $0 <MANIFEST>"
   echo "ERROR: no MANIFEST file is provided"
   exit 1
