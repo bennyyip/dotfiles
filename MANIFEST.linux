@@ -1,3 +1,5 @@
+#!/bin/sh deploy.sh
+
 https://github.com/bennyyip/dot-vim.git|git|.vim
 https://github.com/tmux-plugins/tpm|git|.tmux/plugins/tpm
 

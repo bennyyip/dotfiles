@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
 # Native symlink on Windows
 export MSYS=winsymlinks:nativestrict
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR=$(cd -- "$(dirname -- "$0")" && pwd)
 
 gitClone() {
 url="$1"
@@ -21,14 +21,14 @@ symlinkFile() {
   filename="$SCRIPT_DIR/$1"
   destination="$HOME/$2"
 
-  if [[ ! -e $filename ]]; then
+  if [[ ! -e "$filename" ]]; then
     echo "[ERROR] $filename doesn't exists."
     exit 1
   fi
 
   if [ -L "$destination" ]; then
-    actual=$(realpath "$destination")
-    if [[ $actual != "$filename" ]]; then
+    actual=$(readlink "$destination")
+    if [[ "$actual" != "$filename" ]]; then
       echo "[WARNING] $destination already symlinked to $actual"
     fi
     return
@@ -46,19 +46,20 @@ symlinkFile() {
 
 deployManifest() {
   while read -r row; do
-    if [[ $row =~ ^#.* ]] || [[ -z $row ]]; then
-      continue
-    fi
-
+    case "$row" in
+      "" | "#"*)
+        continue
+        ;;
+    esac
     filename=$(echo "$row" | cut -d \| -f 1)
     operation=$(echo "$row" | cut -d \| -f 2)
     destination=$(echo "$row" | cut -d \| -f 3)
 
-    if [[ -z $destination ]]; then
+    if [[ -z "$destination" ]]; then
       destination=".${filename}"
     fi
 
-    case $operation in
+    case "$operation" in
       symlink)
         symlinkFile "$filename" "$destination"
         ;;
@@ -69,7 +70,6 @@ deployManifest() {
       git)
         gitClone "$filename" "$destination"
         ;;
-
       *)
         echo "[WARNING] Unknown operation $operation. Skipping..."
         ;;
