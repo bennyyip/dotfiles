@@ -44,7 +44,6 @@ tags
 tags.lock
 tags.temp
 
-.project.vim
 .exrc
 
 *.cmi

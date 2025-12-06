@@ -11,41 +11,46 @@ if [[ $0 =~ 'bash' ]]; then
   __fzfcmd() {
     echo fzf
   }
-else
+elif [[ $0 =~ 'zsh' ]]; then
   source ~/.shell/plugins/fzf-key-bindings.zsh
   bindkey -M emacs '^R' history-incremental-search-backward
   bindkey "\esa" fzf-history-widget
   bindkey "\es\ea" fzf-history-widget
 
+  __cursor_pos() {
+    local pos
+    exec {tty}<> /dev/tty
+    echo -n '\e[6n' >&$tty
+    read -rsdR pos <&$tty
+    exec {tty}>&-
+    [[ $pos =~ '([0-9]+);([0-9]+)$' ]]
+    print $match[1] $match[2]
+  }
+
+  __calc_height() {
+    local pos
+    typeset -i height left want
+    pos=$(__cursor_pos)
+    left=$((LINES - pos[1] - 1))
+    want=$((LINES * 0.4))
+    if ((left > want)); then
+      height=$left
+    else
+      height=$want
+    fi
+    height=$((height + 1)) # the prompt line is used too
+    print $height
+  }
+
+
   __fzfcmd() {
     echo fzf --height $(__calc_height)
   }
+else
+  __fzfcmd() {
+    echo fzf
+  }
 fi
-
-__cursor_pos() {
-  local pos
-  exec {tty}<> /dev/tty
-  echo -n '\e[6n' >&$tty
-  read -rsdR pos <&$tty
-  exec {tty}>&-
-  [[ $pos =~ '([0-9]+);([0-9]+)$' ]]
-  print $match[1] $match[2]
-}
-
-__calc_height() {
-  local pos
-  typeset -i height left want
-  pos=($(__cursor_pos))
-  left=$((LINES - pos[1] - 1))
-  want=$((LINES * 0.4))
-  if ((left > want)); then
-    height=$left
-  else
-    height=$want
-  fi
-  height=$((height + 1)) # the prompt line is used too
-  print $height
-}
 
 fzf-vim-files() {
   local file cmd
