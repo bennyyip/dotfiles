@@ -77,14 +77,18 @@ source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/keymap.zsh
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+  ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
 fi
 if [ ! -f "$SSH_AUTH_SOCK" ]; then
-    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+  source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
 fi
 # Plugins {{{1
 if [ $+commands[fzf] ]; then
-    source ~/.shell/plugins/fzf.sh
+  source ~/.shell/plugins/fzf.sh
+fi
+
+if [ $+commands[direnv] ]; then
+  eval "$(direnv hook zsh)"
 fi
 
 source $ZDOTDIR/plugins/autopair.zsh && autopair-init

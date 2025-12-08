@@ -10,5 +10,7 @@ ripgreprc|symlink|
 shell|symlink|
 zsh|symlink|
 
+bin|symlink|bin
+
 config/git|symlink|
 # vim:ft=conf
