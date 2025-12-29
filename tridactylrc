@@ -177,6 +177,7 @@ quickmark d https://www.douyu.com/directory/watchHistory
 quickmark l https://liquipedia.net/fighters/Main_Page
 quickmark r https://miniflux.abitw.top/
 " bind gnJ winopen -private
+bind gnp profilelaunch test
 
 unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ j
 unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ k

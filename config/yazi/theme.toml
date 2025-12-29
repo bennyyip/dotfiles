@@ -1,6 +1,7 @@
 [flavor]
 # dark = "gruvbox-dark"
 dark = "kanagawa"
+light = "kanagawa-lotus"
 
 # PDF codepoint from nerd font
 # [[icon.exts]]
@@ -8,4 +9,5 @@ dark = "kanagawa"
 # text = ""
 # fg_dark = "#b30b00"
 # fg_light = "#b30b00"
+
 

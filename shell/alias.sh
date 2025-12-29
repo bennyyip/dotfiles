@@ -8,7 +8,7 @@ alias :qa="tmux detach"
 alias :e="vim"
 alias 7z="7z '-xr!*~' '-xr!*.swp'"
 alias npm="pnpm"
-alias m='fd -I -t f -S +10M -e avi -e mkv -e mp4 -e webm --relative-path . | fzf --scheme=path --print0 | xargs -0 -r umpv'
+alias m='fd -I -t f -S +10M -e ts -e avi -e mkv -e mp4 -e webm --relative-path . | fzf --scheme=path --print0 | xargs -0 -r umpv'
 alias ytdl=yt-dlp
 
 alias k="kubectl"
@@ -99,6 +99,11 @@ alias cd-='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+bm() {
+  target=$(cat "$HOME/.bookmarks" | fzf --query="$1" -1 --prompt='cd>')
+  [ -n "$target" ] && cd "$target"
+}
 
 alias mkdir="mkdir -pv"
 mkcd() {
