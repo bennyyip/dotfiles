@@ -109,7 +109,7 @@ scd() {
 }
 alias zbi='zb && scd'
 
-alias v=fzf-vim-mru
+alias v=fzf-vim-files
 alias vfr=fzf-vim-mru
 alias vff=fzf-vim-files
 if [[ -n vv ]]; then
