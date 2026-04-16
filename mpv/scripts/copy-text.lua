@@ -43,8 +43,23 @@ local function copy_path()
     mp.set_property('clipboard/text', ret)
 end
 
+local function copy_time()
+    local function divmod (a, b)
+        return math.floor(a / b), a % b
+    end
+    local time_pos = mp.get_property_number("time-pos")
+    local minutes, remainder = divmod(time_pos, 60)
+    local hours, minutes = divmod(minutes, 60)
+    local seconds = math.floor(remainder)
+    -- local milliseconds = math.floor((remainder - seconds) * 1000)
+    -- local time = string.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds)
+    local time = string.format("%02d:%02d:%02d", hours, minutes, seconds)
+    mp.set_property('clipboard/text', time)
+    mp.osd_message(time)
+end
 
 mp.add_key_binding('Ctrl+c', 'copy-subtitle-primary', function() copy_subtitle('sub-text') end)
 mp.add_key_binding('Alt+c', 'copy-subtitle-secondary', function() copy_subtitle('secondary-sub-text') end)
 mp.add_key_binding('Ctrl+Shift+c', "toggle-translate", toggle_translate)
 mp.add_key_binding('y', 'copy-path', copy_path)
+mp.add_key_binding('p', 'copy-time',  copy_time)

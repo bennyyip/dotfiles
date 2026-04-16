@@ -1,4 +1,4 @@
-mp.utils = require "mp.utils"
+local utils = require "mp.utils"
 
 mp.observe_property("idle-active", "bool", function(_, v)
     if v then
@@ -52,7 +52,11 @@ function dedup_history()
     end
 
     for i = #lines, 1, -1 do
-        outfile:write(lines[i], "\n")
+        local entry = utils.parse_json(lines[i])
+        -- remove deleted entries
+        if entry and entry.path and (entry.path:match('https://') or utils.file_info(entry.path)) then
+            outfile:write(lines[i], "\n")
+        end
     end
 
     outfile:close()
@@ -64,3 +68,4 @@ function dedup_history()
 end
 
 dedup_history()
+

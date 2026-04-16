@@ -1,6 +1,8 @@
 .cache/
 .state/
 watch_later
+mpv.log
+bak/
 mpvHistory.log
 scripts/test.lua
 script-opts/jellyfin.conf
