@@ -27,6 +27,24 @@ local function toggle_translate()
     end
 end
 
+local function copy_path()
+    local ret = mp.get_property('filename')
+
+    if ret:match("https://") then
+        local time_pos = mp.get_property('time-pos')
+        if ret:match('twitter') or ret:match('bilibili.com') then
+            ret = ret .. '?t=' .. time_pos
+        elseif ret:match('youtube') then
+            ret = ret .. '?t=' .. time_pos .. 's'
+        end
+    end
+
+    mp.osd_message('Copied:\n' .. ret)
+    mp.set_property('clipboard/text', ret)
+end
+
+
 mp.add_key_binding('Ctrl+c', 'copy-subtitle-primary', function() copy_subtitle('sub-text') end)
 mp.add_key_binding('Alt+c', 'copy-subtitle-secondary', function() copy_subtitle('secondary-sub-text') end)
 mp.add_key_binding('Ctrl+Shift+c', "toggle-translate", toggle_translate)
+mp.add_key_binding('y', 'copy-path', copy_path)
