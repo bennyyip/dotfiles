@@ -1,6 +1,6 @@
--- dedukun/relative-motions [[[1
+-- dedukun/relative-motions {{{1
 require("relative-motions"):setup({ show_numbers="relative", show_motion = true })
--- linemode [[[1
+-- linemode {{{1
 function Linemode:size_and_mtime()
     local time = math.floor(self._file.cha.mtime or 0)
     if time == 0 then
@@ -15,5 +15,5 @@ function Linemode:size_and_mtime()
     return string.format("%s %s", size and ya.readable_size(size) or "", time)
 end
 
--- ]]]
--- vim:fdm=marker:fmr=[[[,]]]
+-- }}}
+-- vim:fdm=marker

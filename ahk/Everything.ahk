@@ -1,5 +1,5 @@
 class Everything {
-    static exe := 'C:\Program Files\Everything 1.5a\Everything64.exe'
+    static exe := 'C:\Program Files\Everything 1.5a\Everything.exe'
 
     static searchExecutabe() {
         Run this.exe . ' -filter executable -sort "run count" -sort-descending'

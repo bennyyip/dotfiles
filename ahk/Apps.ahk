@@ -90,4 +90,28 @@ CapsLock & w:: Send "^{Backspace}"
 ^+w:: Send "^w"
 !w:: Send "^w"
 #HotIf ;}}}
+#HotIf WinActive("ahk_exe Arknights.exe") ; {{{ 1
+Xbutton1:: {
+    Send "{f down}"
+    Sleep 30
+    Send "{f up}"
+}
+RButton:: {
+    Send "{e down}"
+    Sleep 30
+    Send "{e up}"
+}
+; Space:: {
+;     Send "{Esc down}"
+;     Sleep 30
+;     Send "{Esc up}"
+; }
+#HotIf ;}}}
+
+#HotIf WinActive("ahk_exe Endfield.exe") ; {{{ 1
+CapsLock & 1:: CapsWithMod("1", "!")
+CapsLock & 2:: CapsWithMod("2", "!")
+CapsLock & 3:: CapsWithMod("3", "!")
+CapsLock & 4:: CapsWithMod("4", "!")
+#HotIf ;}}}
 ; vim:fdm=marker:fdl=0

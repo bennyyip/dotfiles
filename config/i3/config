@@ -1,4 +1,4 @@
-# Basic setting [[[1
+# Basic setting {{{1
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 
@@ -12,7 +12,7 @@ default_floating_border none
 hide_edge_borders none
 
 # focus_follows_mouse no
-# Bindings [[[1
+# Bindings {{{1
 # change borders
 bindsym $mod+u border none
 bindsym $mod+n border pixel 1
@@ -139,7 +139,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-# Workspace [[[1
+# Workspace {{{1
 # Workspace names
 set $ws1 1:TMUX
 set $ws2 2:GVIM
@@ -193,7 +193,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 
 
 
-# Theme [[[1
+# Theme {{{1
 
 # set primary gruvbox colorscheme colors
 set $bg #282828
@@ -250,4 +250,4 @@ client.urgent           $red $red $white $red $red
 client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 # modeline
-# vim:fdm=marker:fmr=[[[,]]]
+# vim:fdm=marker

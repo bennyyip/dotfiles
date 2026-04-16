@@ -107,6 +107,8 @@ bind gm composite js document.location.href | mpvsafe
 bind ;L composite js Array.from(document.querySelectorAll('a[href^=magnet]')).map(x=>x.href).join('\n') | clipboard yank
 bind ;l hint -Jyc a[href^=magnet]
 
+command tabo tabonly
+
 " TODO: c-w
 " bind --mode=insert <c-w> backward_kill_word
 
