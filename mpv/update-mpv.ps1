@@ -3,7 +3,7 @@ Set-Location (Get-Item $PSScriptRoot).parent
 
 $fallback7z = Join-Path (Get-Location) "\7z\7zr.exe";
 $useragent = "mpv-win-updater"
-$proxy = "http://127.0.0.1:10809"
+$proxy = "http://127.0.0.1:10808"
 
 
 function Get-7z {

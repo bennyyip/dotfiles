@@ -1,5 +1,5 @@
-_cache/
-cache/
+.cache/
+.state/
 watch_later
 mpvHistory.log
 scripts/test.lua
