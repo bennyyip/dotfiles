@@ -1,4 +1,4 @@
-local utils = require "mp.utils"
+local utils = require("mp.utils")
 
 mp.observe_property("idle-active", "bool", function(_, v)
     if v then
@@ -6,19 +6,18 @@ mp.observe_property("idle-active", "bool", function(_, v)
     end
 end)
 
-
 function dedup_history()
     function dedup(lines)
         local seen = {}
         local ret = {}
         for i = #lines, 1, -1 do
             local line = lines[i]
-            if line:match("\\\\BT\\\\A\\\\") then
+            if line:match("\\\\PhotoBook\\\\") or line:match("\\\\BT\\\\A\\\\") then
                 goto continue
             end
             local path = line:sub(26)
             if not seen[path] then
-                ret[#ret+1] = line
+                ret[#ret + 1] = line
                 seen[path] = true
             end
             ::continue::
@@ -26,18 +25,18 @@ function dedup_history()
         return ret
     end
 
-    local path = mp.command_native({"expand-path", mp.get_property("watch-history-path")})
+    local path = mp.command_native({ "expand-path", mp.get_property("watch-history-path") })
 
     local lines = {}
 
     local infile, err = io.open(path, "r")
     if not infile then
-        mp.msg.error("open read failed: "..(err or "unknown"))
+        mp.msg.error("open read failed: " .. (err or "unknown"))
         return
     end
 
     for line in infile:lines() do
-        lines[#lines+1] = line
+        lines[#lines + 1] = line
     end
     infile:close()
 
@@ -47,14 +46,14 @@ function dedup_history()
     local outfile, err2 = io.open(tmp_path, "w")
     if not outfile then
         infile:close()
-        mp.msg.error("open write failed: "..(err2 or "unknown"))
+        mp.msg.error("open write failed: " .. (err2 or "unknown"))
         return
     end
 
     for i = #lines, 1, -1 do
         local entry = utils.parse_json(lines[i])
         -- remove deleted entries
-        if entry and entry.path and (entry.path:match('https://') or utils.file_info(entry.path)) then
+        if entry and entry.path and (entry.path:match("https://") or utils.file_info(entry.path)) then
             outfile:write(lines[i], "\n")
         end
     end
@@ -63,9 +62,8 @@ function dedup_history()
 
     local ok, renerr = os.remove(path) and os.rename(tmp_path, path) or os.rename(tmp_path, path)
     if not ok then
-        mp.msg.error("replace failed: "..(renerr or "unknown"))
+        mp.msg.error("replace failed: " .. (renerr or "unknown"))
     end
 end
 
 dedup_history()
-

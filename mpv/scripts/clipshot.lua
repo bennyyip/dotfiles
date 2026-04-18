@@ -6,42 +6,40 @@
 ---@class ClipshotOptions
 ---@field name string
 ---@field type string
-local utils = require 'mp.utils'
+local utils = require("mp.utils")
 local o = {
-    name = 'mpv-screenshot.png',
-    type = 'image/png' -- defaults to jpeg
+    name = "mpv-screenshot.png",
+    type = "image/png", -- defaults to jpeg
 }
-require('mp.options').read_options(o, 'clipshot')
+require("mp.options").read_options(o, "clipshot")
 
 local file, cmd
 
-local platform = mp.get_property_native('platform')
-if platform == 'windows' then
-    file = os.getenv('TEMP')..'\\'..o.name
+local platform = mp.get_property_native("platform")
+if platform == "windows" then
+    file = os.getenv("TEMP") .. "\\" .. o.name
     cmd = {
-        'powershell', '-NoProfile', '-Command',
-        'Add-Type -Assembly System.Windows.Forms, System.Drawing;',
-        string.format(
-        "[Windows.Forms.Clipboard]::SetImage([Drawing.Image]::FromFile('%s'))",
-        file:gsub("'", "''")
-        )
+        "powershell",
+        "-NoProfile",
+        "-Command",
+        "Add-Type -Assembly System.Windows.Forms, System.Drawing;",
+        string.format("[Windows.Forms.Clipboard]::SetImage([Drawing.Image]::FromFile('%s'))", file:gsub("'", "''")),
     }
 else
-    file = '/tmp/'..o.name
-    if os.getenv('XDG_SESSION_TYPE') == 'wayland' then
-        cmd = {'sh', '-c', ('wl-copy < %q'):format(file)}
+    file = "/tmp/" .. o.name
+    if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+        cmd = { "sh", "-c", ("wl-copy < %q"):format(file) }
     else
-        local type = o.type ~= '' and o.type or 'image/jpeg'
-        cmd = {'xclip', '-sel', 'c', '-t', type, '-i', file}
+        local type = o.type ~= "" and o.type or "image/jpeg"
+        cmd = { "xclip", "-sel", "c", "-t", type, "-i", file }
     end
 end
 
-
 local function clipshot(arg)
     return function()
-        mp.commandv('screenshot-to-file', file, arg)
-        mp.command_native_async({'run', unpack(cmd)}, function(suc, _, err)
-            mp.osd_message(suc and 'Copied screenshot to clipboard' or err, 1)
+        mp.commandv("screenshot-to-file", file, arg)
+        mp.command_native_async({ "run", unpack(cmd) }, function(suc, _, err)
+            mp.osd_message(suc and "Copied screenshot to clipboard" or err, 1)
         end)
     end
 end
@@ -50,4 +48,4 @@ end
 -- mp.add_key_binding('C',     'clipshot-video',  clipshot('video'))
 -- mp.add_key_binding('Alt+c', 'clipshot-window', clipshot('window'))
 
-mp.add_key_binding('Y', 'clipshot-video',  clipshot('video'))
+mp.add_key_binding("Y", "clipshot-video", clipshot("video"))
