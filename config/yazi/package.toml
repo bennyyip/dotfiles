@@ -13,6 +13,11 @@ use = "yazi-rs/plugins:piper"
 rev = "19dc890"
 hash = "b26d542e75151835d7bc885f6dda74cb"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "ac82af3"
+hash = "2678c84a0b3a0b22504e918ccaf99011"
+
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
 rev = "a0b1d9d"

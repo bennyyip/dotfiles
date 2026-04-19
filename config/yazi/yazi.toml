@@ -79,6 +79,20 @@ previewers = [
   { name = "*", run = "file" },
 ]
 
+[[plugin.prepend_fetchers]]
+id    = "mime" # Remove if Yazi > v26.1.22
+url   = "local://*"
+run   = "mime-ext.local"
+prio  = "high"
+group = "mime"
+
+[[plugin.prepend_fetchers]]
+id    = "mime" # Remove if Yazi > v26.1.22
+url   = "remote://*"
+run   = "mime-ext.remote"
+prio  = "high"
+group = "mime"
+
 # [[plugin.prepend_previewers]]
 # name = "*.md"
 # run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'

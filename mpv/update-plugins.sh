@@ -8,8 +8,6 @@ cd scripts
 
 # parallel -j 1 curl -fLOJ -- \
 
-# curl -fLOJSs https://github.com/Seme4eg/mpv-scripts/raw/master/M-x.lua
-# curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/SimpleHistory.lua
 curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/UndoRedo.lua
 # curl -fLOJSs https://github.com/tsl0922/mpv-menu-plugin/raw/main/src/lua/dialog.lua
 # curl -fLOJSs https://github.com/tsl0922/mpv-menu-plugin/raw/main/src/lua/dyn_menu.lua

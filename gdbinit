@@ -1,3 +1,4 @@
+set charset ASCII
 # Options {{{1
 set breakpoint pending on
 set disassembly-flavor intel
