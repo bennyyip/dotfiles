@@ -4,7 +4,7 @@ alias gss='git stash'
 
 alias gci='git commit'
 alias gcm='git commit -m'
-alias gca='git commit --amend'
+alias gca='git commit -a'
 alias gcf='git commit --fixup'
 alias gcam='git commit -a -m'
 alias gcan!='git commit --verbose --all --no-edit --amend'

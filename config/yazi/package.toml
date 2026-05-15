@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "19dc890"
-hash = "bcda8eeb3f4013bae156aecabfc745e8"
+rev = "5d5c480"
+hash = "c887903a63a2ff520081b6d90a4b3392"
 
 [[plugin.deps]]
 use = "dedukun/relative-motions"
@@ -10,25 +10,30 @@ hash = "e02a788e5b8ae0fb47fd0193dda589cc"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "19dc890"
-hash = "b26d542e75151835d7bc885f6dda74cb"
+rev = "5d5c480"
+hash = "384464b6df8cb807425c521f8cd790f3"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "ac82af3"
+rev = "5d5c480"
 hash = "2678c84a0b3a0b22504e918ccaf99011"
 
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
-rev = "a0b1d9d"
-hash = "abfb0b2371259b2c8adfc7b617c3d7e5"
+rev = "04985d1"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"
 
 [[flavor.deps]]
 use = "gosxrgxx/flexoki-dark"
-rev = "28e1977"
-hash = "9dbbb64ea20f9f1271c31951dea55c7b"
+rev = "25d28ce"
+hash = "8e6dd7e42a127173e4535993d3e0e393"
 
 [[flavor.deps]]
 use = "muratoffalex/kanagawa-lotus"
-rev = "4275a1a"
-hash = "e3c47ba547279aff64b6e46eefcf4479"
+rev = "00dcc74"
+hash = "8fe01c79d91d7154ce231334cc7275f2"
+
+[[flavor.deps]]
+use = "bennyyip/gruvbox-dark"
+rev = "619fdc5"
+hash = "d4c7003ec6dc4efd5d3a050d5c2f2575"
