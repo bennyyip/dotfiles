@@ -21,7 +21,7 @@ ipython/disable_warnings.py|symlink|.ipython/profile_default/startup/disable_war
 pwsh|symlink|Documents/Powershell
 pwsh|symlink|Documents/WindowsPowerShell
 shell/windows.profile|symlink|.profile
-mpv|symlink|mpv/portable_config
+mpv|symlink|AppData/Roaming/mpv
 bin/add-magnet|symlink|bin/add-magnet
 bin/rgg|symlink|bin/rgg
 bin/rgg|symlink|bin/agv

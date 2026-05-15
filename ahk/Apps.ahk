@@ -1,4 +1,3 @@
-; apps
 #HotIf WinActive("ahk_exe alacritty.exe") ; {{{ 1
 ; https://github.com/alacritty/alacritty/issues/2324#issuecomment-608506615
 ^+v:: {
@@ -107,11 +106,14 @@ RButton:: {
 ;     Send "{Esc up}"
 ; }
 #HotIf ;}}}
-
 #HotIf WinActive("ahk_exe Endfield.exe") ; {{{ 1
 CapsLock & 1:: CapsWithMod("1", "!")
 CapsLock & 2:: CapsWithMod("2", "!")
 CapsLock & 3:: CapsWithMod("3", "!")
 CapsLock & 4:: CapsWithMod("4", "!")
+#HotIf ;}}}
+#HotIf WinActive("ahk_exe zotero.exe") && isFullScreen() ; {{{ 1
+WheelDown:: Send "{PgDn}"
+WheelUp:: Send "{PgUp}"
 #HotIf ;}}}
 ; vim:fdm=marker:fdl=0

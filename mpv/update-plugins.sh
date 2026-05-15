@@ -13,8 +13,8 @@ curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/UndoRedo.l
 # curl -fLOJSs https://github.com/tsl0922/mpv-menu-plugin/raw/main/src/lua/dyn_menu.lua
 curl -fLOJSs https://github.com/occivink/mpv-scripts/raw/master/scripts/seek-to.lua
 curl -fLOJSs https://github.com/fbriere/mpv-scripts/raw/master/scripts/sub-fonts-dir-auto.lua
-curl -fLOJSs https://github.com/po5/thumbfast/raw/master/thumbfast.lua
-curl -fLOJSs https://github.com/dyphire/mpv-config/raw/master/scripts/auto-save-state.lua
+# curl -fLOJSs https://github.com/po5/thumbfast/raw/master/thumbfast.lua
+# curl -fLOJSs https://github.com/dyphire/mpv-config/raw/master/scripts/auto-save-state.lua
 
 # https://github.com/brian6932/mpv-scripts/tree/SmartCopyPaste/make-native
 # curl -fLOJSs https://github.com/Eisa01/mpv-scripts/raw/master/scripts/SmartCopyPaste.lua

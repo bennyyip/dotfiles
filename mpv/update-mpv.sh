@@ -4,8 +4,8 @@
 
 set -e
 
-REPO="shinchiro/mpv-winbuild-cmake"
-# REPO="dyphire/mpv-winbuild"
+# REPO="shinchiro/mpv-winbuild-cmake"
+REPO="zhongfly/mpv-winbuild"
 INSTALL_PATH="$HOME/mpv"
 _7Z_EXE='C:/Program Files/7-Zip/7z.exe'
 
