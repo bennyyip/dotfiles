@@ -1,5 +1,12 @@
 local utils = require("mp.utils")
 
+-- mpv --profile=builtin-pseudo-gui
+local debug = false
+if debug then
+    mp.commandv("script-binding", "console/enable")
+    return
+end
+
 mp.observe_property("idle-active", "bool", function(_, v)
     if v then
         mp.commandv("script-binding", "select/select-watch-history")

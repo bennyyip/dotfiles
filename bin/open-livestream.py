@@ -25,6 +25,7 @@ if is_termux:
 else:
     http_proxy = "socks5h://127.0.0.1:10808"
 
+
 class TwitchAPI:
     CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 
@@ -158,10 +159,13 @@ async def main():
     parser.add_argument("-r", "--record", action="store_true")
     parser.add_argument("-q", "--no-danmu", action="store_true")
     parser.add_argument("-d", "--danmu", action="store_true")
-    parser.add_argument("url", nargs="?")
+    parser.add_argument("url", nargs="?", default="")
     args = parser.parse_args()
 
-    if args.url is None or not (args.url.startswith("http")):
+    if args.url.isdigit():
+        args.url = f"https://douyu.com/{args.url}"
+
+    if not (args.url.startswith("http")):
         # select the only match
         fzf_extras = None
         if args.url is not None:

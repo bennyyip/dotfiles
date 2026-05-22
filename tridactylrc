@@ -100,6 +100,8 @@ bind gD composite tabduplicate; tabdetach
 bind gs fillcmdline tabopen search
 
 bind ;y hint -Jy
+" select multiple, quoted
+bind ;Y hint -JyqF e => `'${e.href}'`
 bind ;m hint -JW mpvsafe
 bindurl ^https://(www.)?bilibili.com ;m hint -Jc a[href^="https://www.bilibili.com/video"] -W mpvsafe
 bind gm composite js document.location.href | mpvsafe

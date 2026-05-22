@@ -1,0 +1,18 @@
+/* ./TOOLS/docutils-wrapper.py rst2html --halt=2 ./DOCS/man/mpv.rst mpv.html */
+html {
+  max-width: 900em;
+  margin: auto;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+
+dt {
+  font-weight: 700;
+}
+
+a.toc-backref {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #520053;
+}

@@ -132,7 +132,7 @@ def get_cut_cmds(cue_file):
 
         for k, v in metadata.items():
             cmd.append("-metadata")
-            cmd.append("%s=%s" % (k, v))
+            cmd.append(f"{k}={v}")
 
         filename = "%.2d. %s.flac" % (
             track["track"],

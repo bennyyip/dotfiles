@@ -1,6 +1,7 @@
 import subprocess
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, List, Optional, Union, cast
+from typing import Union, cast
 
 # from https://github.com/AceofSpades5757/fzflib
 
@@ -10,7 +11,7 @@ FZFInputValues = Union[bytes, str, Iterable[str], Iterable[bytes]]
 PathLike = Union[bytes, str, Path]
 
 
-def resolve_input(input_values: Optional[FZFInputValues]) -> bytes:
+def resolve_input(input_values: FZFInputValues | None) -> bytes:
     """Resolve input values, for FZF, to bytes."""
 
     if not input_values:
@@ -23,7 +24,7 @@ def resolve_input(input_values: Optional[FZFInputValues]) -> bytes:
         return input_values.encode(ENCODING)
 
     if isinstance(input_values, Iterable):
-        first_value: Union[str, bytes] = input_values[0]  # type: ignore
+        first_value: str | bytes = input_values[0]  # type: ignore
 
         if isinstance(first_value, bytes):
             return b"\n".join(input_values)  # type: ignore
@@ -38,10 +39,10 @@ class FZF:
 
     def __init__(
         self,
-        executable: Optional[str] = None,
-        input: Optional[FZFInputValues] = None,
-        cwd: Optional[PathLike] = None,
-        fzf_extras: Optional[List[str]] = None,
+        executable: str | None = None,
+        input: FZFInputValues | None = None,
+        cwd: PathLike | None = None,
+        fzf_extras: list[str] | None = None,
     ) -> None:
         if executable is None:
             executable = "fzf"
@@ -50,16 +51,16 @@ class FZF:
 
         self.fzf = executable
         self.input = input
-        self.cwd: Optional[PathLike] = cwd
+        self.cwd: PathLike | None = cwd
 
         # Extra Arguments
-        self.fzf_args: List = fzf_extras
+        self.fzf_args: list = fzf_extras
 
-    def _prompt(self, multi: bool, *args, **kwargs) -> str | List[str]:
+    def _prompt(self, multi: bool, *args, **kwargs) -> str | list[str]:
         """Given current configuration, run fzf and return selection."""
 
         # Buid Command
-        command: List[str] = [self.fzf]
+        command: list[str] = [self.fzf]
         if multi:
             command.append(MULTI_FLAG)
 
@@ -94,5 +95,5 @@ class FZF:
     def prompt(self, *args, **kwargs) -> str:
         return cast(str, self._prompt(multi=False, *args, **kwargs))
 
-    def prompt_multi(self, *args, **kwargs) -> List[str]:
-        return cast(List[str], self._prompt(multi=True, *args, **kwargs))
+    def prompt_multi(self, *args, **kwargs) -> list[str]:
+        return cast(list[str], self._prompt(multi=True, *args, **kwargs))

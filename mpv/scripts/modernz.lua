@@ -1750,7 +1750,7 @@ local function render_elements(master_ass, osc_vis, wc_vis)
                             end
 
                             local vop = mp.get_property_native("video-out-params")
-                            local draw_thumbnail = osd_w > 0 and vop and changed
+                            local draw_thumbnail = osd_w > 0 and vop
                             if draw_thumbnail then
                                 user_opts.max_thumb_size = 450
 
@@ -1773,18 +1773,20 @@ local function render_elements(master_ass, osc_vis, wc_vis)
                                     w = math.floor(thumb_w + 0.5), h = math.floor(thumb_h + 0.5),
                                 }
 
-                                local thumb_ass = assdraw.ass_new()
-                                thumb_ass:new_event()
-                                thumb_ass:append("{\\rDefault}")
-                                thumb_ass:pos(thumb_req.x, thumb_req.y)
-                                thumb_ass:an(7)
-                                thumb_ass:append(osc_styles.thumbnail)
-                                thumb_ass:draw_start()
-                                thumb_ass:draw_start()
-                                thumb_ass:rect_cw(-thumb_pad, -thumb_pad,
-                                thumb_req.w + thumb_pad, thumb_req.h + thumb_pad)
-                                thumb_ass:draw_stop()
-                                thumb_req.ass = thumb_ass.text
+                                if changed then
+                                    local thumb_ass = assdraw.ass_new()
+                                    thumb_ass:new_event()
+                                    thumb_ass:append("{\\rDefault}")
+                                    thumb_ass:pos(thumb_req.x, thumb_req.y)
+                                    thumb_ass:an(7)
+                                    thumb_ass:append(osc_styles.thumbnail)
+                                    thumb_ass:draw_start()
+                                    thumb_ass:draw_start()
+                                    thumb_ass:rect_cw(-thumb_pad, -thumb_pad,
+                                    thumb_req.w + thumb_pad, thumb_req.h + thumb_pad)
+                                    thumb_ass:draw_stop()
+                                    thumb_req.ass = thumb_ass.text
+                                end
 
                                 mp.set_property_native("user-data/osc/draw-preview", thumb_req)
                                 an = 2
@@ -2095,9 +2097,11 @@ local function window_controls()
             lo.button.hoverstyle = wc_hoverstyle(hover_color)
         end
 
-        wc_button("close", third_geo, user_opts.windowcontrols_close_hover) -- Close: 🗙
-        wc_button("maximize", second_geo, user_opts.windowcontrols_max_hover) -- Maximize: 🗖/🗗
-        wc_button("minimize", first_geo, user_opts.windowcontrols_min_hover) -- Minimize: 🗕
+        -- wc_button("close", third_geo, user_opts.windowcontrols_close_hover) -- Close: 🗙
+        -- wc_button("maximize", second_geo, user_opts.windowcontrols_max_hover) -- Maximize: 🗖/🗗
+        -- wc_button("minimize", first_geo, user_opts.windowcontrols_min_hover) -- Minimize: 🗕
+
+        wc_button("minimize", third_geo, user_opts.windowcontrols_min_hover) -- Minimize: 🗕
     end
 
     -- ontop button in top bar when ontop is active

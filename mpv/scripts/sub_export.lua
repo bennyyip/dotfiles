@@ -64,11 +64,11 @@ local function export_selected_subtitles()
             local video_file = utils.join_path(dir, filename)
 
             local subtitles_ext = ".srt"
-            if string.find(track_codec, "ass") ~= nil then
-                subtitles_ext = ".ass"
-            elseif string.find(track_codec, "pgs") ~= nil then
-                subtitles_ext = ".sup"
-            end
+            -- if string.find(track_codec, "ass") ~= nil then
+            --     subtitles_ext = ".ass"
+            -- elseif string.find(track_codec, "pgs") ~= nil then
+            --     subtitles_ext = ".sup"
+            -- end
 
             if track_lang ~= nil then
                 if track_title ~= nil then
@@ -88,8 +88,8 @@ local function export_selected_subtitles()
                 mp.osd_message("Exporting selected subtitles")
             end
 
-            cmd = string.format("%s -y -hide_banner -loglevel error -i '%s' -map '%s' -vn -an -c:s copy '%s'",
-                o.ffmpeg_path, video_file, index, subtitles_file)
+            -- cmd = string.format("%s -y -hide_banner -loglevel error -i '%s' -map '%s' -vn -an -c:s copy '%s'", o.ffmpeg_path, video_file, index, subtitles_file)
+            cmd = string.format("%s -y -hide_banner -loglevel error -i '%s' -map '%s' -vn -an -c:s srt '%s'", o.ffmpeg_path, video_file, index, subtitles_file)
             windows_args = { 'powershell', '-NoProfile', '-Command', cmd }
             unix_args = { '/bin/bash', '-c', cmd }
             args = is_windows and windows_args or unix_args

@@ -34,7 +34,11 @@ esac
 # Aliases
 source ~/.shell/alias.sh
 
-if [ -n "$BASH_VERSION" ]; then
+if exists fzf; then
+  source ~/.shell/plugins/fzf.sh
+fi
+
+if [ -n "$BASH_VERSION" ]; then # {{{ not busy box
 
 alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
 
@@ -56,8 +60,8 @@ COLOR_CYAN='\[\e[36m\]'
 COLOR_WHITE='\[\e[37m\]'
 
 machine_name() {
-  if [[ -f $HOME/.name ]]; then
-    cat $HOME/.name
+  if [[ -f "$HOME/.name" ]]; then
+    cat "$HOME/.name"
   else
     cat /etc/hostname
   fi
@@ -83,9 +87,9 @@ fi
 if exists zoxide; then
   eval "$(zoxide init bash)"
 fi
-source ~/.shell/plugins/fzf.sh
 
 fi
+# }}}
 
 # Allow local customizations in the ~/.shell_local_after file
 if [ -f ~/.shell_local_after ]; then
@@ -101,3 +105,4 @@ fi
 if [ -f ~/.shell_private ]; then
   source ~/.shell_private
 fi
+# vim:fdm=marker
