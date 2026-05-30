@@ -32,5 +32,6 @@ config/ctags|symlink|ctags.d
 config/fd|symlink|AppData/Roaming/fd
 config/git|symlink|
 config/yazi|symlink|AppData/Roaming/yazi/config
+config/zellij|symlink|AppData/Roaming/Zellij/config
 
 # vim:ft=conf
