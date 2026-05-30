@@ -134,5 +134,5 @@
 	path = ~/.gitconfig.local
 	autostash = true
 
-[gpg]
-	program = passphrase2pgp
+; [gpg]
+; 	program = passphrase2pgp

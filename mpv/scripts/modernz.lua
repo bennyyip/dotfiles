@@ -27,7 +27,6 @@ end
 
 
 no_rounded_corner()
-local thumbnail_disabled = false
 -- MY PATCH END
 
 -- Parameters
@@ -1673,6 +1672,8 @@ local function render_elements(master_ass, osc_vis, wc_vis)
                 draw_seekbar_handle(element, elem_ass, handle_x, handle_radius, anim_override, is_active) -- draw handle on top of progress
 
                 elem_ass:draw_stop()
+
+                local thumbnail_disabled = not mp.get_property_bool("user-data/mpv/thumbnailer/enabled")
 
                 if element.slider and element.slider.tooltipF ~= nil and element.enabled then
                     local force_seek_tooltip = user_opts.force_seek_tooltip

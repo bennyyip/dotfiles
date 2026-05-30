@@ -3,12 +3,6 @@
 local options = require 'mp.options'
 local msg = require 'mp.msg'
 
-local file_format = mp.get_property('file-format')
-if file_format == 'flv' or file_format == 'mpegts' then
-    -- streamlink
-    return
-end
-
 o = {
     save_interval = 60,
     percent_pos = 99,
@@ -18,6 +12,11 @@ options.read_options(o)
 local can_delete = true
 local can_save = true
 local path = nil -- only set after file success load, reset to nil when file unload.
+
+local file_format = mp.get_property('file-format')
+if file_format == 'flv' or file_format == 'mpegts' then
+    can_save = false
+end
 
 local function reset()
     path = nil

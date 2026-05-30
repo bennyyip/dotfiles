@@ -62,6 +62,8 @@ alias bpy=bpython
 alias jl=julia
 alias jl.="julia --project=."
 
+alias objdump="objdump --x86-asm-syntax=intel"
+
 alias zj='zellij'
 
 if exists eza; then

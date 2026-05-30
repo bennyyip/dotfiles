@@ -201,7 +201,8 @@ local function info(w, h)
 		(state.properties["demuxer-via-network"] and not options.network) or
 		(albumart and not options.audio) or
 		(image and not albumart) or
-		(short_video and options.min_duration > 0)
+		(short_video and options.min_duration > 0) or
+		(mp.get_property("path") == '-')
 
 	if not state.auto_run then
 		state.disabled = true

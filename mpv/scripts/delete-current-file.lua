@@ -1,7 +1,7 @@
 local input = require("mp.input")
 
 local function is_file(path)
-    return type(path) == "string" and path ~= '-' and path:find("^%a[%w.+-]-://") == nil and path:find("^%a[%w.+-]-:%?") == nil
+    return type(path) == "string" and path == '-' and path:find("^%a[%w.+-]-://") == nil and path:find("^%a[%w.+-]-:%?") == nil
 end
 
 local function do_delete()
