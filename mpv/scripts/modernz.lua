@@ -10,6 +10,10 @@
 -- GNU Lesser General Public License v2.1 (LGPLv2.1).
 -- Full license: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
 
+if mp.get_property_bool("osc") then
+    return
+end
+
 local assdraw = require "mp.assdraw"
 local msg = require "mp.msg"
 local opt = require "mp.options"
@@ -1673,7 +1677,7 @@ local function render_elements(master_ass, osc_vis, wc_vis)
 
                 elem_ass:draw_stop()
 
-                local thumbnail_disabled = not mp.get_property_bool("user-data/mpv/thumbnailer/enabled")
+                local thumbnail_disabled = not mp.get_property_bool("user-data/mpv/thumbnailer/enabled") or not mp.get_property_bool('seekable')
 
                 if element.slider and element.slider.tooltipF ~= nil and element.enabled then
                     local force_seek_tooltip = user_opts.force_seek_tooltip
@@ -3225,6 +3229,7 @@ local function osc_init()
         local t = make_escaped_title(mp.get_property("title"))
         return user_opts.truncate_title and truncate_title(t, state.windowtitle_max_w, osc_styles.window_title) or t
     end
+    bind_buttons("windowtitle")
 
     -- OSC title
     ne = new_element("title", "button")

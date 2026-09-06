@@ -246,7 +246,7 @@ user_pref("browser.autofocus", false);
 user_pref("browser.tabs.loadDivertedInBackground", true);
 
 // fonts
-user_pref("font.name.monospace.x-western", "Sarasa Fixed CL");
+user_pref("font.name.monospace.x-western", "Iosevka Fixed Curly");
 user_pref("font.name.sans-serif.x-western", "Chiron Hei HK");
 user_pref("font.name.serif.x-western", "Karmina");
 
@@ -278,3 +278,6 @@ user_pref("reader.parse-on-load.enabled", false)
 
 // tab task bar
 user_pref("browser.taskbarTabs.enabled", false)
+
+
+user_pref("browser.nova.enabled", false)

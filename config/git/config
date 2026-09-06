@@ -41,7 +41,7 @@
 	editor = vim
 	filemode = false
 	eol = lf
-	safecrlf = true
+	safecrlf = false
 	quotepath = false
 	protectNTFS = false
 	longpaths = true

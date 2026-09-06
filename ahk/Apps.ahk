@@ -1,3 +1,32 @@
+; # win
+; ! alt
+; ^ ctrl
+; + shift
+
+#MaxThreadsPerHotkey 1
+TIME_PER_FRAME_60FPS := 1000 / 60
+
+KeyDown(key) {
+    Send Format("{{}{} down{}}", key)
+}
+
+KeyUp(key) {
+    Send Format("{{}{} up{}}", key)
+}
+
+HoldKey(key, holdTimeInMs, sleepTimeInMs := 0) {
+    KeyDown key
+    Sleep holdTimeInMs
+    KeyUp key
+    if sleepTimeInMs > 0 {
+        sleep sleepTimeInMs
+    }
+}
+
+PressKey(key) {
+    HoldKey key, 2 * TIME_PER_FRAME_60FPS
+}
+
 #HotIf WinActive("ahk_exe alacritty.exe") ; {{{ 1
 ; https://github.com/alacritty/alacritty/issues/2324#issuecomment-608506615
 ^+v:: {
@@ -33,14 +62,15 @@ CapsLock & j:: CapsWithMod("j", "^")
 CapsLock & k:: CapsWithMod("k", "^")
 CapsLock & l:: CapsWithMod("l", "^")
 #HotIf ;}}}
-#HotIf (WinActive("ahk_exe obsidian.exe") OR WinActive("ahk_exe firefox.exe") OR WinActive("ahk_exe zotero.exe")) ; {{{ 1
+#HotIf WinActive("ahk_exe obsidian.exe") OR WinActive("ahk_exe firefox.exe") OR WinActive("ahk_exe zotero.exe") OR WinActive("ahk_exe Discord.exe")  ; {{{ 1
 XButton1:: {
   saved_clipboard := A_Clipboard
   Send "^c"
   Sleep 100
   Run "goldendict://" . A_Clipboard
   A_Clipboard := saved_clipboard
-} #HotIf ;}}}
+}
+#HotIf ;}}}
 #HotIf WinActive("ahk_exe StreetFighter6.exe") ; {{{ 1
 '::1
 #HotIf ;}}}
@@ -116,4 +146,80 @@ CapsLock & 4:: CapsWithMod("4", "!")
 WheelDown:: Send "{PgDn}"
 WheelUp:: Send "{PgUp}"
 #HotIf ;}}}
+#HotIf WinActive("ahk_exe isaac-ng.exe") ; {{{ 1
+F5:: {
+    PressKey("``")
+    SendInput "restart"
+    PressKey("Enter")
+
+    sleep 1000
+
+    PressKey("``")
+    SendInput "g k10"
+    PressKey("Enter")
+
+    sleep 100
+
+    SendInput "g c18"
+    PressKey("Enter")
+
+    sleep 100
+
+    PressKey("Esc")
+
+    sleep 500
+    PressKey("q")
+}
+
+global TURBO_MODE := false
+F8:: {
+    global TURBO_MODE := !TURBO_MODE
+    SoundPlay A_WinDir "\Media\speech on.wav"
+}
+#HotIf
+#HotIf TURBO_MODE && WinActive("ahk_exe isaac-ng.exe")
+global turbo_time := 2 * TIME_PER_FRAME_60FPS
+Left:: {
+    while (GetKeyState("Left", "p")) {
+        Send "{blind}{j down}"
+        sleep turbo_time
+        Send "{blind}{j up}"
+        sleep turbo_time
+    }
+    Send "{blind}{j up}"
+}
+Right:: {
+    while (GetKeyState("Right", "p")) {
+        Send "{blind}{l down}"
+        sleep turbo_time
+        Send "{blind}{l up}"
+        sleep turbo_time
+    }
+    Send "{blind}{l up}"
+}
+Up:: {
+    while (GetKeyState("Up", "p")) {
+        Send "{blind}{i down}"
+        sleep turbo_time
+        Send "{blind}{i up}"
+        sleep turbo_time
+    }
+    Send "{blind}{i up}"
+}
+Down:: {
+    while (GetKeyState("Down", "p")) {
+        Send "{blind}{k down}"
+        sleep turbo_time
+        Send "{blind}{k up}"
+        sleep turbo_time
+    }
+    Send "{blind}{k up}"
+}
+#HotIf ;}}}
+#HotIf WinActive("ahk_exe WindowsTerminal.exe") ; {{{ 1
+!+f:: {
+    SendText "`"$(fzf)`""
+}
+#HotIf ;}}}
+
 ; vim:fdm=marker:fdl=0

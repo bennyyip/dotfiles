@@ -90,10 +90,10 @@ toolbar:not([customizing]) > #nav-bar-customization-target {
 /*   } */
 /* } */
 
-#toolbar-menubar {
-  /* menubar bg color */
-  background-color: var(--bg) !important;
-}
+/* #toolbar-menubar { */
+/*   /* menubar bg color */ */
+/*   background-color: var(--bg) !important; */
+/* } */
 
 /* Line up the Windows controls with the rest of the icons in the toolbar. */
 :root:not([sizemode='maximized']) .titlebar-buttonbox-container {
@@ -106,7 +106,7 @@ toolbar:not([customizing]) > #nav-bar-customization-target {
 }
 
 .titlebar-buttonbox * {
-  border-radius: 5px;
+  border-radius: 0;
   width: 35px;
   height: 38px;
 }

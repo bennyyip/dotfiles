@@ -34,6 +34,14 @@ local function confirm()
     })
 end
 
+local function delete(args)
+    if mp.get_property_number('time-pos') < 5 then
+        confirm()
+    else
+        do_delete()
+    end
+end
 
-mp.add_key_binding("Shift+DEL", "delete-current-file-no-confirm", do_delete)
+
+mp.add_key_binding("Shift+DEL", "delete-current-file-no-confirm", delete)
 mp.add_key_binding("DEL", "delete-current-file", confirm)

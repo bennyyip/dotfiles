@@ -41,6 +41,14 @@ class MyMenuItems {
                 WinClose w
             }
         }
+
+        wins := WinGetList("ahk_class File Pilot")
+        subMenu := Menu()
+        for w in wins {
+            try {
+                WinClose w
+            }
+        }
     }
 
     static KillDuplicateExplorers(*) {

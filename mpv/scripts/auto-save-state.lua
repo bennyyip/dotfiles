@@ -13,8 +13,7 @@ local can_delete = true
 local can_save = true
 local path = nil -- only set after file success load, reset to nil when file unload.
 
-local file_format = mp.get_property('file-format')
-if file_format == 'flv' or file_format == 'mpegts' then
+if not mp.get_property_bool('seekable') then
     can_save = false
 end
 

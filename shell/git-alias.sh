@@ -14,7 +14,7 @@ alias gpl='git pull --rebase --autostash'
 alias grv='git remote --verbose'
 alias gop='git open'
 
-alias gl='git log --graph --pretty="format:%C(red)%h%Creset %C(yellow)%G?%Creset%C(auto)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%aN>%Creset" --date=relative'
+alias gl='git log -n 100 --graph --pretty="format:%C(red)%h%Creset %C(yellow)%G?%Creset%C(auto)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%aN>%Creset" --date=relative'
 alias gll='git log --pretty="format:%C(red)%h%Creset %C(yellow)%G?%Creset%C(auto)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%aN>%Creset" --date=relative'
 alias gL='gl --stat'
 alias glg=gl

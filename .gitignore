@@ -17,3 +17,5 @@ config/yazi/bookmark
 zsh/.histfile
 zsh/.zcompdump
 zsh/.ZSH_CACHE_DIR
+
+config/nushell/history*

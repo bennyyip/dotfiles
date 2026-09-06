@@ -1,31 +1,39 @@
 #!/usr/bin/env python
-import httpx
 import time
 from pathlib import Path
 import argparse
-import bz2
+from compression import bz2, zstd
 
 import rich.progress
+import requests
 
 PROXY = "socks5://127.0.0.1:10808"
 
 
 def progressed_download(url, **kwargs):
     ret = b""
-    with httpx.stream("GET", url, **kwargs) as response:
-        total = int(response.headers["Content-Length"])
+    response = requests.get(url, stream=True, **kwargs)
+    response.raise_for_status()
 
-        with rich.progress.Progress(
-            "[progress.percentage]{task.percentage:>3.0f}%",
-            rich.progress.BarColumn(bar_width=None),
-            rich.progress.DownloadColumn(),
-            rich.progress.TransferSpeedColumn(),
-        ) as progress:
-            download_task = progress.add_task("Download", total=total)
-            for chunk in response.iter_bytes():
+    if "Content-Length" not in response.headers:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
                 ret += chunk
-                progress.update(download_task, completed=response.num_bytes_downloaded)
         return ret
+
+    total = int(response.headers["Content-Length"])
+    with rich.progress.Progress(
+        "[progress.percentage]{task.percentage:>3.0f}%",
+        rich.progress.BarColumn(bar_width=None),
+        rich.progress.DownloadColumn(),
+        rich.progress.TransferSpeedColumn(),
+    ) as progress:
+        download_task = progress.add_task("Download", total=total)
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                ret += chunk
+                progress.update(download_task, completed=len(ret))
+    return ret
 
 
 def get_replay_path(match_id):
@@ -76,17 +84,19 @@ def dota2_download_replay(match_id, proxy=None):
 
     odota_api_base = "https://api.opendota.com/api"
     odota_url = f"{odota_api_base}/matches/{match_id}"
-    odota_response = httpx.get(odota_url, proxy=proxy).json()
+    proxies = {"https": proxy, "http": proxy} if proxy else None
+    odota_response = requests.get(odota_url, proxies=proxies).json()
     replay_url = odota_response.get("replay_url")
     if replay_url is None:
         requst_replay_url = f"{odota_api_base}/request/{match_id}"
-        job_id = httpx.post(requst_replay_url).json()["job"]["jobId"]
+        job_id = requests.post(requst_replay_url).json()["job"]["jobId"]
 
         return False
 
     print(replay_url)
-    bz2data = progressed_download(replay_url, proxy=proxy)
-    d = bz2.decompress(bz2data)
+    compressed_data = progressed_download(replay_url, proxies=proxies)
+    d = zstd.decompress(compressed_data)
+    # d = bz2.decompress(compressed_data)
     with open(dem_file, "wb") as f:
         f.write(d)
     print(f"{match_id} done.")

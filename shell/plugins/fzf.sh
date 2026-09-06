@@ -53,7 +53,7 @@ else
 fi
 
 fzf-vim-files() {
-  local file cmd
+  local file
   file=$(FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND $*" $(__fzfcmd) -1 --prompt "$EDITOR> ")
   if [[ -n $file ]]; then
     $EDITOR $file
@@ -63,7 +63,7 @@ fzf-vim-files() {
 }
 
 fzf-vim-mru() {
-  local file cmd mru_file
+  local file mru_file
 
   mru_file=$HOME/.vim_mru_files
   file=$(cat "${mru_file}" | grep -v '^#' | $(__fzfcmd) -q "$*" -1 --no-sort --tiebreak=end --prompt "$EDITOR> ")

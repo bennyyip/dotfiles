@@ -2,7 +2,7 @@
 --please note that this won't do anything if ontop was not enabled before pausing
 
 local was_ontop = false
-local disabled = false
+local disabled = true
 
 local script_name = mp.get_script_name()
 

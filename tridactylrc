@@ -6,6 +6,10 @@
 " Or:
 " :source --clipboard
 
+" ref: 
+" https://git.disroot.org/gholk/dot-file/src/branch/main/tridactylrc
+" https://gholk.github.io/bookmarklet/vendor/bookmarklet-editor-gholk-embed.html
+
 " Basic settings
 set editorcmd gvim
 set theme quakelight
@@ -21,8 +25,8 @@ set completions.Sessions.autoselect true
 set tabsort mru
 
 set hintchars hjklyuiopnmgtb;[/
-set followpagepatterns.next ^(next|newer)\\b|»|>>|more|下一頁|下一页|后页
-set followpagepatterns.prev ^(prev(ious)?|older)\\b|«|<<|上一頁|上一页|前页
+set followpagepatterns.next ^(next|newer)\b|»|>>|^(more|更多結果|下一頁|後頁|更多结果|下一页|后页|older)$
+set followpagepatterns.prev ^(prev(ious)?|older)\b|«|<<|^(上一頁|上一页|前頁|前页)$
 
 " search engines
 set searchengine duck
@@ -61,6 +65,9 @@ set smoothscroll true
 " set proxy gfw
 " set noproxy true
 " set noproxy false
+
+bind --mode=browser <A-a> escapehatch
+bind --mode=browser <C-g> escapehatch
 
 # fix for duckduckgo
 bind gi focusinput
@@ -171,7 +178,12 @@ bindurl https://nga.178.com/thread.php f hint -bc td.c2 > a.topic
 " Suspend / "discard" all tabs - handy for stretching out battery life
 command discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.map(t=>t.id)))
 command IDM js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('"C:\\Program Files (x86)\\Internet Download Manager\\IDMan.exe" /d ' + url))
+command set-user-agent jsb -d% const ua=JS_ARGS.join(' ');activeTabId().then(tabId=>{let onRequest;browser.webRequest.onBeforeSendHeaders.addListener(onRequest=(e=>{const h=e.requestHeaders;const uah=h.find(o=>o.name.toLowerCase()=="user-agent");uah.value=ua;return{requestHeaders:h}}),{urls:["<all_urls>"],tabId:tabId},["blocking","requestHeaders"]);let waitClose;browser.tabs.onRemoved.addListener(waitClose=(e=>{if(e.tabId!=tabId)return;browser.webRequest.onBeforeSendHeaders.removeListener(onRequest);browser.tabs.onRemoved.removeListener(onRequest)}))}); %
+command set-chrome-ua set-user-agent Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.102 Safari/537.36
+command click js -d% const argv = JS_ARGS.slice(); if (argv[0] == '') argv.shift(); let single = false; if (argv[0] == '-1') { single = true; argv.shift() } let result = Array.from(document.querySelectorAll(argv.join(' '))); if (single) result = result.slice(0, 1); result.forEach(e => e.click()) %
 
+alias m message
+alias message fillcmdline_tmp 2000
 
 " go current tab
 " gn new tab
@@ -201,6 +213,8 @@ autocmd DocLoad ^http(s?)://imgbaron.com/ hint -f Continue\ to\ image
 autocmd DocLoad ^http(s?)://pics4you.net/ hint -f Continue\ to\ image
 autocmd DocLoad ^https://www.ptt.cc/ hint -c div.over18-button-container:nth-child(2) > button:nth-child(1)
 autocmd DocLoad ^https://www.douyu.com/directory/watchHistory js setTimeout(()=>tri.excmds.hint('-Jf', '直播中'), 2000)
+" disable visibility API
+autocmd DocLoad .* js window.addEventListener("visibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("webkitvisibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("blur",function(event){event.stopImmediatePropagation()},true);
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
@@ -209,7 +223,6 @@ bindurl ^https://d2pt.gg/hero/.+ ;q hint -c [class*="svelte-g4fxhj"]
 bindurl ^https://d2pt.gg/player/.+ ;q hint -c .copy-icon
 
 blacklistadd aistudio.google.com
-
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl

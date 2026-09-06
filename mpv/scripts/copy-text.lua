@@ -1,5 +1,25 @@
 local translate = true
 
+local input = require("mp.input")
+
+local function copy_select()
+    local items = {
+        "metadata",
+        "path",
+        "sub-text",
+        "secondary-sub-text",
+        "media-title",
+    }
+    input.select({
+        prompt = "Select a property to copy:",
+        items = items,
+        default_item = 1,
+        submit = function(index)
+            mp.set_property("clipboard/text", mp.get_property_osd(items[index]))
+        end,
+    })
+end
+
 local function copy_subtitle(prop)
     local result = mp.get_property(prop)
 
@@ -73,3 +93,4 @@ end)
 mp.add_key_binding("Ctrl+Shift+c", "toggle-translate", toggle_translate)
 mp.add_key_binding("y", "copy-path", copy_path)
 mp.add_key_binding("p", "copy-time", copy_time)
+mp.add_key_binding("g-y", "copy-select", copy_select)
