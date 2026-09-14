@@ -1,3 +1,5 @@
+alias dsf='git diff'
+
 alias g='git'
 alias gst='git status -sb'
 alias gss='git stash'

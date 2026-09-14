@@ -1,16 +1,38 @@
 #!/usr/bin/env python
+import ctypes
 import time
 from pathlib import Path
 import argparse
 from compression import bz2, zstd
+from concurrent.futures import ThreadPoolExecutor
+import concurrent.futures
+
 
 import rich.progress
 import requests
 
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskID,
+    TextColumn,
+    TimeRemainingColumn,
+    TransferSpeedColumn,
+)
+
 PROXY = "socks5://127.0.0.1:10808"
+progress = Progress(
+    TextColumn("[bold blue]{task.fields[match_id]}", justify="right"),
+    "[progress.percentage]{task.percentage:>3.0f}%",
+    BarColumn(bar_width=None),
+    DownloadColumn(),
+    TransferSpeedColumn(),
+    TimeRemainingColumn(compact=True, elapsed_when_finished=True),
+)
 
 
-def progressed_download(url, **kwargs):
+def progressed_download(task_id, url, **kwargs):
     ret = b""
     response = requests.get(url, stream=True, **kwargs)
     response.raise_for_status()
@@ -22,17 +44,12 @@ def progressed_download(url, **kwargs):
         return ret
 
     total = int(response.headers["Content-Length"])
-    with rich.progress.Progress(
-        "[progress.percentage]{task.percentage:>3.0f}%",
-        rich.progress.BarColumn(bar_width=None),
-        rich.progress.DownloadColumn(),
-        rich.progress.TransferSpeedColumn(),
-    ) as progress:
-        download_task = progress.add_task("Download", total=total)
-        for chunk in response.iter_content(chunk_size=8192):
-            if chunk:
-                ret += chunk
-                progress.update(download_task, completed=len(ret))
+    progress.update(task_id, total=total)
+    progress.start_task(task_id)
+    for chunk in response.iter_content(chunk_size=8192):
+        if chunk:
+            ret += chunk
+            progress.update(task_id, completed=len(ret))
     return ret
 
 
@@ -47,32 +64,37 @@ def delete_replay(match_id):
     get_replay_path(match_id).unlink()
 
 
-def download_replay(match_ids):
-
-    retries = 5
-
+def download_replay(match_ids, retries=5):
     for i in range(retries):
         if i > 0:
             print("retrying", i)
-        failed = dota2_download_replay_batch(match_ids)
+
+        failed = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor, progress:
+            future_to_match_id = {
+                executor.submit(dota2_download_replay, match_id, PROXY): match_id
+                for match_id in match_ids
+            }
+
+            for future in concurrent.futures.as_completed(future_to_match_id):
+                match_id = future_to_match_id[future]
+                try:
+                    result = future.result()
+                    if result is False:
+                        failed.append(match_id)
+                except Exception as exc:
+                    print("%r generated an exception: %s" % (match_id, exc))
+                    failed.append(match_id)
+
         if len(failed) == 0:
             break
-        print("failed replays:", " ".join(failed))
+
+        print(f"failed replays: {failed}")
         match_ids = failed
         time.sleep(2 ** (i + 1))
 
     if len(failed) > 0:
-        print("failed replays:", " ".join(failed))
-
-
-def dota2_download_replay_batch(match_ids, proxy=PROXY):
-    failed = []
-
-    for match_id in match_ids:
-        if not dota2_download_replay(match_id, proxy):
-            failed.append(match_id)
-
-    return failed
+        print(f"failed replays: {failed}")
 
 
 def dota2_download_replay(match_id, proxy=None):
@@ -94,7 +116,8 @@ def dota2_download_replay(match_id, proxy=None):
         return False
 
     print(replay_url)
-    compressed_data = progressed_download(replay_url, proxies=proxies)
+    task_id = progress.add_task("Download", start=False, match_id=match_id)
+    compressed_data = progressed_download(task_id, replay_url, proxies=proxies)
     d = zstd.decompress(compressed_data)
     # d = bz2.decompress(compressed_data)
     with open(dem_file, "wb") as f:
@@ -112,10 +135,34 @@ def to_dota_id(steam_id):
     return steam_id - 76561197960265728
 
 
+def get_clipboard_text():
+    CF_TEXT = 1
+    kernel32 = ctypes.windll.kernel32
+    kernel32.GlobalLock.argtypes = [ctypes.c_void_p]
+    kernel32.GlobalLock.restype = ctypes.c_void_p
+    kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
+    user32 = ctypes.windll.user32
+    user32.GetClipboardData.restype = ctypes.c_void_p
+
+    user32.OpenClipboard(0)
+    try:
+        if user32.IsClipboardFormatAvailable(CF_TEXT):
+            data = user32.GetClipboardData(CF_TEXT)
+            data_locked = kernel32.GlobalLock(data)
+            text = ctypes.c_char_p(data_locked)
+            value = text.value
+            kernel32.GlobalUnlock(data_locked)
+            return value.decode()
+    finally:
+        user32.CloseClipboard()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # subparsers = parser.add_subparsers()
     # download = subparsers.add_parser('download')
-    parser.add_argument("replay_id", nargs="+")
+    parser.add_argument("replay_id", nargs="*", type=int)
     args = parser.parse_args()
+    if len(args.replay_id) == 0:
+        args.replay_id = [int(get_clipboard_text())]
     download_replay(args.replay_id)

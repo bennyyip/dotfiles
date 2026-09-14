@@ -85,7 +85,6 @@ imgvim() {
   curl -F "name=@$1" https://img.vim-cn.com/
 }
 
-alias dsf='git diff'
 
 if exists ghq; then
   alias glook='cd ~/ghq/$(ghq list | fzf)'
