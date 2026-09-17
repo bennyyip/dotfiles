@@ -11,6 +11,31 @@ $env.config.history = {
   isolation: true
 }
 
+# naive shebang parsing on windows
+def run-external [...args] {
+  let file = ($args | first | into string)
+  if not (($file | str contains "/") and ($file | path exists) and (($file | path type) == "file")) {
+    %run-external ...$args
+    return
+  }
+
+  let shebang = (open --raw $file | lines | first)
+  if ($shebang == null) or (not ($shebang | str starts-with "#!")) {
+    %run-external ...$args
+    return
+  }
+
+  mut parsed = ($shebang | str replace "#!" "" | str trim | split row " ")
+  if $parsed.0 == '/usr/bin/env' {
+    $parsed = $parsed | skip 1
+  } else {
+    let executable = ( $parsed.0 | split row "/" | last)
+    $parsed = $parsed | update 0 $executable
+  }
+
+  %run-external ...$parsed ...$args
+}
+
 export-env {
     load-env {
         EDITOR: "vim"
@@ -22,29 +47,37 @@ export-env {
 
 # prompt {{{1
 $env.PROMPT_COMMAND = {||
-    let dir = match (do -i { $env.PWD | path relative-to $nu.home-path }) {
+    let dir = match (do -i { $env.PWD | path relative-to $nu.home-dir }) {
         null => $env.PWD
         '' => '~'
         $relative_pwd => ([~ $relative_pwd] | path join)
     }
 
-    let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
-    let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
-    let path_segment = $"($path_color)($dir)(ansi reset)"
+    let colors: record<path: string, separator: string> = match [(config use-colors), (is-admin)] {
+        [false, _] => {path: '', separator: ''}
+        [true, true] => {path: (ansi red_bold), separator: (ansi light_red_bold)}
+        [true, false] => {path: (ansi green_bold), separator: (ansi light_green_bold)}
+    }
+    let path_segment = $"($colors.path)($dir)(ansi reset)\n"
 
-    (
-      $path_segment | str replace --all (char path_sep) $"($separator_color)/($path_color)"
-    ) + "\n"
+    $path_segment | str replace --all (char path_sep) $"($colors.separator)/($colors.path)"
 }
 
 $env.PROMPT_INDICATOR = "λ "
 
 $env.PROMPT_COMMAND_RIGHT = {||
-    let time_segment = $"(ansi reset)(ansi magenta)(date now | format date "%H:%M:%S")"
+    # create a right prompt in magenta with green separators and am/pm underlined
+    let colors: record<date: string, separator: string, ampm: string, fail: string> = if (config use-colors) {
+        {date: (ansi magenta), separator: (ansi green), ampm: (ansi magenta_underline), fail: (ansi red_bold)}
+    } else {
+        {date: '', separator: '', ampm: '', fail: ''}
+    }
+
+    let time_segment = $"(ansi reset)($colors.date)(date now | format date "%H:%M:%S")"
 
     let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
-        (ansi rb)
-        ($env.LAST_EXIT_CODE)
+        $colors.fail
+        $env.LAST_EXIT_CODE
     ] | str join)
     } else { "" }
 
@@ -279,16 +312,21 @@ def --env y [...args] { # {{{2
 }
 # }}}
 def m [] { # {{{2
-  let file = (glob **/*.{mp4, mkv} | fuzzy)
+  let file = (glob **/*.{mp4,mkv} | fuzzy)
   if not ($file | is-empty) {
     umpv ($file | first)
   }
 }
 def m. [] {
-  let file = (glob *.{mp4, mkv} | fuzzy)
+  let file = (glob *.{mp4,mkv} | fuzzy)
   if not ($file | is-empty) {
     umpv ($file | first)
   }
+}
+# }}}
+def --env bm [query: string = ""] { # {{{2
+  let target = (open $"($env.HOME)/.bookmarks" | fzf $"--query=($query)" -1 --prompt='cd>' | str trim)
+  if ($target | str length) > 0 { cd $target }
 }
 # }}}
 # }}}

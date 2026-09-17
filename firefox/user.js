@@ -281,3 +281,4 @@ user_pref("browser.taskbarTabs.enabled", false)
 
 
 user_pref("browser.nova.enabled", false)
+user_pref("browser.settings-redesign.enabled", false)

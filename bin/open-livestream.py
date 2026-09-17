@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
-import shlex
 import os
-import re
+import shlex
 import subprocess
 import webbrowser
 

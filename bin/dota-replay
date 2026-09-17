@@ -1,21 +1,16 @@
 #!/usr/bin/env python
+import argparse
+import concurrent.futures
 import ctypes
 import time
 from pathlib import Path
-import argparse
-from compression import bz2, zstd
-from concurrent.futures import ThreadPoolExecutor
-import concurrent.futures
 
-
-import rich.progress
 import requests
-
+from compression import zstd
 from rich.progress import (
     BarColumn,
     DownloadColumn,
     Progress,
-    TaskID,
     TextColumn,
     TimeRemainingColumn,
     TransferSpeedColumn,
@@ -33,23 +28,31 @@ progress = Progress(
 
 
 def progressed_download(task_id, url, **kwargs):
-    ret = b""
     response = requests.get(url, stream=True, **kwargs)
     response.raise_for_status()
 
-    if "Content-Length" not in response.headers:
-        for chunk in response.iter_content(chunk_size=8192):
-            if chunk:
-                ret += chunk
-        return ret
+    assert "Content-Length" in response.headers
+
+    # if "Content-Length" not in response.headers:
+    #     ret = bytearray()
+    #     for chunk in response.iter_content(chunk_size=8192):
+    #         if chunk:
+    #             ret.extend(chunk)
+    #     return ret
 
     total = int(response.headers["Content-Length"])
+    ret = bytearray(total)
+    offset = 0
+
     progress.update(task_id, total=total)
     progress.start_task(task_id)
     for chunk in response.iter_content(chunk_size=8192):
         if chunk:
-            ret += chunk
-            progress.update(task_id, completed=len(ret))
+            ret[offset : offset + len(chunk)] = chunk
+            offset += len(chunk)
+            progress.update(task_id, completed=offset)
+
+    assert offset == total
     return ret
 
 
@@ -83,7 +86,7 @@ def download_replay(match_ids, retries=5):
                     if result is False:
                         failed.append(match_id)
                 except Exception as exc:
-                    print("%r generated an exception: %s" % (match_id, exc))
+                    print(f"{match_id} generated an exception: {exc}")
                     failed.append(match_id)
 
         if len(failed) == 0:
@@ -111,7 +114,7 @@ def dota2_download_replay(match_id, proxy=None):
     replay_url = odota_response.get("replay_url")
     if replay_url is None:
         requst_replay_url = f"{odota_api_base}/request/{match_id}"
-        job_id = requests.post(requst_replay_url).json()["job"]["jobId"]
+        requests.post(requst_replay_url).json()["job"]["jobId"]
 
         return False
 
@@ -122,7 +125,7 @@ def dota2_download_replay(match_id, proxy=None):
     # d = bz2.decompress(compressed_data)
     with open(dem_file, "wb") as f:
         f.write(d)
-    print(f"{match_id} done.")
+    # print(f"{match_id} done.")
 
     return True
 
