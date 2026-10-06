@@ -8,8 +8,8 @@ export MSYS=winsymlinks:nativestrict
 SCRIPT_DIR=$(cd -- "$(dirname -- "$0")" && pwd)
 
 gitClone() {
-url="$1"
-destination="$HOME/$2"
+  url="$1"
+  destination="$HOME/$2"
   if [ -e "$destination" ]; then
     echo "[WARNING] $destination exists."
     return
@@ -19,7 +19,14 @@ destination="$HOME/$2"
 
 symlinkFile() {
   filename="$SCRIPT_DIR/$1"
-  destination="$HOME/$2"
+  case "$2" in
+    /*)
+      destination="$2"
+      ;;
+    *)
+      destination="$HOME/$2"
+      ;;
+  esac
 
   if [ ! -e "$filename" ]; then
     echo "[ERROR] $filename doesn't exist."

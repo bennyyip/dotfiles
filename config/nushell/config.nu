@@ -11,30 +11,30 @@ $env.config.history = {
   isolation: true
 }
 
-# naive shebang parsing on windows
-def run-external [...args] {
-  let file = ($args | first | into string)
-  if not (($file | str contains "/") and ($file | path exists) and (($file | path type) == "file")) {
-    %run-external ...$args
-    return
-  }
-
-  let shebang = (open --raw $file | lines | first)
-  if ($shebang == null) or (not ($shebang | str starts-with "#!")) {
-    %run-external ...$args
-    return
-  }
-
-  mut parsed = ($shebang | str replace "#!" "" | str trim | split row " ")
-  if $parsed.0 == '/usr/bin/env' {
-    $parsed = $parsed | skip 1
-  } else {
-    let executable = ( $parsed.0 | split row "/" | last)
-    $parsed = $parsed | update 0 $executable
-  }
-
-  %run-external ...$parsed ...$args
-}
+# # naive shebang parsing on windows
+# def run-external [...args] {
+#   let cmd_in = $in
+#   mut final_args = $args
+#   let file = ($args | first | into string)
+#   if ($file | str contains "/") and ($file | path exists) and (($file | path type) == "file") {
+#     let shebang = (open --raw $file | lines | first)
+#     if ($shebang != null) and ($shebang | str starts-with "#!") {
+#       mut parsed = ($shebang | str replace "#!" "" | str trim | split row " ")
+#       if $parsed.0 == '/usr/bin/env' {
+#         $parsed = $parsed | skip 1
+#       } else {
+#         let executable = ( $parsed.0 | split row "/" | last)
+#         $parsed = $parsed | update 0 $executable
+#       }
+#       $final_args = $parsed ++ $args
+#     }
+#   }
+#   if $cmd_in != null {
+#     $cmd_in | %run-external ...$final_args
+#   } else {
+#     %run-external ...$final_args
+#   }
+# }
 
 export-env {
     load-env {
@@ -337,5 +337,7 @@ source $"($nu.default-config-dir)/zoxide.nu"
 
 source $"($nu.default-config-dir)/completions/git.nu"
 source $"($nu.default-config-dir)/completions/rg.nu"
+
+source ~/local.nu
 
 # vim:fdm=marker:fdl=0

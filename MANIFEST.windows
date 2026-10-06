@@ -36,4 +36,6 @@ config/yazi|symlink|AppData/Roaming/yazi/config
 config/zellij|symlink|AppData/Roaming/Zellij/config
 config/nushell|symlink|AppData/Roaming/nushell
 
+autoexec.cfg|symlink|/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/cfg/autoexec.cfg
+
 # vim:ft=conf
