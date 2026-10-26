@@ -1,3 +1,5 @@
+-- yazi-rs/plugins:mime-ext {{{1
+require("mime-ext"):setup()
 -- dedukun/relative-motions {{{1
 require("relative-motions"):setup({ show_numbers="relative", show_motion = true })
 -- linemode {{{1

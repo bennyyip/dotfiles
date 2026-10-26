@@ -188,16 +188,12 @@ local user_opts = {
     seekbar_height = "medium",             -- seekbar height preset: "small", "medium", "large", "xlarge"
     seekrange = true,                      -- show seek range overlay
     seekrangealpha = 150,                  -- transparency of the seek range
-    livemarkers = true,                    -- update chapter markers on the seekbar when duration changes
     seekbarkeyframes = true,               -- use keyframes when dragging the seekbar
     slider_rounded_corners = true,         -- rounded corners seekbar slider
 
     nibbles_style = "gap",                 -- chapter nibble style: "gap", "triangle", "bar", or "single-bar"
     nibbles_top = true,                    -- top chapter nibbles above seekbar
     nibbles_bottom = true,                 -- bottom chapter nibbles below seekbar
-
-    automatickeyframemode = true,          -- automatically set keyframes for the seekbar based on video length
-    automatickeyframelimit = 600,          -- videos longer than this (in seconds) will have keyframes on the seekbar
 
     persistent_progress = false,           -- always show a small progress line at the bottom of the screen
     persistent_progress_height = 17,       -- height of the persistent progress bar
@@ -572,7 +568,6 @@ local state = {
     playtime_hour_force_init = false,       -- used to force request_init() once
     persistent_seekbar_element = nil,
     seekbar_element = nil,
-    persistent_progress_toggle = user_opts.persistent_progress,
     user_subpos = mp.get_property_number("sub-pos") or 100,
     osc_adjusted_subpos = nil,
     is_image = false,
@@ -2139,7 +2134,7 @@ layouts["compact"] = function ()
     lo.slider.radius = user_opts.slider_rounded_corners and seekbar_height_style.radius or 0
     lo.slider.tooltip_an = 2
 
-    if user_opts.persistent_progress or state.persistent_progress_toggle then
+    if user_opts.persistent_progress then
         lo = add_layout("persistent_seekbar")
         lo.geometry = {x = refX, y = refY, an = 5, w = osc_geo.w, h = user_opts.persistent_progress_height}
         lo.style = osc_styles.seekbar_fg
@@ -3252,7 +3247,7 @@ local function render()
         render_elements(ass, state.osc_visible, state.wc_visible)
     end
 
-    if user_opts.persistent_progress or state.persistent_progress_toggle then
+    if user_opts.persistent_progress then
         render_persistent_progress(ass)
     end
 
@@ -3379,13 +3374,17 @@ observe_cached("chapter-list", function ()
     request_init()
 end)
 observe_cached("duration", function ()
-    if user_opts.automatickeyframemode then
-        user_opts.seekbarkeyframes = (state.duration or 0) > user_opts.automatickeyframelimit
-    end
-    if user_opts.livemarkers and state.chapter_list[1] then
+    local has_duration = state.duration ~= nil and state.duration > 0
+    if has_duration ~= state.has_duration then
+        state.has_duration = has_duration
         request_init()
+    elseif state.chapter_list[1] then
+        -- NOTE: extract update_slider like https://github.com/mpv-player/mpv/commit/02491a39495148ff68cc07145bc7275a0370600d.
+        -- is it needed?
+        request_tick()
     end
 end)
+
 mp.register_event("seek", function()
     if state.file_loaded then
         state.file_loaded = false
@@ -3608,7 +3607,6 @@ end)
 mp.add_key_binding(nil, "visibility", function() visibility_mode("cycle") end)
 mp.add_key_binding(nil, "progress-toggle", function()
     user_opts.persistent_progress = not user_opts.persistent_progress
-    state.persistent_progress_toggle = user_opts.persistent_progress
     request_init()
 end)
 mp.register_script_message("osc-idlescreen", idlescreen_visibility)

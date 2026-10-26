@@ -1,6 +1,7 @@
 [flavor]
-# dark = "gruvbox-dark"
-dark = "kanagawa"
+dark = "gruvbox-dark"
+# dark = "kanagawa"
+# dark = "kanagawa"
 light = "kanagawa-lotus"
 
 # PDF codepoint from nerd font

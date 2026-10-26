@@ -48,7 +48,7 @@ XButton1::Send "{H}"
 XButton2::Send "{L}"
 #HotIf ;}}}
 #HotIf WinActive("ahk_exe anki.exe") ; {{{ 1
-XButton1::1
+XButton1::k
 XButton2::Space
 #HotIf ;}}}
 #HotIf WinActive("ahk_exe SumatraPDF.exe") ; {{{ 1

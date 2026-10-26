@@ -17,7 +17,8 @@ function prompt {
 }
 
 if (Get-Command "zoxide.exe" -ErrorAction SilentlyContinue) {
-  Invoke-Expression (& { (zoxide init powershell | % {$_.replace("Set-Location", "Set-LocationEx")} | Out-String) })
+  # Invoke-Expression (& { (zoxide init powershell | % {$_.replace("Set-Location", "Set-LocationEx")} | Out-String) })
+  Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
 
 function zb {
@@ -25,7 +26,7 @@ function zb {
     if ($root -eq $null) {
         $root = '..'
     }
-    Set-LocationEx $root
+    Set-Location $root
 }
 
 function zbi {
@@ -33,7 +34,7 @@ function zbi {
     if ($root -eq $null) {
         $root = '..'
     }
-    Set-LocationEx $root
+    Set-Location $root
     scd
 }
 

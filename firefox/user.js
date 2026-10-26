@@ -247,24 +247,24 @@ user_pref("browser.tabs.loadDivertedInBackground", true);
 
 // fonts
 user_pref("font.name.monospace.x-western", "Iosevka Fixed Curly");
-user_pref("font.name.sans-serif.x-western", "Chiron Hei HK");
+user_pref("font.name.sans-serif.x-western", "Chiron Hei HK VF");
 user_pref("font.name.serif.x-western", "Karmina");
 
 user_pref("font.name.monospace.zh-CN", "Sarasa Fixed CL");
-user_pref("font.name.sans-serif.zh-CN", "Chiron Hei HK");
-user_pref("font.name.serif.zh-CN", "Chiron Sung HK");
+user_pref("font.name.sans-serif.zh-CN", "Chiron Hei HK VF");
+user_pref("font.name.serif.zh-CN", "Chiron Sung HK VF");
 
 user_pref("font.name.monospace.zh-TW", "Sarasa Fixed CL");
-user_pref("font.name.sans-serif.zh-TW", "Chiron Hei HK");
-user_pref("font.name.serif.zh-TW", "Chiron Sung HK");
+user_pref("font.name.sans-serif.zh-TW", "Chiron Hei HK VF");
+user_pref("font.name.serif.zh-TW", "Chiron Sung HK VF");
 
 user_pref("font.name.monospace.zh-HK", "Sarasa Fixed CL");
-user_pref("font.name.sans-serif.zh-HK", "Chiron Hei HK");
-user_pref("font.name.serif.zh-HK", "Chiron Sung HK");
+user_pref("font.name.sans-serif.zh-HK", "Chiron Hei HK VF");
+user_pref("font.name.serif.zh-HK", "Chiron Sung HK VF");
 
-user_pref("font.name.monospace.ja", "Sarasa Fixed CL");
-user_pref("font.name.sans-serif.ja", "Chiron Hei HK");
-user_pref("font.name.serif.ja", "Chiron Sung HK");
+user_pref("font.name.monospace.ja", "Sarasa Fixed J");
+user_pref("font.name.sans-serif.ja", "Noto Sans CJK JP");
+user_pref("font.name.serif.ja", "Noto Serif CJK JP");
 
 // scale
 user_pref("layout.css.devPixelsPerPx", 2.0);

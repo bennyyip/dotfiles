@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "5d5c480"
-hash = "c887903a63a2ff520081b6d90a4b3392"
+rev = "603fa36"
+hash = "d6f7351ea25a43c9b5f4315fa1e23935"
 
 [[plugin.deps]]
 use = "dedukun/relative-motions"
@@ -10,13 +10,13 @@ hash = "e02a788e5b8ae0fb47fd0193dda589cc"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "5d5c480"
-hash = "384464b6df8cb807425c521f8cd790f3"
+rev = "603fa36"
+hash = "d1e0499cae5f3aeb628c267616d4b682"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "5d5c480"
-hash = "2678c84a0b3a0b22504e918ccaf99011"
+rev = "603fa36"
+hash = "7d3b7f99e600fd7e77ebc5eb8423a897"
 
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
@@ -24,14 +24,9 @@ rev = "04985d1"
 hash = "c69a63981e254a3a06a11c2bf0e6af1d"
 
 [[flavor.deps]]
-use = "gosxrgxx/flexoki-dark"
-rev = "25d28ce"
-hash = "8e6dd7e42a127173e4535993d3e0e393"
-
-[[flavor.deps]]
 use = "muratoffalex/kanagawa-lotus"
-rev = "00dcc74"
-hash = "8fe01c79d91d7154ce231334cc7275f2"
+rev = "adc1be6"
+hash = "e07042bfc3177c35d5e0723414e8bfaf"
 
 [[flavor.deps]]
 use = "bennyyip/gruvbox-dark"

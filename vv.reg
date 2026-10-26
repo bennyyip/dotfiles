@@ -1,5 +1,6 @@
-; https://github.com/lilydjwg/search-and-view/
 Windows Registry Editor Version 5.00
+
+; https://github.com/lilydjwg/search-and-view/
 
 [HKEY_CLASSES_ROOT\vv]
 "URL Protocol"=""
@@ -7,5 +8,3 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\vv\shell\open]
 [HKEY_CLASSES_ROOT\vv\shell\open\command]
 @="\"C:\\Windows\\py.exe\" \"C:\\Users\\bennyyip\\dotfiles\\bin\\vv\" \"%1\""
-
-

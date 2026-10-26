@@ -42,6 +42,7 @@ export-env {
         VISUAL: "vim"
         PAGER: "less"
         LESS: "-FRXM"
+        RIPGREP_CONFIG_PATH: $"($env.HOME)/.ripgreprc"
     }
 }
 
@@ -65,6 +66,8 @@ $env.PROMPT_COMMAND = {||
 
 $env.PROMPT_INDICATOR = "λ "
 
+# Always keep right prompt. Set it to "" to discard.
+$env.TRANSIENT_PROMPT_COMMAND_RIGHT = null
 $env.PROMPT_COMMAND_RIGHT = {||
     # create a right prompt in magenta with green separators and am/pm underlined
     let colors: record<date: string, separator: string, ampm: string, fail: string> = if (config use-colors) {
@@ -137,7 +140,8 @@ alias vr = gvim-remote
 alias ols = python ~/dotfiles/bin/open-livestream.py
 alias ii = start
 alias ytdl = yt-dlp
-alias dota-replay = python ~/bin/dota-replay
+alias dota-replay = uv run --script ~/dotfiles/bin/dota-replay
+alias p = uv run --script
 # git {{{2
 alias dsf = git diff
 alias g = git
@@ -280,6 +284,16 @@ def add-magnet [ # {{{2
 def "nu-complete magnet-type" [] {
   ["A" "Game" "TV" "Movie" "Anime" "PhotoBook" "Normal" "Music"]
 }
+
+def qb-list [filter: string@"nu-complete qb-filter" = "downloading"] {
+  # https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#get-torrent-list
+   http get $"http://localhost:8964/api/v2/torrents/info?filter=($filter)&sort=added_on&reverse=true" | select name progress
+}
+
+def "nu-complete qb-filter" [] {
+  [ "all" "downloading" "seeding" "completed" "paused" "active" "inactive" "resumed" "stalled" "stalled_uploading" "stalled_downloading" "errored" ]
+}
+
 # }}}
 def --env proxy [] { # {{{ 2
   let http_proxy = "http://127.0.0.1:10808"
@@ -287,28 +301,24 @@ def --env proxy [] { # {{{ 2
   if $env.http_proxy? == null {
     export-env {
       load-env {
-        HTTP_PROXY: $http_proxy
-        HTTPS_PROXY: $http_proxy
         ALL_PROXY: $http_proxy
-        http_proxy: $http_proxy
-        https_proxy: $http_proxy
-        all_proxy: $http_proxy
       }
     }
+    echo "proxy on"
   } else {
-    hide-env HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
+    hide-env ALL_PROXY
     echo "proxy off"
   }
 }
 # }}}
 def --env y [...args] { # {{{2
-	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
-	^yazi ...$args --cwd-file $tmp
-	let cwd = (open $tmp)
-	if $cwd != $env.PWD and ($cwd | path exists) {
-		cd $cwd
-	}
-	rm -fp $tmp
+        let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+        ^yazi ...$args --cwd-file $tmp
+        let cwd = (open $tmp)
+        if $cwd != $env.PWD and ($cwd | path exists) {
+                cd $cwd
+        }
+        rm -fp $tmp
 }
 # }}}
 def m [] { # {{{2
@@ -337,6 +347,7 @@ source $"($nu.default-config-dir)/zoxide.nu"
 
 source $"($nu.default-config-dir)/completions/git.nu"
 source $"($nu.default-config-dir)/completions/rg.nu"
+source $"($nu.default-config-dir)/completions/uv.nu"
 
 source ~/local.nu
 

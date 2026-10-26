@@ -152,9 +152,10 @@ bindurl ^https://github.com gi hint -Vc .AppHeader-searchButton
 bindurl wikiwand.com yy composite js document.location.href.replace("wikiwand.com/en","wikipedia.org/wiki") | clipboard yank
 
 
-" TODO: replace redirector
 " Make gu take you back to subreddit from comments
 bindurl reddit.com gu urlparent 4
+bindurl ^https://www.reddit.com/ c urlmodify -t www old
+
 
 " Only hint search results on Google and DDG
 bindurl www.google.com f hint -Jc #search a
@@ -201,8 +202,6 @@ unbindurl https://miniflux.abitw.top/unread(\?offset=\d+)?$ k
 " Avoid misclick in tenhou
 autocmd DocStart tenhou.net mode ignore
 
-" New reddit is bad
-autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
 " autocmd DocStart ^http(s?)://en.m.wikipedia.org js tri.excmds.urlmodify("-t", "en.m.", "en.")
 " autocmd DocStart ^http(s?)://zh.m.wikipedia.org js tri.excmds.urlmodify("-t", "zh.m.", "zh.")
 
@@ -214,7 +213,7 @@ autocmd DocLoad ^http(s?)://pics4you.net/ hint -f Continue\ to\ image
 autocmd DocLoad ^https://www.ptt.cc/ hint -c div.over18-button-container:nth-child(2) > button:nth-child(1)
 autocmd DocLoad ^https://www.douyu.com/directory/watchHistory js setTimeout(()=>tri.excmds.hint('-Jf', '直播中'), 2000)
 " disable visibility API
-autocmd DocLoad .* js window.addEventListener("visibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("webkitvisibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("blur",function(event){event.stopImmediatePropagation()},true);
+" autocmd DocLoad .* js window.addEventListener("visibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("webkitvisibilitychange",function(event){event.stopImmediatePropagation()},true);window.addEventListener("blur",function(event){event.stopImmediatePropagation()},true);
 
 " stratz and d2pt
 " bindurl ^https://stratz.com/matches/.+ ;q composite js window.location.pathname.split("/").pop() | yank
@@ -223,6 +222,9 @@ bindurl ^https://d2pt.gg/hero/.+ ;q hint -c [class*="svelte-g4fxhj"]
 bindurl ^https://d2pt.gg/player/.+ ;q hint -c .copy-icon
 
 blacklistadd aistudio.google.com
+
+" change request header
+" autocmd BeforeSendHeaders *://*.example.com/* e=>{for(const header of e.requestHeaders){if(header.name.toLowerCase()==="accept-language"){header.value="zh-CN,en-US;q=0.9,en;q=0.8"}}return{requestHeaders:e.requestHeaders}};
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
